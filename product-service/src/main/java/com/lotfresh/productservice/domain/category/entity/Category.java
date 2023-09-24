@@ -1,4 +1,4 @@
-package com.lotfresh.productservice.domain.category;
+package com.lotfresh.productservice.domain.category.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;

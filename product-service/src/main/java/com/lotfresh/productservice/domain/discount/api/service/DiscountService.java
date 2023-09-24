@@ -1,6 +1,6 @@
-package com.lotfresh.productservice.api.service.discount;
+package com.lotfresh.productservice.domain.discount.api.service;
 
-import com.lotfresh.productservice.domain.discount.DiscountRepository;
+import com.lotfresh.productservice.domain.discount.repository.DiscountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

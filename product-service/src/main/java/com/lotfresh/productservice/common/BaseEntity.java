@@ -1,4 +1,4 @@
-package com.lotfresh.productservice.domain;
+package com.lotfresh.productservice.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
