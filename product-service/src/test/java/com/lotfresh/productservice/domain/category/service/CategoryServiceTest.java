@@ -127,7 +127,7 @@ class CategoryServiceTest {
     Category category = createCategory();
 
     // when
-    category.changeIsDeleteToTrue();
+    categoryService.softDeleteCategory(category.getId());
 
     // then
     // 영속성 컨텍스트 초기화
