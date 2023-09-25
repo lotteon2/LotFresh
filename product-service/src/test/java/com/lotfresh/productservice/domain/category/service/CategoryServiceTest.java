@@ -1,6 +1,7 @@
 package com.lotfresh.productservice.domain.category.service;
 
 import com.lotfresh.productservice.domain.category.api.request.CategoryCreateRequest;
+import com.lotfresh.productservice.domain.category.api.request.CategoryModifyRequest;
 import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
@@ -9,6 +10,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.persistence.EntityManager;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,6 +23,8 @@ class CategoryServiceTest {
 
   @Autowired CategoryRepository categoryRepository;
 
+  @Autowired EntityManager entityManager;
+
   @AfterEach
   void tearDown() {
     categoryRepository.deleteAllInBatch();
@@ -28,7 +34,8 @@ class CategoryServiceTest {
   @Test
   void createCategoryWithoutParentCategory() {
     // given
-    CategoryCreateRequest request = new CategoryCreateRequest(null, "냉장");
+    String inputCategoryName = "냉장";
+    CategoryCreateRequest request = new CategoryCreateRequest(null, inputCategoryName);
 
     // when
     Long savedId = categoryService.createCategory(request);
@@ -41,10 +48,12 @@ class CategoryServiceTest {
   @Test
   void createCategoryWithParentCategory() {
     // given
+    String inputCategoryName = "냉장";
     Category parentCategory = createCategory();
     Category savedParent = categoryRepository.save(parentCategory);
 
-    CategoryCreateRequest request = new CategoryCreateRequest(savedParent.getId(), "블루베리");
+    CategoryCreateRequest request =
+        new CategoryCreateRequest(savedParent.getId(), inputCategoryName);
 
     // when
     Long savedId = categoryService.createCategory(request);
@@ -58,10 +67,83 @@ class CategoryServiceTest {
   void createCategoryWithNotExistParentId() {
     // given
     Long notExistParentId = 0L;
-    CategoryCreateRequest request = new CategoryCreateRequest(notExistParentId, "블루베리");
+    String inputCategoryName = "과일";
+    CategoryCreateRequest request = new CategoryCreateRequest(notExistParentId, "과일");
 
     // when // then
     assertThatThrownBy(() -> categoryService.createCategory(request))
+        .isInstanceOf(CategoryNotFound.class)
+        .hasMessage("해당 카테고리가 존재하지 않습니다.");
+  }
+
+  @DisplayName("변경 할 상위 카테고리 id, 카테고리 이름을 입력 받아 카테고리 정보를 수정한다.")
+  @Test
+  void modifyCategory() {
+    // given
+    String changeName = "야채";
+    Category category1 = Category.builder().parent(null).name("냉동").build();
+    Category category2 = Category.builder().parent(null).name("냉장").build();
+    Category category3 = Category.builder().parent(category2).name("과일").build();
+    categoryRepository.saveAll(List.of(category1, category2, category3));
+    CategoryModifyRequest request = new CategoryModifyRequest(category1.getId(), changeName);
+
+    // when
+    categoryService.modifyCategory(request, category3.getId());
+
+    // then
+    // 영속성 컨텍스트 초기화
+    entityManager.clear();
+
+    Category getCategory = categoryRepository.findById(category3.getId()).get();
+    Long changedParentId = category1.getId();
+    assertThat(getCategory)
+        .extracting("id", "parent.id", "name")
+        .containsExactlyInAnyOrder(category3.getId(), changedParentId, changeName);
+  }
+
+  @DisplayName("존재하지 않는 상위 카테고리 아이디로 하위 카테고리 수정 시 예외가 발생한다.")
+  @Test
+  void modifyCategoryWithNotExistParentId() {
+    // given
+    Long notExistParentId = 0L;
+    String changeName = "야채";
+    Category category1 = Category.builder().parent(null).name("냉장").build();
+    Category category2 = Category.builder().parent(category1).name("과일").build();
+    categoryRepository.saveAll(List.of(category1, category2));
+    CategoryModifyRequest request = new CategoryModifyRequest(notExistParentId, changeName);
+
+    // when // then
+    // 영속성 컨텍스트 초기화
+    entityManager.clear();
+    assertThatThrownBy(() -> categoryService.modifyCategory(request, category2.getId()))
+        .isInstanceOf(CategoryNotFound.class)
+        .hasMessage("해당 카테고리가 존재하지 않습니다.");
+  }
+
+  @DisplayName("해당 카테고리의 삭제 플래그를 true로 변경한다. (논리삭제)")
+  @Test
+  void softDeleteCategory() throws Exception {
+    // given
+    Category category = createCategory();
+    categoryRepository.save(category);
+    // when
+    categoryService.softDeleteCategory(category.getId());
+
+    // then
+    // 영속성 컨텍스트 초기화
+    entityManager.clear();
+    Category getCategory = categoryRepository.findById(category.getId()).get();
+    assertThat(getCategory.getIsDeleted()).isTrue();
+  }
+
+  @DisplayName("존재하지 않는 카테고리 아이디로 삭제 시도 시 예외가 발생한다.")
+  @Test
+  void softDeleteCategoryWithNoCategoryId() throws Exception {
+    // given
+    Long notExistCategoryId = 0L;
+
+    // when // then
+    assertThatThrownBy(() -> categoryService.softDeleteCategory(notExistCategoryId))
         .isInstanceOf(CategoryNotFound.class)
         .hasMessage("해당 카테고리가 존재하지 않습니다.");
   }
