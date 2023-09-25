@@ -35,7 +35,6 @@ public class Category {
   public void changeCategory(Category parent, String name) {
     this.parent = parent;
     this.name = name;
-    this.isDeleted = false;
   }
 
   public void changeIsDeleteToTrue() {
