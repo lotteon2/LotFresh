@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -125,14 +126,27 @@ class CategoryServiceTest {
   void softDeleteCategory() throws Exception {
     // given
     Category category = createCategory();
-
+    categoryRepository.save(category);
     // when
     categoryService.softDeleteCategory(category.getId());
 
     // then
     // 영속성 컨텍스트 초기화
     entityManager.clear();
-    assertThat(category.getIsDeleted()).isTrue();
+    Category getCategory = categoryRepository.findById(category.getId()).get();
+    assertThat(getCategory.getIsDeleted()).isTrue();
+  }
+
+  @DisplayName("존재하지 않는 카테고리 아이디로 삭제 시도 시 예외가 발생한다.")
+  @Test
+  void softDeleteCategoryWithNoCategoryId() throws Exception {
+    // given
+    Long notExistCategoryId = 0L;
+
+    // when // then
+    assertThatThrownBy(() -> categoryService.softDeleteCategory(notExistCategoryId))
+        .isInstanceOf(CategoryNotFound.class)
+        .hasMessage("해당 카테고리가 존재하지 않습니다.");
   }
 
   private Category createCategory() {
