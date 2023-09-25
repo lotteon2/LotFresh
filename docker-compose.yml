@@ -1,0 +1,127 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - auth-service    # 지웅님 서버는 여러개가 될 것임.
+      - product-service # 준용님 서버
+      - order-service   # 창효님 서버
+      - payment-service # 성중 서버
+      - springboot5     # 기환님 서버 이름 뭘로하는건지 몰라서 이렇게.
+
+  auth-service:
+    container_name: auth-service # 컨테이너 이름 이렇게.
+    image: your-spring-boot-image-name # 이미지 빌드해서 도커허브 띄우자. 라이브러리, 환경따라 이미지 레이어 다르다.
+    environment:
+      DATABASE_HOST: mysql1 # 이름 마땅치않아서 일단 이렇게.
+
+  mysql1:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: yourpassword # 적당한걸로 통일
+
+  product-service:
+    container_name: product-service # 컨테이너 이름 이렇게.
+    image: your-spring-boot-image-name # 이미지 빌드해서 도커허브 띄우자. 라이브러리, 환경따라 이미지 레이어 다르다.
+    environment:
+      DATABASE_HOST: mysql2 # 이름 마땅치않아서 일단 이렇게.
+
+  mysql2:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: yourpassword # 적당한걸로 통일
+
+  order-service:
+    container_name: order-service # 컨테이너 이름 이렇게.
+    image: your-spring-boot-image-name # 이미지 빌드해서 도커허브 띄우자.
+    environment:
+      DATABASE_HOST: mysql3
+
+  mysql3:
+    image: mysql:latest
+    environment:
+       MYSQL_ROOT_PASSWORD : yourpassword 
+
+  payment-service:
+    container_name: payment-service # 컨테이너 이름 이렇게.
+    image: your-spring-boot-image-name # 이미지 빌드해서 도커허브 띄우자.
+    environment:
+      DATABASE_HOST: mysql4
+
+  mysql4:
+    image: mysql:latest
+    environment:
+       MYSQL_ROOT_PASSWORD : yourpassword 
+
+   springbot5 :
+     image : your-spring-boot-image-name 
+     environment :
+       DATABASE_HOST : mysq5 
+
+   mysql5 :
+     image : mysql-latest  
+     enviroment :
+        MYSQL_ROOT_PASSWORD=your password   
+
+   kafka1: # 첫 번째 Kafka 브로커
+    build:
+      context: ./kafka/
+      dockerfile: Dockerfile-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092 # 다른 브로커에 대한 주소도 설정할 수 있음
+      KAFKA_BROKER_ID: 1 # 각 브로커마다 고유한 ID 설정
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  kafka2: # 두 번째 Kafka 브로커
+    build:
+      context: ./kafka/
+      dockerfile: Dockerfile-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9092 # 다른 브로커에 대한 주소도 설정할 수 있음
+      KAFKA_BROKER_ID: 2 # 각 브로커마다 고유한 ID 설정
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  kafka3: # 세 번째 Kafka 브로커
+    build:
+      context: ./kafka/
+      dockerfile: Dockerfile-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka3:9092 # 다른 브로커에 대한 주소도 설정할 수 있음
+      KAFKA_BROKER_ID: 3 # 각 브로커마다 고유한 ID 설정
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  zookeeper:
+    build:
+      context: ./zookeeper/
+      dockerfile: Dockerfile-zookeeper
+
+# vue.js app은 보통 Nginx 또는 Apache HTTPD로 호스팅됨.
+# 빌드된 Vue.js 앱 코드(HTML/CSS/JS 등)를 Docker Image 내부로 복사해야 함.
+# 아래는 Nginx 기반의 Vue.js 앱 예시. 스프링부트 띄우고 이후에 vue환경 맞춰서 빌드 후 올리자.
+
+vuejs-app-name-here:
+
+build:
+
+context . ./vue-app-directory-path-here/ # Vue.js 앱 소스코드 디렉터리 경로.
+
+dockerfile . Dockerfile-vue
+  
+
+# kafka 환경에 대해 조금 더 공부 필요함.
+# 각 브로커는 고유한 KAFKA_BROKER_ID를 가짐. 
+# KAFKA_ADVERTISED_LISTENERS를 통해 클러스터 내 다른 브로커들이 해당 브로커에 연결할 수 있는 주소를 설정함.
+# depends_on을 사용하여 각 Kafka 브로커가 zookeeper 서비스에 의존하도록 설정했음. 
+# Kafka는 ZooKeeper를 사용하여 클러스터 관리를 수행하므로 Kafka 브로커는 ZooKeeper에 연결해야 함.
+# KAFKA_ZOOKEEPER_CONNECT 환경 변수를 설정하여 각 브로커가 ZooKeeper를 찾을 수 있도록 했음.
+# Kafka 클러스터를 구성 -> 각 브로커가 독립적으로 실행, 클러스터 내에서 서로 인식하고 통신.
