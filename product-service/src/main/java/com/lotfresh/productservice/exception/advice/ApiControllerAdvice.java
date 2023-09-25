@@ -28,4 +28,18 @@ public class ApiControllerAdvice {
 
     return ResponseEntity.status(statusCode).body(body);
   }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ErrorResponse invalidRequestHandler(MethodArgumentNotValidException e) {
+    ErrorResponse response = ErrorResponse.builder()
+            .code(HttpStatus.BAD_REQUEST)
+            .message("잘못된 요청입니다.")
+            .build();
+
+    for (FieldError fieldError : e.getFieldErrors()) {
+      response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
+    }
+    return response;
+  }
 }
