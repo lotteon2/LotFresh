@@ -81,8 +81,7 @@ class CategoryServiceTest {
     Category category1 = Category.builder().parent(null).name("냉동").build();
     Category category2 = Category.builder().parent(null).name("냉장").build();
     Category category3 = Category.builder().parent(category2).name("과일").build();
-    List<Category> categories =
-        categoryRepository.saveAll(List.of(category1, category2, category3));
+    categoryRepository.saveAll(List.of(category1, category2, category3));
 
     CategoryModifyRequest request = new CategoryModifyRequest(category1.getId(), changeName);
     // when
