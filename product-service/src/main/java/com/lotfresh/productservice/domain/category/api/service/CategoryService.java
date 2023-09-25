@@ -15,7 +15,7 @@ public class CategoryService {
   private final CategoryRepository categoryRepository;
 
   @Transactional
-  public void createCategory(CategoryCreateRequest request) {
+  public Long createCategory(CategoryCreateRequest request) {
     Category parent = null;
     if (request.getParentId() != null) {
       parent =
@@ -24,6 +24,7 @@ public class CategoryService {
               .orElseThrow(() -> new CategoryNotFound());
     }
     Category category = request.toEntity(parent);
-    categoryRepository.save(category);
+    Category savedCategory = categoryRepository.save(category);
+    return savedCategory.getId();
   }
 }
