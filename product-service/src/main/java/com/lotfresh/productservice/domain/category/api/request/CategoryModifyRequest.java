@@ -12,7 +12,8 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryModifyRequest {
-    private Long parentId;
-    @NotEmpty(message = "name cannot be null")
-    private String name;
+  private Long parentId;
+
+  @NotEmpty(message = "name cannot be null")
+  private String name;
 }

@@ -1,14 +1,12 @@
 package com.lotfresh.productservice.domain.category.api;
 
 import com.lotfresh.productservice.domain.category.api.request.CategoryCreateRequest;
+import com.lotfresh.productservice.domain.category.api.request.CategoryModifyRequest;
 import com.lotfresh.productservice.domain.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,4 +22,11 @@ public class CategoryApiController {
     return ResponseEntity.status(HttpStatus.CREATED).body(categoryId);
   }
 
+  @PutMapping("/{categoryId}")
+  public ResponseEntity<Void> modifyCategory(
+      @Valid @RequestBody CategoryModifyRequest request,
+      @PathVariable("categoryId") Long categoryId) {
+    categoryService.modifyCategory(request, categoryId);
+    return ResponseEntity.ok().build();
+  }
 }
