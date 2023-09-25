@@ -27,6 +27,10 @@ public class ProductOrder extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private ProductOrderStatus status;
 
+    public void changeProductOrderStatus(ProductOrderStatus status){
+        this.status = status;
+    }
+
     @Builder
     private ProductOrder(ProductOrderId id, Order order, Long price, Long quantity, ProductOrderStatus status) {
         this.id = id;
