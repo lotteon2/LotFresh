@@ -1,4 +1,4 @@
-package com.lotfresh.productservice.domain.category.api.exception;
+package com.lotfresh.productservice.domain.category.exception;
 
 import com.lotfresh.productservice.exception.CustomException;
 import org.springframework.http.HttpStatus;
