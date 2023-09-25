@@ -33,6 +33,18 @@ public class CategoryService {
     category.changeCategory(parent, request.getName());
   }
 
+  /**
+   * category 논리삭제. flag를 true로 바꾼다.
+   *
+   * @param categoryId
+   */
+  @Transactional
+  public void softDeleteCategory(Long categoryId) {
+    Category category =
+        categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFound());
+    category.changeIsDeleteToTrue();
+  }
+
   private Category getParentOfNullable(Optional<Long> parentId) {
     if (parentId.isEmpty()) {
       return null;

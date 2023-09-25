@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,6 +22,8 @@ class CategoryServiceTest {
   @Autowired CategoryService categoryService;
 
   @Autowired CategoryRepository categoryRepository;
+
+  @Autowired EntityManager entityManager;
 
   @AfterEach
   void tearDown() {
@@ -82,11 +85,15 @@ class CategoryServiceTest {
     Category category2 = Category.builder().parent(null).name("냉장").build();
     Category category3 = Category.builder().parent(category2).name("과일").build();
     categoryRepository.saveAll(List.of(category1, category2, category3));
-
     CategoryModifyRequest request = new CategoryModifyRequest(category1.getId(), changeName);
+
     // when
     categoryService.modifyCategory(request, category3.getId());
+
     // then
+    // 영속성 컨텍스트 초기화
+    entityManager.clear();
+
     Category getCategory = categoryRepository.findById(category3.getId()).get();
     Long changedParentId = category1.getId();
     assertThat(getCategory)
@@ -103,13 +110,29 @@ class CategoryServiceTest {
     Category category1 = Category.builder().parent(null).name("냉장").build();
     Category category2 = Category.builder().parent(category1).name("과일").build();
     categoryRepository.saveAll(List.of(category1, category2));
-
     CategoryModifyRequest request = new CategoryModifyRequest(notExistParentId, changeName);
 
     // when // then
+    // 영속성 컨텍스트 초기화
+    entityManager.clear();
     assertThatThrownBy(() -> categoryService.modifyCategory(request, category2.getId()))
         .isInstanceOf(CategoryNotFound.class)
         .hasMessage("해당 카테고리가 존재하지 않습니다.");
+  }
+
+  @DisplayName("해당 카테고리의 삭제 플래그를 true로 변경한다. (논리삭제)")
+  @Test
+  void softDeleteCategory() throws Exception {
+    // given
+    Category category = createCategory();
+
+    // when
+    category.changeIsDeleteToTrue();
+
+    // then
+    // 영속성 컨텍스트 초기화
+    entityManager.clear();
+    assertThat(category.getIsDeleted()).isTrue();
   }
 
   private Category createCategory() {
