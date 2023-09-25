@@ -16,7 +16,7 @@ public class CategoryCreateRequest {
   private Long parentId;
   private String name;
 
-  public Category toEntity(Optional<Category> parent) {
-    return Category.builder().parent(parent.isEmpty() ? null : parent.get()).name(name).build();
+  public Category toEntity(Category parent) {
+    return Category.builder().parent(parent).name(name).build();
   }
 }
