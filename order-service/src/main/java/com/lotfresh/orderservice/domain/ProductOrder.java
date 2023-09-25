@@ -14,7 +14,6 @@ public class ProductOrder extends BaseEntity{
     @EmbeddedId
     private ProductOrderId id;
 
-
     @MapsId("orderId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -39,4 +38,6 @@ public class ProductOrder extends BaseEntity{
         this.quantity = quantity;
         this.status = status;
     }
+
+
 }
