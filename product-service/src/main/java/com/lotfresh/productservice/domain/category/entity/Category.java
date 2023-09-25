@@ -28,4 +28,9 @@ public class Category {
     this.name = name;
     this.parent = parent;
   }
+
+  public void changeCategory(Category parent, String name) {
+    this.parent = parent;
+    this.name = name;
+  }
 }

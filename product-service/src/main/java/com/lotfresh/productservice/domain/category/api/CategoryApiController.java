@@ -14,13 +14,14 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("")
+@RequestMapping("/categories")
 public class CategoryApiController {
   private final CategoryService categoryService;
 
-  @PostMapping("/categories")
+  @PostMapping("")
   public ResponseEntity<Long> createCategory(@Valid @RequestBody CategoryCreateRequest request) {
     Long categoryId = categoryService.createCategory(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(categoryId);
   }
+
 }
