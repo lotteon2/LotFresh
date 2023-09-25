@@ -1,0 +1,27 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: order-service
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+  profiles:
+    active:
+      - develop
+    group:
+      develop: "env"
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    org:
+      springframework: INFO
