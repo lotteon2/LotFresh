@@ -12,8 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -97,5 +96,17 @@ class CategoryApiControllerTest {
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
         .andExpect(jsonPath("$.validation.name").value("name cannot be null"));
+  }
+
+  @DisplayName("카테고리를 논리삭제 한다.")
+  @Test
+  void softDeleteCategory() throws Exception {
+    // given
+    Long categoryId = 1L;
+    // when // then
+    mockMvc
+        .perform(patch("/categories/{categoryId}", categoryId))
+        .andDo(print())
+        .andExpect(status().isOk());
   }
 }
