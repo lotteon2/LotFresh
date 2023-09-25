@@ -1,4 +1,4 @@
-package com.lotfresh.productservice.domain.discount.api.service;
+package com.lotfresh.productservice.domain.discount.service;
 
 import com.lotfresh.productservice.domain.discount.repository.DiscountRepository;
 import lombok.RequiredArgsConstructor;

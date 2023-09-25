@@ -1,8 +1,8 @@
-package com.lotfresh.productservice.domain.category.api.service;
+package com.lotfresh.productservice.domain.category.service;
 
-import com.lotfresh.productservice.domain.category.api.controller.request.CategoryCreateRequest;
-import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
+import com.lotfresh.productservice.domain.category.api.request.CategoryCreateRequest;
 import com.lotfresh.productservice.domain.category.entity.Category;
+import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

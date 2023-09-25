@@ -1,4 +1,4 @@
-package com.lotfresh.productservice.domain.category.api.controller.request;
+package com.lotfresh.productservice.domain.category.api.request;
 
 import com.lotfresh.productservice.domain.category.entity.Category;
 import lombok.AllArgsConstructor;
