@@ -2,6 +2,7 @@ package com.lotfresh.productservice.domain.category.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.productservice.domain.category.api.request.CategoryCreateRequest;
+import com.lotfresh.productservice.domain.category.api.request.CategoryModifyRequest;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
 import com.lotfresh.productservice.domain.category.service.CategoryService;
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,14 +26,7 @@ class CategoryApiControllerTest {
 
   @Autowired ObjectMapper objectMapper;
 
-  @Autowired CategoryRepository categoryRepository;
-
   @MockBean CategoryService categoryService;
-
-  @AfterEach
-  void tearDown() {
-    categoryRepository.deleteAllInBatch();
-  }
 
   @DisplayName("카테고리를 등록한다.")
   @Test
@@ -63,5 +58,24 @@ class CategoryApiControllerTest {
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
         .andExpect(jsonPath("$.validation.name").value("name cannot be null"));
+  }
+
+  @DisplayName("카테고리를 수정 한다.")
+  @Test
+  void modifyCategory() throws Exception {
+    // given
+    Long parentId = 1L;
+    Long categoryId = 2L;
+    String inputCategoryName = "야채";
+
+    CategoryModifyRequest request = new CategoryModifyRequest(parentId, inputCategoryName);
+    // when // then
+    mockMvc
+        .perform(
+            put("/categories/{categoryId}", categoryId)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isOk());
   }
 }
