@@ -23,6 +23,9 @@ public class Category {
   @JoinColumn(name = "parent_id", foreignKey = @ForeignKey(name = "fk_category_to_parent_category"))
   private Category parent;
 
+  @Column(nullable = true, columnDefinition = "boolean default false")
+  private Boolean isDeleted = false;
+
   @Builder
   private Category(String name, Category parent) {
     this.name = name;

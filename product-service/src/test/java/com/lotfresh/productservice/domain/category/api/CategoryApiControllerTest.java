@@ -2,7 +2,9 @@ package com.lotfresh.productservice.domain.category.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.productservice.domain.category.api.request.CategoryCreateRequest;
+import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
 import com.lotfresh.productservice.domain.category.service.CategoryService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,14 @@ class CategoryApiControllerTest {
 
   @Autowired ObjectMapper objectMapper;
 
+  @Autowired CategoryRepository categoryRepository;
+
   @MockBean CategoryService categoryService;
+
+  @AfterEach
+  void tearDown() {
+    categoryRepository.deleteAllInBatch();
+  }
 
   @DisplayName("카테고리를 등록한다.")
   @Test
