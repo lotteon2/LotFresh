@@ -1,6 +1,7 @@
 package com.lotfresh.productservice.exception;
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ public abstract class CustomException extends RuntimeException {
     super(message, cause);
   }
 
-  public abstract int getStatusCode();
+  public abstract HttpStatus getStatusCode();
 
   public void addValidation(String fieldName, String errorMessage) {
     validation.put(fieldName, errorMessage);

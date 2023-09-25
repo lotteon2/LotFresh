@@ -12,7 +12,7 @@ public class CategoryNotFound extends CustomException {
   }
 
   @Override
-  public int getStatusCode() {
-    return HttpStatus.NOT_FOUND.value();
+  public HttpStatus getStatusCode() {
+    return HttpStatus.NOT_FOUND;
   }
 }

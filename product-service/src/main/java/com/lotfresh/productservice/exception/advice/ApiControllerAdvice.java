@@ -3,6 +3,7 @@ package com.lotfresh.productservice.exception.advice;
 import com.lotfresh.productservice.exception.CustomException;
 import com.lotfresh.productservice.exception.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,7 +14,7 @@ public class ApiControllerAdvice {
 
   @ExceptionHandler(CustomException.class)
   public ResponseEntity<ErrorResponse> customException(CustomException e) {
-    int statusCode = e.getStatusCode();
+    HttpStatus statusCode = e.getStatusCode();
 
     ErrorResponse body =
         ErrorResponse.builder()
