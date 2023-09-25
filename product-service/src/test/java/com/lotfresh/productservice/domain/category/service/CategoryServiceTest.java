@@ -94,6 +94,24 @@ class CategoryServiceTest {
         .containsExactlyInAnyOrder(category3.getId(), changedParentId, changeName);
   }
 
+  @DisplayName("존재하지 않는 상위 카테고리 아이디로 하위 카테고리 수정 시 예외가 발생한다.")
+  @Test
+  void modifyCategoryWithNotExistParentId() {
+    // given
+    Long notExistParentId = 0L;
+    String changeName = "야채";
+    Category category1 = Category.builder().parent(null).name("냉장").build();
+    Category category2 = Category.builder().parent(category1).name("과일").build();
+    categoryRepository.saveAll(List.of(category1, category2));
+
+    CategoryModifyRequest request = new CategoryModifyRequest(notExistParentId, changeName);
+
+    // when // then
+    assertThatThrownBy(() -> categoryService.modifyCategory(request, category2.getId()))
+        .isInstanceOf(CategoryNotFound.class)
+        .hasMessage("해당 카테고리가 존재하지 않습니다.");
+  }
+
   private Category createCategory() {
     return Category.builder().parent(null).name("냉장").build();
   }
