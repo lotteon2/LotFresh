@@ -3,8 +3,12 @@ package com.lotfresh.productservice.exception.advice;
 import com.lotfresh.productservice.exception.CustomException;
 import com.lotfresh.productservice.exception.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
@@ -13,7 +17,7 @@ public class ApiControllerAdvice {
 
   @ExceptionHandler(CustomException.class)
   public ResponseEntity<ErrorResponse> customException(CustomException e) {
-    int statusCode = e.getStatusCode();
+    HttpStatus statusCode = e.getStatusCode();
 
     ErrorResponse body =
         ErrorResponse.builder()
@@ -23,5 +27,19 @@ public class ApiControllerAdvice {
             .build();
 
     return ResponseEntity.status(statusCode).body(body);
+  }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ErrorResponse invalidRequestHandler(MethodArgumentNotValidException e) {
+    ErrorResponse response = ErrorResponse.builder()
+            .code(HttpStatus.BAD_REQUEST)
+            .message("잘못된 요청입니다.")
+            .build();
+
+    for (FieldError fieldError : e.getFieldErrors()) {
+      response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
+    }
+    return response;
   }
 }

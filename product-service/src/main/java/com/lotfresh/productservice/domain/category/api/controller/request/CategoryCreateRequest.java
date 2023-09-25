@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Optional;
+import javax.validation.constraints.NotEmpty;
 
 @Setter
 @Getter
@@ -14,6 +14,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CategoryCreateRequest {
   private Long parentId;
+
+  @NotEmpty(message = "name cannot be null")
   private String name;
 
   public Category toEntity(Category parent) {
