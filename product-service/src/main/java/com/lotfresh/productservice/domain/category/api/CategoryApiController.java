@@ -29,4 +29,10 @@ public class CategoryApiController {
     categoryService.modifyCategory(request, categoryId);
     return ResponseEntity.ok().build();
   }
+
+  @PatchMapping("/{categoryId}")
+  public ResponseEntity<Void> softDeleteCategory(@PathVariable("categoryId") Long categoryId) {
+    categoryService.softDeleteCategory(categoryId);
+    return ResponseEntity.ok().build();
+  }
 }
