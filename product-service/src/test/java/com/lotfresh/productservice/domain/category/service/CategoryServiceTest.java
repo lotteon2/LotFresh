@@ -1,10 +1,9 @@
-package com.lotfresh.productservice.domain.category.api.service;
+package com.lotfresh.productservice.domain.category.service;
 
 import com.lotfresh.productservice.domain.category.api.request.CategoryCreateRequest;
 import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
-import com.lotfresh.productservice.domain.category.service.CategoryService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

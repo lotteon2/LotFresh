@@ -1,7 +1,6 @@
-package com.lotfresh.productservice.domain.category.api.controller;
+package com.lotfresh.productservice.domain.category.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lotfresh.productservice.domain.category.api.CategoryApiController;
 import com.lotfresh.productservice.domain.category.api.request.CategoryCreateRequest;
 import com.lotfresh.productservice.domain.category.service.CategoryService;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {CategoryApiController.class})
-class CategoryControllerTest {
+class CategoryApiControllerTest {
   @Autowired MockMvc mockMvc;
 
   @Autowired ObjectMapper objectMapper;
