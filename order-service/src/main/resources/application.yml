@@ -4,10 +4,9 @@ server:
 spring:
   application:
     name: order-service
-
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
