@@ -2,6 +2,9 @@ package com.lotfresh.orderservice.service;
 
 import com.lotfresh.orderservice.domain.Order;
 import com.lotfresh.orderservice.domain.ProductOrder;
+import com.lotfresh.orderservice.domain.ProductOrderId;
+import com.lotfresh.orderservice.domain.ProductOrderStatus;
+import com.lotfresh.orderservice.dto.OrderChangeStatusRequest;
 import com.lotfresh.orderservice.dto.OrderCreateRequest;
 import com.lotfresh.orderservice.dto.ProductRequest;
 import com.lotfresh.orderservice.repository.OrderRepository;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @SpringBootTest
@@ -22,9 +26,10 @@ class OrderServiceTest {
     private OrderService orderService;
     @Autowired
     private OrderRepository orderRepository;
-
     @Autowired
     private ProductOrderRepository productOrderRepository;
+    @Autowired
+    private EntityManager em;
 
 
     @DisplayName("주문 정보를 입력 받아 주문 및 주문 상세내역들을 생성한다")
@@ -33,15 +38,12 @@ class OrderServiceTest {
         // given
         Long userId = 1L;
         List<ProductRequest> productRequests  = List.of(
-            createProductRequest(1L, 100L, 1L),
-            createProductRequest(2L, 500L, 2L),
-            createProductRequest(3L, 1000L, 3L),
-            createProductRequest(4L, 10000L, 4L)
+                ProductRequest.forTest(1L, 100L, 1L),
+                ProductRequest.forTest(2L, 500L, 2L),
+                ProductRequest.forTest(3L, 1000L, 3L),
+                ProductRequest.forTest(4L, 10000L, 4L)
         );
-        OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
-                .userId(userId)
-                .productRequests(productRequests)
-                .build();
+        OrderCreateRequest orderCreateRequest = OrderCreateRequest.forTest(userId,productRequests);
 
         // when
         orderService.insertOrder(orderCreateRequest);
@@ -55,13 +57,42 @@ class OrderServiceTest {
                 .containsOnly(orders.get(0));
     }
 
-    public static ProductRequest createProductRequest(Long productId,
-                                                      Long productPrice, Long productQuantity){
-        return ProductRequest.builder()
-                .productId(productId)
-                .productPrice(productPrice)
-                .productQuantity(productQuantity)
+    @DisplayName("상품주문Id와 상태에 대한 정보를 받아 상품주문의 상태를 변경한다")
+    @Test
+    void changeProductOrderStatus() {
+        // given
+        ProductOrderId productOrderId = ProductOrderId.builder()
+                .productId(1L)
                 .build();
+        Order order = Order.builder()
+                .authId(1L)
+                .build();
+        ProductOrder productOrder = ProductOrder.builder()
+                .id(productOrderId)
+                .order(order)
+                .price(1000L)
+                .quantity(1L)
+                .status(ProductOrderStatus.CREATED)
+                .build();
+
+        orderRepository.save(order);
+        productOrderRepository.save(productOrder);
+
+        ProductOrderStatus requestedStatus = ProductOrderStatus.CONFIRMED;
+        OrderChangeStatusRequest orderChangeStatusRequest =
+                OrderChangeStatusRequest.forTest(productOrderId, requestedStatus);
+
+        // when
+        orderService.changeProductOrderStatus(orderChangeStatusRequest);
+
+        em.flush();
+        em.clear();
+
+        ProductOrder productOrder1 = productOrderRepository.findById(productOrderId).get();
+
+        // then
+        Assertions.assertThat(productOrder1.getStatus()).isEqualTo(requestedStatus);
     }
+
 
 }
