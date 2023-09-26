@@ -32,20 +32,10 @@ public class OrderService {
 
         List<ProductRequest> productRequests = orderCreateRequest.getProductRequests();
         List<ProductOrder> productOrders = productRequests.stream()
-                .map(productRequest -> ProductOrder.builder()
-                        .id(
-                                ProductOrderId.builder()
-                                        .productId(productRequest.getProductId())
-                                        .build()
-                        )
-                        .order(savedOrder)
-                        .price(productRequest.getProductQuantity())
-                        .quantity(productRequest.getProductPrice())
-                        .build())
+                .map(productRequest -> buildProductOrder(productRequest,savedOrder))
                 .collect(Collectors.toList());
 
         productOrderRepository.saveAll(productOrders);
-
     }
 
     @Transactional
@@ -56,6 +46,20 @@ public class OrderService {
     @Transactional
     public void refundOrder() {
 
+    }
+
+    private ProductOrder buildProductOrder(ProductRequest productRequest, Order order) {
+        return ProductOrder.builder()
+                .id(buildProductOrderId(productRequest.getProductId()))
+                .order(order)
+                .price(productRequest.getProductPrice())
+                .quantity(productRequest.getProductQuantity())
+                .build();
+    }
+    private ProductOrderId buildProductOrderId(Long productId) {
+        return ProductOrderId.builder()
+                .productId(productId)
+                .build();
     }
 
 
