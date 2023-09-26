@@ -121,4 +121,14 @@ class CategoryApiControllerTest {
             .andDo(print())
             .andExpect(status().isOk());
   }
+
+  @DisplayName("모든 카테고리 정보를 조회 한다.")
+  @Test
+  void getCategories() throws Exception {
+    // when // then
+    mockMvc
+            .perform(get("/categories"))
+            .andDo(print())
+            .andExpect(status().isOk());
+  }
 }

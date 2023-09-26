@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -48,6 +51,11 @@ public class CategoryService {
     Category category =
         categoryRepository.findByIdQuery(categoryId).orElseThrow(() -> new CategoryNotFound());
     return CategoryResponse.of(category);
+  }
+
+  public List<CategoryResponse> getCategories() {
+    List<Category> categories = categoryRepository.findAllQuery();
+    return categories.stream().map(CategoryResponse::of).collect(Collectors.toList());
   }
 
   private Category getParentOfNullable(Long parentId) {

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,5 +41,10 @@ public class CategoryApiController {
   @GetMapping("/{categoryId}")
   public ResponseEntity<CategoryResponse> getCategory(@PathVariable("categoryId") Long categoryId) {
     return ResponseEntity.ok(categoryService.getCategory(categoryId));
+  }
+
+  @GetMapping("")
+  public ResponseEntity<List<CategoryResponse>> getCategories() {
+    return ResponseEntity.ok(categoryService.getCategories());
   }
 }
