@@ -5,6 +5,7 @@ import com.lotfresh.productservice.domain.category.api.request.CategoryModifyReq
 import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
+import com.lotfresh.productservice.domain.category.service.response.CategoryResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 class CategoryServiceTest {
@@ -146,6 +146,41 @@ class CategoryServiceTest {
     assertThatThrownBy(() -> categoryService.softDeleteCategory(notExistCategoryId))
         .isInstanceOf(CategoryNotFound.class)
         .hasMessage("해당 카테고리가 존재하지 않습니다.");
+  }
+
+  @DisplayName("카테고리 id를 입력 받아 자식 카테고리를 포함한 해당 카테고리 정보를 반환한다.")
+  @Test
+  void getCategoryById() {
+    // given
+    Category category1 = Category.builder().parent(null).name("냉동").build();
+    Category category2 = Category.builder().parent(null).name("냉장").build();
+    Category category3 = Category.builder().parent(category2).name("과일").build();
+    Category category4 = Category.builder().parent(category3).name("블루베리").build();
+    categoryRepository.saveAll(List.of(category1, category2, category3, category4));
+
+    // when
+    CategoryResponse categoryResponse = categoryService.getCategory(category2.getId());
+
+    // then
+    assertThat(categoryResponse)
+        .extracting("id", "name")
+        .containsExactlyInAnyOrder(category2.getId(), category2.getName());
+
+    assertThat(categoryResponse.getChildren())
+        .extracting("id", "name")
+        .containsExactlyInAnyOrder(tuple(category3.getId(), category3.getName()));
+  }
+
+  @DisplayName("존재하지 않는 카테고리 아이디로 조회 시도 시 예외가 발생한다.")
+  @Test
+  void getCategoryByIdWithNotExistCategoryId() throws Exception {
+    // given
+    Long notExistCategoryId = 0L;
+
+    // when // then
+    assertThatThrownBy(() -> categoryService.getCategory(notExistCategoryId))
+            .isInstanceOf(CategoryNotFound.class)
+            .hasMessage("해당 카테고리가 존재하지 않습니다.");
   }
 
   private Category createCategory() {

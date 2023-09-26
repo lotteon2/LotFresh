@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,6 +27,9 @@ public class Category {
 
   @Column(nullable = true, columnDefinition = "boolean default false")
   private Boolean isDeleted = false;
+
+  @OneToMany(mappedBy = "parent")
+  List<Category> children = new ArrayList<>();
 
   @Builder
   private Category(String name, Category parent) {

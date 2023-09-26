@@ -5,6 +5,7 @@ import com.lotfresh.productservice.domain.category.api.request.CategoryModifyReq
 import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
+import com.lotfresh.productservice.domain.category.service.response.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,12 @@ public class CategoryService {
     Category category =
         categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFound());
     category.changeIsDeleteToTrue();
+  }
+
+  public CategoryResponse getCategory(Long categoryId) {
+    Category category =
+        categoryRepository.findByIdQuery(categoryId).orElseThrow(() -> new CategoryNotFound());
+    return CategoryResponse.of(category);
   }
 
   private Category getParentOfNullable(Optional<Long> parentId) {

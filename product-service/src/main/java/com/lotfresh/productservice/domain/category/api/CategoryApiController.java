@@ -3,6 +3,7 @@ package com.lotfresh.productservice.domain.category.api;
 import com.lotfresh.productservice.domain.category.api.request.CategoryCreateRequest;
 import com.lotfresh.productservice.domain.category.api.request.CategoryModifyRequest;
 import com.lotfresh.productservice.domain.category.service.CategoryService;
+import com.lotfresh.productservice.domain.category.service.response.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +35,10 @@ public class CategoryApiController {
   public ResponseEntity<Void> softDeleteCategory(@PathVariable("categoryId") Long categoryId) {
     categoryService.softDeleteCategory(categoryId);
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/{categoryId}")
+  public ResponseEntity<CategoryResponse> getCategory(@PathVariable("categoryId") Long categoryId) {
+    return ResponseEntity.ok(categoryService.getCategory(categoryId));
   }
 }
