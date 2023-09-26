@@ -196,7 +196,6 @@ class CategoryServiceTest {
 
     // when
     List<CategoryResponse> categories = categoryService.getCategories();
-
     // then
     assertThat(categories)
         .extracting("id", "name")
