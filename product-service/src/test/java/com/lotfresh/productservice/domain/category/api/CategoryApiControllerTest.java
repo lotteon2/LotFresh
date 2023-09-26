@@ -109,4 +109,16 @@ class CategoryApiControllerTest {
         .andDo(print())
         .andExpect(status().isOk());
   }
+
+  @DisplayName("카테고리 정보를 조회 한다.")
+  @Test
+  void getCategory() throws Exception {
+    // given
+    Long categoryId = 1L;
+    // when // then
+    mockMvc
+            .perform(get("/categories/{categoryId}",categoryId))
+            .andDo(print())
+            .andExpect(status().isOk());
+  }
 }

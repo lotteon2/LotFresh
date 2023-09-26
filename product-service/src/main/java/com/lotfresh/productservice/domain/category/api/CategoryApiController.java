@@ -37,7 +37,7 @@ public class CategoryApiController {
     return ResponseEntity.ok().build();
   }
 
-  @GetMapping("/categoryId")
+  @GetMapping("/{categoryId}")
   public ResponseEntity<CategoryResponse> getCategory(@PathVariable("categoryId") Long categoryId) {
     return ResponseEntity.ok(categoryService.getCategory(categoryId));
   }
