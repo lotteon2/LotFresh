@@ -35,7 +35,7 @@ public class OrderService {
 
         List<ProductRequest> productRequests = orderCreateRequest.getProductRequests();
         List<ProductOrder> productOrders = productRequests.stream()
-                .map(productRequest -> buildProductOrder(productRequest,savedOrder))
+                .map(productRequest -> productRequest.toEntity(savedOrder))
                 .collect(Collectors.toList());
 
         productOrderRepository.saveAll(productOrders);
@@ -52,20 +52,5 @@ public class OrderService {
     public void refundOrder() {
 
     }
-
-    private ProductOrder buildProductOrder(ProductRequest productRequest, Order order) {
-        return ProductOrder.builder()
-                .id(buildProductOrderId(productRequest.getProductId()))
-                .order(order)
-                .price(productRequest.getProductPrice())
-                .quantity(productRequest.getProductQuantity())
-                .build();
-    }
-    private ProductOrderId buildProductOrderId(Long productId) {
-        return ProductOrderId.builder()
-                .productId(productId)
-                .build();
-    }
-
 
 }
