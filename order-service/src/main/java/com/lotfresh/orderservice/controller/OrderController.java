@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.controller;
 
+import com.lotfresh.orderservice.dto.OrderChangeStatusRequest;
 import com.lotfresh.orderservice.dto.OrderCreateRequest;
 import com.lotfresh.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,12 @@ public class OrderController {
     @PostMapping
     public ResponseEntity insertOrder(@RequestBody OrderCreateRequest orderCreateRequest) {
         orderService.insertOrder(orderCreateRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/status")
+    public ResponseEntity changeStatus(@RequestBody OrderChangeStatusRequest orderChangeStatusRequest) {
+        orderService.changeProductOrderStatus(orderChangeStatusRequest);
         return ResponseEntity.ok().build();
     }
 

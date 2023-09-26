@@ -4,6 +4,7 @@ package com.lotfresh.orderservice.service;
 import com.lotfresh.orderservice.domain.Order;
 import com.lotfresh.orderservice.domain.ProductOrder;
 import com.lotfresh.orderservice.domain.ProductOrderId;
+import com.lotfresh.orderservice.dto.OrderChangeStatusRequest;
 import com.lotfresh.orderservice.dto.OrderCreateRequest;
 import com.lotfresh.orderservice.dto.ProductRequest;
 import com.lotfresh.orderservice.repository.OrderRepository;
@@ -39,8 +40,11 @@ public class OrderService {
     }
 
     @Transactional
-    public void changeProductOrderStatus() {
+    public void changeProductOrderStatus(OrderChangeStatusRequest orderChangeStatusRequest) {
+        ProductOrder productOrder = productOrderRepository.findById(orderChangeStatusRequest.getProductOrderId())
 
+                                            .orElseThrow(() -> new RuntimeException("해당 상품주문 내역을 찾을 수 없습니다"));
+        productOrder.changeProductOrderStatus(orderChangeStatusRequest.getProductOrderStatus());
     }
 
     @Transactional
