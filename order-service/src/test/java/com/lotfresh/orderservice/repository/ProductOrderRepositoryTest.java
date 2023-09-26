@@ -68,7 +68,7 @@ class ProductOrderRepositoryTest {
         ).isInstanceOf(DataIntegrityViolationException.class);
     }
 
-    public static ProductOrder makeProductOrder(ProductOrderId productOrderId, Order order){
+    private static ProductOrder makeProductOrder(ProductOrderId productOrderId, Order order){
         return ProductOrder.builder()
                 .id(productOrderId)
                 .order(order)
