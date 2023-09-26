@@ -6,6 +6,7 @@ import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
 import com.lotfresh.productservice.domain.category.service.response.CategoryResponse;
+import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -179,8 +180,27 @@ class CategoryServiceTest {
 
     // when // then
     assertThatThrownBy(() -> categoryService.getCategory(notExistCategoryId))
-            .isInstanceOf(CategoryNotFound.class)
-            .hasMessage("해당 카테고리가 존재하지 않습니다.");
+        .isInstanceOf(CategoryNotFound.class)
+        .hasMessage("해당 카테고리가 존재하지 않습니다.");
+  }
+
+  @DisplayName("모든 카테고리 정보를 조회한다.")
+  @Test
+  void getCategories() throws Exception {
+    // given
+    Category category1 = Category.builder().parent(null).name("냉동").build();
+    Category category2 = Category.builder().parent(null).name("냉장").build();
+    Category category3 = Category.builder().parent(category2).name("과일").build();
+    Category category4 = Category.builder().parent(category3).name("블루베리").build();
+    categoryRepository.saveAll(List.of(category1, category2, category3, category4));
+
+    // when
+    List<CategoryResponse> categories = categoryService.getCategories();
+
+    // then
+    assertThat(categories)
+        .extracting("id", "name")
+        .containsExactlyInAnyOrder(Tuple.tuple(1L, "냉동"), Tuple.tuple(2L, "냉장"));
   }
 
   private Category createCategory() {

@@ -4,6 +4,7 @@ import com.lotfresh.productservice.domain.category.entity.Category;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.lotfresh.productservice.domain.category.entity.QCategory.category;
@@ -23,5 +24,10 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
             .where(category.id.eq(categoryId))
             .fetchOne();
     return Optional.ofNullable(fetchOne);
+  }
+
+  @Override
+  public List<Category> findAllQuery() {
+    return query.selectFrom(category).where(category.parent.isNull()).fetch();
   }
 }
