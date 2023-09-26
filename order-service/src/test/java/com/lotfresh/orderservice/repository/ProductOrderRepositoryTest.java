@@ -1,9 +1,9 @@
 package com.lotfresh.orderservice.repository;
 
-import com.lotfresh.orderservice.domain.Order;
-import com.lotfresh.orderservice.domain.ProductOrder;
-import com.lotfresh.orderservice.domain.ProductOrderId;
-import com.lotfresh.orderservice.domain.ProductOrderStatus;
+import com.lotfresh.orderservice.domain.order.Order;
+import com.lotfresh.orderservice.domain.productOrder.ProductOrder;
+import com.lotfresh.orderservice.domain.productOrder.ProductOrderId;
+import com.lotfresh.orderservice.domain.productOrder.ProductOrderStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

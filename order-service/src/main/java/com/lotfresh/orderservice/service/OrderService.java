@@ -1,12 +1,11 @@
 package com.lotfresh.orderservice.service;
 
 
-import com.lotfresh.orderservice.domain.Order;
-import com.lotfresh.orderservice.domain.ProductOrder;
-import com.lotfresh.orderservice.domain.ProductOrderId;
-import com.lotfresh.orderservice.dto.OrderChangeStatusRequest;
-import com.lotfresh.orderservice.dto.OrderCreateRequest;
-import com.lotfresh.orderservice.dto.ProductRequest;
+import com.lotfresh.orderservice.domain.order.Order;
+import com.lotfresh.orderservice.domain.productOrder.ProductOrder;
+import com.lotfresh.orderservice.dto.request.OrderChangeStatusRequest;
+import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
+import com.lotfresh.orderservice.dto.request.ProductRequest;
 import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.exception.ErrorCode;
 import com.lotfresh.orderservice.repository.OrderRepository;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

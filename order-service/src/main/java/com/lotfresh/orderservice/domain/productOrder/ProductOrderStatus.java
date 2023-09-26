@@ -1,4 +1,4 @@
-package com.lotfresh.orderservice.domain;
+package com.lotfresh.orderservice.domain.productOrder;
 
 public enum ProductOrderStatus {
     CREATED, CANCELED, CONFIRMED;

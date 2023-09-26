@@ -1,5 +1,6 @@
-package com.lotfresh.orderservice.domain;
+package com.lotfresh.orderservice.domain.order;
 
+import com.lotfresh.orderservice.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "orders")
-public class Order extends BaseEntity{
+public class Order extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
