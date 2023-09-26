@@ -1,12 +1,13 @@
 package com.lotfresh.orderservice.service;
 
-import com.lotfresh.orderservice.domain.Order;
-import com.lotfresh.orderservice.domain.ProductOrder;
-import com.lotfresh.orderservice.domain.ProductOrderId;
-import com.lotfresh.orderservice.domain.ProductOrderStatus;
-import com.lotfresh.orderservice.dto.OrderChangeStatusRequest;
-import com.lotfresh.orderservice.dto.OrderCreateRequest;
-import com.lotfresh.orderservice.dto.ProductRequest;
+import com.lotfresh.orderservice.domain.order.Order;
+import com.lotfresh.orderservice.domain.productOrder.ProductOrder;
+import com.lotfresh.orderservice.domain.productOrder.ProductOrderId;
+import com.lotfresh.orderservice.domain.productOrder.ProductOrderStatus;
+import com.lotfresh.orderservice.dto.request.OrderChangeStatusRequest;
+import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
+import com.lotfresh.orderservice.dto.request.ProductRequest;
+import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.repository.OrderRepository;
 import com.lotfresh.orderservice.repository.ProductOrderRepository;
 import org.assertj.core.api.Assertions;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -38,12 +40,15 @@ class OrderServiceTest {
         // given
         Long userId = 1L;
         List<ProductRequest> productRequests  = List.of(
-                ProductRequest.forTest(1L, 100L, 1L),
-                ProductRequest.forTest(2L, 500L, 2L),
-                ProductRequest.forTest(3L, 1000L, 3L),
-                ProductRequest.forTest(4L, 10000L, 4L)
+                createProductRequest(1L, 100L, 1L),
+                createProductRequest(2L, 500L, 2L),
+                createProductRequest(3L, 1000L, 3L),
+                createProductRequest(4L, 10000L, 4L)
         );
-        OrderCreateRequest orderCreateRequest = OrderCreateRequest.forTest(userId,productRequests);
+        OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
+                .userId(userId)
+                .productRequests(productRequests)
+                .build();
 
         // when
         orderService.insertOrder(orderCreateRequest);
@@ -79,8 +84,10 @@ class OrderServiceTest {
         productOrderRepository.save(productOrder);
 
         ProductOrderStatus requestedStatus = ProductOrderStatus.CONFIRMED;
-        OrderChangeStatusRequest orderChangeStatusRequest =
-                OrderChangeStatusRequest.forTest(productOrderId, requestedStatus);
+        OrderChangeStatusRequest orderChangeStatusRequest = OrderChangeStatusRequest.builder()
+                .productOrderId(productOrderId)
+                .productOrderStatus(requestedStatus)
+                .build();
 
         // when
         orderService.changeProductOrderStatus(orderChangeStatusRequest);
@@ -94,5 +101,33 @@ class OrderServiceTest {
         Assertions.assertThat(productOrder1.getStatus()).isEqualTo(requestedStatus);
     }
 
+    @DisplayName("존재하지 않는 Id로 상태변경을 요청하면 데이터가 존재하지 않는다는 에러가 발생한다")
+    @Test
+    void changeProductOrderStatusWithNonExistentId() {
+        // given
+        ProductOrderId productOrderId = ProductOrderId.builder()
+                .productId(1L)
+                .build();
+
+        ProductOrderStatus requestedStatus = ProductOrderStatus.CONFIRMED;
+        OrderChangeStatusRequest orderChangeStatusRequest = OrderChangeStatusRequest.builder()
+                .productOrderId(productOrderId)
+                .productOrderStatus(requestedStatus)
+                .build();
+
+        // when // then
+        Assertions.assertThatThrownBy(() -> orderService.changeProductOrderStatus(orderChangeStatusRequest))
+                .isInstanceOf(CustomException.class)
+                .hasMessage("데이터가 존재하지 않습니다");
+
+    }
+
+    private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
+        return ProductRequest.builder()
+                .productId(productId)
+                .productPrice(productPrice)
+                .productQuantity(productQuantity)
+                .build();
+    }
 
 }

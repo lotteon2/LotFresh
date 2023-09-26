@@ -1,22 +1,17 @@
-package com.lotfresh.orderservice.dto;
+package com.lotfresh.orderservice.dto.request;
 
-import com.lotfresh.orderservice.domain.Order;
-import com.lotfresh.orderservice.domain.ProductOrder;
-import com.lotfresh.orderservice.domain.ProductOrderId;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import com.lotfresh.orderservice.domain.order.Order;
+import com.lotfresh.orderservice.domain.productOrder.ProductOrder;
+import com.lotfresh.orderservice.domain.productOrder.ProductOrderId;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class ProductRequest {
     private Long productId;
     private Long productPrice;
     private Long productQuantity;
-    public static ProductRequest forTest(Long productId, Long productPrice, Long productQuantity){
-        return new ProductRequest(productId, productPrice, productQuantity);
-    }
 
     public ProductOrder toEntity(Order order) {
         return ProductOrder.builder()
