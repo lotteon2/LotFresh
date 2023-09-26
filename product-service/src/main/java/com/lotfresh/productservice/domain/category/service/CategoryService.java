@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -20,7 +18,7 @@ public class CategoryService {
 
   @Transactional
   public Long createCategory(CategoryCreateRequest request) {
-    Category parent = getParentOfNullable(Optional.ofNullable(request.getParentId()));
+    Category parent = getParentOfNullable(request.getParentId());
     Category category = request.toEntity(parent);
     Category savedCategory = categoryRepository.save(category);
     return savedCategory.getId();
@@ -28,7 +26,7 @@ public class CategoryService {
 
   @Transactional
   public void modifyCategory(CategoryModifyRequest request, Long categoryId) {
-    Category parent = getParentOfNullable(Optional.ofNullable(request.getParentId()));
+    Category parent = getParentOfNullable(request.getParentId());
     Category category =
         categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFound());
     category.changeCategory(parent, request.getName());
@@ -52,10 +50,10 @@ public class CategoryService {
     return CategoryResponse.of(category);
   }
 
-  private Category getParentOfNullable(Optional<Long> parentId) {
-    if (parentId.isEmpty()) {
+  private Category getParentOfNullable(Long parentId) {
+    if (parentId == null) {
       return null;
     }
-    return categoryRepository.findById(parentId.get()).orElseThrow(() -> new CategoryNotFound());
+    return categoryRepository.findById(parentId).orElseThrow(() -> new CategoryNotFound());
   }
 }
