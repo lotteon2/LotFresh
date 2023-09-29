@@ -3,8 +3,10 @@ package com.lotfresh.orderservice.service;
 
 import com.lotfresh.orderservice.domain.order.Order;
 import com.lotfresh.orderservice.domain.productOrder.ProductOrder;
+import com.lotfresh.orderservice.domain.productOrder.ProductOrderStatus;
 import com.lotfresh.orderservice.dto.request.OrderChangeStatusRequest;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
+import com.lotfresh.orderservice.dto.request.OrderRefundRequest;
 import com.lotfresh.orderservice.dto.request.ProductRequest;
 import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.exception.ErrorCode;
@@ -47,8 +49,10 @@ public class OrderService {
     }
 
     @Transactional
-    public void refundOrder() {
-
+    public void refundOrder(OrderRefundRequest orderRefundRequest) {
+        ProductOrder productOrder = productOrderRepository.findById(orderRefundRequest.getProductOrderId())
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
+        productOrder.changeProductOrderStatus(ProductOrderStatus.CANCELED);
     }
 
 }
