@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class DiscountCreateRequest {
   private Long categoryId;
-  private Integer rate;
+  private Double rate;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd", timezone = "Asia/Seoul")
   private LocalDate startDate;
