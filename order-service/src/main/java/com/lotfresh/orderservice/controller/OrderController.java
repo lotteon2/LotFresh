@@ -3,7 +3,7 @@ package com.lotfresh.orderservice.controller;
 import com.lotfresh.orderservice.dto.request.OrderChangeStatusRequest;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
 import com.lotfresh.orderservice.dto.request.OrderRefundRequest;
-import com.lotfresh.orderservice.service.OrderService;
+import com.lotfresh.orderservice.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
