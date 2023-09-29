@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Setter
@@ -15,15 +17,21 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiscountCreateRequest {
+
+  @NotNull(message = "categoryId can not be null")
   private Long categoryId;
+  @NotNull(message = "rate can not be null")
   private Double rate;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd", timezone = "Asia/Seoul")
+  @NotNull(message = "startDate can not be null")
   private LocalDate startDate;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd", timezone = "Asia/Seoul")
+  @NotNull(message = "endDate can not be null")
   private LocalDate endDate;
 
+  @NotEmpty(message = "imgurl can not be empty")
   private String imgurl;
 
   public Discount toEntity(Category category) {
