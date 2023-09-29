@@ -5,21 +5,18 @@ import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.discount.entity.Discount;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 public class DiscountCreateRequest {
 
   @NotNull(message = "categoryId can not be null")
   private Long categoryId;
+
   @NotNull(message = "rate can not be null")
   private Double rate;
 
