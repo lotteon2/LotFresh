@@ -2,6 +2,8 @@ package com.lotfresh.orderservice.domain.productOrder;
 
 import com.lotfresh.orderservice.domain.BaseEntity;
 import com.lotfresh.orderservice.domain.order.Order;
+import com.lotfresh.orderservice.exception.CustomException;
+import com.lotfresh.orderservice.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +31,9 @@ public class ProductOrder extends BaseEntity {
     private ProductOrderStatus status;
 
     public void changeProductOrderStatus(ProductOrderStatus status){
+        if(this.status.isNotModifiable()){
+            throw new CustomException(ErrorCode.STATUS_NOT_CHANGEABLE);
+        }
         this.status = status;
     }
 
