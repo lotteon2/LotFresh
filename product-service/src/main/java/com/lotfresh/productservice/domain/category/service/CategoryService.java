@@ -44,7 +44,7 @@ public class CategoryService {
   public void softDeleteCategory(Long categoryId) {
     Category category =
         categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFound());
-    category.changeIsDeleteToTrue();
+    category.softDelete();
   }
 
   public CategoryResponse getCategory(Long categoryId) {

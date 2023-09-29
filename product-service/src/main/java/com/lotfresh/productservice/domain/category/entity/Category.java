@@ -42,7 +42,7 @@ public class Category {
     this.name = name;
   }
 
-  public void changeIsDeleteToTrue() {
+  public void softDelete() {
     this.isDeleted = true;
   }
 }
