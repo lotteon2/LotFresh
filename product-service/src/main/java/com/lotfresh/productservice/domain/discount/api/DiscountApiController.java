@@ -16,10 +16,10 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/discounts")
 public class DiscountApiController {
-    private final DiscountService discountService;
+  private final DiscountService discountService;
 
-    @PostMapping("")
-    public ResponseEntity<Long> createDiscount(@Valid @RequestBody DiscountCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(discountService.createDiscount(request));
-    }
+  @PostMapping("")
+  public ResponseEntity<Long> createDiscount(@Valid @RequestBody DiscountCreateRequest request) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(discountService.createDiscount(request));
+  }
 }

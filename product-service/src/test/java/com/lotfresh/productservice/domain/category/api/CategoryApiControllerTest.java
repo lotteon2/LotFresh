@@ -1,29 +1,18 @@
 package com.lotfresh.productservice.domain.category.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lotfresh.productservice.ControllerTestSupport;
 import com.lotfresh.productservice.domain.category.api.request.CategoryCreateRequest;
 import com.lotfresh.productservice.domain.category.api.request.CategoryModifyRequest;
-import com.lotfresh.productservice.domain.category.service.CategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = {CategoryApiController.class})
-class CategoryApiControllerTest {
-  @Autowired MockMvc mockMvc;
-
-  @Autowired ObjectMapper objectMapper;
-
-  @MockBean CategoryService categoryService;
+class CategoryApiControllerTest extends ControllerTestSupport {
 
   @DisplayName("카테고리를 등록한다.")
   @Test
@@ -117,18 +106,15 @@ class CategoryApiControllerTest {
     Long categoryId = 1L;
     // when // then
     mockMvc
-            .perform(get("/categories/{categoryId}",categoryId))
-            .andDo(print())
-            .andExpect(status().isOk());
+        .perform(get("/categories/{categoryId}", categoryId))
+        .andDo(print())
+        .andExpect(status().isOk());
   }
 
   @DisplayName("모든 카테고리 정보를 조회 한다.")
   @Test
   void getCategories() throws Exception {
     // when // then
-    mockMvc
-            .perform(get("/categories"))
-            .andDo(print())
-            .andExpect(status().isOk());
+    mockMvc.perform(get("/categories")).andDo(print()).andExpect(status().isOk());
   }
 }
