@@ -80,6 +80,29 @@ class DiscountServiceTest {
         .hasMessage("해당 카테고리가 존재하지 않습니다.");
   }
 
+  @DisplayName("변경 할 카테고리 할인율과 행사 배너 이미지를 입력받아 해당 할인 정보를 수정한다.")
+  @Test
+  void modifyDiscount() {
+    // given
+    Category category = createCategory(null, "냉장");
+    categoryRepository.save(category);
+    Discount discount =
+        createDiscount(category, 20d, LocalDate.of(2023, 9, 29), LocalDate.of(2023, 9, 30), "test");
+    discountRepository.save(discount);
+    DiscountModifyRequest request = new DiscountModifyRequest(30d, "modify");
+
+    // when
+    discountService.modifyDiscount(request, discount.getId());
+
+    // then
+    entityManager.clear();
+    Discount getDiscount = discountRepository.findById(discount.getId()).get();
+    assertThat(getDiscount)
+        .extracting("rate", "imgurl")
+        .containsExactlyInAnyOrder(request.getRate(), request.getImgurl());
+  }
+
+
   private Discount createDiscount(
       Category category, Double rate, LocalDate startDate, LocalDate endDate, String imgurl) {
     return Discount.builder()
