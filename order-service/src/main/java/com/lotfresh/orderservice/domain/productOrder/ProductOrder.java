@@ -30,12 +30,7 @@ public class ProductOrder extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProductOrderStatus status;
 
-    public void changeProductOrderStatus(ProductOrderStatus status){
-        if(this.status.isNotModifiable()){
-            throw new CustomException(ErrorCode.STATUS_NOT_CHANGEABLE);
-        }
-        this.status = status;
-    }
+    private Boolean isDeleted = false;
 
     @Builder
     private ProductOrder(ProductOrderId id, Order order, Long price, Long quantity, ProductOrderStatus status) {
@@ -46,5 +41,15 @@ public class ProductOrder extends BaseEntity {
         this.status = status;
     }
 
+    public void changeProductOrderStatus(ProductOrderStatus status){
+        if(this.status.isNotModifiable()){
+            throw new CustomException(ErrorCode.STATUS_NOT_CHANGEABLE);
+        }
+        this.status = status;
+    }
+
+    public void softDelete() {
+        this.isDeleted = true;
+    }
 
 }

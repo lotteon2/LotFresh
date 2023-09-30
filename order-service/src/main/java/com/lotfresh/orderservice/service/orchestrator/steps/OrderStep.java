@@ -3,6 +3,7 @@ package com.lotfresh.orderservice.service.orchestrator.steps;
 import com.lotfresh.orderservice.domain.orchestrator.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.WorkflowStepStatus;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
+import com.lotfresh.orderservice.dto.response.OrderCreateResponse;
 import com.lotfresh.orderservice.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class OrderStep implements WorkflowStep {
     private final OrderService orderService;
     private final OrderCreateRequest orderCreateRequest;
+    private OrderCreateResponse orderCreateResponse;
     private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
 
     @Override
@@ -19,13 +21,13 @@ public class OrderStep implements WorkflowStep {
 
     @Override
     public void process() {
-        orderService.insertOrder(orderCreateRequest);
+        orderCreateResponse = orderService.insertOrder(orderCreateRequest);
         changeStatus(WorkflowStepStatus.COMPLETE);
     }
 
     @Override
     public void revert() {
-        orderService.revertInsertOrder(orderCreateRequest);
+        orderService.revertInsertOrder(orderCreateResponse);
         changeStatus(WorkflowStepStatus.FAILED);
     }
 

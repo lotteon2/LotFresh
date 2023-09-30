@@ -21,8 +21,14 @@ public class Order extends BaseEntity {
 
     private Long authId;
 
+    private Boolean isDeleted = false;
     @Builder
     private Order(Long authId) {
         this.authId = authId;
     }
+
+    public void softDelete() {
+        this.isDeleted = true;
+    }
+
 }
