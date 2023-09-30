@@ -9,9 +9,9 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 public class DiscountModifyRequest {
-  @NotNull(message = "rate can not be null.")
+  @NotNull(message = "rate can not be null")
   private Double rate;
 
-  @NotEmpty(message = "imgurl can not be empty.")
+  @NotEmpty(message = "imgurl can not be empty")
   private String imgurl;
 }

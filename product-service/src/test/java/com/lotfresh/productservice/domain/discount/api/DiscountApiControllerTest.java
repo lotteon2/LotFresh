@@ -2,6 +2,7 @@ package com.lotfresh.productservice.domain.discount.api;
 
 import com.lotfresh.productservice.ControllerTestSupport;
 import com.lotfresh.productservice.domain.discount.api.request.DiscountCreateRequest;
+import com.lotfresh.productservice.domain.discount.api.request.DiscountModifyRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -141,5 +143,54 @@ class DiscountApiControllerTest extends ControllerTestSupport {
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
         .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be empty"));
+  }
+
+  @DisplayName("카테고리 할인 정보를 변경한다.")
+  @Test
+  void modifyDiscount() throws Exception {
+    // given
+    DiscountModifyRequest request = new DiscountModifyRequest(30d, "http://url");
+    // when // then
+    mockMvc
+            .perform(
+                    put("/discounts/{discountID}", 1L)
+                            .content(objectMapper.writeValueAsString(request))
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk());
+  }
+
+  @DisplayName("카테고리 할인 정보 변경 시 할인율은 필수 값이다.")
+  @Test
+  void modifyDiscountWithNullRate() throws Exception {
+    // given
+    DiscountModifyRequest request = new DiscountModifyRequest(null, "http://url");
+    // when // then
+    mockMvc
+            .perform(
+                    put("/discounts/{discountID}", 1L)
+                            .content(objectMapper.writeValueAsString(request))
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
+            .andExpect(jsonPath("$.validation.rate").value("rate can not be null"));
+  }
+
+  @DisplayName("카테고리 할인 정보 변경 시 행사 배너 이미지는 필수 값이다.")
+  @Test
+  void modifyDiscountWithEmptyImgurl() throws Exception {
+    // given
+    DiscountModifyRequest request = new DiscountModifyRequest(30d, null);
+    // when // then
+    mockMvc
+            .perform(
+                    put("/discounts/{discountID}", 1L)
+                            .content(objectMapper.writeValueAsString(request))
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
+            .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be empty"));
   }
 }
