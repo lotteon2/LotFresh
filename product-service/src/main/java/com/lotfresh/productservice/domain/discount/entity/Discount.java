@@ -46,4 +46,9 @@ public class Discount {
     this.endDate = endDate;
     this.imgurl = imgurl;
   }
+
+  public void changeDiscount(Double rate, String imgUrl) {
+    this.rate = rate;
+    this.imgurl = imgUrl;
+  }
 }

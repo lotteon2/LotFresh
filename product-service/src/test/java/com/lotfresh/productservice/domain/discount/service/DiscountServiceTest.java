@@ -4,7 +4,9 @@ import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
 import com.lotfresh.productservice.domain.discount.api.request.DiscountCreateRequest;
+import com.lotfresh.productservice.domain.discount.api.request.DiscountModifyRequest;
 import com.lotfresh.productservice.domain.discount.entity.Discount;
+import com.lotfresh.productservice.domain.discount.exception.DiscountNotFound;
 import com.lotfresh.productservice.domain.discount.repository.DiscountRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -68,14 +70,25 @@ class DiscountServiceTest {
     LocalDate startDate = LocalDate.of(2023, 9, 29);
     LocalDate endDate = LocalDate.of(2023, 9, 30);
     String imgurl =
-            "https://fastly.picsum.photos/id/159/250/250.jpg?hmac=Zx_FJ-m2TaUphHLVrHxHrD5xBHDQhJGvixupBD8YFEE";
+        "https://fastly.picsum.photos/id/159/250/250.jpg?hmac=Zx_FJ-m2TaUphHLVrHxHrD5xBHDQhJGvixupBD8YFEE";
 
     DiscountCreateRequest request =
-            new DiscountCreateRequest(notExistCategoryId, 20d, startDate, endDate, imgurl);
+        new DiscountCreateRequest(notExistCategoryId, 20d, startDate, endDate, imgurl);
     // when // then
-    assertThatThrownBy(() ->
-            discountService.createDiscount(request)).isInstanceOf(CategoryNotFound.class)
-            .hasMessage("해당 카테고리가 존재하지 않습니다.");
+    assertThatThrownBy(() -> discountService.createDiscount(request))
+        .isInstanceOf(CategoryNotFound.class)
+        .hasMessage("해당 카테고리가 존재하지 않습니다.");
+  }
+
+  private Discount createDiscount(
+      Category category, Double rate, LocalDate startDate, LocalDate endDate, String imgurl) {
+    return Discount.builder()
+        .category(category)
+        .rate(rate)
+        .startDate(startDate)
+        .endDate(endDate)
+        .imgurl(imgurl)
+        .build();
   }
 
   private Category createCategory(Category parent, String name) {
