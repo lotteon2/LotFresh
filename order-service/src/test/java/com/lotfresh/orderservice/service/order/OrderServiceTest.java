@@ -6,6 +6,7 @@ import com.lotfresh.orderservice.domain.productOrder.ProductOrderId;
 import com.lotfresh.orderservice.domain.productOrder.ProductOrderStatus;
 import com.lotfresh.orderservice.dto.request.OrderChangeStatusRequest;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
+import com.lotfresh.orderservice.dto.request.OrderRefundRequest;
 import com.lotfresh.orderservice.dto.request.ProductRequest;
 import com.lotfresh.orderservice.dto.response.OrderCreateResponse;
 import com.lotfresh.orderservice.exception.CustomException;
@@ -174,6 +175,43 @@ class OrderServiceTest {
         Assertions.assertThat(revertedProductOrder1.getIsDeleted()).isTrue();
         Assertions.assertThat(revertedProductOrder2.getIsDeleted()).isTrue();
 
+    }
+
+    @DisplayName("주문취소/환불 요청 시 해당 주문의 상태가 CANCELED로 변경된다")
+    @Test
+    void refundOrder() {
+        // given
+        ProductOrderId productOrderId = ProductOrderId.builder()
+                .productId(1L)
+                .build();
+        Order order = Order.builder()
+                .authId(1L)
+                .build();
+        ProductOrder productOrder = ProductOrder.builder()
+                .id(productOrderId)
+                .order(order)
+                .price(1000L)
+                .quantity(1L)
+                .status(ProductOrderStatus.CREATED)
+                .build();
+
+        orderRepository.save(order);
+        productOrderRepository.save(productOrder);
+
+        OrderRefundRequest orderRefundRequest = OrderRefundRequest.builder()
+                .productOrderId(productOrderId)
+                .build();
+
+        // when
+        orderService.refundOrder(orderRefundRequest);
+
+        em.flush();
+        em.clear();
+
+        ProductOrder productOrder1 = productOrderRepository.findById(productOrderId).get();
+
+        // then
+        Assertions.assertThat(productOrder1.getStatus()).isEqualTo(ProductOrderStatus.CANCELED);
     }
 
 

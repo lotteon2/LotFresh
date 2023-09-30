@@ -62,9 +62,7 @@ public class OrderService {
 
         List<ProductOrder> productOrders = productOrderRepository.findAllById(orderCreateResponse.getProductIds());
         productOrders.stream().forEach(ProductOrder::softDelete);
-
     }
-
 
     @Transactional
     public void changeProductOrderStatus(OrderChangeStatusRequest orderChangeStatusRequest) {
