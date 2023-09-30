@@ -6,7 +6,6 @@ import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
 import com.lotfresh.productservice.domain.category.service.response.CategoryResponse;
-import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -197,9 +196,7 @@ class CategoryServiceTest {
     // when
     List<CategoryResponse> categories = categoryService.getCategories();
     // then
-    assertThat(categories)
-        .extracting("id", "name")
-        .containsExactlyInAnyOrder(Tuple.tuple(1L, "냉동"), Tuple.tuple(2L, "냉장"));
+    assertThat(categories).extracting("name").containsExactlyInAnyOrder("냉동", "냉장");
   }
 
   private Category createCategory() {

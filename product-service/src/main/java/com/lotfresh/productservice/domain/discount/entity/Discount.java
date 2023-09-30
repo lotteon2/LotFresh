@@ -26,7 +26,7 @@ public class Discount {
   private Category category;
 
   @Column(nullable = false)
-  private Integer rate;
+  private Double rate;
 
   @Column(nullable = false)
   private LocalDate startDate;
@@ -39,7 +39,7 @@ public class Discount {
 
   @Builder
   private Discount(
-      Category category, Integer rate, LocalDate startDate, LocalDate endDate, String imgurl) {
+      Category category, Double rate, LocalDate startDate, LocalDate endDate, String imgurl) {
     this.category = category;
     this.rate = rate;
     this.startDate = startDate;
