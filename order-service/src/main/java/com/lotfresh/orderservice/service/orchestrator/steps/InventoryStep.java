@@ -16,8 +16,8 @@ public class InventoryStep implements WorkflowStep {
 
 
     @Override
-    public WorkflowStepStatus getStatus() {
-        return status;
+    public boolean isRevertTarget() {
+        return this.status == WorkflowStepStatus.COMPLETE;
     }
 
     @Override

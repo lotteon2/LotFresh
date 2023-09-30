@@ -12,18 +12,20 @@ public class PaymentStep implements WorkflowStep {
     private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
 
     @Override
-    public WorkflowStepStatus getStatus() {
-        return status;
+    public boolean isRevertTarget() {
+        return this.status == WorkflowStepStatus.COMPLETE;
     }
 
     @Override
     public void process() {
         feignClient.requestPayment(userId);
+        changeStatus(WorkflowStepStatus.COMPLETE);
     }
 
     @Override
     public void revert() {
         feignClient.revertRequestPayment(userId);
+        changeStatus(WorkflowStepStatus.FAILED);
     }
 
     @Override

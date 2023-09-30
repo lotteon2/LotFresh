@@ -40,11 +40,9 @@ public class OrchestratorService {
     }
 
     private void revertOrder(Orchestrator orchestrator) {
-        for (WorkflowStep step : orchestrator.getSteps()) {
-            if(step.getStatus() == WorkflowStepStatus.COMPLETE) {
-                step.revert();
-            }
-        }
+        orchestrator.getSteps().stream()
+                .filter(WorkflowStep::isRevertTarget)
+                .forEach(WorkflowStep::revert);
     }
 
 }

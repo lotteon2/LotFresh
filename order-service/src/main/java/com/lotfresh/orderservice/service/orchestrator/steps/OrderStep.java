@@ -15,8 +15,8 @@ public class OrderStep implements WorkflowStep {
     private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
 
     @Override
-    public WorkflowStepStatus getStatus() {
-        return status;
+    public boolean isRevertTarget() {
+        return this.status == WorkflowStepStatus.COMPLETE;
     }
 
     @Override
