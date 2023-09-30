@@ -1,4 +1,4 @@
-package com.lotfresh.orderservice.service;
+package com.lotfresh.orderservice.service.order;
 
 import com.lotfresh.orderservice.domain.order.Order;
 import com.lotfresh.orderservice.domain.productOrder.ProductOrder;
@@ -7,6 +7,7 @@ import com.lotfresh.orderservice.domain.productOrder.ProductOrderStatus;
 import com.lotfresh.orderservice.dto.request.OrderChangeStatusRequest;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
 import com.lotfresh.orderservice.dto.request.ProductRequest;
+import com.lotfresh.orderservice.dto.response.OrderCreateResponse;
 import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.repository.OrderRepository;
 import com.lotfresh.orderservice.repository.ProductOrderRepository;
@@ -121,6 +122,60 @@ class OrderServiceTest {
                 .hasMessage("데이터가 존재하지 않습니다");
 
     }
+
+    @DisplayName("요청받은 주문들의 isDeleted상태가 true로 변경되며, 이는 주문이 취소된 것으로 간주한다")
+    @Test
+    void revertInsertOrder() {
+        // given
+        ProductOrderId productOrderId1 = ProductOrderId.builder()
+                .productId(1L)
+                .build();
+        ProductOrderId productOrderId2 = ProductOrderId.builder()
+                .productId(2L)
+                .build();
+        Order order = Order.builder()
+                .authId(1L)
+                .build();
+        ProductOrder productOrder1 = ProductOrder.builder()
+                .id(productOrderId1)
+                .order(order)
+                .price(1000L)
+                .quantity(1L)
+                .status(ProductOrderStatus.CREATED)
+                .build();
+        ProductOrder productOrder2 = ProductOrder.builder()
+                .id(productOrderId2)
+                .order(order)
+                .price(1000L)
+                .quantity(1L)
+                .status(ProductOrderStatus.CREATED)
+                .build();
+
+        Order savedOrder = orderRepository.save(order);
+        productOrderRepository.save(productOrder1);
+        productOrderRepository.save(productOrder2);
+
+        OrderCreateResponse orderCreateResponse =
+                OrderCreateResponse.builder()
+                        .orderId(savedOrder.getId())
+                        .productIds(List.of(productOrderId1,productOrderId2))
+                        .build();
+
+        // when
+        orderService.revertInsertOrder(orderCreateResponse);
+        Order revertedOrder = orderRepository.findById(savedOrder.getId()).get();
+        ProductOrder revertedProductOrder1 = productOrderRepository
+                .findById(productOrderId1).get();
+        ProductOrder revertedProductOrder2 = productOrderRepository
+                .findById(productOrderId2).get();
+
+        // then
+        Assertions.assertThat(revertedOrder.getIsDeleted()).isTrue();
+        Assertions.assertThat(revertedProductOrder1.getIsDeleted()).isTrue();
+        Assertions.assertThat(revertedProductOrder2.getIsDeleted()).isTrue();
+
+    }
+
 
     private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
         return ProductRequest.builder()

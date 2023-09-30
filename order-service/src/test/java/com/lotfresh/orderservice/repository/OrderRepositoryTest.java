@@ -32,6 +32,7 @@ class OrderRepositoryTest {
         // then
         Assertions.assertThat(savedOrder.getId()).isNotNull();
         Assertions.assertThat(savedOrder.getAuthId()).isEqualTo(authId);
+        Assertions.assertThat(savedOrder.getIsDeleted()).isFalse();
         Assertions.assertThat(savedOrder.getCreatedAt()).isAfter(timeBeforeCreation);
         Assertions.assertThat(savedOrder.getUpdatedAt()).isAfter(timeBeforeCreation);
 
