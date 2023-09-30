@@ -102,6 +102,20 @@ class DiscountServiceTest {
         .containsExactlyInAnyOrder(request.getRate(), request.getImgurl());
   }
 
+  @DisplayName("카테고리 할인 변경 시 해당 카테고리 할인 id가 존재 하지 않는 경우 예외가 발생한다")
+  @Test
+  void modifyDiscountWithNoExistDiscountId() {
+    // given
+    Category category = createCategory(null, "냉장");
+    categoryRepository.save(category);
+    Long noExistId = 0L;
+    DiscountModifyRequest request = new DiscountModifyRequest(30d, "modify");
+
+    // when // then
+    assertThatThrownBy(() -> discountService.modifyDiscount(request, noExistId))
+        .isInstanceOf(DiscountNotFound.class)
+        .hasMessage("해당 카테고리 할인이 존재하지 않습니다.");
+  }
 
   private Discount createDiscount(
       Category category, Double rate, LocalDate startDate, LocalDate endDate, String imgurl) {
