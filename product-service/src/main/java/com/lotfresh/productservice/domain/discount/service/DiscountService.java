@@ -8,6 +8,7 @@ import com.lotfresh.productservice.domain.discount.api.request.DiscountModifyReq
 import com.lotfresh.productservice.domain.discount.entity.Discount;
 import com.lotfresh.productservice.domain.discount.exception.DiscountNotFound;
 import com.lotfresh.productservice.domain.discount.repository.DiscountRepository;
+import com.lotfresh.productservice.domain.discount.service.response.DiscountResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,5 +34,12 @@ public class DiscountService {
   public void modifyDiscount(DiscountModifyRequest request, Long id) {
     Discount discount = discountRepository.findById(id).orElseThrow(() -> new DiscountNotFound());
     discount.changeDiscount(request.getRate(), request.getImgurl());
+  }
+
+  public DiscountResponse getDiscount(Long id) {
+    Discount discount =
+        discountRepository.findByIdQuery(id).orElseThrow(() -> new DiscountNotFound());
+    DiscountResponse discountResponse = DiscountResponse.of(discount);
+    return discountResponse;
   }
 }

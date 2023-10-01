@@ -1,3 +1,9 @@
 package com.lotfresh.productservice.domain.discount.repository.custom;
 
-public interface DiscountRepositoryCustom {}
+import com.lotfresh.productservice.domain.discount.entity.Discount;
+
+import java.util.Optional;
+
+public interface DiscountRepositoryCustom {
+  Optional<Discount> findByIdQuery(Long id);
+}

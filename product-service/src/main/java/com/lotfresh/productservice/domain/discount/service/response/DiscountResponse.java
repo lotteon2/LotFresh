@@ -1,5 +1,6 @@
 package com.lotfresh.productservice.domain.discount.service.response;
 
+import com.lotfresh.productservice.domain.discount.entity.Discount;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,7 @@ public class DiscountResponse {
   private LocalDate startDate;
   private LocalDate endDate;
   private Long categoryId;
-  private Long categoryName;
+  private String categoryName;
 
   @Builder
   private DiscountResponse(
@@ -27,7 +28,7 @@ public class DiscountResponse {
       LocalDate startDate,
       LocalDate endDate,
       Long categoryId,
-      Long categoryName) {
+      String categoryName) {
     this.id = id;
     this.rate = rate;
     this.imgurl = imgurl;
@@ -35,5 +36,17 @@ public class DiscountResponse {
     this.endDate = endDate;
     this.categoryId = categoryId;
     this.categoryName = categoryName;
+  }
+
+  public static DiscountResponse of(Discount discount) {
+    return DiscountResponse.builder()
+        .id(discount.getId())
+        .rate(discount.getRate())
+        .imgurl(discount.getImgurl())
+        .startDate(discount.getStartDate())
+        .endDate(discount.getEndDate())
+        .categoryId(discount.getCategory().getId())
+        .categoryName(discount.getCategory().getName())
+        .build();
   }
 }
