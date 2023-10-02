@@ -3,6 +3,7 @@ package com.lotfresh.productservice.domain.discount.api;
 import com.lotfresh.productservice.domain.discount.api.request.DiscountCreateRequest;
 import com.lotfresh.productservice.domain.discount.api.request.DiscountModifyRequest;
 import com.lotfresh.productservice.domain.discount.service.DiscountService;
+import com.lotfresh.productservice.domain.discount.service.response.DiscountResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,10 @@ public class DiscountApiController {
       @PathVariable("discountId") Long discountId) {
     discountService.modifyDiscount(request, discountId);
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/{discountId}")
+  public ResponseEntity<DiscountResponse> getDiscount(@PathVariable("discountId") Long discountId) {
+    return ResponseEntity.ok(discountService.getDiscount(discountId));
   }
 }
