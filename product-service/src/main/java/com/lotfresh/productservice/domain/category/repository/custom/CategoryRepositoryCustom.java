@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoryRepositoryCustom {
-  Optional<Category> findByIdQuery(Long CategoryId);
+  Optional<Category> findByIdFetch(Long CategoryId);
 
   List<Category> findAllQuery();
 }

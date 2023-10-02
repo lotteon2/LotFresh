@@ -5,5 +5,5 @@ import com.lotfresh.productservice.domain.discount.entity.Discount;
 import java.util.Optional;
 
 public interface DiscountRepositoryCustom {
-  Optional<Discount> findByIdQuery(Long id);
+  Optional<Discount> findByIdFetch(Long id);
 }

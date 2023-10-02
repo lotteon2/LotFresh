@@ -14,7 +14,7 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
   private final JPAQueryFactory query;
 
   @Override
-  public Optional<Category> findByIdQuery(Long categoryId) {
+  public Optional<Category> findByIdFetch(Long categoryId) {
     Category fetchOne =
         query
             .selectFrom(category)

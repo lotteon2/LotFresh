@@ -49,7 +49,7 @@ public class CategoryService {
 
   public CategoryResponse getCategory(Long categoryId) {
     Category category =
-        categoryRepository.findByIdQuery(categoryId).orElseThrow(() -> new CategoryNotFound());
+        categoryRepository.findByIdFetch(categoryId).orElseThrow(() -> new CategoryNotFound());
     return CategoryResponse.of(category);
   }
 

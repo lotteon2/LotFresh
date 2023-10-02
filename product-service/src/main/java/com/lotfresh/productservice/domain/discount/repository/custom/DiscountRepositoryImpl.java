@@ -13,7 +13,7 @@ public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
   private final JPAQueryFactory query;
 
   @Override
-  public Optional<Discount> findByIdQuery(Long id) {
+  public Optional<Discount> findByIdFetch(Long id) {
     return Optional.ofNullable(
         query
             .selectFrom(discount)

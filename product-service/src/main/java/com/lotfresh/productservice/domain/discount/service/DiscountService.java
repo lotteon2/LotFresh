@@ -38,7 +38,7 @@ public class DiscountService {
 
   public DiscountResponse getDiscount(Long id) {
     Discount discount =
-        discountRepository.findByIdQuery(id).orElseThrow(() -> new DiscountNotFound());
+        discountRepository.findByIdFetch(id).orElseThrow(() -> new DiscountNotFound());
     DiscountResponse discountResponse = DiscountResponse.of(discount);
     return discountResponse;
   }
