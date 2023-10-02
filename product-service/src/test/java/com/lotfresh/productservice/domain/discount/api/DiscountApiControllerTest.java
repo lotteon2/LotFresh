@@ -9,8 +9,7 @@ import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -192,5 +191,18 @@ class DiscountApiControllerTest extends ControllerTestSupport {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
             .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be empty"));
+  }
+
+  @DisplayName("카테고리 할인 상세 정보를 조회 한다.")
+  @Test
+  void getDiscount() throws Exception {
+    // given
+    Long id = 1L;
+    // when // then
+    mockMvc
+            .perform(
+                    get("/discounts/{discountID}", id))
+            .andDo(print())
+            .andExpect(status().isOk());
   }
 }

@@ -8,6 +8,7 @@ import com.lotfresh.productservice.domain.discount.api.request.DiscountModifyReq
 import com.lotfresh.productservice.domain.discount.entity.Discount;
 import com.lotfresh.productservice.domain.discount.exception.DiscountNotFound;
 import com.lotfresh.productservice.domain.discount.repository.DiscountRepository;
+import com.lotfresh.productservice.domain.discount.service.response.DiscountResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -113,6 +114,42 @@ class DiscountServiceTest {
 
     // when // then
     assertThatThrownBy(() -> discountService.modifyDiscount(request, noExistId))
+        .isInstanceOf(DiscountNotFound.class)
+        .hasMessage("해당 카테고리 할인이 존재하지 않습니다.");
+  }
+
+  @DisplayName("id로 단일 할인 상세정보를 조회한다.")
+  @Test
+  void getDiscount() {
+    // given
+    Category category = createCategory(null, "냉장");
+    categoryRepository.save(category);
+    Discount discount =
+        createDiscount(category, 20d, LocalDate.of(2023, 9, 29), LocalDate.of(2023, 9, 30), "test");
+    discountRepository.save(discount);
+    Long id = discount.getId();
+
+    // when
+    DiscountResponse discountResponse = discountService.getDiscount(id);
+    // then
+    assertThat(discountResponse)
+        .extracting("rate", "imgurl", "startDate", "endDate", "categoryName")
+        .containsExactlyInAnyOrder(
+            discount.getRate(),
+            discount.getImgurl(),
+            discount.getStartDate(),
+            discount.getEndDate(),
+            category.getName());
+  }
+
+  @DisplayName("존재하지 않는 할인 id로 조회 시 예외가 발생한다.")
+  @Test
+  void getDiscountWithNoExistId() {
+    // given
+    Long noExistId = 0L;
+
+    // when // then
+    assertThatThrownBy(() -> discountService.getDiscount(noExistId))
         .isInstanceOf(DiscountNotFound.class)
         .hasMessage("해당 카테고리 할인이 존재하지 않습니다.");
   }
