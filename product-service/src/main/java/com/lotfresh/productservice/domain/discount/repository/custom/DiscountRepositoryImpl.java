@@ -1,7 +1,6 @@
 package com.lotfresh.productservice.domain.discount.repository.custom;
 
 import com.lotfresh.productservice.domain.discount.entity.Discount;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 

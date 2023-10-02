@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,5 +34,10 @@ public class DiscountApiController {
   @GetMapping("/{discountId}")
   public ResponseEntity<DiscountResponse> getDiscount(@PathVariable("discountId") Long discountId) {
     return ResponseEntity.ok(discountService.getDiscount(discountId));
+  }
+
+  @GetMapping("")
+  public ResponseEntity<List<DiscountResponse>> getDiscounts() {
+    return ResponseEntity.ok(discountService.getDiscounts());
   }
 }
