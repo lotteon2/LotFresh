@@ -205,4 +205,15 @@ class DiscountApiControllerTest extends ControllerTestSupport {
             .andDo(print())
             .andExpect(status().isOk());
   }
+
+  @DisplayName("카테고리 할인 정보를 전체 조회한다.")
+  @Test
+  void getDiscounts() throws Exception {
+    // when // then
+    mockMvc
+            .perform(
+                    get("/discounts"))
+            .andDo(print())
+            .andExpect(status().isOk());
+  }
 }
