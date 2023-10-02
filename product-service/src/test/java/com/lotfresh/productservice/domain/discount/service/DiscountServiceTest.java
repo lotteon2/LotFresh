@@ -142,6 +142,18 @@ class DiscountServiceTest {
             category.getName());
   }
 
+  @DisplayName("존재하지 않는 할인 id로 조회 시 예외가 발생한다.")
+  @Test
+  void getDiscountWithNoExistId() {
+    // given
+    Long noExistId = 0L;
+
+    // when // then
+    assertThatThrownBy(() -> discountService.getDiscount(noExistId))
+        .isInstanceOf(DiscountNotFound.class)
+        .hasMessage("해당 카테고리 할인이 존재하지 않습니다.");
+  }
+
   private Discount createDiscount(
       Category category, Double rate, LocalDate startDate, LocalDate endDate, String imgurl) {
     return Discount.builder()
