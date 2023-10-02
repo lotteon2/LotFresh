@@ -31,7 +31,10 @@ public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
   @Override
   public List<Discount> findAllEager() {
     EntityGraph<?> entityGraph = em.getEntityGraph("Discount.findAllEager");
-    JPAQuery<Discount> discountJPAQuery = query.selectFrom(discount);
-    return discountJPAQuery.setHint("javax.persistence.fetchgraph", entityGraph).orderBy(discount.id.desc()).fetch();
+    return query
+        .selectFrom(discount)
+        .setHint("javax.persistence.fetchgraph", entityGraph)
+        .orderBy(discount.id.desc())
+        .fetch();
   }
 }
