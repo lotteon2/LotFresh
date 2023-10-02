@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'test for CI/CD pipeline: Building...'
+                echo 'test for CI/CD pipeline: Building...plz it it 5 am..'
             }
         }
         stage('Test') {
