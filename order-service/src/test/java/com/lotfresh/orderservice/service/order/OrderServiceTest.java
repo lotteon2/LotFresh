@@ -47,13 +47,9 @@ class OrderServiceTest {
                 createProductRequest(3L, 1000L, 3L),
                 createProductRequest(4L, 10000L, 4L)
         );
-        OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
-                .userId(userId)
-                .productRequests(productRequests)
-                .build();
 
         // when
-        orderService.insertOrder(orderCreateRequest);
+        orderService.insertOrder(userId,productRequests);
 
         // then
         List<Order> orders = orderRepository.findAll();
@@ -198,12 +194,8 @@ class OrderServiceTest {
         orderRepository.save(order);
         productOrderRepository.save(productOrder);
 
-        OrderRefundRequest orderRefundRequest = OrderRefundRequest.builder()
-                .productOrderId(productOrderId)
-                .build();
-
         // when
-        orderService.refundOrder(orderRefundRequest);
+        orderService.refundOrder(productOrderId);
 
         em.flush();
         em.clear();

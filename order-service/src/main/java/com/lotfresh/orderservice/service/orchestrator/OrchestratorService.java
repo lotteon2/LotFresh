@@ -1,9 +1,8 @@
 package com.lotfresh.orderservice.service.orchestrator;
 
-import com.lotfresh.orderservice.domain.orchestrator.Orchestrator;
-import com.lotfresh.orderservice.domain.orchestrator.WorkflowStep;
-import com.lotfresh.orderservice.domain.orchestrator.WorkflowStepStatus;
+import com.lotfresh.orderservice.domain.orchestrator.*;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
+import com.lotfresh.orderservice.dto.request.OrderRefundRequest;
 import com.lotfresh.orderservice.service.order.OrderService;
 import com.lotfresh.orderservice.service.orchestrator.steps.InventoryStep;
 import com.lotfresh.orderservice.service.orchestrator.steps.OrderStep;
@@ -23,24 +22,34 @@ public class OrchestratorService {
     private final PaymentFeignClient paymentFeignClient;
 
     public void orderProduct(OrderCreateRequest orderCreateRequest) {
-        Orchestrator orchestrator = new Orchestrator(generateSteps(orderCreateRequest));
-        for (WorkflowStep step : orchestrator.getSteps()) {
-            try{
+        OrderWorkflow orderWorkflow = generateOrderWorkflow(orderCreateRequest);
+        doTransaction(orderWorkflow);
+    }
+
+    public void refundProduct(OrderRefundRequest orderRefundRequest) {
+
+    }
+
+    public void doTransaction(Workflow workflow) {
+        try{
+            for (WorkflowStep step : workflow.getSteps()) {
                 step.process();
-            }catch (Exception e){
-                revertOrder(orchestrator);
             }
+        }catch (Exception e){
+            revertOrder(workflow);
         }
     }
 
-    private List<WorkflowStep> generateSteps(OrderCreateRequest orderCreateRequest){
-        return List.of(new OrderStep(orderService,orderCreateRequest),
-                new InventoryStep(inventoryFeignClient,orderCreateRequest.getProductRequests()),
+    public OrderWorkflow generateOrderWorkflow(OrderCreateRequest orderCreateRequest){
+        List<WorkflowStep> workflowSteps = List.of(new OrderStep(orderService, orderCreateRequest),
+                new InventoryStep(inventoryFeignClient, orderCreateRequest.getProductRequests()),
                 new PaymentStep(paymentFeignClient, orderCreateRequest.getUserId()));
+
+        return OrderWorkflow.builder().workflowSteps(workflowSteps).build();
     }
 
-    private void revertOrder(Orchestrator orchestrator) {
-        orchestrator.getSteps().stream()
+    private void revertOrder(Workflow workflow) {
+        workflow.getSteps().stream()
                 .filter(WorkflowStep::isRevertTarget)
                 .forEach(WorkflowStep::revert);
     }

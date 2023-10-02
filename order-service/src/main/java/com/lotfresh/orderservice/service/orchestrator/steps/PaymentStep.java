@@ -32,4 +32,9 @@ public class PaymentStep implements WorkflowStep {
     public void changeStatus(WorkflowStepStatus status) {
         this.status = status;
     }
+
+    @Override
+    public WorkflowStepStatus getStatus() {
+        return status;
+    }
 }

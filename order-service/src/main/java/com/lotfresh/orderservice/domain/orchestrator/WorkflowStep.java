@@ -6,6 +6,7 @@ public interface WorkflowStep {
     void process();
     void revert();
     void changeStatus(WorkflowStepStatus status);
+    WorkflowStepStatus getStatus();
 
 
 }

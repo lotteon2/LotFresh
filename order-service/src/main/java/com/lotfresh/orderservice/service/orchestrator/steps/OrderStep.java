@@ -21,7 +21,8 @@ public class OrderStep implements WorkflowStep {
 
     @Override
     public void process() {
-        orderCreateResponse = orderService.insertOrder(orderCreateRequest);
+        orderCreateResponse = orderService.insertOrder(
+                orderCreateRequest.getUserId(),orderCreateRequest.getProductRequests());
         changeStatus(WorkflowStepStatus.COMPLETE);
     }
 
@@ -34,5 +35,10 @@ public class OrderStep implements WorkflowStep {
     @Override
     public void changeStatus(WorkflowStepStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public WorkflowStepStatus getStatus() {
+        return status;
     }
 }

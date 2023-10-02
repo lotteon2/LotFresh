@@ -30,13 +30,12 @@ public class OrderService {
     private final ProductOrderRepository productOrderRepository;
 
     @Transactional
-    public OrderCreateResponse insertOrder(OrderCreateRequest orderCreateRequest) {
+    public OrderCreateResponse insertOrder(Long userId, List<ProductRequest> productRequests) {
         Order order = Order.builder()
-                .authId(orderCreateRequest.getUserId())
+                .authId(userId)
                 .build();
         Order savedOrder = orderRepository.save(order);
 
-        List<ProductRequest> productRequests = orderCreateRequest.getProductRequests();
         List<ProductOrder> productOrders = productRequests.stream()
                 .map(productRequest -> productRequest.toEntity(savedOrder))
                 .collect(Collectors.toList());
@@ -51,7 +50,6 @@ public class OrderService {
                 .orderId(savedOrder.getId())
                 .productIds(productIds)
                 .build();
-
     }
 
     @Transactional
@@ -72,8 +70,8 @@ public class OrderService {
     }
 
     @Transactional
-    public void refundOrder(OrderRefundRequest orderRefundRequest) {
-        ProductOrder productOrder = productOrderRepository.findById(orderRefundRequest.getProductOrderId())
+    public void refundOrder(ProductOrderId productOrderId) {
+        ProductOrder productOrder = productOrderRepository.findById(productOrderId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
         productOrder.changeProductOrderStatus(ProductOrderStatus.CANCELED);
     }
