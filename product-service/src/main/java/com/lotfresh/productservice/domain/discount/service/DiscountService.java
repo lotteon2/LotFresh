@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -41,5 +44,10 @@ public class DiscountService {
         discountRepository.findByIdFetch(id).orElseThrow(() -> new DiscountNotFound());
     DiscountResponse discountResponse = DiscountResponse.of(discount);
     return discountResponse;
+  }
+
+  public List<DiscountResponse> getDiscounts() {
+    List<Discount> discountList = discountRepository.findAllEager();
+    return discountList.stream().map(DiscountResponse::of).collect(Collectors.toList());
   }
 }
