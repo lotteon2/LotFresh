@@ -17,9 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 class DiscountServiceTest {
@@ -152,6 +152,42 @@ class DiscountServiceTest {
     assertThatThrownBy(() -> discountService.getDiscount(noExistId))
         .isInstanceOf(DiscountNotFound.class)
         .hasMessage("해당 카테고리 할인이 존재하지 않습니다.");
+  }
+
+  @DisplayName("카테고리 할인을 전체 조회 한다.")
+  @Test
+  void getDiscounts() throws Exception {
+    // given
+    Category category1 = createCategory(null, "냉동");
+    Category category2 = createCategory(null, "냉장");
+    Category category3 = createCategory(category1, "야채");
+    Category category4 = createCategory(category2, "과일");
+    Category category5 = createCategory(category2, "정육");
+    Category category6 = createCategory(category4, "블루베리");
+    categoryRepository.saveAll(
+        List.of(category1, category2, category3, category4, category5, category6));
+
+    // 냉동->야채 할인, 냉장->정육 할인, 냉장->과일->블루베리 할인,
+    Discount discount1 =
+        createDiscount(
+            category3, 10d, LocalDate.of(2023, 9, 29), LocalDate.of(2023, 9, 30), "test1");
+    Discount discount2 =
+        createDiscount(
+            category5, 20d, LocalDate.of(2023, 9, 29), LocalDate.of(2023, 9, 30), "test2");
+    Discount discount3 =
+        createDiscount(
+            category6, 20d, LocalDate.of(2023, 9, 29), LocalDate.of(2023, 9, 30), "test3");
+
+    discountRepository.saveAll(List.of(discount1, discount2, discount3));
+
+    // when
+    List<DiscountResponse> discounts = discountService.getDiscounts();
+
+    // then
+    assertThat(discounts)
+        .extracting("rate", "imgurl", "categoryName")
+        .containsExactlyInAnyOrder(
+            tuple(20d, "test3", "블루베리"), tuple(20d, "test2", "정육"), tuple(10d, "test1", "야채"));
   }
 
   private Discount createDiscount(
