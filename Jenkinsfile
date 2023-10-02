@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'test for CI/CD pipeline: Building...plz it it 5 am..'
+                echo 'test for CI/CD pipeline: Building... push event works. now gonna check whether merge event works'
             }
         }
         stage('Test') {
