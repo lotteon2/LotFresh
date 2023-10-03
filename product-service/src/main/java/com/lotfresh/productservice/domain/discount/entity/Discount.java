@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@NamedEntityGraph(name = "Discount.findAllEager",attributeNodes = @NamedAttributeNode("category"))
 public class Discount {
 
   @Id

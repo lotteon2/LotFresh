@@ -47,7 +47,7 @@ public class DiscountService {
   }
 
   public List<DiscountResponse> getDiscounts() {
-    List<Discount> discountList = discountRepository.findAllEager();
+    List<Discount> discountList = discountRepository.findAllFetch();
     return discountList.stream().map(DiscountResponse::of).collect(Collectors.toList());
   }
 }

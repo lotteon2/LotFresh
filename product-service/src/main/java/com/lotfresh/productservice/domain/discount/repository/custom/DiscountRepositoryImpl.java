@@ -4,7 +4,6 @@ import com.lotfresh.productservice.domain.discount.entity.Discount;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
@@ -28,11 +27,11 @@ public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
   }
 
   @Override
-  public List<Discount> findAllEager() {
-    EntityGraph<?> entityGraph = em.getEntityGraph("Discount.findAllEager");
+  public List<Discount> findAllFetch() {
     return query
         .selectFrom(discount)
-        .setHint("javax.persistence.fetchgraph", entityGraph)
+        .join(discount.category)
+        .fetchJoin()
         .orderBy(discount.id.desc())
         .fetch();
   }
