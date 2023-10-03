@@ -1,4 +1,4 @@
-package com.lotfresh.orderservice.service.orchestrator.steps;
+package com.lotfresh.orderservice.service.orchestrator.steps.order;
 
 import com.lotfresh.orderservice.domain.orchestrator.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.WorkflowStepStatus;

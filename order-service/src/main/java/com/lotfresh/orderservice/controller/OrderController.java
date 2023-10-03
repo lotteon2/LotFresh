@@ -18,7 +18,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity insertOrder(@RequestBody OrderCreateRequest orderCreateRequest) {
-        orchestratorService.orderProduct(orderCreateRequest);
+        orchestratorService.orderTransaction(orderCreateRequest);
         return ResponseEntity.ok().build();
     }
 
@@ -30,7 +30,7 @@ public class OrderController {
 
     @PostMapping("/refund")
     public ResponseEntity refundOrder(@RequestBody OrderRefundRequest orderRefundRequest){
-        orchestratorService.refundProduct(orderRefundRequest);
+        orchestratorService.refundTransaction(orderRefundRequest);
         return ResponseEntity.ok().build();
     }
 

@@ -1,6 +1,7 @@
 package com.lotfresh.orderservice.service.orchestrator;
 
 import com.lotfresh.orderservice.domain.orchestrator.OrderWorkflow;
+import com.lotfresh.orderservice.domain.orchestrator.WorkflowGenerator;
 import com.lotfresh.orderservice.domain.orchestrator.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.WorkflowStepStatus;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
@@ -9,7 +10,6 @@ import com.lotfresh.orderservice.service.orchestrator.feigns.InventoryFeignClien
 import com.lotfresh.orderservice.service.orchestrator.feigns.PaymentFeignClient;
 import com.lotfresh.orderservice.service.order.OrderService;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,15 +35,8 @@ class OrchestratorServiceTest {
     @MockBean
     private PaymentFeignClient paymentFeignClient;
 
+    @Autowired
     private OrchestratorService orchestratorService;
-
-    @BeforeEach
-    public void beforeEach() {
-        orchestratorService =
-                new OrchestratorService(orderService,inventoryFeignClient,paymentFeignClient);
-
-    }
-
 
     @DisplayName("주문, 재고차감, 결제가 모두 정상적으로 처리됐을 때 주문이 성공한다")
     @Test
@@ -66,7 +59,10 @@ class OrchestratorServiceTest {
                 .productRequests(productRequests)
                 .build();
 
-        OrderWorkflow orderWorkflow = orchestratorService.generateOrderWorkflow(orderCreateRequest);
+        WorkflowGenerator workflowGenerator =
+                new WorkflowGenerator(orderService,inventoryFeignClient,paymentFeignClient);
+
+        OrderWorkflow orderWorkflow = workflowGenerator.generateOrderWorkflow(orderCreateRequest);
 
         // when
         orchestratorService.doTransaction(orderWorkflow);
@@ -99,7 +95,10 @@ class OrchestratorServiceTest {
                 .productRequests(productRequests)
                 .build();
 
-        OrderWorkflow orderWorkflow = orchestratorService.generateOrderWorkflow(orderCreateRequest);
+        WorkflowGenerator workflowGenerator =
+                new WorkflowGenerator(orderService,inventoryFeignClient,paymentFeignClient);
+
+        OrderWorkflow orderWorkflow = workflowGenerator.generateOrderWorkflow(orderCreateRequest);
 
         // when
         orchestratorService.doTransaction(orderWorkflow);

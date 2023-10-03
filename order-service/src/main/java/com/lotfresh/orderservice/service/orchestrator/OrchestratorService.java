@@ -3,52 +3,34 @@ package com.lotfresh.orderservice.service.orchestrator;
 import com.lotfresh.orderservice.domain.orchestrator.*;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
 import com.lotfresh.orderservice.dto.request.OrderRefundRequest;
-import com.lotfresh.orderservice.service.order.OrderService;
-import com.lotfresh.orderservice.service.orchestrator.steps.InventoryStep;
-import com.lotfresh.orderservice.service.orchestrator.steps.OrderStep;
-import com.lotfresh.orderservice.service.orchestrator.steps.PaymentStep;
-import com.lotfresh.orderservice.service.orchestrator.feigns.InventoryFeignClient;
-import com.lotfresh.orderservice.service.orchestrator.feigns.PaymentFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class OrchestratorService {
-    private final OrderService orderService;
-    private final InventoryFeignClient inventoryFeignClient;
-    private final PaymentFeignClient paymentFeignClient;
+    private final WorkflowGenerator workflowGenerator;
 
-    public void orderProduct(OrderCreateRequest orderCreateRequest) {
-        OrderWorkflow orderWorkflow = generateOrderWorkflow(orderCreateRequest);
+    public void orderTransaction(OrderCreateRequest orderCreateRequest) {
+        OrderWorkflow orderWorkflow = workflowGenerator.generateOrderWorkflow(orderCreateRequest);
         doTransaction(orderWorkflow);
     }
 
-    public void refundProduct(OrderRefundRequest orderRefundRequest) {
-
+    public void refundTransaction(OrderRefundRequest orderRefundRequest) {
+        RefundWorkflow refundWorkflow = workflowGenerator.generateRefundWorkflow(orderRefundRequest);
+        doTransaction(refundWorkflow);
     }
 
     public void doTransaction(Workflow workflow) {
-        try{
-            for (WorkflowStep step : workflow.getSteps()) {
-                step.process();
-            }
-        }catch (Exception e){
-            revertOrder(workflow);
+        try {
+            workflow.getSteps().stream()
+                    .forEach(WorkflowStep::process);
+        } catch (Exception e) {
+            revertProcess(workflow);
         }
     }
 
-    public OrderWorkflow generateOrderWorkflow(OrderCreateRequest orderCreateRequest){
-        List<WorkflowStep> workflowSteps = List.of(new OrderStep(orderService, orderCreateRequest),
-                new InventoryStep(inventoryFeignClient, orderCreateRequest.getProductRequests()),
-                new PaymentStep(paymentFeignClient, orderCreateRequest.getUserId()));
-
-        return OrderWorkflow.builder().workflowSteps(workflowSteps).build();
-    }
-
-    private void revertOrder(Workflow workflow) {
+    private void revertProcess(Workflow workflow) {
         workflow.getSteps().stream()
                 .filter(WorkflowStep::isRevertTarget)
                 .forEach(WorkflowStep::revert);

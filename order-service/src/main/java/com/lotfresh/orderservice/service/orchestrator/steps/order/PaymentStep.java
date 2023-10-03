@@ -1,17 +1,14 @@
-package com.lotfresh.orderservice.service.orchestrator.steps;
+package com.lotfresh.orderservice.service.orchestrator.steps.order;
 
 import com.lotfresh.orderservice.domain.orchestrator.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.WorkflowStepStatus;
-import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
-import com.lotfresh.orderservice.dto.response.OrderCreateResponse;
-import com.lotfresh.orderservice.service.order.OrderService;
+import com.lotfresh.orderservice.service.orchestrator.feigns.PaymentFeignClient;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class OrderStep implements WorkflowStep {
-    private final OrderService orderService;
-    private final OrderCreateRequest orderCreateRequest;
-    private OrderCreateResponse orderCreateResponse;
+public class PaymentStep implements WorkflowStep {
+    private final PaymentFeignClient feignClient;
+    private final Long userId;
     private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
 
     @Override
@@ -21,14 +18,13 @@ public class OrderStep implements WorkflowStep {
 
     @Override
     public void process() {
-        orderCreateResponse = orderService.insertOrder(
-                orderCreateRequest.getUserId(),orderCreateRequest.getProductRequests());
+        feignClient.requestPayment(userId);
         changeStatus(WorkflowStepStatus.COMPLETE);
     }
 
     @Override
     public void revert() {
-        orderService.revertInsertOrder(orderCreateResponse);
+        feignClient.revertRequestPayment(userId);
         changeStatus(WorkflowStepStatus.FAILED);
     }
 
