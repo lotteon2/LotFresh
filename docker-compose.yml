@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services:
   mysql-product:
     image: mysql:latest
@@ -15,6 +15,10 @@ services:
       - "3306:3306"
     networks:
       - lot-fresh
+    deploy:
+      resources:
+        limits:
+          memory: 100M
 
   mysql-order:
     image: mysql:latest
@@ -31,6 +35,10 @@ services:
       - "3307:3306"
     networks:
       - lot-fresh
+    deploy:
+      resources:
+        limits:
+          memory: 100M
 
   mysql-payment:
     image: mysql:latest
@@ -47,6 +55,10 @@ services:
       - "3308:3306"
     networks:
       - lot-fresh
+    deploy:
+      resources:
+        limits:
+          memory: 100M
 
   mysql-storage:
     image: mysql:latest
@@ -63,6 +75,10 @@ services:
       - "3309:3306"
     networks:
       - lot-fresh
+    deploy:
+      resources:
+        limits:
+          memory: 100M
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -71,6 +87,10 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     networks:
       - lot-fresh
+    deploy:
+      resources:
+        limits:
+          memory: 200M
 
   kafka1:
     image: confluentinc/cp-kafka:latest
@@ -85,6 +105,10 @@ services:
       - "9092:9092"
     networks:
       - lot-fresh
+    deploy:
+      resources:
+        limits:
+          memory: 200M
 
   kafka2:
     image: confluentinc/cp-kafka:latest
@@ -99,6 +123,10 @@ services:
       - "9093:9093"
     networks:
       - lot-fresh
+    deploy:
+      resources:
+        limits:
+          memory: 200M
 
   kafka3:
     image: confluentinc/cp-kafka:latest
@@ -113,6 +141,10 @@ services:
       - "9094:9094"
     networks:
       - lot-fresh
+    deploy:
+      resources:
+        limits:
+          memory: 200M
 
 volumes:
   product-data:
