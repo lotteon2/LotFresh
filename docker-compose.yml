@@ -18,7 +18,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M
+          memory: 200M
 
   mysql-order:
     image: mysql:latest
@@ -38,7 +38,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M
+          memory: 200M
 
   mysql-payment:
     image: mysql:latest
@@ -58,7 +58,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M
+          memory: 300M
 
   mysql-storage:
     image: mysql:latest
@@ -78,7 +78,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M
+          memory: 300M
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -90,7 +90,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 200M
+          memory: 300M
 
   kafka1:
     image: confluentinc/cp-kafka:latest
@@ -108,7 +108,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 200M
+          memory: 300M
 
   kafka2:
     image: confluentinc/cp-kafka:latest
@@ -126,7 +126,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 200M
+          memory: 300M
 
   kafka3:
     image: confluentinc/cp-kafka:latest
@@ -144,7 +144,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 200M
+          memory: 300M
 
 volumes:
   product-data:
