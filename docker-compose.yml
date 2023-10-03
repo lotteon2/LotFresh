@@ -15,10 +15,10 @@ services:
       - "3306:3306"
     networks:
       - lot-fresh
-    deploy:
-      resources:
-        limits:
-          memory: 200M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 200M
 
   mysql-order:
     image: mysql:latest
@@ -35,10 +35,10 @@ services:
       - "3307:3306"
     networks:
       - lot-fresh
-    deploy:
-      resources:
-        limits:
-          memory: 200M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 200M
 
   mysql-payment:
     image: mysql:latest
@@ -55,10 +55,10 @@ services:
       - "3308:3306"
     networks:
       - lot-fresh
-    deploy:
-      resources:
-        limits:
-          memory: 300M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 300M
 
   mysql-storage:
     image: mysql:latest
@@ -75,10 +75,10 @@ services:
       - "3309:3306"
     networks:
       - lot-fresh
-    deploy:
-      resources:
-        limits:
-          memory: 300M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 300M
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -87,10 +87,10 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     networks:
       - lot-fresh
-    deploy:
-      resources:
-        limits:
-          memory: 300M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 300M
 
   kafka1:
     image: confluentinc/cp-kafka:latest
@@ -105,10 +105,10 @@ services:
       - "9092:9092"
     networks:
       - lot-fresh
-    deploy:
-      resources:
-        limits:
-          memory: 300M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 300M
 
   # kafka2:
   #   image: confluentinc/cp-kafka:latest
