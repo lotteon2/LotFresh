@@ -23,7 +23,8 @@ public class ProductService {
         categoryRepository
             .findById(request.getCategoryId())
             .orElseThrow(() -> new CategoryNotFound());
-    Product savedProduct = request.toEntity(category);
+    Product product = request.toEntity(category);
+    Product savedProduct = productRepository.save(product);
     return savedProduct.getId();
   }
 }
