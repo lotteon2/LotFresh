@@ -37,7 +37,7 @@ public class Product extends BaseEntity {
   @Column(nullable = false)
   private Integer price;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String productCode;
 
   @Builder
