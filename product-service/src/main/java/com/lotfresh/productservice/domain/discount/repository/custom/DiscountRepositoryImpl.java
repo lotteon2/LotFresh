@@ -4,7 +4,6 @@ import com.lotfresh.productservice.domain.discount.entity.Discount;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +12,6 @@ import static com.lotfresh.productservice.domain.discount.entity.QDiscount.disco
 @RequiredArgsConstructor
 public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
   private final JPAQueryFactory query;
-  private final EntityManager em;
 
   @Override
   public Optional<Discount> findByIdFetch(Long id) {

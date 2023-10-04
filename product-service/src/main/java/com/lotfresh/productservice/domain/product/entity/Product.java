@@ -55,4 +55,19 @@ public class Product extends BaseEntity {
     this.price = price;
     this.productCode = productCode;
   }
+
+  public void changeProduct(
+      Category category,
+      String name,
+      String thumbnail,
+      String detail,
+      Integer price,
+      String productCode) {
+    this.category = category;
+    this.name = name;
+    this.thumbnail = thumbnail;
+    this.detail = detail;
+    this.price = price;
+    this.productCode = productCode;
+  }
 }
