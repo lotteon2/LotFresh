@@ -17,7 +17,7 @@ public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
   public Optional<Discount> findByIdFetch(Long id) {
     return Optional.ofNullable(
         query
-            .selectFrom(discount
+            .selectFrom(discount)
             .join(discount.category)
             .fetchJoin()
             .where(discount.id.eq(id))
