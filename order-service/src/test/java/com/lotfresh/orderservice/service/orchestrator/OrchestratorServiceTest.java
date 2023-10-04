@@ -1,9 +1,6 @@
 package com.lotfresh.orderservice.service.orchestrator;
 
-import com.lotfresh.orderservice.domain.orchestrator.OrderWorkflow;
-import com.lotfresh.orderservice.domain.orchestrator.WorkflowGenerator;
-import com.lotfresh.orderservice.domain.orchestrator.WorkflowStep;
-import com.lotfresh.orderservice.domain.orchestrator.WorkflowStepStatus;
+import com.lotfresh.orderservice.domain.orchestrator.*;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
 import com.lotfresh.orderservice.dto.request.ProductRequest;
 import com.lotfresh.orderservice.service.orchestrator.feigns.InventoryFeignClient;
@@ -59,16 +56,13 @@ class OrchestratorServiceTest {
                 .productRequests(productRequests)
                 .build();
 
-        WorkflowGenerator workflowGenerator =
-                new WorkflowGenerator(orderService,inventoryFeignClient,paymentFeignClient);
-
-        OrderWorkflow orderWorkflow = workflowGenerator.generateOrderWorkflow(orderCreateRequest);
+        Orchestrator orchestrator = orchestratorService.orderTransaction(orderCreateRequest);
 
         // when
-        orchestratorService.doTransaction(orderWorkflow);
+        orchestrator.doTransaction();
 
         // then
-        for (WorkflowStep step : orderWorkflow.getSteps()) {
+        for (WorkflowStep step : orchestrator.getWorkflow().getSteps()) {
             Assertions.assertThat(step.getStatus()).isEqualTo(WorkflowStepStatus.COMPLETE);
         }
     }
@@ -95,20 +89,15 @@ class OrchestratorServiceTest {
                 .productRequests(productRequests)
                 .build();
 
-        WorkflowGenerator workflowGenerator =
-                new WorkflowGenerator(orderService,inventoryFeignClient,paymentFeignClient);
-
-        OrderWorkflow orderWorkflow = workflowGenerator.generateOrderWorkflow(orderCreateRequest);
+        Orchestrator orchestrator = orchestratorService.orderTransaction(orderCreateRequest);
 
         // when
-        orchestratorService.doTransaction(orderWorkflow);
+        orchestrator.doTransaction();
 
         // then
-        Assertions.assertThat(orderWorkflow.getSteps().get(0).getStatus()).isEqualTo(WorkflowStepStatus.FAILED);
-        Assertions.assertThat(orderWorkflow.getSteps().get(1).getStatus()).isEqualTo(WorkflowStepStatus.FAILED);
-
+        Assertions.assertThat(orchestrator.getWorkflow().getSteps().get(0).getStatus()).isEqualTo(WorkflowStepStatus.FAILED);
+        Assertions.assertThat(orchestrator.getWorkflow().getSteps().get(1).getStatus()).isEqualTo(WorkflowStepStatus.FAILED);
     }
-
 
 
     private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){

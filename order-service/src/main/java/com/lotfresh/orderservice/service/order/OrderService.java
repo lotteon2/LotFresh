@@ -6,8 +6,6 @@ import com.lotfresh.orderservice.domain.productOrder.ProductOrder;
 import com.lotfresh.orderservice.domain.productOrder.ProductOrderId;
 import com.lotfresh.orderservice.domain.productOrder.ProductOrderStatus;
 import com.lotfresh.orderservice.dto.request.OrderChangeStatusRequest;
-import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
-import com.lotfresh.orderservice.dto.request.OrderRefundRequest;
 import com.lotfresh.orderservice.dto.request.ProductRequest;
 import com.lotfresh.orderservice.dto.response.OrderCreateResponse;
 import com.lotfresh.orderservice.exception.CustomException;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -59,7 +56,7 @@ public class OrderService {
         order.softDelete();
 
         List<ProductOrder> productOrders = productOrderRepository.findAllById(orderCreateResponse.getProductIds());
-        productOrders.stream().forEach(ProductOrder::softDelete);
+        productOrders.forEach(ProductOrder::softDelete);
     }
 
     @Transactional

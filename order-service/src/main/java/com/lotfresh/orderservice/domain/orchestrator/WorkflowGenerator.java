@@ -1,7 +1,6 @@
 package com.lotfresh.orderservice.domain.orchestrator;
 
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
-import com.lotfresh.orderservice.dto.request.OrderRefundRequest;
 import com.lotfresh.orderservice.service.orchestrator.feigns.InventoryFeignClient;
 import com.lotfresh.orderservice.service.orchestrator.feigns.PaymentFeignClient;
 import com.lotfresh.orderservice.service.orchestrator.steps.order.InventoryStep;
@@ -27,10 +26,4 @@ public class WorkflowGenerator {
 
         return OrderWorkflow.builder().workflowSteps(workflowSteps).build();
     }
-
-    public RefundWorkflow generateRefundWorkflow(OrderRefundRequest orderRefundRequest){
-
-        return null;
-    }
-
 }

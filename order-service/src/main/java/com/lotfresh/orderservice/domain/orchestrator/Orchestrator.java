@@ -1,15 +1,16 @@
 package com.lotfresh.orderservice.domain.orchestrator;
 
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class Orchestrator {
     Workflow workflow;
 
     public void doTransaction() {
         try {
-            workflow.getSteps()
-                    .forEach(WorkflowStep::process);
+            workflow.getSteps().forEach(WorkflowStep::process);
         } catch (Exception e) {
             revertProcess();
         }

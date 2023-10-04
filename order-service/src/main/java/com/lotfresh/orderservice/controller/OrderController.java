@@ -2,7 +2,6 @@ package com.lotfresh.orderservice.controller;
 
 import com.lotfresh.orderservice.dto.request.OrderChangeStatusRequest;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
-import com.lotfresh.orderservice.dto.request.OrderRefundRequest;
 import com.lotfresh.orderservice.service.orchestrator.OrchestratorService;
 import com.lotfresh.orderservice.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +24,6 @@ public class OrderController {
     @PatchMapping("/status")
     public ResponseEntity changeStatus(@RequestBody OrderChangeStatusRequest orderChangeStatusRequest) {
         orderService.changeProductOrderStatus(orderChangeStatusRequest);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/refund")
-    public ResponseEntity refundOrder(@RequestBody OrderRefundRequest orderRefundRequest){
-        orchestratorService.refundTransaction(orderRefundRequest);
         return ResponseEntity.ok().build();
     }
 
