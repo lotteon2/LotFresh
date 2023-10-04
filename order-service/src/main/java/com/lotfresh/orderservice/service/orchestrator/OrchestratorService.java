@@ -1,6 +1,8 @@
 package com.lotfresh.orderservice.service.orchestrator;
 
-import com.lotfresh.orderservice.domain.orchestrator.*;
+import com.lotfresh.orderservice.domain.orchestrator.Orchestrator;
+import com.lotfresh.orderservice.domain.orchestrator.Workflow;
+import com.lotfresh.orderservice.domain.orchestrator.WorkflowGenerator;
 import com.lotfresh.orderservice.dto.request.OrderCreateRequest;
 import com.lotfresh.orderservice.dto.request.OrderRefundRequest;
 import lombok.RequiredArgsConstructor;
@@ -12,28 +14,21 @@ public class OrchestratorService {
     private final WorkflowGenerator workflowGenerator;
 
     public void orderTransaction(OrderCreateRequest orderCreateRequest) {
-        OrderWorkflow orderWorkflow = workflowGenerator.generateOrderWorkflow(orderCreateRequest);
-        doTransaction(orderWorkflow);
+        // 리턴값을 주는게 어떤지?
+        Workflow orderWorkflow = workflowGenerator.generateOrderWorkflow(orderCreateRequest);
+        Orchestrator orderOrchestrator = Orchestrator.builder()
+                .workflow(orderWorkflow)
+                .build();
+        orderOrchestrator.doTransaction();
     }
 
     public void refundTransaction(OrderRefundRequest orderRefundRequest) {
-        RefundWorkflow refundWorkflow = workflowGenerator.generateRefundWorkflow(orderRefundRequest);
-        doTransaction(refundWorkflow);
+        Workflow refundWorkflow = workflowGenerator.generateRefundWorkflow(orderRefundRequest);
+        Orchestrator refundOrchestrator = Orchestrator.builder()
+                .workflow(refundWorkflow)
+                .build();
+        refundOrchestrator.doTransaction();
     }
 
-    public void doTransaction(Workflow workflow) {
-        try {
-            workflow.getSteps().stream()
-                    .forEach(WorkflowStep::process);
-        } catch (Exception e) {
-            revertProcess(workflow);
-        }
-    }
-
-    private void revertProcess(Workflow workflow) {
-        workflow.getSteps().stream()
-                .filter(WorkflowStep::isRevertTarget)
-                .forEach(WorkflowStep::revert);
-    }
 
 }
