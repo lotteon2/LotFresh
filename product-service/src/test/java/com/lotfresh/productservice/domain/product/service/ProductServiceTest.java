@@ -136,6 +136,35 @@ class ProductServiceTest {
         .hasMessage("해당 카테고리가 존재하지 않습니다.");
   }
 
+  @DisplayName("상품을 (논리) 삭제한다")
+  @Test
+  void softDelete() throws Exception {
+    // given
+    Category category = createCategory(null, "냉장");
+    categoryRepository.save(category);
+    Product product = createProduct(category, "충주사과", "thumbnail.jpeg", "detail", 5000, "P001");
+    productRepository.save(product);
+
+    // when
+    productService.softDelete(product.getId());
+
+    // then
+    em.clear();
+    Product getProduct = productRepository.findById(product.getId()).get();
+    assertThat(getProduct.getIsDeleted()).isTrue();
+  }
+
+  @DisplayName("상품을 (논리) 삭제 시 존재하지 않는 상품이면 예외가 발생한다.")
+  @Test
+  void softDeleteWithNoExistProductId() throws Exception {
+    // given
+    Long noExistProductId = 0L;
+    // when // then
+    assertThatThrownBy(() -> productService.softDelete(noExistProductId))
+        .isInstanceOf(ProductNotFound.class)
+        .hasMessage("해당 상품이 존재하지 않습니다.");
+  }
+
   private Product createProduct(
       Category category,
       String name,

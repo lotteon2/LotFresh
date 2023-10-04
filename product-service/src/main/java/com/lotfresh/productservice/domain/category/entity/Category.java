@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@DynamicInsert
 public class Category {
 
   @OneToMany(mappedBy = "parent")
@@ -29,7 +31,7 @@ public class Category {
   private Category parent;
 
   @Column(nullable = false, columnDefinition = "boolean default false")
-  private Boolean isDeleted = false;
+  private Boolean isDeleted;
 
   @Builder
   private Category(String name, Category parent) {
