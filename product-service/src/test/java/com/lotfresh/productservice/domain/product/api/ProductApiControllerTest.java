@@ -360,4 +360,16 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
         .andExpect(jsonPath("$.validation.productCode").value("productCode can not be empty"));
   }
+
+  @DisplayName("상품을 (논리) 삭제 한다.")
+  @Test
+  void softDeleteProduct() throws Exception {
+    Long productId = 0L;
+
+    // when // then
+    mockMvc
+        .perform(patch("/products/{productId}", productId))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
 }
