@@ -4,7 +4,9 @@ import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
 import com.lotfresh.productservice.domain.product.api.request.ProductCreateRequest;
+import com.lotfresh.productservice.domain.product.api.request.ProductModifyRequest;
 import com.lotfresh.productservice.domain.product.entity.Product;
+import com.lotfresh.productservice.domain.product.exception.ProductNotFound;
 import com.lotfresh.productservice.domain.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,5 +28,23 @@ public class ProductService {
     Product product = request.toEntity(category);
     Product savedProduct = productRepository.save(product);
     return savedProduct.getId();
+  }
+
+  @Transactional
+  public void modifyProduct(ProductModifyRequest request, Long id) {
+    Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFound());
+
+    Category category =
+        categoryRepository
+            .findById(request.getCategoryId())
+            .orElseThrow(() -> new CategoryNotFound());
+
+    product.changeProduct(
+        category,
+        request.getName(),
+        request.getThumbnail(),
+        request.getDetail(),
+        request.getPrice(),
+        request.getProductCode());
   }
 }
