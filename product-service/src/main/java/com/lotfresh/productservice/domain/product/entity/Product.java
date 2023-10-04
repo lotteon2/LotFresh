@@ -40,6 +40,9 @@ public class Product extends BaseEntity {
   @Column(nullable = false, unique = true)
   private String productCode;
 
+  @Column(nullable = false, columnDefinition = "boolean default false")
+  private Boolean isDeleted = false;
+
   @Builder
   private Product(
       Category category,
@@ -69,5 +72,9 @@ public class Product extends BaseEntity {
     this.detail = detail;
     this.price = price;
     this.productCode = productCode;
+  }
+
+  public void softDelete() {
+    this.isDeleted = true;
   }
 }

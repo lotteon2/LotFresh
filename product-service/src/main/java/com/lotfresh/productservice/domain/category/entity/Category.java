@@ -28,7 +28,7 @@ public class Category {
   @JoinColumn(name = "parent_id", foreignKey = @ForeignKey(name = "fk_category_to_parent_category"))
   private Category parent;
 
-  @Column(nullable = true, columnDefinition = "boolean default false")
+  @Column(nullable = false, columnDefinition = "boolean default false")
   private Boolean isDeleted = false;
 
   @Builder

@@ -47,4 +47,10 @@ public class ProductService {
         request.getPrice(),
         request.getProductCode());
   }
+
+  @Transactional
+  public void softDelete(Long id) {
+    Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFound());
+    product.softDelete();
+  }
 }
