@@ -3,6 +3,7 @@ package com.lotfresh.productservice.domain.product.api;
 import com.lotfresh.productservice.domain.product.api.request.ProductCreateRequest;
 import com.lotfresh.productservice.domain.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,6 @@ public class ProductApiController {
 
   @PostMapping("")
   public ResponseEntity<Long> createProduct(@Valid @RequestBody ProductCreateRequest request) {
-    return ResponseEntity.ok(productService.createProduct(request));
+    return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(request));
   }
 }
