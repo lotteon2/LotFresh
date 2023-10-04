@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.aggregate.orchestrator.controller.request;
 
+import com.lotfresh.orderservice.aggregate.orchestrator.feigns.request.InventoryRequest;
 import com.lotfresh.orderservice.aggregate.order.domain.Order;
 import com.lotfresh.orderservice.aggregate.productOrder.domain.ProductOrder;
 import com.lotfresh.orderservice.aggregate.productOrder.domain.ProductOrderId;
@@ -27,6 +28,14 @@ public class ProductRequest {
                 .status(ProductOrderStatus.CREATED)
                 .build();
     }
+
+    public InventoryRequest toInventoryRequest(){
+        return InventoryRequest.builder()
+                .productId(productId)
+                .productQuantity(productQuantity)
+                .build();
+    }
+
     private ProductOrderId buildProductOrderId(Long productId) {
         return ProductOrderId.builder()
                 .productId(productId)

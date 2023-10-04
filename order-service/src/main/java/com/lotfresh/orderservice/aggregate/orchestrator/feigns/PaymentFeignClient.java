@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name="Payment",url="localhost:80/api/payments")
 public interface PaymentFeignClient {
     @PostMapping("/kakaopay/request")
-    ResponseEntity requestPayment(@RequestBody Long userId);
+    ResponseEntity requestPayment();
     @PostMapping("/kakaopay/revertRequest")
-    ResponseEntity revertRequestPayment(@RequestBody Long userId);
+    ResponseEntity revertRequestPayment();
 }

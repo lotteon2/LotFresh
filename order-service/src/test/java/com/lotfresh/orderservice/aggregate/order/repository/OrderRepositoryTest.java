@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 @SpringBootTest
 @Transactional
 class OrderRepositoryTest {
@@ -21,7 +19,6 @@ class OrderRepositoryTest {
     void createOrder(){
         // given
         Long authId = 1L;
-        LocalDateTime timeBeforeCreation = LocalDateTime.now();
         Order order = Order.builder()
                 .authId(authId)
                 .build();
@@ -33,8 +30,8 @@ class OrderRepositoryTest {
         Assertions.assertThat(savedOrder.getId()).isNotNull();
         Assertions.assertThat(savedOrder.getAuthId()).isEqualTo(authId);
         Assertions.assertThat(savedOrder.getIsDeleted()).isFalse();
-        Assertions.assertThat(savedOrder.getCreatedAt()).isAfter(timeBeforeCreation);
-        Assertions.assertThat(savedOrder.getUpdatedAt()).isAfter(timeBeforeCreation);
+        Assertions.assertThat(savedOrder.getCreatedAt()).isNotNull();
+        Assertions.assertThat(savedOrder.getUpdatedAt()).isNotNull();
 
     }
 

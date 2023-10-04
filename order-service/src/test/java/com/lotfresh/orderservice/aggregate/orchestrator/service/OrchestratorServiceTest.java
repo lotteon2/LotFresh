@@ -40,10 +40,9 @@ class OrchestratorServiceTest {
         // given
         BDDMockito.given(inventoryFeignClient.deductQuantity(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.requestPayment())
                 .willReturn(ResponseEntity.ok().build());
 
-        Long userId = 1L;
         List<ProductRequest> productRequests  = List.of(
                 createProductRequest(1L, 100L, 1L),
                 createProductRequest(2L, 500L, 2L),
@@ -51,7 +50,6 @@ class OrchestratorServiceTest {
                 createProductRequest(4L, 10000L, 4L)
         );
         OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
-                .userId(userId)
                 .productRequests(productRequests)
                 .build();
 
@@ -72,11 +70,10 @@ class OrchestratorServiceTest {
         // given
         BDDMockito.given(inventoryFeignClient.deductQuantity(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.requestPayment())
                 .willThrow(new RuntimeException());
 
 
-        Long userId = 1L;
         List<ProductRequest> productRequests  = List.of(
                 createProductRequest(1L, 100L, 1L),
                 createProductRequest(2L, 500L, 2L),
@@ -84,7 +81,6 @@ class OrchestratorServiceTest {
                 createProductRequest(4L, 10000L, 4L)
         );
         OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
-                .userId(userId)
                 .productRequests(productRequests)
                 .build();
 

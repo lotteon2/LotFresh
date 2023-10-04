@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaymentStep implements WorkflowStep {
     private final PaymentFeignClient feignClient;
-    private final Long userId;
     private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
 
     @Override
@@ -18,13 +17,13 @@ public class PaymentStep implements WorkflowStep {
 
     @Override
     public void process() {
-        feignClient.requestPayment(userId);
+        feignClient.requestPayment();
         changeStatus(WorkflowStepStatus.COMPLETE);
     }
 
     @Override
     public void revert() {
-        feignClient.revertRequestPayment(userId);
+        feignClient.revertRequestPayment();
         changeStatus(WorkflowStepStatus.FAILED);
     }
 

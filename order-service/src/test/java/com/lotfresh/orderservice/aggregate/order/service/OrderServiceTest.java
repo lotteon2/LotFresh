@@ -37,7 +37,6 @@ class OrderServiceTest {
     @Test
     void insertOrder() {
         // given
-        Long userId = 1L;
         List<ProductRequest> productRequests  = List.of(
                 createProductRequest(1L, 100L, 1L),
                 createProductRequest(2L, 500L, 2L),
@@ -46,7 +45,7 @@ class OrderServiceTest {
         );
 
         // when
-        orderService.insertOrder(userId,productRequests);
+        orderService.insertOrder(productRequests);
 
         // then
         List<Order> orders = orderRepository.findAll();

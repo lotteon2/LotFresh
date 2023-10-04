@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.aggregate.orchestrator.domain.step.orderStep;
 
+import com.lotfresh.orderservice.aggregate.orchestrator.controller.request.ProductRequest;
 import com.lotfresh.orderservice.aggregate.orchestrator.domain.step.WorkflowStep;
 import com.lotfresh.orderservice.aggregate.orchestrator.domain.step.WorkflowStepStatus;
 import com.lotfresh.orderservice.aggregate.orchestrator.controller.request.OrderCreateRequest;
@@ -7,10 +8,12 @@ import com.lotfresh.orderservice.aggregate.orchestrator.service.response.OrderCr
 import com.lotfresh.orderservice.aggregate.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class OrderStep implements WorkflowStep {
     private final OrderService orderService;
-    private final OrderCreateRequest orderCreateRequest;
+    private final List<ProductRequest> productRequests;
     private OrderCreateResponse orderCreateResponse;
     private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
 
@@ -21,8 +24,7 @@ public class OrderStep implements WorkflowStep {
 
     @Override
     public void process() {
-        orderCreateResponse = orderService.insertOrder(
-                orderCreateRequest.getUserId(),orderCreateRequest.getProductRequests());
+        orderCreateResponse = orderService.insertOrder(productRequests);
         changeStatus(WorkflowStepStatus.COMPLETE);
     }
 

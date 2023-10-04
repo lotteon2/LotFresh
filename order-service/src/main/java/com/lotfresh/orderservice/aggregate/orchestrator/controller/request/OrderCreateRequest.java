@@ -12,6 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderCreateRequest {
-    private Long userId;
     private List<ProductRequest> productRequests;
 }

@@ -27,7 +27,9 @@ public class OrderService {
     private final ProductOrderRepository productOrderRepository;
 
     @Transactional
-    public OrderCreateResponse insertOrder(Long userId, List<ProductRequest> productRequests) {
+    public OrderCreateResponse insertOrder(List<ProductRequest> productRequests) {
+        // TODO : auth-service로부터 header로 userId 받기
+        Long userId = 1L;
         Order order = Order.builder()
                 .authId(userId)
                 .build();
