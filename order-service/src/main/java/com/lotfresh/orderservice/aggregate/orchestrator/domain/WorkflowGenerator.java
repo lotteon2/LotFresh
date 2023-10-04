@@ -9,6 +9,7 @@ import com.lotfresh.orderservice.aggregate.orchestrator.feigns.PaymentFeignClien
 import com.lotfresh.orderservice.aggregate.orchestrator.domain.step.orderStep.InventoryStep;
 import com.lotfresh.orderservice.aggregate.orchestrator.domain.step.orderStep.OrderStep;
 import com.lotfresh.orderservice.aggregate.orchestrator.domain.step.orderStep.PaymentStep;
+import com.lotfresh.orderservice.aggregate.orchestrator.feigns.request.InventoryRequest;
 import com.lotfresh.orderservice.aggregate.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,9 +25,12 @@ public class WorkflowGenerator {
     private final PaymentFeignClient paymentFeignClient;
 
     public OrderWorkflow generateOrderWorkflow(OrderCreateRequest orderCreateRequest){
+        List<InventoryRequest> inventoryRequests = orderCreateRequest.getProductRequests().stream()
+                .map(ProductRequest::toInventoryRequest)
+                .collect(Collectors.toList());
 
-        List<WorkflowStep> workflowSteps = List.of(new OrderStep(orderService, orderCreateRequest.getProductRequests()),
-                new InventoryStep(inventoryFeignClient, orderCreateRequest.getProductRequests().stream().map(ProductRequest::toInventoryRequest).collect(Collectors.toList())),
+        List<WorkflowStep> workflowSteps = List.of(new OrderStep(orderService,orderCreateRequest.getProductRequests()),
+                new InventoryStep(inventoryFeignClient,inventoryRequests),
                 new PaymentStep(paymentFeignClient));
 
         return OrderWorkflow.builder().workflowSteps(workflowSteps).build();
