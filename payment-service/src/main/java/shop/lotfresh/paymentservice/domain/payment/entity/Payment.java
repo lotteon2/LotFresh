@@ -1,7 +1,6 @@
 package shop.lotfresh.paymentservice.domain.payment.entity;
 
 import shop.lotfresh.paymentservice.common.BaseTimeEntity;
-import shop.lotfresh.paymentservice.domain.order.entity.Order;
 
 import javax.persistence.*;
 
@@ -29,11 +28,13 @@ public class Payment extends BaseTimeEntity {
     @Column(nullable = false)
     private String status;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="orderId")
-    private Order order;
-    // TODO: 회원테이블의 oauthid를 ordertable에서 FK로 가져오는데, 나는 MSA라서 member table까지는 안가지고 있을것임. 어떻게할까?
-    // order table에서 oauthid는 그냥 unique로 둬야하는가? (원래는 member_role table에서 FK로 가져옴)
-    //
+
+    // order table을 가지고 있지 않음. Relation Mapping을 사용하지 않음.
+    @Column(unique = true,
+            nullable = false)
+    private Long orderId;
+
+    @Column(nullable = false)
+    private Long oauthId;
 
 }
