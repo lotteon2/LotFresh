@@ -16,10 +16,12 @@ public class ProductResponse {
   private String productCode;
   private Long categoryId;
   private String categoryName;
+  private Long parentId;
+  private String parentName;
   private Integer stock;
 
   @Builder
-  public ProductResponse(
+  private ProductResponse(
       Long id,
       String name,
       String thumbnail,
@@ -28,6 +30,8 @@ public class ProductResponse {
       String productCode,
       Long categoryId,
       String categoryName,
+      Long parentId,
+      String parentName,
       Integer stock) {
     this.id = id;
     this.name = name;
@@ -37,6 +41,8 @@ public class ProductResponse {
     this.productCode = productCode;
     this.categoryId = categoryId;
     this.categoryName = categoryName;
+    this.parentId = parentId;
+    this.parentName = parentName;
     this.stock = stock;
   }
 
@@ -50,6 +56,14 @@ public class ProductResponse {
         .productCode(product.getProductCode())
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())
+        .parentId(
+            product.getCategory().getParent() != null
+                ? product.getCategory().getParent().getId()
+                : null)
+        .parentName(
+            product.getCategory().getParent() != null
+                ? product.getCategory().getParent().getName()
+                : null)
         .stock(stock)
         .build();
   }

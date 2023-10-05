@@ -171,12 +171,14 @@ class ProductServiceTest {
   void getProductDetail() throws Exception {
     // given
     Integer stock = 10;
-    Category category = createCategory(null, "냉장");
-    categoryRepository.save(category);
-    Product product = createProduct(category, "충주사과", "thumbnail.jpeg", "detail", 5000, "P001");
+    Category category1 = createCategory(null, "냉장");
+    Category category2 = createCategory(category1, "과일");
+    categoryRepository.saveAll(List.of(category1, category2));
+    Product product = createProduct(category2, "충주사과", "thumbnail.jpeg", "detail", 5000, "P001");
     productRepository.save(product);
     // when
     ProductResponse productDetail = productService.getProductDetail(product.getId(), stock);
+
     // then
     assertThat(productDetail)
         .extracting(
@@ -188,6 +190,8 @@ class ProductServiceTest {
             "productCode",
             "categoryId",
             "categoryName",
+            "parentId",
+            "parentName",
             "stock")
         .containsExactlyInAnyOrder(
             product.getId(),
@@ -196,7 +200,9 @@ class ProductServiceTest {
             "detail",
             5000,
             "P001",
-            category.getId(),
+            category2.getId(),
+            "과일",
+            category1.getId(),
             "냉장",
             stock);
   }
