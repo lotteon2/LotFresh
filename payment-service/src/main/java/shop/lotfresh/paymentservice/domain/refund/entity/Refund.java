@@ -1,10 +1,15 @@
 package shop.lotfresh.paymentservice.domain.refund.entity;
 
+import lombok.*;
 import shop.lotfresh.paymentservice.common.BaseTimeEntity;
 import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
 
 import javax.persistence.*;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 @Table(
         name="refund",

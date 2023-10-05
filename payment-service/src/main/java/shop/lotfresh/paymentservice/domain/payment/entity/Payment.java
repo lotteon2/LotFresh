@@ -1,9 +1,14 @@
 package shop.lotfresh.paymentservice.domain.payment.entity;
 
+import lombok.*;
 import shop.lotfresh.paymentservice.common.BaseTimeEntity;
 
 import javax.persistence.*;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class Payment extends BaseTimeEntity {
     @Id
