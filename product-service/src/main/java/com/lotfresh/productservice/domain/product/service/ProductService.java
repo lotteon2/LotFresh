@@ -8,6 +8,7 @@ import com.lotfresh.productservice.domain.product.api.request.ProductModifyReque
 import com.lotfresh.productservice.domain.product.entity.Product;
 import com.lotfresh.productservice.domain.product.exception.ProductNotFound;
 import com.lotfresh.productservice.domain.product.repository.ProductRepository;
+import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,5 +53,10 @@ public class ProductService {
   public void softDelete(Long id) {
     Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFound());
     product.softDelete();
+  }
+
+  public ProductResponse getProductDetail(Long id, Integer stock) {
+    Product product = productRepository.findByIdFetch(id).orElseThrow(() -> new ProductNotFound());
+    return ProductResponse.from(product, stock);
   }
 }

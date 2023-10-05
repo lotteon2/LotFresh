@@ -8,6 +8,7 @@ import com.lotfresh.productservice.domain.product.api.request.ProductModifyReque
 import com.lotfresh.productservice.domain.product.entity.Product;
 import com.lotfresh.productservice.domain.product.exception.ProductNotFound;
 import com.lotfresh.productservice.domain.product.repository.ProductRepository;
+import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -161,6 +162,59 @@ class ProductServiceTest {
     Long noExistProductId = 0L;
     // when // then
     assertThatThrownBy(() -> productService.softDelete(noExistProductId))
+        .isInstanceOf(ProductNotFound.class)
+        .hasMessage("해당 상품이 존재하지 않습니다.");
+  }
+
+  @DisplayName("상품 id와 상품 재고를 받아 상품상세 정보를 반환 한다.")
+  @Test
+  void getProductDetail() throws Exception {
+    // given
+    Integer stock = 10;
+    Category category1 = createCategory(null, "냉장");
+    Category category2 = createCategory(category1, "과일");
+    categoryRepository.saveAll(List.of(category1, category2));
+    Product product = createProduct(category2, "충주사과", "thumbnail.jpeg", "detail", 5000, "P001");
+    productRepository.save(product);
+    // when
+    ProductResponse productDetail = productService.getProductDetail(product.getId(), stock);
+
+    // then
+    assertThat(productDetail)
+        .extracting(
+            "id",
+            "name",
+            "thumbnail",
+            "detail",
+            "price",
+            "productCode",
+            "categoryId",
+            "categoryName",
+            "parentId",
+            "parentName",
+            "stock")
+        .containsExactlyInAnyOrder(
+            product.getId(),
+            "충주사과",
+            "thumbnail.jpeg",
+            "detail",
+            5000,
+            "P001",
+            category2.getId(),
+            "과일",
+            category1.getId(),
+            "냉장",
+            stock);
+  }
+
+  @DisplayName("상품 상세 정보 조회 시 상품 id에 해당하는 상품이 존재 하지 않는 경우 예외가 발생한다.")
+  @Test
+  void getProductDetailWithNoExistId() throws Exception {
+    // given
+    Integer stock = 10;
+    Long noExistId = 0L;
+    // when // then
+    assertThatThrownBy(() -> productService.getProductDetail(noExistId, stock))
         .isInstanceOf(ProductNotFound.class)
         .hasMessage("해당 상품이 존재하지 않습니다.");
   }

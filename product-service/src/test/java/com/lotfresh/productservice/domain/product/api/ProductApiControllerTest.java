@@ -7,8 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -369,6 +368,19 @@ class ProductApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
         .perform(patch("/products/{productId}/soft-deletion", productId))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
+
+  @DisplayName("상품정보를 상세 조회한다.")
+  @Test
+  void test() throws Exception {
+    // given
+    Long productId = 1L;
+    Long userId = 1L;
+    // when // then
+    mockMvc
+        .perform(get("/products/{productId}", productId).header("userId", userId))
         .andDo(print())
         .andExpect(status().isOk());
   }
