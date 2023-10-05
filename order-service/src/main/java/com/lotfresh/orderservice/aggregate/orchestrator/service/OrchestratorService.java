@@ -2,7 +2,7 @@ package com.lotfresh.orderservice.aggregate.orchestrator.service;
 
 import com.lotfresh.orderservice.aggregate.orchestrator.domain.Orchestrator;
 import com.lotfresh.orderservice.aggregate.orchestrator.domain.workflow.Workflow;
-import com.lotfresh.orderservice.aggregate.orchestrator.domain.WorkflowGenerator;
+import com.lotfresh.orderservice.aggregate.orchestrator.domain.workflow.WorkflowGenerator;
 import com.lotfresh.orderservice.aggregate.orchestrator.controller.request.OrderCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

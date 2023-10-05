@@ -1,4 +1,4 @@
-package com.lotfresh.orderservice.aggregate.orchestrator.domain;
+package com.lotfresh.orderservice.aggregate.orchestrator.domain.workflow;
 
 import com.lotfresh.orderservice.aggregate.orchestrator.controller.request.ProductRequest;
 import com.lotfresh.orderservice.aggregate.orchestrator.domain.step.WorkflowStep;
