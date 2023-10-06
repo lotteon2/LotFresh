@@ -11,15 +11,9 @@ public class Orchestrator {
     Workflow workflow;
 
     public void doTransaction() {
-        try {
-            workflow.getSteps().forEach(WorkflowStep::process);
-        } catch (Exception e) {
-            revertProcess();
-        }
+        workflow.getSteps().forEach(WorkflowStep::process);
     }
-    private void revertProcess() {
-        // 에러복구로직이 없음
-        // 굳이 동기일 필요가 있는가? -> 카프카?
+    public void revertProcess() {
         workflow.getSteps().stream()
                 .filter(WorkflowStep::isRevertTarget)
                 .forEach(WorkflowStep::revert);

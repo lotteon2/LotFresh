@@ -91,7 +91,6 @@ class OrchestratorServiceTest {
 
         // then
         Assertions.assertThat(orchestrator.getWorkflow().getSteps().get(0).getStatus()).isEqualTo(WorkflowStepStatus.FAILED);
-        Assertions.assertThat(orchestrator.getWorkflow().getSteps().get(1).getStatus()).isEqualTo(WorkflowStepStatus.FAILED);
     }
 
 

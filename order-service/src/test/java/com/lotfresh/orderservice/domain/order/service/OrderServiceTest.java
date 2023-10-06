@@ -136,8 +136,8 @@ class OrderServiceTest {
 
         OrderCreateResponse orderCreateResponse =
                 OrderCreateResponse.builder()
-                        .orderId(savedOrder.getId())
-                        .orderDetailIds(List.of(orderDetail1.getId(),orderDetail2.getId()))
+                        .order(savedOrder)
+                        .orderDetails(List.of(orderDetail1,orderDetail2))
                         .build();
 
         // when

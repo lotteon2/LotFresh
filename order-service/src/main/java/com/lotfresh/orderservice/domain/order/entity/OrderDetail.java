@@ -34,8 +34,9 @@ public class OrderDetail extends BaseEntity {
     private Boolean isDeleted = false;
 
     @Builder
-    private OrderDetail(Order order, Long price, Long quantity, OrderDetailStatus status) {
+    private OrderDetail(Order order, Long productId, Long price, Long quantity, OrderDetailStatus status) {
         this.order = order;
+        this.productId = productId;
         this.price = price;
         this.quantity = quantity;
         this.status = status;
