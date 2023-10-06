@@ -22,6 +22,8 @@ public class OrderDetail extends BaseEntity {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    private Long productId;
+
     private Long price;
 
     private Long quantity;
