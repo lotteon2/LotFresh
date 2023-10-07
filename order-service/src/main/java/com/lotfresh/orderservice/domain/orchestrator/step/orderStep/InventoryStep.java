@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.domain.orchestrator.step.orderStep;
 
+import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStepStatus;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.InventoryFeignClient;
@@ -12,8 +13,8 @@ import java.util.List;
 public class InventoryStep implements WorkflowStep {
     private final InventoryFeignClient feignClient;
     private final List<InventoryRequest> inventoryRequests;
+    private final KafkaProducer kafkaProducer;
     private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
-
 
     @Override
     public boolean isRevertTarget() {
@@ -28,7 +29,7 @@ public class InventoryStep implements WorkflowStep {
 
     @Override
     public void revert() {
-        feignClient.revertDeductQuantity(inventoryRequests);
+        kafkaProducer.send("inventory",inventoryRequests);
         changeStatus(WorkflowStepStatus.FAILED);
     }
 
