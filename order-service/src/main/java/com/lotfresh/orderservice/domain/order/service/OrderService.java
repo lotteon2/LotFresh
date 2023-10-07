@@ -74,10 +74,4 @@ public class OrderService {
         orderDetail.changeProductOrderStatus(OrderDetailStatus.CANCELED);
     }
 
-    @Transactional
-    public void refundOrders(List<Long> orderDetailIds) {
-        orderDetailRepository.findAllById(orderDetailIds)
-                .forEach(orderDetail -> orderDetail.changeProductOrderStatus(OrderDetailStatus.CANCELED));
-    }
-
 }

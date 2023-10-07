@@ -32,7 +32,7 @@ class OrderServiceTest {
     private EntityManager em;
 
 
-    @DisplayName("주문 정보를 입력 받아 주문 및 주문 상세내역들을 생성한다")
+    @DisplayName("제품 아이디,가격,수량들을 입력 받아 주문 및 주문 상세내역들을 생성한다")
     @Test
     void insertOrder() {
         // given
@@ -55,7 +55,7 @@ class OrderServiceTest {
                 .containsOnly(orders.get(0));
     }
 
-    @DisplayName("상품주문Id와 상태에 대한 정보를 받아 상품주문의 상태를 변경한다")
+    @DisplayName("주문 상세내역Id와 상태에 대한 정보를 받아 주문 상세내역의 상태를 변경한다")
     @Test
     void changeProductOrderStatus() {
         // given
