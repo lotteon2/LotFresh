@@ -6,7 +6,8 @@ import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryReq
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentRequest;
 import com.lotfresh.orderservice.domain.orchestrator.service.response.OrderCreateResponse;
 import com.lotfresh.orderservice.domain.orchestrator.workflow.Workflow;
-import com.lotfresh.orderservice.domain.orchestrator.workflow.WorkflowGenerator;
+import com.lotfresh.orderservice.domain.orchestrator.workflow.OrderWorkflowGenerator;
+import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,17 +18,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class OrchestratorService {
-    private final WorkflowGenerator workflowGenerator;
+    private final OrderWorkflowGenerator orderWorkflowGenerator;
     private final OrderService orderService;
 
     public Orchestrator orderTransaction(OrderCreateRequest orderCreateRequest) {
-        OrderCreateResponse orderCreateResponse = orderService.insertOrder(orderCreateRequest.getProductRequests());
-        List<InventoryRequest> inventoryRequests = orderCreateResponse.getOrderDetails().stream()
-                .map(InventoryRequest::new)
-                .collect(Collectors.toList());
-        PaymentRequest paymentRequest = new PaymentRequest();
+        OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest);
+        List<InventoryRequest> inventoryRequests = makeInventoryRequests(orderCreateResponse.getOrderDetails());
+        PaymentRequest paymentRequest = makePaymentRequest();
 
-        Workflow orderWorkflow = workflowGenerator.generateOrderWorkflow(inventoryRequests,paymentRequest);
+        Workflow orderWorkflow = orderWorkflowGenerator.generateOrderWorkflow(inventoryRequests,paymentRequest);
         Orchestrator orderOrchestrator = Orchestrator.builder()
                 .workflow(orderWorkflow)
                 .build();
@@ -41,4 +40,19 @@ public class OrchestratorService {
 
         return orderOrchestrator;
     }
+
+    private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest) {
+        return orderService.insertOrder(orderCreateRequest.getProductRequests());
+    }
+    private List<InventoryRequest> makeInventoryRequests(List<OrderDetail> orderDetails) {
+        return orderDetails.stream()
+                .map(InventoryRequest::new)
+                .collect(Collectors.toList());
+    }
+    private PaymentRequest makePaymentRequest() {
+        return new PaymentRequest();
+    }
+
+
+
 }

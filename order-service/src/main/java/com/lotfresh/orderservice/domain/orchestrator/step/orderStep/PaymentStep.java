@@ -19,7 +19,7 @@ public class PaymentStep implements WorkflowStep {
 
     @Override
     public void process() {
-        feignClient.requestPayment();
+        feignClient.requestPayment(paymentRequest);
         changeStatus(WorkflowStepStatus.COMPLETE);
     }
 

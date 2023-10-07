@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class WorkflowGenerator {
+public class OrderWorkflowGenerator {
     private final InventoryFeignClient inventoryFeignClient;
     private final PaymentFeignClient paymentFeignClient;
 
@@ -23,6 +23,8 @@ public class WorkflowGenerator {
                 new InventoryStep(inventoryFeignClient,inventoryRequests),
                 new PaymentStep(paymentFeignClient,paymentRequest));
 
-        return OrderWorkflow.builder().workflowSteps(workflowSteps).build();
+        return OrderWorkflow.builder()
+                .workflowSteps(workflowSteps)
+                .build();
     }
 }

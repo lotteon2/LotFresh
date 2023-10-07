@@ -40,7 +40,7 @@ class OrchestratorServiceTest {
         // given
         BDDMockito.given(inventoryFeignClient.deductQuantity(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(paymentFeignClient.requestPayment())
+        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
 
         List<ProductRequest> productRequests  = List.of(
@@ -70,7 +70,7 @@ class OrchestratorServiceTest {
         // given
         BDDMockito.given(inventoryFeignClient.deductQuantity(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(paymentFeignClient.requestPayment())
+        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willThrow(new RuntimeException());
 
 
