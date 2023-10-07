@@ -11,11 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(
-        name="refund",
-        uniqueConstraints=
-        @UniqueConstraint(columnNames={"productId", "orderId"})
-)
 public class Refund extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,20 +22,28 @@ public class Refund extends BaseTimeEntity {
     @Column(nullable = false)
     private String refundReason;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    @Builder.Default
+    private RefundStatus status = RefundStatus.READY;
 
     @Column(nullable = false)
     private String refundMethod;
 
     @Column(nullable = false)
-    private Long productId;
-
-    @Column(nullable = false)
-    private Long orderId;
+    private Long orderDetailId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Payment payment;
 
     // TODO: Payment와 양방향 매핑은 필요해지면 작성
+
+    public void approveRefund() {
+        this.status = RefundStatus.APPROVED;
+    }
+
+    public void rejectRefund() {
+        this.status = RefundStatus.REJECTED;
+    }
+
 }
