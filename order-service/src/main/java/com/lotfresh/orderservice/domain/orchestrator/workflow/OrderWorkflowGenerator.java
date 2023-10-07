@@ -4,6 +4,7 @@ import com.lotfresh.orderservice.domain.orchestrator.feigns.InventoryFeignClient
 import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentRequest;
+import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.step.orderStep.InventoryStep;
 import com.lotfresh.orderservice.domain.orchestrator.step.orderStep.PaymentStep;
@@ -17,11 +18,12 @@ import java.util.List;
 public class OrderWorkflowGenerator {
     private final InventoryFeignClient inventoryFeignClient;
     private final PaymentFeignClient paymentFeignClient;
+    private final KafkaProducer kafkaProducer;
 
     public OrderWorkflow generateOrderWorkflow(List<InventoryRequest> inventoryRequests, PaymentRequest paymentRequest){
         List<WorkflowStep> workflowSteps = List.of(
-                new InventoryStep(inventoryFeignClient,inventoryRequests),
-                new PaymentStep(paymentFeignClient,paymentRequest));
+                new InventoryStep(inventoryFeignClient,inventoryRequests,kafkaProducer),
+                new PaymentStep(paymentFeignClient,paymentRequest,kafkaProducer));
 
         return OrderWorkflow.builder()
                 .workflowSteps(workflowSteps)
