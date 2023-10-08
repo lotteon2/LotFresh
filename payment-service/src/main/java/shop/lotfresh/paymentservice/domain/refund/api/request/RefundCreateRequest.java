@@ -12,9 +12,11 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 public class RefundCreateRequest {
-    @NotNull(message = "orderDetailId cannot be null")
-    private Long orderDetailId;
 
+    // 돈 얼마 환불할지 클라이언트한테 직접 받는게 맞나? orderDetailId가 있으면 얼마를 환불해줘야할지 알 수 있는데?
+    // 이 정보는 다른 Micro Service에 있다.
+    // 일단 openfeign으로 얻어오는걸로 1차적인 결론을 냈음.
+    // 현재는 이렇게 작성하지만, 추후 orderDetail쪽에게 이런게 있니? 있다면 얼마짜리니? 를 받아올것임.
     @NotNull(message = "amount cannot be null")
     private Long amount;
 
@@ -32,7 +34,7 @@ public class RefundCreateRequest {
     @NotEmpty(message = "refundReason cannot be empty")
     private String refundReason;
 
-    public Refund toEntity(Payment payment) {
+    public Refund toEntity(Long orderDetailId, Payment payment) {
         return Refund.builder()
                 .amount(amount)
                 .refundReason(refundReason)
