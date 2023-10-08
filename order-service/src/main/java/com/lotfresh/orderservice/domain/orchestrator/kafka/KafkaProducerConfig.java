@@ -13,7 +13,7 @@ import java.util.*;
 
 @Configuration
 public class KafkaProducerConfig {
-    @Value("${kafka.server-config}")
+    @Value("${spring.kafka.server-config}")
     private String SERVER_CONFIG;
 
     @Bean
