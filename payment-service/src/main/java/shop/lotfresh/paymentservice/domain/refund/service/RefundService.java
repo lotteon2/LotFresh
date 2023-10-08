@@ -9,6 +9,8 @@ import shop.lotfresh.paymentservice.domain.refund.api.request.RefundCreateReques
 import shop.lotfresh.paymentservice.domain.refund.entity.Refund;
 import shop.lotfresh.paymentservice.domain.refund.repository.RefundRepository;
 
+import java.util.NoSuchElementException;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -29,5 +31,29 @@ public class RefundService {
         Refund createdRefund = refundRepository.save(refund);
         return createdRefund.getId();
     }
-    
+
+    // TODO: NOTFOUND ERROR 모아서 클래스로 묶기
+    @Transactional
+    public void approveRefund(Long refundId) {
+        Refund refund =
+                refundRepository.findById(refundId).orElseThrow(NoSuchElementException::new);
+
+        Long totalRefundedAmount = refundRepository.findTotalRefundedAmountByPaymentId(refund.getPayment().getId());
+        totalRefundedAmount = (totalRefundedAmount == null) ? 0 : totalRefundedAmount;
+        if (refund.getAmount() + totalRefundedAmount > refund.getPayment().getTransactionAmount()) {
+            throw new IllegalArgumentException("The requested refund exceeds the transaction amount");
+        }
+
+        // TODO: 카카오페이 통해 환불요청하기.
+
+        refund.approveRefund();
+    }
+
+    // TODO: NOTFOUND ERROR 모아서 클래스로 묶기
+    @Transactional
+    public void rejectRefund(Long refundId) {
+        Refund refund =
+                refundRepository.findById(refundId).orElseThrow(NoSuchElementException::new);
+        refund.rejectRefund();
+    }
 }
