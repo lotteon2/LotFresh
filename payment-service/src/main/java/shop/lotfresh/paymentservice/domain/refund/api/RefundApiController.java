@@ -23,4 +23,16 @@ public class RefundApiController {
         Long refundId = refundService.createRefund(orderDetailId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(refundId);
     }
+
+    @PatchMapping("/{refundId}/approve")
+    public ResponseEntity<Void> approveRefund(@PathVariable Long refundId) {
+        refundService.approveRefund(refundId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{refundId}/reject")
+    public ResponseEntity<Void> rejectRefund(@PathVariable Long refundId) {
+        refundService.rejectRefund(refundId);
+        return ResponseEntity.ok().build();
+    }
 }
