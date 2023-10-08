@@ -17,10 +17,15 @@ public class RefundService {
     private final PaymentRepository paymentRepository;
 
     @Transactional
-    public Long createRefund(RefundCreateRequest request) {
+    public Long createRefund(Long orderDetailId, RefundCreateRequest request) {
+        boolean refundExists = refundRepository.existsByOrderDetailId(orderDetailId);
+        if (refundExists) {
+            throw new IllegalArgumentException("A refund already exists for this order detail: " + orderDetailId);
+        }
+
         Payment payment = paymentRepository.findByOrderId(request.getOrderId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid order ID: " + request.getOrderId()));
-        Refund refund = request.toEntity(payment);
+        Refund refund = request.toEntity(orderDetailId, payment);
         Refund createdRefund = refundRepository.save(refund);
         return createdRefund.getId();
     }
