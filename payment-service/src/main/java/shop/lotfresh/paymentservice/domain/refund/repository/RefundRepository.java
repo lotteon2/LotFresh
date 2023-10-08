@@ -6,4 +6,5 @@ import shop.lotfresh.paymentservice.domain.refund.entity.Refund;
 
 @Repository
 public interface RefundRepository extends JpaRepository<Refund, Long> {
+    boolean existsByOrderDetailId(Long orderDetailId);
 }
