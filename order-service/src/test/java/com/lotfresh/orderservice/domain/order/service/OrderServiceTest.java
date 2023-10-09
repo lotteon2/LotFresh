@@ -64,6 +64,7 @@ class OrderServiceTest {
                 .build();
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(order)
+                .productId(1L)
                 .price(1000L)
                 .quantity(1L)
                 .status(OrderDetailStatus.CREATED)
@@ -119,12 +120,14 @@ class OrderServiceTest {
                 .build();
         OrderDetail orderDetail1 = OrderDetail.builder()
                 .order(order)
+                .productId(1L)
                 .price(1000L)
                 .quantity(1L)
                 .status(OrderDetailStatus.CREATED)
                 .build();
         OrderDetail orderDetail2 = OrderDetail.builder()
                 .order(order)
+                .productId(1L)
                 .price(1000L)
                 .quantity(1L)
                 .status(OrderDetailStatus.CREATED)
@@ -164,6 +167,7 @@ class OrderServiceTest {
                 .build();
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(order)
+                .productId(1L)
                 .price(1000L)
                 .quantity(1L)
                 .status(OrderDetailStatus.CREATED)

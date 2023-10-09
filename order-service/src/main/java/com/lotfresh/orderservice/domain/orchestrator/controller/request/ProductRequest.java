@@ -8,13 +8,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRequest {
+    @NotNull(message = "productId cannot be null")
     private Long productId;
+    @NotNull(message = "productPrice cannot be null")
     private Long productPrice;
+    @NotNull(message = "productQuantity cannot be null")
     private Long productQuantity;
 
     public OrderDetail toEntity(Order order) {

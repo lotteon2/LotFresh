@@ -20,8 +20,10 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
 
+    @Column(nullable = false)
     private Long authId;
 
+    @Column(nullable = false)
     private Boolean isDeleted = false;
     @Builder
     private Order(Long authId) {

@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/order")
 public class InsertOrderController {
     private final OrchestratorService orchestratorService;
     @PostMapping
-    public ResponseEntity insertOrder(@RequestBody OrderCreateRequest orderCreateRequest) {
+    public ResponseEntity insertOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
         orchestratorService.orderTransaction(orderCreateRequest);
         return ResponseEntity.ok().build();
     }

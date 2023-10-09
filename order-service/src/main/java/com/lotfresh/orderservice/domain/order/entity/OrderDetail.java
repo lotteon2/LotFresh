@@ -22,15 +22,20 @@ public class OrderDetail extends BaseEntity {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    @Column(nullable = false)
     private Long productId;
 
+    @Column(nullable = false)
     private Long price;
 
+    @Column(nullable = false)
     private Long quantity;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderDetailStatus status;
 
+    @Column(nullable = false)
     private Boolean isDeleted = false;
 
     @Builder
