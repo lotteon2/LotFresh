@@ -57,6 +57,6 @@ public class ProductService {
 
   public ProductResponse getProductDetail(Long id, Integer stock) {
     Product product = productRepository.findByIdFetch(id).orElseThrow(() -> new ProductNotFound());
-    return ProductResponse.from(product, stock);
+    return ProductResponse.of(product, stock);
   }
 }

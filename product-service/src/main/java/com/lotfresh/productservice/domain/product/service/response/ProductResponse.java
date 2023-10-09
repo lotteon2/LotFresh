@@ -46,7 +46,7 @@ public class ProductResponse {
     this.stock = stock;
   }
 
-  public static ProductResponse from(Product product, Integer stock) {
+  public static ProductResponse of(Product product, Integer stock) {
     return ProductResponse.builder()
         .id(product.getId())
         .name(product.getName())
