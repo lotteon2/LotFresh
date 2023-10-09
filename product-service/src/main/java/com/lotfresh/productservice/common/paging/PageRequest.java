@@ -27,7 +27,7 @@ public class PageRequest {
   }
 
   private Pageable toPageable(Integer pageNum, OrderCondition orderCondition) {
-    Integer page = pageNum == null ? DEFAULT_PAGE : pageNum-1;
+    Integer page = pageNum == null ? DEFAULT_PAGE : pageNum - 1;
     return org.springframework.data.domain.PageRequest.of(
         page, PAGE_SIZE, Direction.DESC, orderCondition.getSort());
   }
