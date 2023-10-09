@@ -32,7 +32,7 @@ public class RefundService {
         return createdRefund.getId();
     }
 
-    // TODO: NOTFOUND ERROR 모아서 클래스로 묶기
+    // TODO: NOTFOUND ERROR 모아서 CUSTOM ERROR 상속하는 클래스로 묶기
     @Transactional
     public void approveRefund(Long refundId) {
         Refund refund =
@@ -49,7 +49,7 @@ public class RefundService {
         refund.approveRefund();
     }
 
-    // TODO: NOTFOUND ERROR 모아서 클래스로 묶기
+    // TODO: NOTFOUND ERROR 모아서 CUSTOM ERROR 상속하는 클래스로 묶기
     @Transactional
     public void rejectRefund(Long refundId) {
         Refund refund =
