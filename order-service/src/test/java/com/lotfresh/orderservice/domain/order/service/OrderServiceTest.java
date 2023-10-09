@@ -94,11 +94,11 @@ class OrderServiceTest {
     @Test
     void changeProductOrderStatusWithNonExistentId() {
         // given
-        Long orderDetailId = 1L;
+        Long nonExistOrderDetailId = 1L;
 
         OrderDetailStatus requestedStatus = OrderDetailStatus.CONFIRMED;
         OrderDetailChangeStatusRequest orderDetailChangeStatusRequest = OrderDetailChangeStatusRequest.builder()
-                .orderDetailId(orderDetailId)
+                .orderDetailId(nonExistOrderDetailId)
                 .orderDetailStatus(requestedStatus)
                 .build();
 
@@ -178,10 +178,10 @@ class OrderServiceTest {
         em.flush();
         em.clear();
 
-        OrderDetail orderDetail1 = orderDetailRepository.findById(orderDetail.getId()).get();
+        OrderDetail changedOrderDetail = orderDetailRepository.findById(orderDetail.getId()).get();
 
         // then
-        Assertions.assertThat(orderDetail1.getStatus()).isEqualTo(OrderDetailStatus.CANCELED);
+        Assertions.assertThat(changedOrderDetail.getStatus()).isEqualTo(OrderDetailStatus.CANCELED);
     }
 
 
