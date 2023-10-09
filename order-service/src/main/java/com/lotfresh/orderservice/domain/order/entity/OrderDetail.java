@@ -22,7 +22,8 @@ public class OrderDetail extends BaseEntity {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Column(nullable = false)
+    @Column(unique = true,
+            nullable = false)
     private Long productId;
 
     @Column(nullable = false)
