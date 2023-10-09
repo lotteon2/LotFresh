@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.CollectionUtils;
 
@@ -38,10 +37,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         query
             .select(product.id)
             .from(product)
-            .where(product.category.id.eq(categoryId), getSearchCondition(pageRequest))
+            .where(product.category.id.eq(categoryId), keywordEq(pageRequest.getKeyword()))
             .offset(pageRequest.getPageable().getOffset())
             .limit(pageRequest.getPageable().getPageSize())
-            .orderBy(getOrderCondition(pageRequest.getPageable()))
+            .orderBy(getOrderCondition(pageRequest.getPageable().getSort()))
             .fetch();
 
     if (CollectionUtils.isEmpty(ids)) {
@@ -55,7 +54,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             .join(product.category)
             .fetchJoin()
             .where(product.id.in(ids))
-            .orderBy(getOrderCondition(pageRequest.getPageable()))
+            .orderBy(getOrderCondition(pageRequest.getPageable().getSort()))
             .fetch();
 
     return new PageImpl<>(fetch, pageRequest.getPageable(), getTotalPageCount(pageRequest));
@@ -65,19 +64,19 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     return query
         .select(product.count())
         .from(product)
-        .where(getSearchCondition(pageRequest))
+        .where(keywordEq(pageRequest.getKeyword()))
         .fetchOne();
   }
 
-  private BooleanExpression getSearchCondition(PageRequest pageRequest) {
-    if ("".equals(pageRequest.getKeyword())) {
+  private BooleanExpression keywordEq(String keyword) {
+    if ("".equals(keyword)) {
       return null;
     }
-    return product.name.contains(pageRequest.getKeyword());
+    return product.name.contains(keyword);
   }
 
-  private OrderSpecifier getOrderCondition(Pageable pageable) {
-    Sort.Order order = pageable.getSort().iterator().next();
+  private OrderSpecifier getOrderCondition(Sort sort) {
+    Sort.Order order = sort.iterator().next();
     String property = order.getProperty();
     switch (property) {
       default:
