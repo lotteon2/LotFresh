@@ -1,6 +1,5 @@
 package com.lotfresh.orderservice.domain.orchestrator.controller.request;
 
-import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetailStatus;
@@ -21,16 +20,10 @@ public class ProductRequest {
     public OrderDetail toEntity(Order order) {
         return OrderDetail.builder()
                 .order(order)
+                .productId(productId)
                 .price(productPrice)
                 .quantity(productQuantity)
                 .status(OrderDetailStatus.CREATED)
-                .build();
-    }
-
-    public InventoryRequest toInventoryRequest(){
-        return InventoryRequest.builder()
-                .productId(productId)
-                .productQuantity(productQuantity)
                 .build();
     }
 

@@ -1,5 +1,7 @@
 package com.lotfresh.orderservice.domain.orchestrator.step.orderStep;
 
+import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentRequest;
+import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStepStatus;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
@@ -8,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaymentStep implements WorkflowStep {
     private final PaymentFeignClient feignClient;
+    private final PaymentRequest paymentRequest;
+    private final KafkaProducer kafkaProducer;
     private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
 
     @Override
@@ -17,13 +21,13 @@ public class PaymentStep implements WorkflowStep {
 
     @Override
     public void process() {
-        feignClient.requestPayment();
+        feignClient.requestPayment(paymentRequest);
         changeStatus(WorkflowStepStatus.COMPLETE);
     }
 
     @Override
     public void revert() {
-        feignClient.revertRequestPayment();
+        kafkaProducer.send("payment",paymentRequest);
         changeStatus(WorkflowStepStatus.FAILED);
     }
 

@@ -1,4 +1,4 @@
-package com.lotfresh.orderservice.domain.productOrder.domain;
+package com.lotfresh.orderservice.domain.order.entity;
 
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;

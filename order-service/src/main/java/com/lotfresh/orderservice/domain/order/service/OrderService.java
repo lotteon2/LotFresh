@@ -40,23 +40,23 @@ public class OrderService {
 
         orderDetailRepository.saveAll(orderDetails);
 
-        List<Long> orderDetailIds = orderDetails.stream()
-                .map(OrderDetail::getId)
-                .collect(Collectors.toList());
-
         return OrderCreateResponse.builder()
-                .orderId(savedOrder.getId())
-                .orderDetailIds(orderDetailIds)
+                .order(order)
+                .orderDetails(orderDetails)
                 .build();
     }
 
     @Transactional
     public void revertInsertOrder(OrderCreateResponse orderCreateResponse) {
-        Order order = orderRepository.findById(orderCreateResponse.getOrderId())
+        Order order = orderRepository.findById(orderCreateResponse.getOrder().getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
         order.softDelete();
 
-        List<OrderDetail> orderDetails = orderDetailRepository.findAllById(orderCreateResponse.getOrderDetailIds());
+        List<Long> orderDetailIds = orderCreateResponse.getOrderDetails().stream()
+                .map(OrderDetail::getId)
+                .collect(Collectors.toList());
+
+        List<OrderDetail> orderDetails = orderDetailRepository.findAllById(orderDetailIds);
         orderDetails.forEach(OrderDetail::softDelete);
     }
 
@@ -72,12 +72,6 @@ public class OrderService {
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
         orderDetail.changeProductOrderStatus(OrderDetailStatus.CANCELED);
-    }
-
-    @Transactional
-    public void refundOrders(List<Long> orderDetailIds) {
-        orderDetailRepository.findAllById(orderDetailIds)
-                .forEach(orderDetail -> orderDetail.changeProductOrderStatus(OrderDetailStatus.CANCELED));
     }
 
 }
