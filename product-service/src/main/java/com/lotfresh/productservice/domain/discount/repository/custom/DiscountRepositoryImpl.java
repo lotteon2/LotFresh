@@ -31,7 +31,7 @@ public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
         query
             .selectFrom(discount)
             .join(discount.category)
-            .where(discount.category.id.eq(categoryId), category.isDeleted.isFalse())
+            .where(discount.category.id.eq(categoryId), discount.category.isDeleted.isFalse())
             .fetchOne());
   }
 
