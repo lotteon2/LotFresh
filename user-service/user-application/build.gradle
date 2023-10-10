@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation(libs.sl4j)
+    annotationProcessor(libs.lombok)
+    compileOnly(libs.lombok)
+    implementation(libs.java.validation)
+    implementation(libs.spring.boot)
+    implementation project(':user-service:user-domain:user-domain-application')
+    implementation project(':user-service:user-domain:user-domain-core')
+    implementation project(':common:common-domain')
+    implementation project(':common:common-application')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly libs.lombok
+    implementation libs.jpa
+    implementation libs.h2
+    implementation libs.spring.test
+    implementation project(':common:common-domain')
+    implementation project(':user-service:user-domain:user-domain-core')
+    implementation project(':user-service:user-domain:user-domain-application')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
