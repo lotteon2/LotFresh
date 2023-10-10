@@ -25,3 +25,11 @@ logging:
     org.hibernate.type: trace
     org:
       springframework: INFO
+
+
+kakaopay:
+  cid: "TC0ONETIME"
+  approval_url: "/order/payments/kakaopay/approve"
+  fail_url: "/order/payments/kakaopay/fail"
+  cancel_url: "/order/payments/kakaopay/cancel"
+  admin_key: "8f2de5fceef170ccd187a4e94c813657"
