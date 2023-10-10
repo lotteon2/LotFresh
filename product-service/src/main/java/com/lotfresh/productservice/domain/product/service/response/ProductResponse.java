@@ -67,4 +67,25 @@ public class ProductResponse {
         .stock(stock)
         .build();
   }
+
+  public static ProductResponse from(Product product) {
+    return ProductResponse.builder()
+        .id(product.getId())
+        .name(product.getName())
+        .thumbnail(product.getThumbnail())
+        .detail(product.getDetail())
+        .price(product.getPrice())
+        .productCode(product.getProductCode())
+        .categoryId(product.getCategory().getId())
+        .categoryName(product.getCategory().getName())
+        .parentId(
+            product.getCategory().getParent() != null
+                ? product.getCategory().getParent().getId()
+                : null)
+        .parentName(
+            product.getCategory().getParent() != null
+                ? product.getCategory().getParent().getName()
+                : null)
+        .build();
+  }
 }

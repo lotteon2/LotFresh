@@ -1,5 +1,6 @@
 package com.lotfresh.productservice.domain.product.service;
 
+import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
@@ -8,8 +9,10 @@ import com.lotfresh.productservice.domain.product.api.request.ProductModifyReque
 import com.lotfresh.productservice.domain.product.entity.Product;
 import com.lotfresh.productservice.domain.product.exception.ProductNotFound;
 import com.lotfresh.productservice.domain.product.repository.ProductRepository;
+import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
 import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,5 +61,10 @@ public class ProductService {
   public ProductResponse getProductDetail(Long id, Integer stock) {
     Product product = productRepository.findByIdFetch(id).orElseThrow(() -> new ProductNotFound());
     return ProductResponse.of(product, stock);
+  }
+
+  public ProductPageResponse getProductByCategory(Long categoryId, PageRequest pageRequest) {
+    PageImpl<Product> productPage = productRepository.findAllByCategory(categoryId, pageRequest);
+    return ProductPageResponse.from(productPage);
   }
 }

@@ -33,11 +33,14 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
   @Override
   public PageImpl<Product> findAllByCategory(Long categoryId, PageRequest pageRequest) {
+
     List<Long> ids =
         query
             .select(product.id)
             .from(product)
-            .where(product.category.id.eq(categoryId), keywordEq(pageRequest.getKeyword()))
+            .where(
+                product.category.id.eq(categoryId).or(product.category.parent.id.eq(categoryId)),
+                keywordEq(pageRequest.getKeyword()))
             .offset(pageRequest.getPageable().getOffset())
             .limit(pageRequest.getPageable().getPageSize())
             .orderBy(getOrderCondition(pageRequest.getPageable().getSort()))
@@ -56,7 +59,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             .where(product.id.in(ids))
             .orderBy(getOrderCondition(pageRequest.getPageable().getSort()))
             .fetch();
-
+    
     return new PageImpl<>(fetch, pageRequest.getPageable(), getTotalPageCount(pageRequest));
   }
 
