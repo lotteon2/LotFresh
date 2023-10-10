@@ -281,6 +281,40 @@ class ProductServiceTest {
     assertThat(productPageResponse.getTotalPage()).isEqualTo(2);
   }
 
+  @DisplayName("상품이름을 입력 받아 상품이름을 포함하는 상품 리스트를 조회한다.")
+  @Test
+  void test() throws Exception {
+    // given
+    Category category1 = createCategory(null, "냉장");
+    Category category2 = createCategory(category1, "과일");
+    Category category3 = createCategory(category1, "야채");
+
+    categoryRepository.saveAll(List.of(category1, category2, category3));
+
+    Product product1 = createProduct(category2, "충주사과", "thumbnail.jpeg", "detail1", 1000, "P001");
+    Product product2 = createProduct(category2, "블루베리", "thumbnail.jpeg", "detail2", 2000, "P002");
+    Product product3 = createProduct(category2, "곶감", "thumbnail.jpeg", "detail3", 3000, "P003");
+    Product product4 = createProduct(category2, "단감", "thumbnail.jpeg", "detail4", 4000, "P004");
+    Product product5 = createProduct(category2, "딸기", "thumbnail.jpeg", "detail5", 5000, "P005");
+    Product product6 = createProduct(category2, "바나나", "thumbnail.jpeg", "detail6", 6000, "P006");
+
+    productRepository.saveAll(List.of(product1, product2, product3, product4, product5, product6));
+    String order = "";
+    String keyword = "바나나";
+    Integer page = 1;
+    PageRequest pageRequest = new PageRequest(order, keyword, page);
+
+    //     when
+    ProductPageResponse productPageResponse =
+        productService.getProductByCategory(category2.getId(), pageRequest);
+    // then
+    assertThat(productPageResponse.getProducts())
+        .extracting("name")
+        .containsExactlyInAnyOrder(
+            "바나나");
+    assertThat(productPageResponse.getTotalPage()).isEqualTo(1);
+  }
+
   private Product createProduct(
       Category category,
       String name,
