@@ -13,6 +13,7 @@ public class ProductResponse {
   private String thumbnail;
   private String detail;
   private Integer price;
+  private Integer salesPrice;
   private String productCode;
   private Long categoryId;
   private String categoryName;
@@ -27,6 +28,7 @@ public class ProductResponse {
       String thumbnail,
       String detail,
       Integer price,
+      Integer salesPrice,
       String productCode,
       Long categoryId,
       String categoryName,
@@ -38,6 +40,7 @@ public class ProductResponse {
     this.thumbnail = thumbnail;
     this.detail = detail;
     this.price = price;
+    this.salesPrice = salesPrice;
     this.productCode = productCode;
     this.categoryId = categoryId;
     this.categoryName = categoryName;
@@ -46,13 +49,14 @@ public class ProductResponse {
     this.stock = stock;
   }
 
-  public static ProductResponse of(Product product, Integer stock) {
+  public static ProductResponse of(Product product, Double discountRate, Integer stock) {
     return ProductResponse.builder()
         .id(product.getId())
         .name(product.getName())
         .thumbnail(product.getThumbnail())
         .detail(product.getDetail())
         .price(product.getPrice())
+        .salesPrice(discountRate != 0d ? (int) (product.getPrice() * (discountRate * 0.01)) : null)
         .productCode(product.getProductCode())
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())
@@ -68,13 +72,14 @@ public class ProductResponse {
         .build();
   }
 
-  public static ProductResponse from(Product product) {
+  public static ProductResponse of(Product product, Double discountRate) {
     return ProductResponse.builder()
         .id(product.getId())
         .name(product.getName())
         .thumbnail(product.getThumbnail())
         .detail(product.getDetail())
         .price(product.getPrice())
+        .salesPrice(discountRate != 0d ? (int) (product.getPrice() * (discountRate * 0.01)) : null)
         .productCode(product.getProductCode())
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())

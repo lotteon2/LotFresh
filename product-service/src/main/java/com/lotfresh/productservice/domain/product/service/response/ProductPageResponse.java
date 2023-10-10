@@ -21,10 +21,10 @@ public class ProductPageResponse {
     this.products = products;
   }
 
-  public static ProductPageResponse from(Page<Product> productPage) {
+  public static ProductPageResponse of(Page<Product> productPage, Double discountRate) {
     final List<ProductResponse> productResponses =
         productPage.getContent().stream()
-            .map(product -> ProductResponse.from(product))
+            .map(product -> ProductResponse.of(product, discountRate))
             .collect(Collectors.toList());
     return new ProductPageResponse(productPage.getTotalPages(), productResponses);
   }

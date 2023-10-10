@@ -8,5 +8,7 @@ import java.util.Optional;
 public interface DiscountRepositoryCustom {
   Optional<Discount> findByIdFetch(Long id);
 
+  Optional<Discount> findByCategoryId(Long categoryId);
+
   List<Discount> findAllFetch();
 }

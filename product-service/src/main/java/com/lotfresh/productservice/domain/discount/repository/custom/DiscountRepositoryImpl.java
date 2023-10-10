@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
+import static com.lotfresh.productservice.domain.category.entity.QCategory.category;
 import static com.lotfresh.productservice.domain.discount.entity.QDiscount.discount;
 
 @RequiredArgsConstructor
@@ -21,6 +22,16 @@ public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
             .join(discount.category)
             .fetchJoin()
             .where(discount.id.eq(id))
+            .fetchOne());
+  }
+
+  @Override
+  public Optional<Discount> findByCategoryId(Long categoryId) {
+    return Optional.ofNullable(
+        query
+            .selectFrom(discount)
+            .join(discount.category)
+            .where(discount.category.id.eq(categoryId), category.isDeleted.isFalse())
             .fetchOne());
   }
 
