@@ -4,6 +4,8 @@ import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
+import com.lotfresh.productservice.domain.discount.entity.Discount;
+import com.lotfresh.productservice.domain.discount.repository.DiscountRepository;
 import com.lotfresh.productservice.domain.product.api.request.ProductCreateRequest;
 import com.lotfresh.productservice.domain.product.api.request.ProductModifyRequest;
 import com.lotfresh.productservice.domain.product.entity.Product;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,10 +32,12 @@ class ProductServiceTest {
   @Autowired ProductService productService;
   @Autowired CategoryRepository categoryRepository;
   @Autowired ProductRepository productRepository;
+  @Autowired DiscountRepository discountRepository;
 
   @AfterEach
   void tearDown() {
     productRepository.deleteAllInBatch();
+    discountRepository.deleteAllInBatch();
     categoryRepository.deleteAllInBatch();
   }
 
@@ -189,6 +194,7 @@ class ProductServiceTest {
             "thumbnail",
             "detail",
             "price",
+            "salesPrice",
             "productCode",
             "categoryId",
             "categoryName",
@@ -201,6 +207,56 @@ class ProductServiceTest {
             "thumbnail.jpeg",
             "detail",
             5000,
+            null,
+            "P001",
+            category2.getId(),
+            "과일",
+            category1.getId(),
+            "냉장",
+            stock);
+  }
+
+  @DisplayName("할인중인 상품 id와 상품 재고를 받아 상품상세 정보를 반환 한다.")
+  @Test
+  void getProductDetailOnSale() throws Exception {
+    // given
+    Integer stock = 10;
+    Category category1 = createCategory(null, "냉장");
+    Category category2 = createCategory(category1, "과일");
+    categoryRepository.saveAll(List.of(category1, category2));
+    Discount discount =
+        createDiscount(
+            category2, 5d, LocalDate.of(2023, 9, 29), LocalDate.of(2023, 9, 30), "test1");
+    discountRepository.save(discount);
+
+    Product product = createProduct(category2, "충주사과", "thumbnail.jpeg", "detail", 8990, "P001");
+
+    productRepository.save(product);
+    // when
+    ProductResponse productDetail = productService.getProductDetail(product.getId(), stock);
+
+    // then
+    assertThat(productDetail)
+        .extracting(
+            "id",
+            "name",
+            "thumbnail",
+            "detail",
+            "price",
+            "salesPrice",
+            "productCode",
+            "categoryId",
+            "categoryName",
+            "parentId",
+            "parentName",
+            "stock")
+        .containsExactlyInAnyOrder(
+            product.getId(),
+            "충주사과",
+            "thumbnail.jpeg",
+            "detail",
+            8990,
+            8541,
             "P001",
             category2.getId(),
             "과일",
@@ -310,8 +366,7 @@ class ProductServiceTest {
     // then
     assertThat(productPageResponse.getProducts())
         .extracting("name")
-        .containsExactlyInAnyOrder(
-            "바나나");
+        .containsExactlyInAnyOrder("바나나");
     assertThat(productPageResponse.getTotalPage()).isEqualTo(1);
   }
 
@@ -334,5 +389,16 @@ class ProductServiceTest {
 
   private Category createCategory(Category parent, String name) {
     return Category.builder().parent(parent).name(name).build();
+  }
+
+  private Discount createDiscount(
+      Category category, Double rate, LocalDate startDate, LocalDate endDate, String imgurl) {
+    return Discount.builder()
+        .category(category)
+        .rate(rate)
+        .startDate(startDate)
+        .endDate(endDate)
+        .imgurl(imgurl)
+        .build();
   }
 }
