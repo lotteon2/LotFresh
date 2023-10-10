@@ -72,7 +72,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
   }
 
   private BooleanExpression keywordEq(String keyword) {
-    if ("".equals(keyword)) {
+    if (keyword == null || keyword.isBlank()) {
       return null;
     }
     return product.name.contains(keyword);
