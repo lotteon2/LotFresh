@@ -1,0 +1,29 @@
+package shop.lotfresh.paymentservice.domain.payment.vo;
+
+import lombok.Getter;
+import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
+import shop.lotfresh.paymentservice.domain.refund.entity.Refund;
+
+import java.time.LocalDateTime;
+
+@Getter
+public class KakaopayResponseVO {
+    private String tid;
+    private boolean tmsResult;
+    private String nextRedirectPcUrl;
+    private String nextRedirectMobileUrl;
+    private String nextRedirectAppUrl;
+    private String androidAppScheme;
+    private String iosAppScheme;
+    private LocalDateTime createdAt;
+
+    public Payment toEntity(Long oauthId, Long orderId, Long transactionAmount) {
+        return Payment.builder()
+                .tid(tid)
+                .orderId(orderId)
+                .oauthId(oauthId)
+                .paymentMethod("KAKAOPAY")
+                .transactionAmount(transactionAmount)
+                .build();
+    }
+}
