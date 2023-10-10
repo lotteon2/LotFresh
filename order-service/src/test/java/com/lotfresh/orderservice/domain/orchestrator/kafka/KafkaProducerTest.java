@@ -32,7 +32,7 @@ import static org.assertj.core.groups.Tuple.tuple;
 
 @EmbeddedKafka(
         topics = {"testTopic"},
-        ports = 9092,
+        ports = 7777,
         brokerProperties = {"listener=PLAINTEXT://localhost:9092"}
 )
 @ExtendWith(SpringExtension.class)
@@ -84,7 +84,7 @@ class KafkaProducerTest {
     }
 
     private Consumer<String,Object> makeConsumer(EmbeddedKafkaBroker embeddedKafkaBroker) {
-        Map<String, Object> consumerProps = KafkaTestUtils.consumerProps("localhost:9092", "true", embeddedKafkaBroker.getBrokersAsString());
+        Map<String, Object> consumerProps = KafkaTestUtils.consumerProps("localhost:7777", "true", embeddedKafkaBroker.getBrokersAsString());
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class.getName());
         consumerProps.put(JsonDeserializer.TRUSTED_PACKAGES, "*");

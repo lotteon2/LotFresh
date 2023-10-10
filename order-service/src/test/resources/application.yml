@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:~/productService
+    url: jdbc:h2:mem:~/orderService
     driver-class-name: org.h2.Driver
     username: sa
     password:
@@ -15,8 +15,15 @@ spring:
 
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: localhost:7777
     consumer:
       auto-offset-reset: earliest
-      bootstrap-servers: localhost:9092
-    server-config: localhost:9092
+      bootstrap-servers: localhost:7777
+    server-config: localhost:7777
+
+logging:
+  level:
+    org:
+      springframework:
+        transaction:
+          interceptor: TRACE
