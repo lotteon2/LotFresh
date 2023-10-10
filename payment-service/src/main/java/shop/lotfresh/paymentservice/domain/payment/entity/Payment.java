@@ -24,15 +24,14 @@ public class Payment extends BaseTimeEntity {
     @Column(nullable = false)
     private String tid;
 
-    @Column(nullable = false)
-    private Long originalAmount;
 
     @Column(nullable = false)
     private Long transactionAmount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PaymentStatus status;
+    @Builder.Default
+    private PaymentStatus status = PaymentStatus.READY;
 
 
     // order table을 가지고 있지 않음. JPA의 Relation Mapping을 사용하지 않음.
