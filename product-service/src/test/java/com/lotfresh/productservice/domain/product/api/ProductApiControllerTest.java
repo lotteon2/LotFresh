@@ -374,13 +374,29 @@ class ProductApiControllerTest extends ControllerTestSupport {
 
   @DisplayName("상품정보를 상세 조회한다.")
   @Test
-  void test() throws Exception {
+  void getProductDetail() throws Exception {
     // given
     Long productId = 1L;
     Long userId = 1L;
     // when // then
     mockMvc
         .perform(get("/products/{productId}", productId).header("userId", userId))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
+
+  @DisplayName("카테고리 별 상품 리스트를 조회 한다.")
+  @Test
+  void getProductsByCategory() throws Exception {
+    // given
+    Long categoryId = 1L;
+    // when // then
+    mockMvc
+        .perform(
+            get("/products/categories/{categoryId}", categoryId)
+                .param("page", "1")
+                .param("order", "RECENT")
+                .param("keyword", ""))
         .andDo(print())
         .andExpect(status().isOk());
   }

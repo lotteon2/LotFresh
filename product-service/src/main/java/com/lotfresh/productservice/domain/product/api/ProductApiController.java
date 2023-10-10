@@ -1,9 +1,11 @@
 package com.lotfresh.productservice.domain.product.api;
 
+import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.product.api.request.ProductCreateRequest;
 import com.lotfresh.productservice.domain.product.api.request.ProductModifyRequest;
 import com.lotfresh.productservice.domain.product.feign.StorageApiClient;
 import com.lotfresh.productservice.domain.product.service.ProductService;
+import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
 import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +53,11 @@ public class ProductApiController {
       log.error(e.getMessage());
     }
     return ResponseEntity.ok(productService.getProductDetail(productId, stock));
+  }
+
+  @GetMapping("/categories/{categoryId}")
+  public ResponseEntity<ProductPageResponse> getProductsByCategory(
+      @ModelAttribute PageRequest pageRequest, @PathVariable("categoryId") Long categoryId) {
+    return ResponseEntity.ok(productService.getProductByCategory(categoryId, pageRequest));
   }
 }
