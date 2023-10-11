@@ -38,7 +38,7 @@ public class Refund extends BaseTimeEntity {
 
     // TODO: Payment와 양방향 매핑은 필요해지면 작성
 
-    // Service에 에러 다 모으는게 좋을지 고민이됨. 이거는 도메인에 넣는게 좋은지?
+
     public void approveRefund() {
         if (this.status != RefundStatus.READY) {
             throw new IllegalStateException("Only refund in READY status can be approved");
@@ -46,7 +46,6 @@ public class Refund extends BaseTimeEntity {
         this.status = RefundStatus.APPROVED;
     }
 
-    // Service에 에러 다 모으는게 좋을지 고민이됨. 이거는 도메인에 넣는게 좋은지?
     public void rejectRefund() {
         if (this.status != RefundStatus.READY) {
             throw new IllegalStateException("Only refund in READY status can be rejected");
