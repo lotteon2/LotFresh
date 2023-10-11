@@ -12,7 +12,7 @@ import lombok.Getter;
 public class Orchestrator {
     Workflow workflow;
     TaskList taskList;
-    boolean isSuccessed = false;
+    boolean isSuccessed;
     public void doTransaction() {
         workflow.getSteps().forEach(WorkflowStep::process);
         isSuccessed = true;
