@@ -1,4 +1,4 @@
-package app.exception;
+package com.bit.lotte.fresh.app.exception;
 
 
 import com.bit.lotte.fresh.application.handler.ErrorDTO;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 
-@EqualsAndHashCode
 @Slf4j
 @ControllerAdvice
 public class UserGlobalExceptionHandler extends GlobalExceptionHandler {

@@ -36,4 +36,6 @@ include 'infrastructure:kafka:kafka-producer'
 findProject(':infrastructure:kafka:kafka-producer')?.name = 'kafka-producer'
 include 'infrastructure:kafka:kafka-consumer'
 findProject(':infrastructure:kafka:kafka-consumer')?.name = 'kafka-consumer'
+include 'user-service:user-container'
+findProject(':user-service:user-container')?.name = 'user-container'
 

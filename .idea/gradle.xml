@@ -23,6 +23,7 @@
             <option value="$PROJECT_DIR$/infrastructure/kafka/kafka-producer" />
             <option value="$PROJECT_DIR$/user-service" />
             <option value="$PROJECT_DIR$/user-service/user-application" />
+            <option value="$PROJECT_DIR$/user-service/user-container" />
             <option value="$PROJECT_DIR$/user-service/user-data-access" />
             <option value="$PROJECT_DIR$/user-service/user-domain" />
             <option value="$PROJECT_DIR$/user-service/user-domain/user-domain-application" />

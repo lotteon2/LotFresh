@@ -24,8 +24,11 @@ import com.bit.lotte.fresh.service.port.input.UserApplicationService;
 
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 
 @RequiredArgsConstructor
+@Service
 public class UserApplicationServiceImpl implements UserApplicationService {
 
   private final UserDataMapper userDataMapper;
