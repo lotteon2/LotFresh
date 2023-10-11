@@ -85,14 +85,6 @@ public class ProductResponse {
             .productCode(product.getProductCode())
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())
-        .parentId(
-            product.getCategory().getParent() != null
-                ? product.getCategory().getParent().getId()
-                : null)
-        .parentName(
-            product.getCategory().getParent() != null
-                ? product.getCategory().getParent().getName()
-                : null)
         .build();
   }
 }
