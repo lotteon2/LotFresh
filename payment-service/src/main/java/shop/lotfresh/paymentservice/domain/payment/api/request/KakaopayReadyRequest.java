@@ -1,19 +1,23 @@
 package shop.lotfresh.paymentservice.domain.payment.api.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayReadyVO;
 import shop.lotfresh.paymentservice.domain.payment.vo.OrderDetailVO;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 public class KakaopayReadyRequest {
     @NotNull(message = "orderId cannot be null")
     private Long orderId;
 
     @NotEmpty(message = "orderDetails cannot be empty")
+    @Valid
     private List<OrderDetailVO> orderDetails;
 
 
