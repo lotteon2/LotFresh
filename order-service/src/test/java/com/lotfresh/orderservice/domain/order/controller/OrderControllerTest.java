@@ -2,7 +2,7 @@ package com.lotfresh.orderservice.domain.order.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
-import com.lotfresh.orderservice.domain.order.entity.OrderDetailStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.service.OrderService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

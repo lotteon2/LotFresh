@@ -1,6 +1,6 @@
 package com.lotfresh.orderservice.domain.order.controller.request;
 
-import com.lotfresh.orderservice.domain.order.entity.OrderDetailStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

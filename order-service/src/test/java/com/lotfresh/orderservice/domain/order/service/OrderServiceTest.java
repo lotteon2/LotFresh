@@ -6,10 +6,12 @@ import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChan
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
-import com.lotfresh.orderservice.domain.order.entity.OrderDetailStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
+import com.lotfresh.orderservice.domain.order.service.response.OrderResponse;
 import com.lotfresh.orderservice.exception.CustomException;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +69,7 @@ class OrderServiceTest {
                 .productId(1L)
                 .price(1000L)
                 .quantity(1L)
-                .status(OrderDetailStatus.CREATED)
+                .status(OrderDetailStatus.CONFIRMED)
                 .build();
 
         orderRepository.save(order);
@@ -122,14 +124,14 @@ class OrderServiceTest {
                 .productId(1L)
                 .price(1000L)
                 .quantity(1L)
-                .status(OrderDetailStatus.CREATED)
+                .status(OrderDetailStatus.CONFIRMED)
                 .build();
         OrderDetail orderDetail2 = OrderDetail.builder()
                 .order(order)
                 .productId(1L)
                 .price(1000L)
                 .quantity(1L)
-                .status(OrderDetailStatus.CREATED)
+                .status(OrderDetailStatus.CONFIRMED)
                 .build();
 
         Order savedOrder = orderRepository.save(order);
@@ -169,7 +171,7 @@ class OrderServiceTest {
                 .productId(1L)
                 .price(1000L)
                 .quantity(1L)
-                .status(OrderDetailStatus.CREATED)
+                .status(OrderDetailStatus.CONFIRMED)
                 .build();
 
         orderRepository.save(order);
@@ -185,6 +187,52 @@ class OrderServiceTest {
 
         // then
         Assertions.assertThat(changedOrderDetail.getStatus()).isEqualTo(OrderDetailStatus.CANCELED);
+    }
+
+    @DisplayName("주문 아이디로 주문 상세 정보들을 조회한다")
+    @Test
+    void getOrderDetails() {
+        // given
+        Order order = Order.builder()
+                .authId(1L)
+                .build();
+
+        OrderDetail orderDetail1 = OrderDetail.builder()
+                .order(order)
+                .productId(1L)
+                .price(10L)
+                .quantity(100L)
+                .status(OrderDetailStatus.CONFIRMED)
+                .build();
+        orderDetail1.changeProductName("product1");
+        orderDetail1.changeProductThumbnail("productThumb1");
+
+        OrderDetail orderDetail2 = OrderDetail.builder()
+                .order(order)
+                .productId(2L)
+                .price(20L)
+                .quantity(200L)
+                .status(OrderDetailStatus.CONFIRMED)
+                .build();
+        orderDetail2.changeProductName("product2");
+        orderDetail2.changeProductThumbnail("productThumb2");
+
+        Order savedOrder = orderRepository.save(order);
+        orderDetailRepository.save(orderDetail1);
+        orderDetailRepository.save(orderDetail2);
+
+        // when
+        OrderResponse orderResponse = orderService.getOrderDetails(savedOrder.getId());
+
+        // then
+        Assertions.assertThat(orderResponse.getOrderCreatedTime()).isEqualTo(savedOrder.getCreatedAt());
+        Assertions.assertThat(orderResponse.getOrderDetailResponses()).hasSize(2)
+                .extracting("price","quantity","productName","productThumbnail")
+                .containsExactlyInAnyOrder(
+                        Tuple.tuple(10L,100L,orderDetail1.getProductName(),orderDetail1.getProductThumbnail()),
+                        Tuple.tuple(20L,200L,orderDetail2.getProductName(),orderDetail2.getProductThumbnail())
+                );
+
     }
 
 

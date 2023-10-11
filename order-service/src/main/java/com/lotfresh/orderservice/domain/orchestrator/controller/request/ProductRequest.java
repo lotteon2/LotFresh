@@ -2,7 +2,7 @@ package com.lotfresh.orderservice.domain.orchestrator.controller.request;
 
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
-import com.lotfresh.orderservice.domain.order.entity.OrderDetailStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public class ProductRequest {
                 .productId(productId)
                 .price(productPrice)
                 .quantity(productQuantity)
-                .status(OrderDetailStatus.CREATED)
+                .status(OrderDetailStatus.CONFIRMED)
                 .build();
     }
 

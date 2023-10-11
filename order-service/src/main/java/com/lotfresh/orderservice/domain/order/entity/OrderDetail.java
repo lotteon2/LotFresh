@@ -1,6 +1,10 @@
 package com.lotfresh.orderservice.domain.order.entity;
 
 import com.lotfresh.orderservice.common.BaseEntity;
+import com.lotfresh.orderservice.domain.order.entity.status.DeliveryStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.PaymentStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.RefundStatus;
 import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.exception.ErrorCode;
 import lombok.AccessLevel;
@@ -38,6 +42,15 @@ public class OrderDetail extends BaseEntity {
     @Column(nullable = false)
     private Boolean isDeleted = false;
 
+    private String productName;
+    private String productThumbnail;
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus deliveryStatus = DeliveryStatus.READY;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus = PaymentStatus.READY;
+    @Enumerated(EnumType.STRING)
+    private RefundStatus refundStatus = RefundStatus.READY;
+
     @Builder
     private OrderDetail(Order order, Long productId, Long price, Long quantity, OrderDetailStatus status) {
         this.order = order;
@@ -47,12 +60,38 @@ public class OrderDetail extends BaseEntity {
         this.status = status;
     }
 
-    public void changeProductOrderStatus(OrderDetailStatus status){
-        if(this.status.isNotModifiable()){
-            throw new CustomException(ErrorCode.STATUS_NOT_CHANGEABLE);
-        }
+    public void changeProductOrderStatus(OrderDetailStatus status) {
         this.status = status;
     }
+    public void changeProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void changeProductThumbnail(String productThumbnail) {
+        this.productThumbnail = productThumbnail;
+    }
+
+    public void changeDeliveryStatus(DeliveryStatus deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+
+    public void changePaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public void changeRefundStatus(RefundStatus refundStatus) {
+        this.refundStatus = refundStatus;
+    }
+
+
+    public String getFinalStatusAsString() {
+        if(status == OrderDetailStatus.CANCELED) return refundStatus.getMessage();
+        else {
+            if(paymentStatus == PaymentStatus.SUCCESS) return deliveryStatus.getMessage();
+            return paymentStatus.getMessage();
+        }
+    }
+
 
     public void softDelete() {
         this.isDeleted = true;

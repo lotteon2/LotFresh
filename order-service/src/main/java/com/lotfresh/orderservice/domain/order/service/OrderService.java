@@ -5,10 +5,12 @@ import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductR
 import com.lotfresh.orderservice.domain.orchestrator.service.response.OrderCreateResponse;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import com.lotfresh.orderservice.domain.order.entity.Order;
-import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
-import com.lotfresh.orderservice.domain.order.entity.OrderDetailStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
+import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
+import com.lotfresh.orderservice.domain.order.service.response.OrderDetailResponse;
+import com.lotfresh.orderservice.domain.order.service.response.OrderResponse;
 import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,6 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
-
     @Transactional
     public OrderCreateResponse insertOrder(List<ProductRequest> productRequests) {
         // TODO : auth-service로부터 header로 userId 받기
@@ -37,6 +38,8 @@ public class OrderService {
         List<OrderDetail> orderDetails = productRequests.stream()
                 .map(productRequest -> productRequest.toEntity(savedOrder))
                 .collect(Collectors.toList());
+
+        // TODO : 해당 시점에 Product서버와 통신해서 OrderDetail들의 productName과 productThumbnail을 알아야 함
 
         orderDetailRepository.saveAll(orderDetails);
 
@@ -72,6 +75,20 @@ public class OrderService {
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
         orderDetail.changeProductOrderStatus(OrderDetailStatus.CANCELED);
+    }
+
+    public OrderResponse getOrderDetails(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
+        List<OrderDetail> orderDetails = orderDetailRepository.findOrderDetailsByOrderId(orderId);
+        List<OrderDetailResponse> orderDetailResponses = orderDetails.stream()
+                .map(OrderDetailResponse::entityToDto)
+                .collect(Collectors.toList());
+
+        return OrderResponse.builder()
+                .orderCreatedTime(order.getCreatedAt())
+                .orderDetailResponses(orderDetailResponses)
+                .build();
     }
 
 }
