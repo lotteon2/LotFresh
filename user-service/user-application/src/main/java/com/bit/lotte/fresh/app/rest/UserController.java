@@ -1,6 +1,5 @@
 package com.bit.lotte.fresh.app.rest;
 
-import com.bit.lotte.fresh.app.valueobject.AuthenticationProvider;
 import com.bit.lotte.fresh.service.dto.command.AddAddressCommand;
 import com.bit.lotte.fresh.service.dto.command.AddressIdCommand;
 import com.bit.lotte.fresh.service.dto.command.CreateUserCommand;
