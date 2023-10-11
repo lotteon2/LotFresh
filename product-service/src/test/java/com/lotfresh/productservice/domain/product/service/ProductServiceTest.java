@@ -233,7 +233,8 @@ class ProductServiceTest {
 
     productRepository.save(product);
 
-    Integer salesPrice = product.getPrice() - (int)(product.getPrice() *  discount.getRate() * 0.01);
+    Integer salesPrice =
+        product.getPrice() - (int) (product.getPrice() * discount.getRate() * 0.01);
 
     // when
     ProductResponse productDetail = productService.getProductDetail(product.getId(), stock);
@@ -317,11 +318,19 @@ class ProductServiceTest {
     Product product17 =
         createProduct(category2, "파인애플", "thumbnail.jpeg", "detail17", 17000, "P0017");
 
+    Product product18 =
+        createProduct(category3, "방울토마토", "thumbnail.jpeg", "detail17", 18000, "P0018");
+
     productRepository.saveAll(
         List.of(
             product1, product2, product3, product4, product5, product6, product7, product8,
             product9, product10, product11, product12, product13, product14, product15, product16,
-            product17));
+            product17, product18));
+
+    Discount discount1 =
+        createDiscount(
+            category2, 5d, LocalDate.of(2023, 9, 29), LocalDate.of(2023, 9, 30), "test1");
+    discountRepository.saveAll(List.of(discount1));
 
     String order = "";
     String keyword = null;
@@ -330,13 +339,14 @@ class ProductServiceTest {
 
     //     when
     ProductPageResponse productPageResponse =
-        productService.getProductByCategory(category2.getId(), pageRequest);
+        productService.getProductByCategory(category1.getId(), pageRequest);
+
     // then
     assertThat(productPageResponse.getProducts())
         .extracting("name")
         .containsExactlyInAnyOrder(
-            "파인애플", "망고", "거봉", "복숭아", "샤인머스켓", "포도", "참외", "수박", "멜론", "한라봉", "오렌지", "바나나", "딸기",
-            "단감", "곶감", "블루베리");
+            "방울토마토", "파인애플", "망고", "거봉", "복숭아", "샤인머스켓", "포도", "참외", "수박", "멜론", "한라봉", "오렌지",
+            "바나나", "딸기", "단감", "곶감");
     assertThat(productPageResponse.getTotalPage()).isEqualTo(2);
   }
 

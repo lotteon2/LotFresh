@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
@@ -16,16 +17,21 @@ public class ProductPageResponse {
   private List<ProductResponse> products;
   private Integer totalPage;
 
-  private ProductPageResponse(Integer totalPage, List<ProductResponse> products) {
-    this.totalPage = totalPage;
+  private ProductPageResponse(List<ProductResponse> products, Integer totalPage) {
     this.products = products;
+    this.totalPage = totalPage;
   }
 
-  public static ProductPageResponse of(Page<Product> productPage, Double discountRate) {
-    final List<ProductResponse> productResponses =
+  public static ProductPageResponse of(
+      Page<Product> productPage, Map<Long, Double> rateGroupByCategory) {
+    List<ProductResponse> products =
         productPage.getContent().stream()
-            .map(product -> ProductResponse.of(product, discountRate))
+            .map(
+                product ->
+                    ProductResponse.of(
+                        product,
+                        rateGroupByCategory.getOrDefault(product.getCategory().getId(), 0d)))
             .collect(Collectors.toList());
-    return new ProductPageResponse(productPage.getTotalPages(), productResponses);
+    return new ProductPageResponse(products, productPage.getTotalPages());
   }
 }

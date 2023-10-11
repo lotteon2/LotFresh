@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -72,8 +73,8 @@ public class ProductService {
 
   public ProductPageResponse getProductByCategory(Long categoryId, PageRequest pageRequest) {
     PageImpl<Product> productPage = productRepository.findAllByCategory(categoryId, pageRequest);
-    Double discountRate = getDiscountRateByCategory(categoryId);
-    return ProductPageResponse.of(productPage, discountRate);
+    Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
+    return ProductPageResponse.of(productPage, rateGroupByCategory);
   }
 
   private Double getDiscountRateByCategory(Long categoryId) {
