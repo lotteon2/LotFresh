@@ -1,6 +1,7 @@
 package shop.lotfresh.paymentservice.domain.payment.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,18 +11,20 @@ import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
 import shop.lotfresh.paymentservice.domain.payment.repository.PaymentRepository;
 import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayApproveVO;
 import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayReadyVO;
-import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayResponseVO;
+import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayReadyResponseVO;
 import shop.lotfresh.paymentservice.domain.payment.vo.OrderDetailVO;
+import shop.lotfresh.paymentservice.domain.payment.webclient.KakaopayPaymentApiClient;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class PaymentService {
     private final PaymentRepository paymentRepository;
+    private final KakaopayPaymentApiClient kakaopayPaymentApiClient;
 
     @Value("${kakaopay.admin_key}")
     private String adminKey;
@@ -61,48 +64,30 @@ public class PaymentService {
                                                                     failUrl,
                                                                     cancelUrl);
 
-        /*
-        TODO: feignclient 이용해서
-         POST | https://kapi.kakao.com/v1/payment/ready?orderId=??
-         받아오기 (queryParam에 orderId넘겨야)
+        // queryParam에 orderId넘겨야 받을때 조립가능
+        KakaopayReadyResponseVO kakaopayReadyResponseVO = kakaopayPaymentApiClient.kakaopayReady(orderId, kakaopayReadyVO);
 
-        header에
-        Authorization: KakaoAK ${SERVICE_APP_ADMIN_KEY}
-        Content-type: application/x-www-form-urlencoded;charset=utf-8
+        Payment payment = kakaopayReadyResponseVO.toEntity(userId, orderId, totalPrice);
+        paymentRepository.save(payment); // TODO: 예외처리할게 있는지?
 
-        body에 kakaopayReadyVO
-         */
-
-        KakaopayResponseVO kakaopayResponseVO = null; // 해당요청에 대한 응답은 이렇게 온다.
-
-        Payment payment = kakaopayResponseVO.toEntity(userId, orderId, totalPrice);
-        paymentRepository.save(payment); // TODO: 예외처리할거 있는지 모르겠음.
-
-        //TODO: 큐알코드 화면 url 넘겨주자, status code로 줄까? 아니면 따로 뭔가 메세지를 줄까?
-        return kakaopayResponseVO.getNextRedirectPcUrl();
+        //TODO: 큐알코드 화면 url만 넘겨줘도 괜찮을지 고민중.
+        return kakaopayReadyResponseVO.getNextRedirectPcUrl();
     }
 
     @Transactional
     public void kakaopayApprove(KakaopayApproveRequest request) {
         Payment payment = paymentRepository.findByOrderId(request.getOrderId()).orElseThrow(NoSuchElementException::new);
         KakaopayApproveVO kakaopayApproveVO = request.toKakaopayApproveVO(kakaopayCid, payment);
-        /*
-        TODO: feignclient 이용해서
-         POST | https://kapi.kakao.com/v1/payment/approve?orderId=??
 
-        header에
-        Authorization: KakaoAK ${SERVICE_APP_ADMIN_KEY}
-        Content-type: application/x-www-form-urlencoded;charset=utf-8
-
-        body에 kakaopayApproveVO
-         */
-
-
-        // 오류 안나왔을시 200으로 돈 잘빠져나갔을시..
-        payment.completePayment();
-
-
-
+        try {
+            // 카카오페이 명세에 맞게 작성하였으나, 들어오는 객체의 값이 현재 우리 DB에 반영되는 상황은 아니라서 메소드 호출만 했음.
+            kakaopayPaymentApiClient.kakaopayApprove(kakaopayApproveVO);
+            payment.completePayment();
+        } catch (RuntimeException e) {
+            log.error("Failed to approve KakaoPay: " + e.getMessage());
+            payment.failPayment();
+            throw e;
+        }
     }
 
     public String generateItemName(List<OrderDetailVO> orderDetails) {
