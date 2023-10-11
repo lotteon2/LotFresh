@@ -1,4 +1,4 @@
-package com.lotfresh.orderservice.domain.orchestrator.process.afterSuccess;
+package com.lotfresh.orderservice.domain.orchestrator.process.task;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

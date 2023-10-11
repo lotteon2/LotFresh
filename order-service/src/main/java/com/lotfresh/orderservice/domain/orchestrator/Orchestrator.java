@@ -1,6 +1,6 @@
 package com.lotfresh.orderservice.domain.orchestrator;
 
-import com.lotfresh.orderservice.domain.orchestrator.process.afterSuccess.TaskList;
+import com.lotfresh.orderservice.domain.orchestrator.process.task.TaskList;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.Workflow;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public class Orchestrator {
     Workflow workflow;
-    TaskList taskList;
+    TaskList afterSuccessTasks;
     boolean isSuccessed;
     public void doTransaction() {
         workflow.getSteps().forEach(WorkflowStep::process);
@@ -23,6 +23,6 @@ public class Orchestrator {
                 .forEach(WorkflowStep::revert);
     }
     public void afterSuccess() {
-        taskList.workAll();
+        afterSuccessTasks.workAll();
     }
 }

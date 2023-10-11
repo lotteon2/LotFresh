@@ -6,9 +6,9 @@ import com.lotfresh.orderservice.domain.orchestrator.feigns.CartFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.CartRequest;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentRequest;
-import com.lotfresh.orderservice.domain.orchestrator.process.afterSuccess.CartTask;
-import com.lotfresh.orderservice.domain.orchestrator.process.afterSuccess.Task;
-import com.lotfresh.orderservice.domain.orchestrator.process.afterSuccess.TaskList;
+import com.lotfresh.orderservice.domain.orchestrator.process.task.CartTask;
+import com.lotfresh.orderservice.domain.orchestrator.process.task.Task;
+import com.lotfresh.orderservice.domain.orchestrator.process.task.TaskList;
 import com.lotfresh.orderservice.domain.orchestrator.service.response.OrderCreateResponse;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.OrderWorkflowGenerator;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.Workflow;
@@ -40,7 +40,7 @@ public class OrchestratorService {
         Workflow orderWorkflow = orderWorkflowGenerator.generateOrderWorkflow(inventoryRequests,paymentRequest);
         Orchestrator orderOrchestrator = Orchestrator.builder()
                 .workflow(orderWorkflow)
-                .taskList(taskList)
+                .afterSuccessTasks(taskList)
                 .build();
         try {
             orderOrchestrator.doTransaction();
