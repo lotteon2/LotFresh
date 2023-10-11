@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import shop.lotfresh.paymentservice.ControllerTestSupport;
+import shop.lotfresh.paymentservice.domain.payment.api.request.KakaopayApproveRequest;
 import shop.lotfresh.paymentservice.domain.payment.api.request.KakaopayReadyRequest;
 import shop.lotfresh.paymentservice.domain.payment.vo.OrderDetailVO;
 
@@ -37,7 +38,7 @@ public class PaymentApiControllerTest extends ControllerTestSupport {
 
         // Mock the behavior of the payment service
         // 응답으로 오는 redirect qr코드 url
-        String mockRedirectUrl = "https://mock.kakao.com/pay";
+        String mockRedirectUrl = "https://mock.kakao.com/pay/qr-code-url";
 
         when(paymentService.kakaopayReady(anyLong(), any(KakaopayReadyRequest.class)))
                 .thenReturn(mockRedirectUrl);
@@ -110,13 +111,46 @@ public class PaymentApiControllerTest extends ControllerTestSupport {
     }
 
 
-//    @DisplayName("order-service로부터 카카오페이 결제승인요청을 받는다.")
-//    @Test
-//    void kakaopayApprove() {
-//        KakaopayApproveRequest request = new KakaopayApproveRequest(1L, "pgtoken155123kk");
-//
-//
-//
-//    }
+    @DisplayName("order-service로부터 카카오페이 결제승인요청을 받는다.")
+    @Test
+    void kakaopayApprove() throws Exception {
+        KakaopayApproveRequest request = new KakaopayApproveRequest(1L, "pgtoken155123kk");
+
+        mockMvc
+                .perform(
+                        post("/payments/kakaopay/approve")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("결제 승인 요청의 request는 orderId를 가져야한다.")
+    @Test
+    void kakaopayApproveWithoutOrderId() throws Exception {
+        KakaopayApproveRequest request = new KakaopayApproveRequest(null, "pgtoken155123kk");
+
+        mockMvc
+                .perform(
+                        post("/payments/kakaopay/approve")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest()); ;
+    }
+
+    @DisplayName("결제 승인 요청의 request는 pgToken를 가져야한다.")
+    @Test
+    void kakaopayApproveWithoutPgToken() throws Exception {
+        KakaopayApproveRequest request = new KakaopayApproveRequest(1L, null);
+
+        mockMvc
+                .perform(
+                        post("/payments/kakaopay/approve")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest()); ;
+    }
 }
 
