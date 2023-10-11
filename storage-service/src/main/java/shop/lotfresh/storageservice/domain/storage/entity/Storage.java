@@ -1,6 +1,7 @@
 package shop.lotfresh.storageservice.domain.storage.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,13 @@ public class Storage {
     @Column(nullable = false)
     private String province;
 
+    @Builder
+    private Storage(
+            Long  id,
+            String name,
+            String province) {
+        this.id = id;
+        this.name = name;
+        this.province = province;
+    }
 }
