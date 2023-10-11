@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name="Inventory",url="localhost:80/storage")
+@FeignClient(name="Inventory",url="localhost:80/inventory")
 public interface InventoryFeignClient {
 
     @PostMapping("/deductQuantity")

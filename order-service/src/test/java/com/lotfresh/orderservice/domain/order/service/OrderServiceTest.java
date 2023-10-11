@@ -114,7 +114,6 @@ class OrderServiceTest {
     @Test
     void revertInsertOrder() {
         // given
-
         Order order = Order.builder()
                 .authId(1L)
                 .build();
