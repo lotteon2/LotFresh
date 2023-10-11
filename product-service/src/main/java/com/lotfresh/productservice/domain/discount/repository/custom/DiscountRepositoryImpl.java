@@ -5,10 +5,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import static com.lotfresh.productservice.domain.category.entity.QCategory.category;
 import static com.lotfresh.productservice.domain.discount.entity.QDiscount.discount;
+import static com.querydsl.core.group.GroupBy.groupBy;
 
 @RequiredArgsConstructor
 public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
@@ -43,5 +44,13 @@ public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
         .fetchJoin()
         .orderBy(discount.id.desc())
         .fetch();
+  }
+
+  @Override
+  public Map<Long, Double> findRateGroupByCategory() {
+    return query
+        .from(discount)
+        .where(discount.isDeleted.isFalse())
+        .transform(groupBy(discount.category.id).as(discount.rate));
   }
 }
