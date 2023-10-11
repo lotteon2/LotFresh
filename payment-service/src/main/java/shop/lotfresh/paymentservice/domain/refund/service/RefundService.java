@@ -5,9 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
 import shop.lotfresh.paymentservice.domain.payment.repository.PaymentRepository;
+import shop.lotfresh.paymentservice.domain.payment.webclient.KakaopayPaymentApiClient;
 import shop.lotfresh.paymentservice.domain.refund.api.request.RefundCreateRequest;
 import shop.lotfresh.paymentservice.domain.refund.entity.Refund;
 import shop.lotfresh.paymentservice.domain.refund.repository.RefundRepository;
+import shop.lotfresh.paymentservice.domain.refund.vo.KakaopayRefundVO;
+import shop.lotfresh.paymentservice.domain.refund.webclient.KakaopayRefundApiClient;
 
 import java.util.NoSuchElementException;
 
@@ -17,6 +20,7 @@ import java.util.NoSuchElementException;
 public class RefundService {
     private final RefundRepository refundRepository;
     private final PaymentRepository paymentRepository;
+    private final KakaopayRefundApiClient kakaopayRefundApiClient;
 
     @Transactional
     public Long createRefund(Long orderDetailId, RefundCreateRequest request) {
@@ -45,6 +49,8 @@ public class RefundService {
         }
 
         // TODO: 카카오페이 통해 환불요청하기.
+        KakaopayRefundVO request = null;
+        kakaopayRefundApiClient.kakaopayRefund(request);
 
         refund.approveRefund();
     }
