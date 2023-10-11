@@ -10,8 +10,8 @@ import com.lotfresh.orderservice.domain.orchestrator.process.afterSuccess.CartTa
 import com.lotfresh.orderservice.domain.orchestrator.process.afterSuccess.Task;
 import com.lotfresh.orderservice.domain.orchestrator.process.afterSuccess.TaskList;
 import com.lotfresh.orderservice.domain.orchestrator.service.response.OrderCreateResponse;
-import com.lotfresh.orderservice.domain.orchestrator.workflow.OrderWorkflowGenerator;
-import com.lotfresh.orderservice.domain.orchestrator.workflow.Workflow;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.OrderWorkflowGenerator;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.Workflow;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.service.OrderService;
 import lombok.RequiredArgsConstructor;

@@ -1,16 +1,18 @@
-package com.lotfresh.orderservice.domain.orchestrator.step.orderStep;
+package com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep;
 
-import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentRequest;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
-import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStep;
-import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStepStatus;
-import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStepStatus;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
+import com.lotfresh.orderservice.domain.orchestrator.feigns.InventoryFeignClient;
+import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
-public class PaymentStep implements WorkflowStep {
-    private final PaymentFeignClient feignClient;
-    private final PaymentRequest paymentRequest;
+public class InventoryStep implements WorkflowStep {
+    private final InventoryFeignClient feignClient;
+    private final List<InventoryRequest> inventoryRequests;
     private final KafkaProducer kafkaProducer;
     private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
 
@@ -21,13 +23,13 @@ public class PaymentStep implements WorkflowStep {
 
     @Override
     public void process() {
-        feignClient.requestPayment(paymentRequest);
+        feignClient.deductQuantity(inventoryRequests);
         changeStatus(WorkflowStepStatus.COMPLETE);
     }
 
     @Override
     public void revert() {
-        kafkaProducer.send("payment",paymentRequest);
+        kafkaProducer.send("inventory",inventoryRequests);
         changeStatus(WorkflowStepStatus.FAILED);
     }
 

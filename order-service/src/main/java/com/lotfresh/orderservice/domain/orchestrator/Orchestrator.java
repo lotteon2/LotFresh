@@ -1,8 +1,8 @@
 package com.lotfresh.orderservice.domain.orchestrator;
 
 import com.lotfresh.orderservice.domain.orchestrator.process.afterSuccess.TaskList;
-import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStep;
-import com.lotfresh.orderservice.domain.orchestrator.workflow.Workflow;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.Workflow;
 import lombok.Builder;
 import lombok.Getter;
 

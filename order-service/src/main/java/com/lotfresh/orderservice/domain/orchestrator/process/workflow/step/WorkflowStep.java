@@ -1,4 +1,4 @@
-package com.lotfresh.orderservice.domain.orchestrator.step;
+package com.lotfresh.orderservice.domain.orchestrator.process.workflow.step;
 
 public interface WorkflowStep {
 

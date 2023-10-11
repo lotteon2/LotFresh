@@ -1,6 +1,6 @@
-package com.lotfresh.orderservice.domain.orchestrator.workflow;
+package com.lotfresh.orderservice.domain.orchestrator.process.workflow;
 
-import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStep;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
