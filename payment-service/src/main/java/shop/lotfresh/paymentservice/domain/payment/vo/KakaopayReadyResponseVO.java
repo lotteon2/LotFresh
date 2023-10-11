@@ -2,12 +2,11 @@ package shop.lotfresh.paymentservice.domain.payment.vo;
 
 import lombok.Getter;
 import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
-import shop.lotfresh.paymentservice.domain.refund.entity.Refund;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class KakaopayResponseVO {
+public class KakaopayReadyResponseVO {
     private String tid;
     private boolean tmsResult;
     private String nextRedirectPcUrl;

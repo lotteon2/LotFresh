@@ -3,6 +3,8 @@ package shop.lotfresh.paymentservice.domain.payment.vo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 @Builder
 @AllArgsConstructor
@@ -22,4 +24,20 @@ public class KakaopayReadyVO {
     private String approvalUrl;
     private String cancelUrl;
     private String failUrl;
+
+    public MultiValueMap<String, String> toMultiValueMap() {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("cid", cid);
+        map.add("partner_order_id", partnerOrderId);
+        map.add("partner_user_id", partnerUserId);
+        map.add("item_name", itemName);
+        map.add("quantity", quantity.toString());
+        map.add("total_amount", totalAmount.toString());
+        map.add("tax_free_amount", taxFreeAmount.toString());
+        map.add("approval_url", approvalUrl);
+        map.add("cancel_url", cancelUrl);
+        map.add("fail_url", failUrl);
+
+        return map;
+    }
 }
