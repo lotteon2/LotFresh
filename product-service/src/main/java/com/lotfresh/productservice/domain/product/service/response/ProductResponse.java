@@ -57,8 +57,7 @@ public class ProductResponse {
         .detail(product.getDetail())
         .price(product.getPrice())
         .salesPrice(
-            product.getPrice()
-                - (discountRate != 0d ? (int) (product.getPrice() * (discountRate * 0.01)) : null))
+                discountRate == 0d ? null : product.getPrice() - (int) (product.getPrice() * (discountRate * 0.01)))
         .productCode(product.getProductCode())
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())
@@ -82,9 +81,8 @@ public class ProductResponse {
         .detail(product.getDetail())
         .price(product.getPrice())
         .salesPrice(
-            product.getPrice()
-                - (discountRate != 0d ? (int) (product.getPrice() * (discountRate * 0.01)) : null))
-        .productCode(product.getProductCode())
+                discountRate == 0d ? null : product.getPrice() - (int) (product.getPrice() * (discountRate * 0.01)))
+            .productCode(product.getProductCode())
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())
         .parentId(

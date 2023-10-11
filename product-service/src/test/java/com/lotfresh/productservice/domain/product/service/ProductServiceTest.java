@@ -173,7 +173,7 @@ class ProductServiceTest {
         .hasMessage("해당 상품이 존재하지 않습니다.");
   }
 
-  @DisplayName("상품 id와 상품 재고를 받아 상품상세 정보를 반환 한다.")
+  @DisplayName("상품 id와 상품 재고를 받아 상품상세 정보를 반환 한다. 할인중인 카테고리 상품이 아닌 경우 salesPrice는 null이다.")
   @Test
   void getProductDetail() throws Exception {
     // given
@@ -232,6 +232,9 @@ class ProductServiceTest {
     Product product = createProduct(category2, "충주사과", "thumbnail.jpeg", "detail", 8990, "P001");
 
     productRepository.save(product);
+
+    Integer salesPrice = product.getPrice() - (int)(product.getPrice() *  discount.getRate() * 0.01);
+
     // when
     ProductResponse productDetail = productService.getProductDetail(product.getId(), stock);
 
@@ -256,7 +259,7 @@ class ProductServiceTest {
             "thumbnail.jpeg",
             "detail",
             8990,
-            8541,
+            salesPrice,
             "P001",
             category2.getId(),
             "과일",
@@ -339,7 +342,7 @@ class ProductServiceTest {
 
   @DisplayName("상품이름을 입력 받아 상품이름을 포함하는 상품 리스트를 조회한다.")
   @Test
-  void test() throws Exception {
+  void getSearchedProducts() throws Exception {
     // given
     Category category1 = createCategory(null, "냉장");
     Category category2 = createCategory(category1, "과일");
