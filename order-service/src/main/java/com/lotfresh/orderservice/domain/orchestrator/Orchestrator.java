@@ -22,7 +22,7 @@ public class Orchestrator {
                 .filter(WorkflowStep::isRevertTarget)
                 .forEach(WorkflowStep::revert);
     }
-    public void afterSuccess() {
+    public void doAfterSuccess() {
         afterSuccessTasks.workAll();
     }
 }

@@ -45,12 +45,13 @@ public class OrchestratorService {
         try {
             orderOrchestrator.doTransaction();
         }catch(Exception e) {
+            // TODO : 예외 및 예외처리 고도화
             orderService.revertInsertOrder(orderCreateResponse);
             orderOrchestrator.revertProcess();
         }
 
         if(orderOrchestrator.isSuccessed()) {
-            orderOrchestrator.afterSuccess();
+            orderOrchestrator.doAfterSuccess();
         }
 
         return orderOrchestrator;
