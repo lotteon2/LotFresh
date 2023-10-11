@@ -29,8 +29,12 @@ public class PaymentApiController {
     @PostMapping("/kakaopay/approve")
     public ResponseEntity<Void> kakaopayApprove(@Valid @RequestBody KakaopayApproveRequest request) {
 
-        paymentService.kakaopayApprove(request);
-        return ResponseEntity.ok().build();
+        try {
+            paymentService.kakaopayApprove(request);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
 
