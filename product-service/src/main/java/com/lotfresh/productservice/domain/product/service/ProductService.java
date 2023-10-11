@@ -71,7 +71,7 @@ public class ProductService {
     return ProductResponse.of(product, discountRate, stock);
   }
 
-  public ProductPageResponse getProductByCategory(Long categoryId, PageRequest pageRequest) {
+  public ProductPageResponse getProductsByCategory(Long categoryId, PageRequest pageRequest) {
     PageImpl<Product> productPage = productRepository.findAllByCategory(categoryId, pageRequest);
     Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
     return ProductPageResponse.of(productPage, rateGroupByCategory);

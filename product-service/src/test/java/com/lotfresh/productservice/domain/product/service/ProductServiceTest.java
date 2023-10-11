@@ -339,7 +339,7 @@ class ProductServiceTest {
 
     //     when
     ProductPageResponse productPageResponse =
-        productService.getProductByCategory(category1.getId(), pageRequest);
+        productService.getProductsByCategory(category1.getId(), pageRequest);
 
     // then
     assertThat(productPageResponse.getProducts())
@@ -375,7 +375,7 @@ class ProductServiceTest {
 
     //     when
     ProductPageResponse productPageResponse =
-        productService.getProductByCategory(category2.getId(), pageRequest);
+        productService.getProductsByCategory(category2.getId(), pageRequest);
     // then
     assertThat(productPageResponse.getProducts())
         .extracting("name")

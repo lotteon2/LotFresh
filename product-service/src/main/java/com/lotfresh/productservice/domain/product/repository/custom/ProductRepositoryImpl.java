@@ -2,8 +2,10 @@ package com.lotfresh.productservice.domain.product.repository.custom;
 
 import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.product.entity.Product;
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
@@ -43,12 +45,16 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 keywordEq(pageRequest.getKeyword()))
             .offset(pageRequest.getPageable().getOffset())
             .limit(pageRequest.getPageable().getPageSize())
-            .orderBy(getOrderCondition(pageRequest.getPageable().getSort()))
+            .orderBy(
+                getOrderCondition(pageRequest.getPageable().getSort()).stream()
+                    .toArray(OrderSpecifier[]::new))
             .fetch();
 
     if (CollectionUtils.isEmpty(ids)) {
       return new PageImpl<>(
-          new ArrayList<>(), pageRequest.getPageable(), getTotalPageCount(pageRequest));
+          new ArrayList<>(),
+          pageRequest.getPageable(),
+          getTotalPageCount(pageRequest.getKeyword()));
     }
 
     List<Product> fetch =
@@ -57,18 +63,17 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             .join(product.category)
             .fetchJoin()
             .where(product.id.in(ids))
-            .orderBy(getOrderCondition(pageRequest.getPageable().getSort()))
+            .orderBy(
+                getOrderCondition(pageRequest.getPageable().getSort()).stream()
+                    .toArray(OrderSpecifier[]::new))
             .fetch();
-    
-    return new PageImpl<>(fetch, pageRequest.getPageable(), getTotalPageCount(pageRequest));
+
+    return new PageImpl<>(
+        fetch, pageRequest.getPageable(), getTotalPageCount(pageRequest.getKeyword()));
   }
 
-  private Long getTotalPageCount(PageRequest pageRequest) {
-    return query
-        .select(product.count())
-        .from(product)
-        .where(keywordEq(pageRequest.getKeyword()))
-        .fetchOne();
+  private Long getTotalPageCount(String keyword) {
+    return query.select(product.count()).from(product).where(keywordEq(keyword)).fetchOne();
   }
 
   private BooleanExpression keywordEq(String keyword) {
@@ -78,12 +83,16 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     return product.name.contains(keyword);
   }
 
-  private OrderSpecifier getOrderCondition(Sort sort) {
-    Sort.Order order = sort.iterator().next();
-    String property = order.getProperty();
-    switch (property) {
-      default:
-        return product.id.desc();
-    }
+  private List<OrderSpecifier> getOrderCondition(Sort sort) {
+    List<OrderSpecifier> orders = new ArrayList<>();
+    sort.stream()
+        .forEach(
+            order -> {
+              Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+              String property = order.getProperty();
+              PathBuilder orderByExpression = new PathBuilder(Product.class, "product");
+              orders.add(new OrderSpecifier(direction, orderByExpression.get(property)));
+            });
+    return orders;
   }
 }

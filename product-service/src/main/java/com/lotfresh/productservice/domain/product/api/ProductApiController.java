@@ -58,6 +58,6 @@ public class ProductApiController {
   @GetMapping("/categories/{categoryId}")
   public ResponseEntity<ProductPageResponse> getProductsByCategory(
       @ModelAttribute PageRequest pageRequest, @PathVariable("categoryId") Long categoryId) {
-    return ResponseEntity.ok(productService.getProductByCategory(categoryId, pageRequest));
+    return ResponseEntity.ok(productService.getProductsByCategory(categoryId, pageRequest));
   }
 }
