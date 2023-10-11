@@ -102,6 +102,7 @@ class OrchestratorServiceTest {
         for (WorkflowStep step : orchestrator.getWorkflow().getSteps()) {
             Assertions.assertThat(step.getStatus()).isEqualTo(WorkflowStepStatus.COMPLETE);
         }
+        Assertions.assertThat(orchestrator.isSuccessed()).isTrue();
     }
 
     @DisplayName("재고 감소가 실패하면 해당 주문은 softDelete로 삭제된다")
@@ -139,6 +140,7 @@ class OrchestratorServiceTest {
         boolean isAllOrderDetailDeleted = orderDetails.stream()
                 .allMatch(orderDetail -> orderDetail.getIsDeleted());
         Assertions.assertThat(isAllOrderDetailDeleted).isTrue();
+        Assertions.assertThat(orchestrator.isSuccessed()).isFalse();
 
     }
 
@@ -180,6 +182,8 @@ class OrchestratorServiceTest {
 
         WorkflowStep inventoryStep = orchestrator.getWorkflow().getSteps().get(0);
         Assertions.assertThat(inventoryStep.getStatus()).isEqualTo(WorkflowStepStatus.FAILED);
+        Assertions.assertThat(orchestrator.isSuccessed()).isFalse();
+
     }
 
     private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
