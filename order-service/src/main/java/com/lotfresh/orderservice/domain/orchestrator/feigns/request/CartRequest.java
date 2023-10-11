@@ -5,8 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Builder
 @AllArgsConstructor
-public class PaymentRequest {
+@NoArgsConstructor
+public class CartRequest {
+    private Long userId;
+    private List<Long> productIds;
 }

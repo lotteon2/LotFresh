@@ -3,6 +3,7 @@ package com.lotfresh.orderservice.domain.orchestrator.service;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.OrderCreateRequest;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
 import com.lotfresh.orderservice.domain.orchestrator.Orchestrator;
+import com.lotfresh.orderservice.domain.orchestrator.feigns.CartFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.step.WorkflowStepStatus;
@@ -46,6 +47,9 @@ class OrchestratorServiceTest {
     private PaymentFeignClient paymentFeignClient;
 
     @MockBean
+    private CartFeignClient cartFeignClient;
+
+    @MockBean
     private KafkaProducer kafkaProducer;
 
     @Autowired
@@ -64,6 +68,8 @@ class OrchestratorServiceTest {
         BDDMockito.given(inventoryFeignClient.deductQuantity(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+                .willReturn(ResponseEntity.ok().build());
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
 
         List<ProductRequest> productRequests  = List.of(
@@ -96,6 +102,7 @@ class OrchestratorServiceTest {
         for (WorkflowStep step : orchestrator.getWorkflow().getSteps()) {
             Assertions.assertThat(step.getStatus()).isEqualTo(WorkflowStepStatus.COMPLETE);
         }
+        Assertions.assertThat(orchestrator.isSuccessed()).isTrue();
     }
 
     @DisplayName("재고 감소가 실패하면 해당 주문은 softDelete로 삭제된다")
@@ -106,7 +113,10 @@ class OrchestratorServiceTest {
                 .willThrow(new RuntimeException());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.doNothing().when(kafkaProducer).send(BDDMockito.any(),BDDMockito.any());
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
+                .willReturn(ResponseEntity.ok().build());
+        BDDMockito.doNothing().when(kafkaProducer)
+                .send(BDDMockito.any(),BDDMockito.any());
 
         List<ProductRequest> productRequests  = List.of(
                 createProductRequest(1L, 100L, 1L),
@@ -130,6 +140,7 @@ class OrchestratorServiceTest {
         boolean isAllOrderDetailDeleted = orderDetails.stream()
                 .allMatch(orderDetail -> orderDetail.getIsDeleted());
         Assertions.assertThat(isAllOrderDetailDeleted).isTrue();
+        Assertions.assertThat(orchestrator.isSuccessed()).isFalse();
 
     }
 
@@ -141,7 +152,10 @@ class OrchestratorServiceTest {
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willThrow(new RuntimeException());
-        BDDMockito.doNothing().when(kafkaProducer).send(BDDMockito.any(),BDDMockito.any());
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
+                .willReturn(ResponseEntity.ok().build());
+        BDDMockito.doNothing().when(kafkaProducer)
+                .send(BDDMockito.any(),BDDMockito.any());
 
         List<ProductRequest> productRequests  = List.of(
                 createProductRequest(1L, 100L, 1L),
@@ -168,6 +182,8 @@ class OrchestratorServiceTest {
 
         WorkflowStep inventoryStep = orchestrator.getWorkflow().getSteps().get(0);
         Assertions.assertThat(inventoryStep.getStatus()).isEqualTo(WorkflowStepStatus.FAILED);
+        Assertions.assertThat(orchestrator.isSuccessed()).isFalse();
+
     }
 
     private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
