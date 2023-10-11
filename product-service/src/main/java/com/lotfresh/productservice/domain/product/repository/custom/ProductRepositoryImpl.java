@@ -72,6 +72,16 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         fetch, pageRequest.getPageable(), getTotalPageCount(pageRequest.getKeyword()));
   }
 
+  @Override
+  public List<Product> findBestProducts(List<Long> ids) {
+    return query
+        .selectFrom(product)
+        .join(product.category)
+        .fetchJoin()
+        .where(product.id.in(ids))
+        .fetch();
+  }
+
   private Long getTotalPageCount(String keyword) {
     return query.select(product.count()).from(product).where(keywordEq(keyword)).fetchOne();
   }
