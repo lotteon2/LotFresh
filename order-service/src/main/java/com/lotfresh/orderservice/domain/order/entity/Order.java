@@ -20,8 +20,7 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
 
-    @Column(unique = true,
-            nullable = false)
+    @Column(nullable = false)
     private Long authId;
 
     @Column(nullable = false)
