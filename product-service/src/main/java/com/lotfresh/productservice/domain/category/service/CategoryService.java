@@ -50,12 +50,12 @@ public class CategoryService {
   public CategoryResponse getCategory(Long categoryId) {
     Category category =
         categoryRepository.findByIdFetch(categoryId).orElseThrow(() -> new CategoryNotFound());
-    return CategoryResponse.of(category);
+    return CategoryResponse.from(category);
   }
 
   public List<CategoryResponse> getCategories() {
     List<Category> categories = categoryRepository.findAllQuery();
-    return categories.stream().map(CategoryResponse::of).collect(Collectors.toList());
+    return categories.stream().map(CategoryResponse::from).collect(Collectors.toList());
   }
 
   private Category getParentOfNullable(Long parentId) {

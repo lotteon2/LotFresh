@@ -2,12 +2,14 @@ package com.lotfresh.productservice.domain.product.api.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProductModifyRequest {
   @NotNull(message = "categoryId can not be null")
   private Long categoryId;

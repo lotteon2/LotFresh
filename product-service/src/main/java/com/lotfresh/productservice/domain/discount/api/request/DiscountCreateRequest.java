@@ -5,6 +5,7 @@ import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.discount.entity.Discount;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class DiscountCreateRequest {
 
   @NotNull(message = "categoryId can not be null")

@@ -4,12 +4,14 @@ import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.product.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProductCreateRequest {
   @NotNull(message = "categoryId can not be null")
   private Long categoryId;
