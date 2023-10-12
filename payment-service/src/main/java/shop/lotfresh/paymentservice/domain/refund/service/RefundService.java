@@ -9,6 +9,7 @@ import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
 import shop.lotfresh.paymentservice.domain.payment.repository.PaymentRepository;
 import shop.lotfresh.paymentservice.domain.refund.api.request.RefundCreateRequest;
 import shop.lotfresh.paymentservice.domain.refund.entity.Refund;
+import shop.lotfresh.paymentservice.domain.refund.entity.RefundStatus;
 import shop.lotfresh.paymentservice.domain.refund.repository.RefundRepository;
 import shop.lotfresh.paymentservice.domain.refund.vo.KakaopayRefundVO;
 import shop.lotfresh.paymentservice.domain.refund.webclient.KakaopayRefundApiClient;
@@ -29,7 +30,7 @@ public class RefundService {
 
     @Transactional
     public Long createRefund(Long orderDetailId, RefundCreateRequest request) {
-        boolean refundExists = refundRepository.existsByOrderDetailId(orderDetailId);
+        boolean refundExists = refundRepository.existsByOrderDetailId(orderDetailId); // 중복요청 방지
         if (refundExists) {
             throw new IllegalArgumentException("A refund already exists for this order detail: " + orderDetailId);
         }
@@ -42,13 +43,16 @@ public class RefundService {
     }
 
     // TODO: NOTFOUND ERROR 모아서 CUSTOM ERROR 상속하는 클래스로 묶기
-    @Transactional
+    @Transactional // FIXME: 동시요청 막기 위해서 격리수준 조정 필요. Entity에 Version 두는건 너무 과함.
     public void approveRefund(Long refundId) {
         Refund refund =
                 refundRepository.findById(refundId).orElseThrow(NoSuchElementException::new);
+        if (refund.getStatus() != RefundStatus.READY) {
+            throw new IllegalStateException("The refund request is not in a READY state"); // 1차로 중복요청방지
+        }
 
-        // payment 통해 찾은 refund들의 기존 환불성공금액들 + 이번 환불요청 금액이 결제 금액을 넘지않는지?(Approved만 합쳐야함)
-        Long totalRefundedAmount = refundRepository.findTotalRefundedAmountByPaymentId(refund.getPayment().getId());
+        // payment 통해 찾은 refund들의 기존 환불성공금액들 + 이번 환불요청 금액이 결제 금액을 넘지않는지?(Approved만 합친다)
+        Long totalRefundedAmount = refundRepository.findTotalApprovedRefundedAmountByPaymentId(refund.getPayment().getId());
         totalRefundedAmount = (totalRefundedAmount == null) ? 0 : totalRefundedAmount;
         if (refund.getAmount() + totalRefundedAmount > refund.getPayment().getTransactionAmount()) {
             throw new IllegalArgumentException("The requested refund exceeds possible transaction amount");
