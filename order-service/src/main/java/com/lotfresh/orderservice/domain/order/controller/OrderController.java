@@ -4,10 +4,7 @@ import com.lotfresh.orderservice.domain.order.service.OrderService;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -21,6 +18,11 @@ public class OrderController {
     public ResponseEntity changeStatus(@Valid @RequestBody OrderDetailChangeStatusRequest orderDetailChangeStatusRequest) {
         orderService.changeProductOrderStatus(orderDetailChangeStatusRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/mostSold")
+    public ResponseEntity mostSoldProduct(@RequestParam int limitCnt) {
+        return ResponseEntity.ok().body(orderService.getMostSoldProducts(limitCnt));
     }
 
 }

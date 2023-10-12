@@ -9,6 +9,7 @@ import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
 import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
+import com.lotfresh.orderservice.domain.order.service.response.BestProductsResponse;
 import com.lotfresh.orderservice.domain.order.service.response.OrderDetailResponse;
 import com.lotfresh.orderservice.domain.order.service.response.OrderResponse;
 import com.lotfresh.orderservice.exception.CustomException;
@@ -38,8 +39,6 @@ public class OrderService {
         List<OrderDetail> orderDetails = productRequests.stream()
                 .map(productRequest -> productRequest.toEntity(savedOrder))
                 .collect(Collectors.toList());
-
-        // TODO : 해당 시점에 Product서버와 통신해서 OrderDetail들의 productName과 productThumbnail을 알아야 함
 
         orderDetailRepository.saveAll(orderDetails);
 
@@ -89,6 +88,11 @@ public class OrderService {
                 .orderCreatedTime(order.getCreatedAt())
                 .orderDetailResponses(orderDetailResponses)
                 .build();
+    }
+
+    // TODO : 매일 정해진 시간에 Redisd에 값 전달(배치처리 or 카프카 커넥트 등등)
+    public List<BestProductsResponse> getMostSoldProducts(int limitCnt) {
+        return orderDetailRepository.mostSoldProducts(limitCnt);
     }
 
 }

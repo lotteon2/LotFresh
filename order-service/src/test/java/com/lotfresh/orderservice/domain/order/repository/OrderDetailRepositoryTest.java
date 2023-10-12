@@ -50,7 +50,7 @@ class OrderDetailRepositoryTest {
 
     }
 
-    @DisplayName("가장 많이 구매된 상품 N개를 '판매순으로 정렬해' 반환한다")
+    @DisplayName("가장 많이 구매된 상품 N개를 판매순으로 정렬해 반환한다")
     @Test
     void mostSoldProducts() {
         // given

@@ -8,6 +8,7 @@ import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
+import com.lotfresh.orderservice.domain.order.service.response.BestProductsResponse;
 import com.lotfresh.orderservice.domain.order.service.response.OrderResponse;
 import com.lotfresh.orderservice.exception.CustomException;
 import org.assertj.core.api.Assertions;
@@ -205,29 +206,8 @@ class OrderServiceTest {
                 .authId(1L)
                 .build();
 
-        OrderDetail orderDetail1 = OrderDetail.builder()
-                .order(order)
-                .productId(1L)
-                .price(10L)
-                .quantity(100L)
-                .productName("제품이름")
-                .productThumbnail("제품썸네일")
-                .status(OrderDetailStatus.CONFIRMED)
-                .build();
-        orderDetail1.changeProductName("product1");
-        orderDetail1.changeProductThumbnail("productThumb1");
-
-        OrderDetail orderDetail2 = OrderDetail.builder()
-                .order(order)
-                .productId(2L)
-                .price(20L)
-                .quantity(200L)
-                .productName("제품이름")
-                .productThumbnail("제품썸네일")
-                .status(OrderDetailStatus.CONFIRMED)
-                .build();
-        orderDetail2.changeProductName("product2");
-        orderDetail2.changeProductThumbnail("productThumb2");
+        OrderDetail orderDetail1 = createOrderDetail(order,1L,10L,100L);
+        OrderDetail orderDetail2 = createOrderDetail(order,2L,20L,200L);
 
         Order savedOrder = orderRepository.save(order);
         orderDetailRepository.save(orderDetail1);
@@ -241,12 +221,68 @@ class OrderServiceTest {
         Assertions.assertThat(orderResponse.getOrderDetailResponses()).hasSize(2)
                 .extracting("price","quantity","productName","productThumbnail")
                 .containsExactlyInAnyOrder(
-                        Tuple.tuple(10L,100L,orderDetail1.getProductName(),orderDetail1.getProductThumbnail()),
-                        Tuple.tuple(20L,200L,orderDetail2.getProductName(),orderDetail2.getProductThumbnail())
+                        Tuple.tuple(10L,100L,"제품명","제품썸네일"),
+                        Tuple.tuple(20L,200L,"제품명","제품썸네일")
                 );
 
     }
 
+    @DisplayName("가장 많이 구매된 상품 N개를 판매순으로 정렬해 반환한다")
+    @Test
+    void getMostSoldProducts() {
+        // given
+        Order order = Order.builder()
+                .authId(1L)
+                .build();
+
+        // 5번 상품 4개, 4번 상품 2개, 3번 상품 2개, 2번 상품 3개, 1번 상품 1개
+        OrderDetail orderDetail1 = createOrderDetail(order,5L,1L,1L);
+        OrderDetail orderDetail2 = createOrderDetail(order,5L,2L,2L);
+        OrderDetail orderDetail3 = createOrderDetail(order,5L,3L,3L);
+        OrderDetail orderDetail4 = createOrderDetail(order,5L,4L,4L);
+        OrderDetail orderDetail5 = createOrderDetail(order,4L,1L,1L);
+        OrderDetail orderDetail6 = createOrderDetail(order,4L,2L,2L);
+        OrderDetail orderDetail7 = createOrderDetail(order,3L,3L,3L);
+        OrderDetail orderDetail8 = createOrderDetail(order,3L,4L,4L);
+        OrderDetail orderDetail9 = createOrderDetail(order,2L,1L,1L);
+        OrderDetail orderDetail10 = createOrderDetail(order,2L,2L,2L);
+        OrderDetail orderDetail11 = createOrderDetail(order,2L,3L,3L);
+        OrderDetail orderDetail12 = createOrderDetail(order,1L,4L,4L);
+
+        orderRepository.save(order);
+        orderDetailRepository.save(orderDetail1);
+        orderDetailRepository.save(orderDetail2);
+        orderDetailRepository.save(orderDetail3);
+        orderDetailRepository.save(orderDetail4);
+        orderDetailRepository.save(orderDetail5);
+        orderDetailRepository.save(orderDetail6);
+        orderDetailRepository.save(orderDetail7);
+        orderDetailRepository.save(orderDetail8);
+        orderDetailRepository.save(orderDetail9);
+        orderDetailRepository.save(orderDetail10);
+        orderDetailRepository.save(orderDetail11);
+        orderDetailRepository.save(orderDetail12);
+
+        int limitCnt = 3;
+
+        // when
+        List<BestProductsResponse> mostSoldProducts = orderService.getMostSoldProducts(limitCnt);
+
+        // then
+        Assertions.assertThat(mostSoldProducts).hasSize(limitCnt)
+                .extracting("cnt")
+                .containsExactly(4L,3L,2L);
+
+    }
+
+    @DisplayName("베스트상품 조회는 아무런 구매 정보가 존재하지 않을 때 빈 배열을 반환한다")
+    @Test
+    void returnEmptyListWhenOrderDetailIsNotExist() {
+        int limitCnt = 3;
+        List<BestProductsResponse> mostSoldProducts = orderService.getMostSoldProducts(limitCnt);
+        Assertions.assertThat(mostSoldProducts).isEmpty();
+
+    }
 
     private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
         return ProductRequest.builder()
@@ -256,6 +292,19 @@ class OrderServiceTest {
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
                 .build();
+    }
+
+    private OrderDetail createOrderDetail(Order order, Long productId, Long price, Long quantity) {
+        return OrderDetail.builder()
+                .order(order)
+                .productId(productId)
+                .price(price)
+                .quantity(quantity)
+                .productName("제품명")
+                .productThumbnail("제품썸네일")
+                .status(OrderDetailStatus.CONFIRMED)
+                .build();
+
     }
 
 }
