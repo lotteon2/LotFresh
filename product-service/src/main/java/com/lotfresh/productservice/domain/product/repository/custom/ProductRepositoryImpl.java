@@ -54,7 +54,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
       return new PageImpl<>(
           new ArrayList<>(),
           pageRequest.getPageable(),
-          getTotalPageCount(pageRequest.getKeyword()));
+          0);
     }
 
     List<Product> fetch =
