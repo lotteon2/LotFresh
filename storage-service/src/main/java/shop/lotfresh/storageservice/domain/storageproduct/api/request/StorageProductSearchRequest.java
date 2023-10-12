@@ -20,4 +20,10 @@ public class StorageProductSearchRequest {
     private Date expiration_date_start;
 
     private Date expiration_date_end;
+
+
+    public Long getStorage() {
+        return this.storage_id;
+
+    }
 }
