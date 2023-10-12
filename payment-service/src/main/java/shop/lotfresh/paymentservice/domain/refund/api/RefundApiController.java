@@ -26,8 +26,12 @@ public class RefundApiController {
 
     @PatchMapping("/{refundId}/approve")
     public ResponseEntity<Void> approveRefund(@PathVariable Long refundId) {
-        refundService.approveRefund(refundId);
-        return ResponseEntity.ok().build();
+        try {
+            refundService.approveRefund(refundId);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PatchMapping("/{refundId}/reject")
