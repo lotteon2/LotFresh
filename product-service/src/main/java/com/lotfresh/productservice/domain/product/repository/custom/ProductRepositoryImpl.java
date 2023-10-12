@@ -46,8 +46,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 product.isDeleted.isFalse())
             .offset(pageRequest.getPageable().getOffset())
             .limit(pageRequest.getPageable().getPageSize())
+            .orderBy(
+                getOrderCondition(pageRequest.getPageable().getSort()).stream()
+                    .toArray(OrderSpecifier[]::new))
             .fetch();
-
     if (CollectionUtils.isEmpty(ids)) {
       return new PageImpl<>(
           new ArrayList<>(),

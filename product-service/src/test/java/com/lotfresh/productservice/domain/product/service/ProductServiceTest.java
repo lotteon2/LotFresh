@@ -336,11 +336,10 @@ class ProductServiceTest {
     String keyword = null;
     Integer page = 1;
     PageRequest pageRequest = new PageRequest(order, keyword, page);
-
     //     when
     ProductPageResponse productPageResponse =
         productService.getProductsByCategory(category1.getId(), pageRequest);
-
+    System.out.println(productPageResponse);
     // then
     assertThat(productPageResponse.getProducts())
         .extracting("name")
