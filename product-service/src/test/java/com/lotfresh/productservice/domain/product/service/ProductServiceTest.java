@@ -339,7 +339,6 @@ class ProductServiceTest {
     //     when
     ProductPageResponse productPageResponse =
         productService.getProductsByCategory(category1.getId(), pageRequest);
-    System.out.println(productPageResponse);
     // then
     assertThat(productPageResponse.getProducts())
         .extracting("name")
