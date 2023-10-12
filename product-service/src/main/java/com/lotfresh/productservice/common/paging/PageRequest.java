@@ -1,6 +1,7 @@
 package com.lotfresh.productservice.common.paging;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Pageable;
 
@@ -8,6 +9,7 @@ import static org.springframework.data.domain.Sort.Direction;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class PageRequest {
   private static final int DEFAULT_PAGE = 0;
   private static final int PAGE_SIZE = 16;
