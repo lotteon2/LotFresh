@@ -21,6 +21,10 @@ public class ProductRequest {
     private Long productPrice;
     @NotNull(message = "productQuantity cannot be null")
     private Long productQuantity;
+    @NotNull(message = "productName cannot be null")
+    private String productName;
+    @NotNull(message = "producThumbnail cannot be null")
+    private String productThumbnail;
 
     public OrderDetail toEntity(Order order) {
         return OrderDetail.builder()
@@ -29,6 +33,8 @@ public class ProductRequest {
                 .price(productPrice)
                 .quantity(productQuantity)
                 .status(OrderDetailStatus.CONFIRMED)
+                .productName(productName)
+                .productThumbnail(productThumbnail)
                 .build();
     }
 

@@ -183,6 +183,8 @@ class OrchestratorServiceTest {
                 .productId(productId)
                 .productPrice(productPrice)
                 .productQuantity(productQuantity)
+                .productName("제품이름")
+                .productThumbnail("제품썸네일")
                 .build();
     }
 

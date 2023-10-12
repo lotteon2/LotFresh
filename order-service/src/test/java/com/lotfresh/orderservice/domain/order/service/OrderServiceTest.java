@@ -69,6 +69,8 @@ class OrderServiceTest {
                 .productId(1L)
                 .price(1000L)
                 .quantity(1L)
+                .productName("제품이름")
+                .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
                 .build();
 
@@ -124,6 +126,8 @@ class OrderServiceTest {
                 .productId(1L)
                 .price(1000L)
                 .quantity(1L)
+                .productName("제품이름")
+                .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
                 .build();
         OrderDetail orderDetail2 = OrderDetail.builder()
@@ -131,6 +135,8 @@ class OrderServiceTest {
                 .productId(1L)
                 .price(1000L)
                 .quantity(1L)
+                .productName("제품이름")
+                .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
                 .build();
 
@@ -171,6 +177,8 @@ class OrderServiceTest {
                 .productId(1L)
                 .price(1000L)
                 .quantity(1L)
+                .productName("제품이름")
+                .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
                 .build();
 
@@ -202,6 +210,8 @@ class OrderServiceTest {
                 .productId(1L)
                 .price(10L)
                 .quantity(100L)
+                .productName("제품이름")
+                .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
                 .build();
         orderDetail1.changeProductName("product1");
@@ -212,6 +222,8 @@ class OrderServiceTest {
                 .productId(2L)
                 .price(20L)
                 .quantity(200L)
+                .productName("제품이름")
+                .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
                 .build();
         orderDetail2.changeProductName("product2");
@@ -241,6 +253,8 @@ class OrderServiceTest {
                 .productId(productId)
                 .productPrice(productPrice)
                 .productQuantity(productQuantity)
+                .productName("제품이름")
+                .productThumbnail("제품썸네일")
                 .build();
     }
 

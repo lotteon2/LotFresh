@@ -33,6 +33,8 @@ class OrderDetailRepositoryTest {
                 .productId(1L)
                 .price(10L)
                 .quantity(100L)
+                .productName("제품이름")
+                .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
                 .build();
         OrderDetail orderDetail2 = OrderDetail.builder()
@@ -40,6 +42,8 @@ class OrderDetailRepositoryTest {
                 .productId(2L)
                 .price(20L)
                 .quantity(200L)
+                .productName("제품이름")
+                .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
                 .build();
 

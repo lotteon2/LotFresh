@@ -42,22 +42,30 @@ public class OrderDetail extends BaseEntity {
     @Column(nullable = false)
     private Boolean isDeleted = false;
 
+    @Column(nullable = false)
     private String productName;
+    @Column(nullable = false)
     private String productThumbnail;
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus = DeliveryStatus.READY;
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus = PaymentStatus.READY;
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RefundStatus refundStatus = RefundStatus.READY;
 
     @Builder
-    private OrderDetail(Order order, Long productId, Long price, Long quantity, OrderDetailStatus status) {
+    private OrderDetail(Order order, Long productId, Long price, Long quantity, OrderDetailStatus status,
+            String productName, String productThumbnail) {
         this.order = order;
         this.productId = productId;
         this.price = price;
         this.quantity = quantity;
         this.status = status;
+        this.productName = productName;
+        this.productThumbnail = productThumbnail;
     }
 
     public void changeProductOrderStatus(OrderDetailStatus status) {
