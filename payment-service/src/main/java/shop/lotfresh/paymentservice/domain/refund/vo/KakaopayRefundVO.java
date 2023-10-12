@@ -1,14 +1,15 @@
 package shop.lotfresh.paymentservice.domain.refund.vo;
 
+import lombok.Builder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+@Builder
 public class KakaopayRefundVO {
     private String cid;
     private String tid;
-    private Integer cancelAmount;
-    private Integer cancelTaxFreeAmount;
-
+    private Long cancelAmount;
+    private Long cancelTaxFreeAmount;
 
     public MultiValueMap<String, String> toMultiValueMap() {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
