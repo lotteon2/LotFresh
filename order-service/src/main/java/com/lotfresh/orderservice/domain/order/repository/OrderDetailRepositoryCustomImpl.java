@@ -1,9 +1,9 @@
 package com.lotfresh.orderservice.domain.order.repository;
 
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
+import com.lotfresh.orderservice.domain.order.service.response.BestProductsResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -22,9 +22,26 @@ public class OrderDetailRepositoryCustomImpl implements OrderDetailRepositoryCus
         return queryFactory.selectFrom(orderDetail)
                 .where(
                         orderDetail.order.id.eq(orderId),
-                        orderDetail.order.isDeleted.isFalse()
+                        orderDetail.isDeleted.isFalse()
                 )
                 .fetch();
+    }
+
+    @Override
+    public List<BestProductsResponse> mostSoldProducts(int limitCnt) {
+        return queryFactory.select(Projections.constructor(BestProductsResponse.class,
+                orderDetail.productId,
+                orderDetail.id.count())
+                )
+                .from(orderDetail)
+                .where(
+                        orderDetail.isDeleted.isFalse()
+                )
+                .groupBy(orderDetail.productId)
+                .orderBy(orderDetail.id.count().desc())
+                .limit(limitCnt)
+                .fetch();
+
     }
 
 }
