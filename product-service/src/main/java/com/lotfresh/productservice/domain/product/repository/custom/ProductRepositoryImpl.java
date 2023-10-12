@@ -8,8 +8,10 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
   }
 
   @Override
-  public PageImpl<Product> findAllByCategory(Long categoryId, PageRequest pageRequest) {
+  public Page<Product> findAllByCategory(Long categoryId, PageRequest pageRequest) {
 
     List<Long> ids =
         query
@@ -50,11 +52,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 getOrderCondition(pageRequest.getPageable().getSort()).stream()
                     .toArray(OrderSpecifier[]::new))
             .fetch();
+
     if (CollectionUtils.isEmpty(ids)) {
-      return new PageImpl<>(
-          new ArrayList<>(),
-          pageRequest.getPageable(),
-          0);
+      return new PageImpl<>(new ArrayList<>(), pageRequest.getPageable(), 0);
     }
 
     List<Product> fetch =
@@ -68,8 +68,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                     .toArray(OrderSpecifier[]::new))
             .fetch();
 
-    return new PageImpl<>(
-        fetch, pageRequest.getPageable(), getTotalPageCount(pageRequest.getKeyword()));
+    return PageableExecutionUtils.getPage(
+        fetch, pageRequest.getPageable(), () -> getTotalPageCount(pageRequest.getKeyword()));
   }
 
   @Override

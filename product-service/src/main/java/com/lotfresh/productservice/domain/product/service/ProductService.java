@@ -13,7 +13,7 @@ import com.lotfresh.productservice.domain.product.repository.ProductRepository;
 import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
 import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,7 +70,7 @@ public class ProductService {
   }
 
   public ProductPageResponse getProductsByCategory(Long categoryId, PageRequest pageRequest) {
-    PageImpl<Product> productPage = productRepository.findAllByCategory(categoryId, pageRequest);
+    Page<Product> productPage = productRepository.findAllByCategory(categoryId, pageRequest);
     Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
     return ProductPageResponse.of(productPage, rateGroupByCategory);
   }
