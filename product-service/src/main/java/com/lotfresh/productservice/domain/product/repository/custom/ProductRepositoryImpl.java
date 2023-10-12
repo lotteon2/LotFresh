@@ -42,12 +42,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             .from(product)
             .where(
                 product.category.id.eq(categoryId).or(product.category.parent.id.eq(categoryId)),
-                keywordEq(pageRequest.getKeyword()))
+                keywordEq(pageRequest.getKeyword()),
+                product.isDeleted.isFalse())
             .offset(pageRequest.getPageable().getOffset())
             .limit(pageRequest.getPageable().getPageSize())
-            .orderBy(
-                getOrderCondition(pageRequest.getPageable().getSort()).stream()
-                    .toArray(OrderSpecifier[]::new))
             .fetch();
 
     if (CollectionUtils.isEmpty(ids)) {
@@ -78,12 +76,16 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         .selectFrom(product)
         .join(product.category)
         .fetchJoin()
-        .where(product.id.in(ids))
+        .where(product.id.in(ids), product.isDeleted.isFalse())
         .fetch();
   }
 
   private Long getTotalPageCount(String keyword) {
-    return query.select(product.count()).from(product).where(keywordEq(keyword)).fetchOne();
+    return query
+        .select(product.count())
+        .from(product)
+        .where(keywordEq(keyword), product.isDeleted.isFalse())
+        .fetchOne();
   }
 
   private BooleanExpression keywordEq(String keyword) {
