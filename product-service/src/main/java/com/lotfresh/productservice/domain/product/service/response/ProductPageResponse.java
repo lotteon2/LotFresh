@@ -16,10 +16,12 @@ import java.util.stream.Collectors;
 public class ProductPageResponse {
   private List<ProductResponse> products;
   private Integer totalPage;
+  private Long totalElements;
 
-  private ProductPageResponse(List<ProductResponse> products, Integer totalPage) {
+  private ProductPageResponse(List<ProductResponse> products, Integer totalPage, Long totalElements) {
     this.products = products;
     this.totalPage = totalPage;
+    this.totalElements = totalElements;
   }
 
   public static ProductPageResponse of(
@@ -32,6 +34,6 @@ public class ProductPageResponse {
                         product,
                         rateGroupByCategory.getOrDefault(product.getCategory().getId(), 0d)))
             .collect(Collectors.toList());
-    return new ProductPageResponse(products, productPage.getTotalPages());
+    return new ProductPageResponse(products, productPage.getTotalPages(), productPage.getTotalElements());
   }
 }
