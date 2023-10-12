@@ -4,5 +4,8 @@
     <content url="file://$MODULE_DIR$/../../storage-service/build/generated/sources/annotationProcessor/java/main">
       <sourceFolder url="file://$MODULE_DIR$/../../storage-service/build/generated/sources/annotationProcessor/java/main" isTestSource="false" generated="true" />
     </content>
+    <content url="file://$MODULE_DIR$/../../storage-service/src/main" dumb="true">
+      <excludeFolder url="file://$MODULE_DIR$/../../storage-service/src/main/java/shop/lotfresh/storageservice/domain/orderproduct/api/entity" />
+    </content>
   </component>
 </module>
