@@ -5,15 +5,16 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+// TODO: 일괄변경이 되고, 내가 아예 이름을 다르게 하고 싶은것에만 적용이 가능하구나?
 public class KakaopayApproveResponseVO {
     private String aid;
     private String tid;
     private String cid;
-    @JsonProperty("partner_order_id")
+    @JsonProperty("partner_order_id") // 얘는 다르다.
     private String orderId;
-    @JsonProperty("partner_user_id")
+    @JsonProperty("partner_user_id") // 얘는 다르다.
     private String oauthId;
-    @JsonProperty("payment_method_type")
+    @JsonProperty("payment_method_type") // 얘는 다르다.
     private String paymentMethod;
     @JsonProperty("item_name")
     private String itemName;
