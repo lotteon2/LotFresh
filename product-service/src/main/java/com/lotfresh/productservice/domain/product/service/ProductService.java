@@ -4,7 +4,6 @@ import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
-import com.lotfresh.productservice.domain.discount.entity.Discount;
 import com.lotfresh.productservice.domain.discount.repository.DiscountRepository;
 import com.lotfresh.productservice.domain.product.api.request.ProductCreateRequest;
 import com.lotfresh.productservice.domain.product.api.request.ProductModifyRequest;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -78,11 +76,6 @@ public class ProductService {
   }
 
   private Double getDiscountRateByCategory(Long categoryId) {
-    Optional<Discount> optionalDiscount = discountRepository.findByCategoryId(categoryId);
-    if (optionalDiscount.isPresent()) {
-      Discount discount = optionalDiscount.get();
-      return discount.getRate();
-    }
-    return 0d;
+    return discountRepository.findRateByCategoryId(categoryId).orElse(0d);
   }
 }

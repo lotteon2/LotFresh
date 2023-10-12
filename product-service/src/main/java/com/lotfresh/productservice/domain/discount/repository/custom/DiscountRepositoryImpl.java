@@ -37,6 +37,16 @@ public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
   }
 
   @Override
+  public Optional<Double> findRateByCategoryId(Long categoryId) {
+    return Optional.ofNullable(
+        query
+            .select(discount.rate)
+            .from(discount)
+            .where(discount.category.id.eq(categoryId), discount.category.isDeleted.isFalse())
+            .fetchOne());
+  }
+
+  @Override
   public List<Discount> findAllFetch() {
     return query
         .selectFrom(discount)

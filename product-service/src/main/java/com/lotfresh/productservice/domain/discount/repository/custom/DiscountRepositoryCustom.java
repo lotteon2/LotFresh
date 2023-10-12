@@ -11,6 +11,8 @@ public interface DiscountRepositoryCustom {
 
   Optional<Discount> findByCategoryId(Long categoryId);
 
+  Optional<Double> findRateByCategoryId(Long categoryId);
+
   List<Discount> findAllFetch();
 
   Map<Long, Double> findRateGroupByCategory();
