@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayApproveErrorResponseVO;
-import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayApproveResponseVO;
 import shop.lotfresh.paymentservice.domain.refund.vo.KakaopayRefundResponseVO;
 import shop.lotfresh.paymentservice.domain.refund.vo.KakaopayRefundVO;
 

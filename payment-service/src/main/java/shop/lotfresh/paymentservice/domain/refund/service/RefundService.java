@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import javax.validation.Valid;
 import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
 import shop.lotfresh.paymentservice.domain.payment.repository.PaymentRepository;
 import shop.lotfresh.paymentservice.domain.refund.api.request.RefundCreateRequest;

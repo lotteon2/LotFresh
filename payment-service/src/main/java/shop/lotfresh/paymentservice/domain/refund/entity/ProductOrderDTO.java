@@ -1,9 +1,7 @@
 package shop.lotfresh.paymentservice.domain.refund.entity;
 
 import lombok.*;
-import shop.lotfresh.paymentservice.common.BaseTimeEntity;
 
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder

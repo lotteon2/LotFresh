@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import shop.lotfresh.paymentservice.domain.payment.api.request.KakaopayApproveRequest;
 import shop.lotfresh.paymentservice.domain.payment.api.request.KakaopayReadyRequest;
 import shop.lotfresh.paymentservice.domain.payment.service.PaymentService;
-import shop.lotfresh.paymentservice.domain.refund.api.request.RefundCreateRequest;
 
 import javax.validation.Valid;
 
