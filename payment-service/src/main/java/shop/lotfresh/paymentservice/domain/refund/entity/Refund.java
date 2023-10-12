@@ -3,6 +3,7 @@ package shop.lotfresh.paymentservice.domain.refund.entity;
 import lombok.*;
 import shop.lotfresh.paymentservice.common.BaseTimeEntity;
 import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
+import shop.lotfresh.paymentservice.domain.refund.vo.KakaopayRefundVO;
 
 import javax.persistence.*;
 
@@ -51,6 +52,16 @@ public class Refund extends BaseTimeEntity {
             throw new IllegalStateException("Only refund in READY status can be rejected");
         }
         this.status = RefundStatus.REJECTED;
+    }
+
+    public KakaopayRefundVO toVO(String kakaopayCid) {
+        return KakaopayRefundVO.builder()
+                .cid(kakaopayCid)
+                .tid(payment.getTid())
+                .cancelAmount(amount)
+                .cancelTaxFreeAmount(0L)
+                .build();
+
     }
 
 }
