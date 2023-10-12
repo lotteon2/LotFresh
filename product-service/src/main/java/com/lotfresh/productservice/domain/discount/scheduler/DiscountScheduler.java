@@ -12,7 +12,7 @@ public class DiscountScheduler {
     private final DiscountRepository discountRepository;
 
     @Transactional
-    @Scheduled(cron = "0 0 0 1/1 * ?", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     public void updateExpiredDiscounts() {
         discountRepository.updateExpiredDiscounts();
     }

@@ -12,6 +12,6 @@ public interface DiscountRepository
   @Modifying(clearAutomatically = true)
   @Query(
       value =
-          "update discount set is_deleted = true where is_deleted = false and end_date = curdate() +interval 1 day ", nativeQuery = true)
+          "update discount set is_deleted = true where is_deleted = false and end_date <= curdate() + interval 1 day ", nativeQuery = true)
   void updateExpiredDiscounts();
 }
