@@ -12,48 +12,46 @@ import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+
 public class AuthDomainApplicationServiceImpl implements
     AuthDomainApplicationService {
 
   @Override
-  public CreateAuthDomainEvent createAuthUser(AuthUser authUserAbstract) {
-    return new CreateAuthDomainEvent(
-        AuthUserAbstract.InitCreation(authUserAbstract.getId(), authUserAbstract.getEmail(),
-        authUserAbstract.getPassword(), authUserAbstract.getAuthProvider()),
-        ZonedDateTime.now());
+  public CreateAuthDomainEvent createAuthUser(AuthUser authUser) {
+    authUser.initCreation(authUser.getId(),authUser.getAuthProvider());
+    return new CreateAuthDomainEvent(authUser,ZonedDateTime.now());
   }
 
   @Override
-  public DeleteAuthDomainEvent deleteAuthUser(AuthUser authUserAbstract) {
-    return new DeleteAuthDomainEvent(authUserAbstract, ZonedDateTime.now());
+  public DeleteAuthDomainEvent deleteAuthUser(AuthUser authUser) {
+    return new DeleteAuthDomainEvent(authUser, ZonedDateTime.now());
   }
 
   @Override
-  public LoginAuthDomainEvent login(AuthUser authUserAbstract) {
-    return new LoginAuthDomainEvent(
-        authUserAbstract.loginProcessor(authUserAbstract.getId(), authUserAbstract.getEmail(),
-        authUserAbstract.getPassword(), authUserAbstract.getAuthProvider()), ZonedDateTime.now());
+  public LoginAuthDomainEvent login(AuthUser authUser) {
+    authUser.loginProcessor(authUser.getId(), authUser.getEmail(), authUser.getPassword(),
+        authUser.getAuthProvider());
+    return new LoginAuthDomainEvent(authUser, ZonedDateTime.now());
   }
 
   @Override
-  public LoginSessionExtendAuthDomainEvent checkSessionIsExpired(AuthUser authUserAbstract) {
-    authUserAbstract.extendLoginSession(authUserAbstract.getId());
-    return new LoginSessionExtendAuthDomainEvent(authUserAbstract, ZonedDateTime.now());
+  public LoginSessionExtendAuthDomainEvent checkSessionIsExpired(AuthUser authUser) {
+    authUser.extendLoginSession(authUser.getId());
+    return new LoginSessionExtendAuthDomainEvent(authUser, ZonedDateTime.now());
   }
 
   @Override
-  public LogoutAuthDomainEvent logout(AuthUser authUserAbstract) {
-
-    authUserAbstract.logOut(authUserAbstract.getId());
-    return new LogoutAuthDomainEvent(authUserAbstract, ZonedDateTime.now());
+  public LogoutAuthDomainEvent logout(AuthUser authUser) {
+    authUser.logOut(authUser.getId());
+    return new LogoutAuthDomainEvent(authUser, ZonedDateTime.now());
   }
 
   @Override
   public UpdateAuthDomainRoleEvent updateRole(
-      AuthUser authUserAbstract, AuthUser target) {
-    authUserAbstract.updateAdminAuthorization(authUserAbstract.getUserRole(), authUserAbstract.getDescription(),
+      AuthUser actor, AuthUser target) {
+    actor.updateAdminAuthorization(actor.getUserRole(), actor.getDescription(),
         target.getUserRole(),
         target.getDescription());
-    return new UpdateAuthDomainRoleEvent(target,ZonedDateTime.now());
+    return new UpdateAuthDomainRoleEvent(target, ZonedDateTime.now());
   }
 }

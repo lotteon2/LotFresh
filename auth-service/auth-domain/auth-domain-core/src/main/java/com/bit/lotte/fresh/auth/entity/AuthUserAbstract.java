@@ -1,6 +1,7 @@
 package com.bit.lotte.fresh.auth.entity;
 
 import com.bit.lotte.fresh.auth.exception.AlreadyVerifiedAuthDomainException;
+import com.bit.lotte.fresh.auth.exception.AuthUserDomainException;
 import com.bit.lotte.fresh.auth.exception.AuthenticationDomainException;
 import com.bit.lotte.fresh.auth.exception.AuthorizationAuthDomainException;
 import com.bit.lotte.fresh.auth.exception.LoginFailedAuthDomainException;
@@ -32,13 +33,11 @@ public abstract class AuthUserAbstract extends AggregateRoot<AuthUserId> {
  private ZonedDateTime lastLoginTime;
 
 
-
- public static AuthUserAbstract InitCreation(AuthUserId id, String email, String password,
+ public void initCreation(AuthUserId id,
      AuthProvider authProvider) {
-  return AuthUserAbstract.builder().id(id).email(email).password(password)
-      .authProvider(authProvider).userRole(AuthRole.NOT_VERIFIED).isLoginSessionExpired(false)
-      .description(null).lastLoginTime(null)
-      .build();
+  if (id == null || authProvider == null) {
+   throw new AuthUserDomainException("인증 제공자와, 아이디를 입력해야합니다.");
+  }
  }
 
  public void checkCategoryAdminAuthorization(String actorCategoryAdminDescription,

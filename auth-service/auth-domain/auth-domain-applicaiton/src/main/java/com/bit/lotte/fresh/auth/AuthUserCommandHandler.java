@@ -13,7 +13,6 @@ import com.bit.lotte.fresh.auth.event.UpdateAuthDomainRoleEvent;
 import com.bit.lotte.fresh.auth.exception.AuthUserDomainException;
 import com.bit.lotte.fresh.auth.mapper.AuthUserMapper;
 import com.bit.lotte.fresh.auth.repository.AuthUserRepository;
-import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -51,22 +50,35 @@ public class AuthUserCommandHandler {
   }
 
   public LoginAuthDomainEvent login(LoginAuthDomainCommand command) {
-
-      AuthUser authUser = authUserMapper.LoginAuthDomainCommandToUser(command);
-      authUser.loginProcessor(authUser.getId(),authUser.getEmail(),authUser.getPassword(),authUser.getAuthProvider());
-      return new LoginAuthDomainEvent(authUser,ZonedDateTime.now());
+    AuthUser authUser = authUserMapper.loginAuthDomainCommandToUser(command);
+    authUser.loginProcessor(authUser.getId(), authUser.getEmail(), authUser.getPassword(),
+        authUser.getAuthProvider());
+    return new LoginAuthDomainEvent(authUser, ZonedDateTime.now());
   }
 
   public LoginSessionExtendAuthDomainEvent loginSessionExtend(AuthUserIdCommand id) {
-
+    AuthUser authUser = getAuthUser(id);
+    authUser.extendLoginSession(id.getAuthUserId());
+    return new LoginSessionExtendAuthDomainEvent(authUser, ZonedDateTime.now());
   }
 
-  public LogoutAuthDomainEvent logout(AuthUserId id) {
-
+  public LogoutAuthDomainEvent logout(AuthUserIdCommand id) {
+    AuthUser authUser = getAuthUser(id);
+    authUser.logOut(id.getAuthUserId());
+    authUserRepository.updateTheLastLogin(id.getAuthUserId());
+    return new LogoutAuthDomainEvent(authUser, ZonedDateTime.now());
   }
 
-  public UpdateAuthDomainRoleEvent updateRole(AuthUserId actor, AuthUserId target) {
+  public UpdateAuthDomainRoleEvent updateRole(AuthUserIdCommand actor, AuthUserIdCommand target) {
+    AuthUser actorUser = getAuthUser(actor);
+    AuthUser targetUser = getAuthUser(target);
 
+    targetUser.updateAdminAuthorization(actorUser.getUserRole(), actorUser.getDescription(),
+        targetUser.getUserRole(),
+        targetUser.getDescription());
+    authUserRepository.updateRole(targetUser.getId(),targetUser.getUserRole());
+
+    return new UpdateAuthDomainRoleEvent(targetUser, ZonedDateTime.now());
   }
 
 }

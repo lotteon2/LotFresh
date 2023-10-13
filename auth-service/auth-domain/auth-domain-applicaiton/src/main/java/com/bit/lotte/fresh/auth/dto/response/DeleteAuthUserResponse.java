@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Builder
 @Getter
 public class DeleteAuthUserResponse {
@@ -16,7 +15,7 @@ public class DeleteAuthUserResponse {
   private String message;
 
   public DeleteAuthUserResponse(AuthUserId authUserId,
-      AuthProvider authProvider, String message) {
+      AuthProvider authProvider) {
     this.authUserId = authUserId;
     this.authProvider = authProvider;
     this.getMessage();

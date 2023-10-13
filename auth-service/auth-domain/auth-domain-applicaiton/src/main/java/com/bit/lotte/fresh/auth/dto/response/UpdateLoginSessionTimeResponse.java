@@ -24,7 +24,7 @@ public class UpdateLoginSessionTimeResponse {
     this.authUserId = authUserId;
     this.authProvider = authProvider;
     this.zonedDateTime = zonedDateTime;
-    this.message = message;
+    getMessage();
   }
 
   private void getMessage() {

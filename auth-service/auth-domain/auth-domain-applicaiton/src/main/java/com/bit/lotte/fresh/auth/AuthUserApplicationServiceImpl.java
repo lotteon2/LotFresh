@@ -7,7 +7,12 @@ import com.bit.lotte.fresh.auth.dto.response.DeleteAuthUserResponse;
 import com.bit.lotte.fresh.auth.dto.response.LogOutAuthUserResponse;
 import com.bit.lotte.fresh.auth.dto.response.UpdateAuthUserRoleResponse;
 import com.bit.lotte.fresh.auth.dto.response.UpdateLoginSessionTimeResponse;
+import com.bit.lotte.fresh.auth.entity.AuthUser;
 import com.bit.lotte.fresh.auth.event.CreateAuthDomainEvent;
+import com.bit.lotte.fresh.auth.event.DeleteAuthDomainEvent;
+import com.bit.lotte.fresh.auth.event.LoginSessionExtendAuthDomainEvent;
+import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
+import com.bit.lotte.fresh.auth.event.UpdateAuthDomainRoleEvent;
 import com.bit.lotte.fresh.auth.mapper.AuthUserMapper;
 import com.bit.lotte.fresh.auth.port.input.AuthUserApplicationService;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
@@ -29,22 +34,28 @@ public class AuthUserApplicationServiceImpl implements
   }
 
   @Override
-  public DeleteAuthUserResponse deleteAuthUser(AuthUserIdCommand id) {
-    return null;
+  public DeleteAuthUserResponse deleteAuthUser(AuthUserIdCommand command) {
+    DeleteAuthDomainEvent event = commandHandler.deleteAuthUser(command);
+    return mapper.deleteAuthUserDomainEventToResponse(event);
   }
 
   @Override
   public LogOutAuthUserResponse logOutAuthUser(AuthUserIdCommand id) {
-    return null;
+    LogoutAuthDomainEvent event = commandHandler.logout(id);
+    return mapper.logOutAuthDomainEventToResponse(event);
+  }
+
+
+
+  @Override
+  public UpdateAuthUserRoleResponse updateRole(AuthUserIdCommand actor, AuthUserIdCommand target) {
+     UpdateAuthDomainRoleEvent event = commandHandler.updateRole(actor,target);
+     return mapper.updateAuthUserRoleToResponse(event);
   }
 
   @Override
-  public UpdateAuthUserRoleResponse updateRole(AuthUserIdCommand actor, AuthUserId target) {
-    return null;
-  }
-
-  @Override
-  public UpdateLoginSessionTimeResponse extendLoginTime(AuthUserId id) {
-    return null;
+  public UpdateLoginSessionTimeResponse extendLoginTime(AuthUserIdCommand id) {
+    LoginSessionExtendAuthDomainEvent event = commandHandler.loginSessionExtend(id);
+    return mapper.extendAuthUserLoginSessionEventToResponse(event);
   }
 }

@@ -13,7 +13,7 @@ public interface AuthUserApplicationService {
   CreateInitAuthUserResponse createAuthUser(CreateAuthDomainCommand command);
   DeleteAuthUserResponse deleteAuthUser(AuthUserIdCommand id);
   LogOutAuthUserResponse logOutAuthUser(AuthUserIdCommand id);
-  UpdateAuthUserRoleResponse updateRole(AuthUserIdCommand actor , AuthUserId target);
-  UpdateLoginSessionTimeResponse extendLoginTime(AuthUserId id);
+  UpdateAuthUserRoleResponse updateRole(AuthUserIdCommand actor , AuthUserIdCommand target);
+  UpdateLoginSessionTimeResponse extendLoginTime(AuthUserIdCommand id);
 
 }
