@@ -2,7 +2,7 @@ package com.lotfresh.orderservice.domain.orchestrator.controller.request;
 
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
-import com.lotfresh.orderservice.domain.order.entity.OrderDetailStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +21,10 @@ public class ProductRequest {
     private Long productPrice;
     @NotNull(message = "productQuantity cannot be null")
     private Long productQuantity;
+    @NotNull(message = "productName cannot be null")
+    private String productName;
+    @NotNull(message = "producThumbnail cannot be null")
+    private String productThumbnail;
 
     public OrderDetail toEntity(Order order) {
         return OrderDetail.builder()
@@ -28,7 +32,9 @@ public class ProductRequest {
                 .productId(productId)
                 .price(productPrice)
                 .quantity(productQuantity)
-                .status(OrderDetailStatus.CREATED)
+                .status(OrderDetailStatus.CONFIRMED)
+                .productName(productName)
+                .productThumbnail(productThumbnail)
                 .build();
     }
 

@@ -5,13 +5,19 @@ import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductR
 import com.lotfresh.orderservice.domain.orchestrator.service.response.OrderCreateResponse;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import com.lotfresh.orderservice.domain.order.entity.Order;
-import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
-import com.lotfresh.orderservice.domain.order.entity.OrderDetailStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
+import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
+import com.lotfresh.orderservice.domain.order.service.response.BestProductsResponse;
+import com.lotfresh.orderservice.domain.order.service.response.OrderDetailResponse;
+import com.lotfresh.orderservice.domain.order.service.response.OrderResponse;
+import com.lotfresh.orderservice.domain.order.service.response.ProductPageResponse;
 import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +30,6 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
-
     @Transactional
     public OrderCreateResponse insertOrder(List<ProductRequest> productRequests) {
         // TODO : auth-service로부터 header로 userId 받기
@@ -72,6 +77,39 @@ public class OrderService {
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
         orderDetail.changeProductOrderStatus(OrderDetailStatus.CANCELED);
+    }
+
+    public OrderResponse getOrderDetails(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
+        List<OrderDetail> orderDetails = orderDetailRepository.findOrderDetailsByOrderId(orderId);
+        List<OrderDetailResponse> orderDetailResponses = orderDetails.stream()
+                .map(OrderDetailResponse::from)
+                .collect(Collectors.toList());
+
+        return OrderResponse.builder()
+                .orderId(order.getId())
+                .orderCreatedTime(order.getCreatedAt())
+                .orderDetailResponses(orderDetailResponses)
+                .build();
+    }
+
+    public ProductPageResponse getOrdersWithPaging(Long userId, Pageable pageable) {
+        Page<Order> orderPages = orderRepository.getOrdersWithPaging(userId, pageable);
+
+        List<OrderResponse> contents = orderPages.getContent().stream()
+                .map(OrderResponse::from)
+                .collect(Collectors.toList());
+
+        return ProductPageResponse.builder()
+                .contents(contents)
+                .totalPage(orderPages.getTotalPages())
+                .build();
+    }
+
+    // TODO : 매일 정해진 시간에 Redis에 값 전달(배치처리 or 카프카 커넥트 등등)
+    public List<BestProductsResponse> getMostSoldProducts(int limitCnt) {
+        return orderDetailRepository.mostSoldProducts(limitCnt);
     }
 
 }
