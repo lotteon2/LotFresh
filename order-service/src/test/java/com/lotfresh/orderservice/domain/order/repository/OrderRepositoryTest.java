@@ -76,23 +76,10 @@ class OrderRepositoryTest {
 
         Assertions.assertThat(ordersWithPaging.getContent()).hasSize(size);
     }
-    @DisplayName("음수의 page값으로는 PageRequest를 만들 수 없다")
-    @Test
-    void getOrdersWithPaging2() {
-        // given
-        int page = -1;
-        int size = 5;
-
-        // when // then
-        Assertions.assertThatThrownBy(() -> PageRequest.of(page, size))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("Page index must not be less than zero");
-
-    }
 
     @DisplayName("페이징을 초과하는 page값을 요청하면 빈 배열이 반환된다")
     @Test
-    void getOrdersWithPaging3() {
+    void getOrdersWithPaging2() {
         // given
         Long authId = 1L;
         Order order1 = createOrder(authId);

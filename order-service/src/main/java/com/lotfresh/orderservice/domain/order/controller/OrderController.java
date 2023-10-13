@@ -3,6 +3,7 @@ package com.lotfresh.orderservice.domain.order.controller;
 import com.lotfresh.orderservice.domain.order.service.OrderService;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,12 @@ public class OrderController {
     @GetMapping("/mostSold")
     public ResponseEntity mostSoldProduct(@RequestParam int limitCnt) {
         return ResponseEntity.ok().body(orderService.getMostSoldProducts(limitCnt));
+    }
+
+    @GetMapping("/myOrders")
+    public ResponseEntity myOrders(@RequestHeader(value = "userId", required = false) Long userId,
+                                   @RequestBody PageRequest pageRequest) {
+        return ResponseEntity.ok().body(orderService.getOrdersWithPaging(userId,pageRequest));
     }
 
 }
