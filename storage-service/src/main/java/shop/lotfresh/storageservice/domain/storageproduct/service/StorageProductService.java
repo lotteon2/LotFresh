@@ -27,7 +27,8 @@ public class StorageProductService {
         return storageProductRepository.productStockCheck(storageId, productId);
     }
 
-    //TODO 음수, 0, 이상한값 들어오는거 처리해야함
+    //TODO 음수, 0, 이상한값 들어오는거 처리해야함/ 예외처리랑 같이 작업하기
+    //TODO 상품주문에 넘겨주는 로직 짜기 << 단순히 리턴값으로 재고 차단한 객체 ID 전달보다 좋은 방법 있는지?
     @Transactional
     public List<StorageProduct> productOrder(Long storageId, Long productId, Long stock) {
         List<StorageProduct> products = storageProductRepository.productStockCheck(storageId, productId);
