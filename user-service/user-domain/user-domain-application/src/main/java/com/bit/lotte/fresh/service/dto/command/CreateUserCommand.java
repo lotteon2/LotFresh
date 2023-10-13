@@ -13,7 +13,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class CreateUserCommand {
-
+  @NotNull
   private final UserId userId;
   @NotNull
   private final String name;
@@ -22,7 +22,5 @@ public class CreateUserCommand {
   @NotNull
   private final Gender gender;
   @NotNull
-  private final Address defaultAddress ;
-
-
+  private final Address defaultAddress;
 }

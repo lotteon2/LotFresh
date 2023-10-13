@@ -36,21 +36,21 @@ public class UserApplicationServiceImpl implements UserApplicationService {
 
 
   @Override
-  public AddUserAddressResponse addAddress(UserId userId, AddAddressCommand addAddressCommand) {
+  public AddUserAddressResponse addAddress(UserIdCommand userId, AddAddressCommand addAddressCommand) {
     AddUserAddressDomainEvent addUserAddressDomainEvent = userCommandHandler.addAddress(userId,
         addAddressCommand);
     return userDataMapper.addAddressDomainEventToResponse(addUserAddressDomainEvent);
   }
 
   @Override
-  public DeleteAddressResponse deleteAddress(UserId userId, AddressIdCommand addressIdCommand) {
+  public DeleteAddressResponse deleteAddress(UserIdCommand userId, AddressIdCommand addressIdCommand) {
     DeleteUserAddressDomainEvent deleteUserAddressDomainEvent = userCommandHandler.deleteAddress(userId,
         addressIdCommand);
     return userDataMapper.deleteAddressEventToResponse(deleteUserAddressDomainEvent);
   }
 
   @Override
-  public ChangeDefaultAddressResponse updateDefaultAddress(UserId userId, AddressIdCommand addressIdCommand) {
+  public ChangeDefaultAddressResponse updateDefaultAddress(UserIdCommand userId, AddressIdCommand addressIdCommand) {
     ChangeDefaultUserAddressDomainEvent changeDefaultUserAddressDomainEvent = userCommandHandler.changeDefaultAddress(userId,
         addressIdCommand);
     return userDataMapper.changeDefaultAddressEventToResponse(changeDefaultUserAddressDomainEvent);
@@ -59,6 +59,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
   @Override
   public CreateUserResponse createUser(CreateUserCommand createUserCommand) {
     CreateUserDomainEvent createUserDomainEvent = userCommandHandler.createUser(createUserCommand);
+
     return userDataMapper.createUserEventToResponse(createUserDomainEvent);
   }
 

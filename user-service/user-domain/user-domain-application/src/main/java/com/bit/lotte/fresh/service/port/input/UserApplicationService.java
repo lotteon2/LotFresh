@@ -20,9 +20,9 @@ import org.springframework.stereotype.Service;
 
 public interface UserApplicationService {
 
-  AddUserAddressResponse addAddress(UserId userId, AddAddressCommand addAddressCommand);
-  DeleteAddressResponse deleteAddress(UserId userId, AddressIdCommand addressIdCommand);
-  ChangeDefaultAddressResponse updateDefaultAddress(UserId userId, AddressIdCommand addressIdCommand);
+  AddUserAddressResponse addAddress(UserIdCommand userId, AddAddressCommand addAddressCommand);
+  DeleteAddressResponse deleteAddress(UserIdCommand userId, AddressIdCommand addressIdCommand);
+  ChangeDefaultAddressResponse updateDefaultAddress(UserIdCommand userId, AddressIdCommand addressIdCommand);
   CreateUserResponse createUser(CreateUserCommand createUserCommand);
   UpdateUserResponse updateUser(UpdateUserCommand updateUserCommand);
   DeleteUserResponse deleteUser(UserIdCommand userIdCommand);

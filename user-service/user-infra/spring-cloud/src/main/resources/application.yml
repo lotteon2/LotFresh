@@ -1,0 +1,1 @@
+spring.cloud.feign.auth.uri: localhost:8080/auth

@@ -13,9 +13,12 @@ import com.bit.lotte.fresh.domain.event.address.ChangeDefaultUserAddressDomainEv
 import com.bit.lotte.fresh.domain.event.address.DeleteUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.CreateUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.DeleteUserDomainEvent;
+import com.bit.lotte.fresh.domain.event.user.GetAddressListInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.GetUserInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.UpdateUserDomainEvent;
+import com.bit.lotte.fresh.user.common.valueobject.AddressId;
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 
@@ -29,6 +32,10 @@ public interface UserDomainService {
     DeleteUserDomainEvent deleteUser(User userId);
 
     UpdateUserDomainEvent updateUser(User user);
+
+    List<GetAddressListInfoDomainEvent> getAddressList(User user);
+
+    GetAddressListInfoDomainEvent getAddress(User user, AddressId addressId);
 
     AddUserAddressDomainEvent addUserAddress(User user, Address address);
 

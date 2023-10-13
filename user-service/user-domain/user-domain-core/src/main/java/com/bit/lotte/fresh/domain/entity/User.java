@@ -37,6 +37,7 @@ public class User extends AggregateRoot<UserId> {
   }
 
   private final int MINIMUM_ADDRESS_NUMBER = 1;
+  private UserId id;
   private Gender gender;
   private String name;
   private String contact;
@@ -105,12 +106,6 @@ public class User extends AggregateRoot<UserId> {
     addressList.remove(address);
   }
 
-  public void updateAddress(Address originalAddress, Address newAddress) {
-    int index = addressList.indexOf(originalAddress);
-    if (index != -1) {
-      addressList.set(index, newAddress);
-    }
-  }
 
   public void changeDefaultAddress(Address newDefaultAddress){
     getDefaultAddress().setDefaultAddress(false);

@@ -2,7 +2,8 @@
 spring-web = { module = "org.springframework:spring-web", version = "5.3.19" }
 spring-boot = { module = "org.springframework.boot:spring-boot-starter-web", version = "2.7.16" }
 spring-kafka = { module = "org.springframework.kafka:spring-kafka", version = "2.7.14" }
-spring-cloud ={module ="org.springframework.cloud:spring-cloud-starter", version ="2.2.9.RELEASE"}
+spring-cloud = { module = "org.springframework.cloud:spring-cloud-starter", version = "2.2.9.RELEASE" }
+spring-fegin ={module ="org.springframework.cloud:spring-cloud-starter-openfeign", version ="2.2.9.RELEASE"}
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test", version = "2.7.16" }
 spring-feign={module ="org.springframework.cloud:spring-cloud-starter-openfeign", version ="2.2.9.RELEASE"}
 java-validation = { module = "javax.validation:validation-api", version = "2.0.1.Final" }

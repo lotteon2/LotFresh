@@ -1,5 +1,7 @@
 package com.bit.lotte.fresh.app.rest;
 
+import com.bit.lotte.fresh.domain.entity.User;
+import com.bit.lotte.fresh.domain.event.user.CreateUserDomainEvent;
 import com.bit.lotte.fresh.service.dto.command.AddAddressCommand;
 import com.bit.lotte.fresh.service.dto.command.AddressIdCommand;
 import com.bit.lotte.fresh.service.dto.command.CreateUserCommand;
@@ -13,7 +15,9 @@ import com.bit.lotte.fresh.service.dto.response.DeleteUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
 import com.bit.lotte.fresh.service.port.input.UserApplicationService;
+import com.bit.lotte.fresh.service.port.output.CreateUserEventPublisher;
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
+import java.time.ZonedDateTime;
 import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
@@ -33,13 +37,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(value = "/users")
 public class UserController {
+
     @Autowired
     private final UserApplicationService userApplicationService;
-
+    private final CreateUserEventPublisher publisher;
 
     @PostMapping("/")
     public ResponseEntity<CreateUserResponse> createUser(
         @Valid CreateUserCommand createUserCommand) {
+
+        CreateUserDomainEvent feignRequestEvent = new CreateUserDomainEvent(
+            User.builder().id(createUserCommand.getUserId()).build(), ZonedDateTime.now());
+        publisher.publish(feignRequestEvent);
         return ResponseEntity.ok(userApplicationService.createUser(createUserCommand));
 
     }
@@ -61,13 +70,13 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/addresses")
-    public ResponseEntity<AddUserAddressResponse> addAddress(@PathVariable UserId userId,
+    public ResponseEntity<AddUserAddressResponse> addAddress(@PathVariable UserIdCommand userId,
         @Valid AddAddressCommand addAddressCommand) {
         return ResponseEntity.ok(userApplicationService.addAddress(userId, addAddressCommand));
     }
 
     @DeleteMapping("/{userId}/addresses/{addressId}")
-    public ResponseEntity<DeleteAddressResponse> deleteAddress(@PathVariable UserId userId,
+    public ResponseEntity<DeleteAddressResponse> deleteAddress(@PathVariable UserIdCommand userId,
         @Valid @PathVariable AddressIdCommand addressId) {
         return ResponseEntity.ok(userApplicationService.deleteAddress(userId, addressId));
 
@@ -75,7 +84,7 @@ public class UserController {
 
     @PutMapping("/{userId}/addresses/{addressId}")
     public ResponseEntity<ChangeDefaultAddressResponse> changeDefaultAddress(
-        @PathVariable UserId userId,
+        @PathVariable UserIdCommand userId,
         @Valid @PathVariable AddressIdCommand addressId) {
         return ResponseEntity.ok(userApplicationService.updateDefaultAddress(userId, addressId));
     }

@@ -8,6 +8,7 @@ import com.bit.lotte.fresh.domain.event.address.ChangeDefaultUserAddressDomainEv
 import com.bit.lotte.fresh.domain.event.address.DeleteUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.CreateUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.DeleteUserDomainEvent;
+import com.bit.lotte.fresh.domain.event.user.GetAddressListInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.GetUserInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.UpdateUserDomainEvent;
 import com.bit.lotte.fresh.domain.exception.UserDomainException;
@@ -20,6 +21,7 @@ import com.bit.lotte.fresh.service.mapper.UserDataMapper;
 import com.bit.lotte.fresh.service.repository.UserRepository;
 import com.bit.lotte.fresh.user.common.valueobject.AddressId;
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -35,12 +37,24 @@ public class UserCommandHandler {
     return userRepository.get(userId);
   }
 
-  private Address getAddress(User user, AddressId addressId) {
-    return user.getAddress(addressId);
+
+  private Address getAddress(User user, AddressIdCommand addressIdCommand) {
+    return user.getAddress(addressIdCommand.getAddressId());
   }
 
   public GetUserInfoDomainEvent getUser(UserIdCommand userIdCommand) {
     return userDomainService.getUser(getUser(userIdCommand.getUserId()));
+  }
+
+  public List<GetAddressListInfoDomainEvent> getAddressList(UserIdCommand userIdCommand) {
+    User user = getUser(userIdCommand.getUserId());
+    return userDomainService.getAddressList(user);
+  }
+
+  public GetAddressListInfoDomainEvent getAddress(UserIdCommand userIdCommand,
+      AddressIdCommand addressIdCommand) {
+    User user = getUser(userIdCommand.getUserId());
+    return userDomainService.getAddress(user, addressIdCommand.getAddressId());
   }
 
   public CreateUserDomainEvent createUser(CreateUserCommand createUserCommand) {
@@ -73,8 +87,8 @@ public class UserCommandHandler {
     return userDomainService.updateUser(updatedUser);
   }
 
-  public AddUserAddressDomainEvent addAddress(UserId userId, AddAddressCommand addAddressCommand) {
-    User user = getUser(userId);
+  public AddUserAddressDomainEvent addAddress(UserIdCommand userId, AddAddressCommand addAddressCommand) {
+    User user = getUser(userId.getUserId());
     Address newAddress = userDataMapper.addAddressCommandToAddress(addAddressCommand);
     user.addAddress(newAddress);
     User updatedUser = userRepository.update(user);
@@ -84,19 +98,19 @@ public class UserCommandHandler {
     return userDomainService.addUserAddress(updatedUser, newAddress);
   }
 
-  public DeleteUserAddressDomainEvent deleteAddress(UserId userId, AddressIdCommand addressIdCommand) {
-    User user = getUser(userId);
-    Address address = getAddress(user,addressIdCommand.getAddressId());
+  public DeleteUserAddressDomainEvent deleteAddress(UserIdCommand userId, AddressIdCommand addressIdCommand) {
+    User user = getUser(userId.getUserId());
+    Address address = getAddress(user, addressIdCommand);
     user.deleteAddress(address);
     User updatedUser = userRepository.update(user);
     return userDomainService.deleteUserAddress(updatedUser, address);
 
   }
 
-  public ChangeDefaultUserAddressDomainEvent changeDefaultAddress(UserId userId,
+  public ChangeDefaultUserAddressDomainEvent changeDefaultAddress(UserIdCommand userId,
       AddressIdCommand addressIdCommand) {
-    User user = getUser(userId);
-    Address address = getAddress(user, addressIdCommand.getAddressId());
+    User user = getUser(userId.getUserId());
+    Address address = getAddress(user, addressIdCommand);
     user.changeDefaultAddress(address);
     User updatedUser = userRepository.update(user);
     if (updatedUser == null) {
