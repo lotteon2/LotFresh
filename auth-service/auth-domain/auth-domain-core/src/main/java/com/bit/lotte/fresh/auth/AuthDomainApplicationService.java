@@ -1,13 +1,12 @@
 package com.bit.lotte.fresh.auth;
 
 import com.bit.lotte.fresh.auth.entity.AuthUser;
-import com.bit.lotte.fresh.auth.entity.AuthUserAbstract;
 import com.bit.lotte.fresh.auth.event.CreateAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.DeleteAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginSessionExtendAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
-import com.bit.lotte.fresh.auth.event.UpdateAuthDomainRoleEvent;
+import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
 
 
 public interface AuthDomainApplicationService {
@@ -22,7 +21,7 @@ public interface AuthDomainApplicationService {
 
   LogoutAuthDomainEvent logout(AuthUser authUser);
 
-  UpdateAuthDomainRoleEvent updateRole(AuthUser actor, AuthUser target);
+  UpdateUserAuthRoleDomainEvent updateRole(AuthUser actor, AuthUser target);
 
 
 }

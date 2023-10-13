@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class AuthDomainEvent implements
     DomainEvent<AuthUserId> {
 
-  private final AuthUser authUserAbstract;
+  private final AuthUser authUser;
   private final ZonedDateTime createdTime;
 
 

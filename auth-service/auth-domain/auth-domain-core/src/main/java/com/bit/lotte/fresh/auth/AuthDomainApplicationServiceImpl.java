@@ -1,13 +1,12 @@
 package com.bit.lotte.fresh.auth;
 
 import com.bit.lotte.fresh.auth.entity.AuthUser;
-import com.bit.lotte.fresh.auth.entity.AuthUserAbstract;
 import com.bit.lotte.fresh.auth.event.CreateAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.DeleteAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginSessionExtendAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
-import com.bit.lotte.fresh.auth.event.UpdateAuthDomainRoleEvent;
+import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
 import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 
@@ -18,8 +17,8 @@ public class AuthDomainApplicationServiceImpl implements
 
   @Override
   public CreateAuthDomainEvent createAuthUser(AuthUser authUser) {
-    authUser.initCreation(authUser.getId(),authUser.getAuthProvider());
-    return new CreateAuthDomainEvent(authUser,ZonedDateTime.now());
+    AuthUser notVerifiedUser = authUser.initNotVerifiedUser(authUser.getId(),authUser.getAuthProvider());
+    return new CreateAuthDomainEvent(notVerifiedUser,ZonedDateTime.now());
   }
 
   @Override
@@ -47,11 +46,11 @@ public class AuthDomainApplicationServiceImpl implements
   }
 
   @Override
-  public UpdateAuthDomainRoleEvent updateRole(
+  public UpdateUserAuthRoleDomainEvent updateRole(
       AuthUser actor, AuthUser target) {
     actor.updateAdminAuthorization(actor.getUserRole(), actor.getDescription(),
         target.getUserRole(),
         target.getDescription());
-    return new UpdateAuthDomainRoleEvent(target, ZonedDateTime.now());
+    return new UpdateUserAuthRoleDomainEvent(target, ZonedDateTime.now());
   }
 }

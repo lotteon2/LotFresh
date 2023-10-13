@@ -1,5 +1,6 @@
 package com.bit.lotte.fresh.auth.event;
 
+import com.bit.lotte.fresh.auth.entity.AuthUser;
 import com.bit.lotte.fresh.auth.entity.AuthUserAbstract;
 import java.time.ZonedDateTime;
 import lombok.Getter;
@@ -7,8 +8,8 @@ import lombok.Getter;
 @Getter
 public class CreateAuthDomainEvent extends AuthDomainEvent {
 
-  public CreateAuthDomainEvent(AuthUserAbstract authUserAbstract,
+  public CreateAuthDomainEvent(AuthUser authUser,
       ZonedDateTime createdTime) {
-    super(authUserAbstract, createdTime);
+    super(authUser, createdTime);
   }
 }

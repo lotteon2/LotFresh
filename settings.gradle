@@ -70,4 +70,7 @@ include 'user-service:user-infra:spring-cloud'
 findProject(':user-service:user-infra:spring-cloud')?.name = 'spring-cloud'
 include 'auth-service:auth-infra:spring-cloud'
 findProject(':auth-service:auth-infra:spring-cloud')?.name = 'spring-cloud'
+include 'auth-messaging'
+include 'auth-service:auth-messaging'
+findProject(':auth-service:auth-messaging')?.name = 'auth-messaging'
 

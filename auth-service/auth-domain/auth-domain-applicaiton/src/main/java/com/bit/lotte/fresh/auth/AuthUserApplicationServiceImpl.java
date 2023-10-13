@@ -7,15 +7,13 @@ import com.bit.lotte.fresh.auth.dto.response.DeleteAuthUserResponse;
 import com.bit.lotte.fresh.auth.dto.response.LogOutAuthUserResponse;
 import com.bit.lotte.fresh.auth.dto.response.UpdateAuthUserRoleResponse;
 import com.bit.lotte.fresh.auth.dto.response.UpdateLoginSessionTimeResponse;
-import com.bit.lotte.fresh.auth.entity.AuthUser;
 import com.bit.lotte.fresh.auth.event.CreateAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.DeleteAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginSessionExtendAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
-import com.bit.lotte.fresh.auth.event.UpdateAuthDomainRoleEvent;
+import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
 import com.bit.lotte.fresh.auth.mapper.AuthUserMapper;
 import com.bit.lotte.fresh.auth.port.input.AuthUserApplicationService;
-import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +47,7 @@ public class AuthUserApplicationServiceImpl implements
 
   @Override
   public UpdateAuthUserRoleResponse updateRole(AuthUserIdCommand actor, AuthUserIdCommand target) {
-     UpdateAuthDomainRoleEvent event = commandHandler.updateRole(actor,target);
+     UpdateUserAuthRoleDomainEvent event = commandHandler.updateRole(actor,target);
      return mapper.updateAuthUserRoleToResponse(event);
   }
 

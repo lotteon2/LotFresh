@@ -9,7 +9,7 @@ import com.bit.lotte.fresh.auth.event.DeleteAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginSessionExtendAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
-import com.bit.lotte.fresh.auth.event.UpdateAuthDomainRoleEvent;
+import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
 import com.bit.lotte.fresh.auth.exception.AuthUserDomainException;
 import com.bit.lotte.fresh.auth.mapper.AuthUserMapper;
 import com.bit.lotte.fresh.auth.repository.AuthUserRepository;
@@ -69,7 +69,7 @@ public class AuthUserCommandHandler {
     return new LogoutAuthDomainEvent(authUser, ZonedDateTime.now());
   }
 
-  public UpdateAuthDomainRoleEvent updateRole(AuthUserIdCommand actor, AuthUserIdCommand target) {
+  public UpdateUserAuthRoleDomainEvent updateRole(AuthUserIdCommand actor, AuthUserIdCommand target) {
     AuthUser actorUser = getAuthUser(actor);
     AuthUser targetUser = getAuthUser(target);
 
@@ -78,7 +78,7 @@ public class AuthUserCommandHandler {
         targetUser.getDescription());
     authUserRepository.updateRole(targetUser.getId(),targetUser.getUserRole());
 
-    return new UpdateAuthDomainRoleEvent(targetUser, ZonedDateTime.now());
+    return new UpdateUserAuthRoleDomainEvent(targetUser, ZonedDateTime.now());
   }
 
 }

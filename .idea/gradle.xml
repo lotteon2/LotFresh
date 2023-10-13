@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/auth" />
+            <option value="$PROJECT_DIR$/auth-messaging" />
             <option value="$PROJECT_DIR$/auth-service" />
             <option value="$PROJECT_DIR$/auth-service/auth-application" />
             <option value="$PROJECT_DIR$/auth-service/auth-common" />
@@ -21,6 +22,7 @@
             <option value="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core" />
             <option value="$PROJECT_DIR$/auth-service/auth-infra" />
             <option value="$PROJECT_DIR$/auth-service/auth-infra/spring-cloud" />
+            <option value="$PROJECT_DIR$/auth-service/auth-messaging" />
             <option value="$PROJECT_DIR$/auth-service/uth-data-access" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/common-application" />

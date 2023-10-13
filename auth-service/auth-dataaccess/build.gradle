@@ -10,6 +10,12 @@ repositories {
 }
 
 dependencies {
+    compileOnly libs.lombok
+    implementation libs.spring.security
+    implementation libs.jpa
+    implementation project(':common:common-domain')
+    implementation project(':auth-service:auth-domain:auth-domain-applicaiton')
+    implementation project(':auth-service:auth-domain:auth-domain-core')
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }

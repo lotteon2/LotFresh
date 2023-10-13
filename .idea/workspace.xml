@@ -11,6 +11,18 @@
       <change afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/common/common-application/bit-lotte-fresh-user.common.common-application.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/src/main/java/com/bit/lotte/fresh/dataaccess/adapter/AuthUserAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/src/main/java/com/bit/lotte/fresh/dataaccess/adapter/UserDetailServiceAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/src/main/java/com/bit/lotte/fresh/dataaccess/entity/AuthUserEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/src/main/java/com/bit/lotte/fresh/dataaccess/mapper/AuthUserDataAccessMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/src/main/java/com/bit/lotte/fresh/dataaccess/repository/AuthUserJpaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/SecurityUserLoadService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/port/input/message/CreateUserSignupSuccessListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/port/output/SubCategoryAdminIdListPublisher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/UpdateUserAuthRoleDomainEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-messaging/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/auth-messaging/src/main/java/com/bit/lotte/fresh/message/listener/CreateUserSignupSuccessListenerImpl.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../food-ordering-system (1)/.idea/checkstyle-idea.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../food-ordering-system (1)/.idea/compiler.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../food-ordering-system (1)/.idea/encodings.xml" afterDir="false" />
@@ -423,17 +435,31 @@
       <change afterPath="$PROJECT_DIR$/../lotte-fresh/common/src/main/resources/application.properties" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../lotte-fresh/common/src/test/java/com/bit/fresh/common/common/CommonApplicationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/dependencies-accessors/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/dependencies-accessors/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-dataaccess/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/AuthUserApplicationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/AuthUserApplicationServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/AuthUserCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/AuthUserCommandHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/dto/response/DeleteAuthUserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/dto/response/DeleteAuthUserResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/mapper/AuthUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/mapper/AuthUserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/port/input/AuthUserApplicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/src/main/java/com/bit/lotte/fresh/auth/port/input/AuthUserApplicationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/AuthDomainApplicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/AuthDomainApplicationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/AuthDomainApplicationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/AuthDomainApplicationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/entity/AuthUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/entity/AuthUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/entity/AuthUserAbstract.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/entity/AuthUserAbstract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/DeleteAuthDomainEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/DeleteAuthDomainEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/AuthDomainEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/AuthDomainEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/CreateAuthDomainEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/CreateAuthDomainEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/LoginAuthDomainEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/LoginAuthDomainEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/LoginSessionExtendAuthDomainEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/LoginSessionExtendAuthDomainEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/LogoutAuthDomainEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/LogoutAuthDomainEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/UpdateAuthDomainRoleEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/bit/lotte/fresh/app/UserApplicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-container/src/main/java/com/bit/lotte/fresh/app/UserApplicationService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -531,8 +557,8 @@
       <list>
         <option value="Enum" />
         <option value="package-info" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -578,12 +604,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="jdk.selected.JAVA_MODULE" value="11 (2)" />
+    <property name="jdk.selected.JAVA_MODULE" value="11" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/user-service/user-application/src/main/resources" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.1578125" />
     <property name="project.structure.side.proportion" value="0.3359133" />
     <property name="settings.editor.selected.configurable" value="spring.boot" />
@@ -607,6 +633,9 @@
       <recent name="$PROJECT_DIR$/user-service/user-domain/user-domain-application/src/main/java" />
       <recent name="$PROJECT_DIR$/user-service/user-domain/user-domain-application/src" />
       <recent name="$PROJECT_DIR$/common" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.bit.lotte.fresh.auth.event" />
     </key>
   </component>
   <component name="RunDashboard">
