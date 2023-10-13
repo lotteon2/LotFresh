@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@DynamicInsert
 public class Discount {
 
   @Id
@@ -36,6 +38,9 @@ public class Discount {
 
   @Column(nullable = false)
   private String imgurl;
+
+  @Column(nullable = false, columnDefinition = "boolean default false")
+  private Boolean isDeleted;
 
   @Builder
   private Discount(

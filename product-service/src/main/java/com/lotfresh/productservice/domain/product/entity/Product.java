@@ -6,12 +6,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@DynamicInsert
 public class Product extends BaseEntity {
 
   @Id
@@ -37,8 +39,11 @@ public class Product extends BaseEntity {
   @Column(nullable = false)
   private Integer price;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String productCode;
+
+  @Column(nullable = false, columnDefinition = "boolean default false")
+  private Boolean isDeleted;
 
   @Builder
   private Product(
@@ -54,5 +59,24 @@ public class Product extends BaseEntity {
     this.detail = detail;
     this.price = price;
     this.productCode = productCode;
+  }
+
+  public void changeProduct(
+      Category category,
+      String name,
+      String thumbnail,
+      String detail,
+      Integer price,
+      String productCode) {
+    this.category = category;
+    this.name = name;
+    this.thumbnail = thumbnail;
+    this.detail = detail;
+    this.price = price;
+    this.productCode = productCode;
+  }
+
+  public void softDelete() {
+    this.isDeleted = true;
   }
 }

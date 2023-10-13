@@ -38,7 +38,7 @@ public class DiscountResponse {
     this.categoryName = categoryName;
   }
 
-  public static DiscountResponse of(Discount discount) {
+  public static DiscountResponse from(Discount discount) {
     return DiscountResponse.builder()
         .id(discount.getId())
         .rate(discount.getRate())

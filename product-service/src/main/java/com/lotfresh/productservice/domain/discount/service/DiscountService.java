@@ -42,12 +42,12 @@ public class DiscountService {
   public DiscountResponse getDiscount(Long id) {
     Discount discount =
         discountRepository.findByIdFetch(id).orElseThrow(() -> new DiscountNotFound());
-    DiscountResponse discountResponse = DiscountResponse.of(discount);
+    DiscountResponse discountResponse = DiscountResponse.from(discount);
     return discountResponse;
   }
 
   public List<DiscountResponse> getDiscounts() {
     List<Discount> discountList = discountRepository.findAllFetch();
-    return discountList.stream().map(DiscountResponse::of).collect(Collectors.toList());
+    return discountList.stream().map(DiscountResponse::from).collect(Collectors.toList());
   }
 }
