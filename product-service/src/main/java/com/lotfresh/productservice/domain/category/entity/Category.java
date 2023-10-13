@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +24,15 @@ public class Category {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
+  @NotNull
   private String name;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "parent_id", foreignKey = @ForeignKey(name = "fk_category_to_parent_category"))
   private Category parent;
 
-  @Column(nullable = false, columnDefinition = "boolean default false")
+  @NotNull
+  @Column(columnDefinition = "boolean default false")
   private Boolean isDeleted;
 
   @Builder

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -20,26 +21,23 @@ public class Discount {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(
       name = "category_id",
-      nullable = false,
       foreignKey = @ForeignKey(name = "fk_discount_to_category"))
   private Category category;
 
-  @Column(nullable = false)
-  private Double rate;
+  @NotNull private Double rate;
 
-  @Column(nullable = false)
-  private LocalDate startDate;
+  @NotNull private LocalDate startDate;
 
-  @Column(nullable = false)
-  private LocalDate endDate;
+  @NotNull private LocalDate endDate;
 
-  @Column(nullable = false)
-  private String imgurl;
+  @NotNull private String imgurl;
 
-  @Column(nullable = false, columnDefinition = "boolean default false")
+  @NotNull
+  @Column(columnDefinition = "boolean default false")
   private Boolean isDeleted;
 
   @Builder
