@@ -14,7 +14,6 @@ public class StorageService {
 
     @Transactional
     public Long createStorage(StorageCreateRequest request) {
-
         Storage savedProduct = storageRepository.save(request.toEntity());
         return savedProduct.getId();
     }

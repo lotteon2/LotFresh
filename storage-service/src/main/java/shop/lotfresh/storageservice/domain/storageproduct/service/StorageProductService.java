@@ -22,6 +22,7 @@ public class StorageProductService {
         return storageProductRepository.findProductsByStorageId(storageId);
     }
 
+    @Transactional
     //TODO 리턴값 재고만 줄지, 객체 다 줄지 생각해보기
     public List<StorageProduct> productStockCheck(Long storageId, Long productId) {
         return storageProductRepository.productStockCheck(storageId, productId);
