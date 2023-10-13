@@ -17,7 +17,7 @@ public class OrderDetailResponse {
     private String productName;
     private String productThumbnail;
 
-    public static OrderDetailResponse entityToDto(OrderDetail orderDetail) {
+    public static OrderDetailResponse from(OrderDetail orderDetail) {
         return OrderDetailResponse.builder()
                 .price(orderDetail.getPrice())
                 .quantity(orderDetail.getQuantity())

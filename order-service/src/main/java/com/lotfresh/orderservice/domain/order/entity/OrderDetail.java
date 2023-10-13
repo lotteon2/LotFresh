@@ -59,6 +59,8 @@ public class OrderDetail extends BaseEntity {
     @Builder
     private OrderDetail(Order order, Long productId, Long price, Long quantity, OrderDetailStatus status,
             String productName, String productThumbnail) {
+        // 엔티티가 아닌 순수 객체 상태에서도 양방향 연관관계를 구현
+        order.getOrderDetails().add(this);
         this.order = order;
         this.productId = productId;
         this.price = price;

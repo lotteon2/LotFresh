@@ -9,7 +9,9 @@ import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
 import com.lotfresh.orderservice.domain.order.service.response.BestProductsResponse;
+import com.lotfresh.orderservice.domain.order.service.response.OrderDetailResponse;
 import com.lotfresh.orderservice.domain.order.service.response.OrderResponse;
+import com.lotfresh.orderservice.domain.order.service.response.ProductPageResponse;
 import com.lotfresh.orderservice.exception.CustomException;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -284,6 +287,125 @@ class OrderServiceTest {
 
     }
 
+    @DisplayName("특정 유저의 주문 및 주문상세 정보를 pageable해서 요구한 만큼만 가져온다")
+    @Test
+    void getOrdersWithPaging() {
+        // given
+        Long userId = 1L;
+        Order order1 = createOrder(userId);
+        Order order2 = createOrder(userId);
+        Order order3 = createOrder(userId);
+        Order order4 = createOrder(userId);
+        Order order5 = createOrder(userId);
+        Order order6 = createOrder(userId);
+        Order order7 = createOrder(userId);
+        Order order8 = createOrder(userId);
+
+        OrderDetail orderDetail1 = createOrderDetail(order1);
+        OrderDetail orderDetail2 = createOrderDetail(order1);
+        OrderDetail orderDetail3 = createOrderDetail(order1);
+
+        OrderDetail orderDetail4 = createOrderDetail(order2);
+        OrderDetail orderDetail5 = createOrderDetail(order2);
+        OrderDetail orderDetail6 = createOrderDetail(order2);
+
+        OrderDetail orderDetail7 = createOrderDetail(order3);
+        OrderDetail orderDetail8 = createOrderDetail(order3);
+        OrderDetail orderDetail9 = createOrderDetail(order3);
+
+        OrderDetail orderDetail10 = createOrderDetail(order4);
+        OrderDetail orderDetail11 = createOrderDetail(order4);
+        OrderDetail orderDetail12 = createOrderDetail(order4);
+
+        OrderDetail orderDetail13 = createOrderDetail(order5);
+        OrderDetail orderDetail14 = createOrderDetail(order5);
+        OrderDetail orderDetail15 = createOrderDetail(order5);
+
+        OrderDetail orderDetail16 = createOrderDetail(order6);
+        OrderDetail orderDetail17 = createOrderDetail(order6);
+        OrderDetail orderDetail18 = createOrderDetail(order6);
+
+        OrderDetail orderDetail19 = createOrderDetail(order7);
+        OrderDetail orderDetail20 = createOrderDetail(order7);
+        OrderDetail orderDetail21 = createOrderDetail(order7);
+
+        OrderDetail orderDetail22 = createOrderDetail(order8);
+        OrderDetail orderDetail23 = createOrderDetail(order8);
+        OrderDetail orderDetail24 = createOrderDetail(order8);
+
+        orderRepository.save(order1);
+        orderRepository.save(order2);
+        orderRepository.save(order3);
+        orderRepository.save(order4);
+        orderRepository.save(order5);
+        orderRepository.save(order6);
+        orderRepository.save(order7);
+        orderRepository.save(order8);
+        orderDetailRepository.save(orderDetail1);
+        orderDetailRepository.save(orderDetail2);
+        orderDetailRepository.save(orderDetail3);
+        orderDetailRepository.save(orderDetail4);
+        orderDetailRepository.save(orderDetail5);
+        orderDetailRepository.save(orderDetail6);
+        orderDetailRepository.save(orderDetail7);
+        orderDetailRepository.save(orderDetail8);
+        orderDetailRepository.save(orderDetail9);
+        orderDetailRepository.save(orderDetail10);
+        orderDetailRepository.save(orderDetail11);
+        orderDetailRepository.save(orderDetail12);
+        orderDetailRepository.save(orderDetail13);
+        orderDetailRepository.save(orderDetail14);
+        orderDetailRepository.save(orderDetail15);
+        orderDetailRepository.save(orderDetail16);
+        orderDetailRepository.save(orderDetail17);
+        orderDetailRepository.save(orderDetail18);
+        orderDetailRepository.save(orderDetail19);
+        orderDetailRepository.save(orderDetail20);
+        orderDetailRepository.save(orderDetail21);
+        orderDetailRepository.save(orderDetail22);
+        orderDetailRepository.save(orderDetail23);
+        orderDetailRepository.save(orderDetail24);
+
+        em.flush();
+        em.clear();
+
+        int page = 0;
+        int size = 5;
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        // when
+        ProductPageResponse productPageResponse = orderService.getOrdersWithPaging(userId, pageRequest);
+        OrderDetailResponse orderDetailResponse = productPageResponse.getContents().get(0) // mostRecentOrderResponse
+                .getOrderDetailResponses().get(0); // OrderResponse속 OrderDetailResponse값들 중 하나
+
+        // then
+        Assertions.assertThat(productPageResponse.getTotalPage()).isEqualTo(2);
+        Assertions.assertThat(productPageResponse.getContents()).hasSize(5);
+        Assertions.assertThat(orderDetailResponse)
+                .extracting("price","quantity","productName","productThumbnail")
+                .containsExactly(10L,100L,"제품명","제품썸네일");
+
+    }
+
+
+    private Order createOrder(Long userId) {
+        return Order.builder()
+                .authId(userId)
+                .build();
+    }
+
+    private OrderDetail createOrderDetail(Order order) {
+        return OrderDetail.builder()
+                .order(order)
+                .productId(1L)
+                .price(10L)
+                .quantity(100L)
+                .productName("제품명")
+                .productThumbnail("제품썸네일")
+                .status(OrderDetailStatus.CONFIRMED)
+                .build();
+    }
+
     private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
         return ProductRequest.builder()
                 .productId(productId)
@@ -304,7 +426,6 @@ class OrderServiceTest {
                 .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
                 .build();
-
     }
 
 }

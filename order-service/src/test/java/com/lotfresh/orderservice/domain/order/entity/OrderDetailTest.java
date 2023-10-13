@@ -69,7 +69,11 @@ class OrderDetailTest {
 
     private OrderDetail createOrderDetail(OrderDetailStatus orderDetailStatus,PaymentStatus paymentStatus,
                                           DeliveryStatus deliveryStatus, RefundStatus refundStatus) {
+        Order order = Order.builder()
+                .authId(1L)
+                .build();
         OrderDetail orderDetail = OrderDetail.builder()
+                .order(order)
                 .productId(1L)
                 .price(2L)
                 .quantity(3L)

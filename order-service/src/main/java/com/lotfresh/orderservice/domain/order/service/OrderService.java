@@ -12,9 +12,12 @@ import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
 import com.lotfresh.orderservice.domain.order.service.response.BestProductsResponse;
 import com.lotfresh.orderservice.domain.order.service.response.OrderDetailResponse;
 import com.lotfresh.orderservice.domain.order.service.response.OrderResponse;
+import com.lotfresh.orderservice.domain.order.service.response.ProductPageResponse;
 import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,16 +84,30 @@ public class OrderService {
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
         List<OrderDetail> orderDetails = orderDetailRepository.findOrderDetailsByOrderId(orderId);
         List<OrderDetailResponse> orderDetailResponses = orderDetails.stream()
-                .map(OrderDetailResponse::entityToDto)
+                .map(OrderDetailResponse::from)
                 .collect(Collectors.toList());
 
         return OrderResponse.builder()
+                .orderId(order.getId())
                 .orderCreatedTime(order.getCreatedAt())
                 .orderDetailResponses(orderDetailResponses)
                 .build();
     }
 
-    // TODO : 매일 정해진 시간에 Redisd에 값 전달(배치처리 or 카프카 커넥트 등등)
+    public ProductPageResponse getOrdersWithPaging(Long userId, Pageable pageable) {
+        Page<Order> orderPages = orderRepository.getOrdersWithPaging(userId, pageable);
+
+        List<OrderResponse> contents = orderPages.getContent().stream()
+                .map(OrderResponse::from)
+                .collect(Collectors.toList());
+
+        return ProductPageResponse.builder()
+                .contents(contents)
+                .totalPage(orderPages.getTotalPages())
+                .build();
+    }
+
+    // TODO : 매일 정해진 시간에 Redis에 값 전달(배치처리 or 카프카 커넥트 등등)
     public List<BestProductsResponse> getMostSoldProducts(int limitCnt) {
         return orderDetailRepository.mostSoldProducts(limitCnt);
     }
