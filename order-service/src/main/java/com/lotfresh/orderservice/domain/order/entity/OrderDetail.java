@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,33 +27,33 @@ public class OrderDetail extends BaseEntity {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Column(nullable = false)
+    @NotNull
     private Long productId;
 
-    @Column(nullable = false)
+    @NotNull
     private Long price;
 
-    @Column(nullable = false)
+    @NotNull
     private Long quantity;
 
-    @Column(nullable = false)
+    @NotNull
     @Enumerated(EnumType.STRING)
     private OrderDetailStatus status;
 
-    @Column(nullable = false)
+    @NotNull
     private Boolean isDeleted = false;
 
-    @Column(nullable = false)
+    @NotNull
     private String productName;
-    @Column(nullable = false)
+    @NotNull
     private String productThumbnail;
-    @Column(nullable = false)
+    @NotNull
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus = DeliveryStatus.READY;
-    @Column(nullable = false)
+    @NotNull
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus = PaymentStatus.READY;
-    @Column(nullable = false)
+    @NotNull
     @Enumerated(EnumType.STRING)
     private RefundStatus refundStatus = RefundStatus.READY;
 
