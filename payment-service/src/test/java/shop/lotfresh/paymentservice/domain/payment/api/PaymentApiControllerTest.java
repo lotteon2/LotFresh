@@ -21,10 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class PaymentApiControllerTest extends ControllerTestSupport {
 
-    @DisplayName("컨트롤러 테스트가 동작한다.")
+    @DisplayName("Payment 컨트롤러 테스트가 동작한다.")
     @Test
     void controllerTest() {
-        System.out.println("컨트롤러 테스트 내부가 출력된다.");
+        System.out.println("Payment 컨트롤러 테스트 내부가 출력된다.");
     }
 
     @DisplayName("order-service로부터 카카오페이 준비요청을 받는다.")
@@ -36,8 +36,7 @@ public class PaymentApiControllerTest extends ControllerTestSupport {
         List<OrderDetailVO> orderDetails = Arrays.asList(orderDetailVO1, orderDetailVO2, orderDetailVO3);
         KakaopayReadyRequest request = new KakaopayReadyRequest(1L, orderDetails);
 
-        // Mock the behavior of the payment service
-        // 응답으로 오는 redirect qr코드 url
+        // Mock the behavior of the payment service- 응답으로 오는 redirect qr코드 url
         String mockRedirectUrl = "https://mock.kakao.com/pay/qr-code-url";
 
         when(paymentService.kakaopayReady(anyLong(), any(KakaopayReadyRequest.class)))
