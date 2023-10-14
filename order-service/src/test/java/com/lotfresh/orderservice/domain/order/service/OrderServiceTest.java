@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 @Transactional
@@ -301,37 +302,37 @@ class OrderServiceTest {
         Order order7 = createOrder(userId);
         Order order8 = createOrder(userId);
 
-        OrderDetail orderDetail1 = createOrderDetail(order1);
-        OrderDetail orderDetail2 = createOrderDetail(order1);
-        OrderDetail orderDetail3 = createOrderDetail(order1);
+        OrderDetail orderDetail1 = createOrderDetail(order1,1L);
+        OrderDetail orderDetail2 = createOrderDetail(order1,2L);
+        OrderDetail orderDetail3 = createOrderDetail(order1,3L);
 
-        OrderDetail orderDetail4 = createOrderDetail(order2);
-        OrderDetail orderDetail5 = createOrderDetail(order2);
-        OrderDetail orderDetail6 = createOrderDetail(order2);
+        OrderDetail orderDetail4 = createOrderDetail(order2,4L);
+        OrderDetail orderDetail5 = createOrderDetail(order2,5L);
+        OrderDetail orderDetail6 = createOrderDetail(order2,6L);
 
-        OrderDetail orderDetail7 = createOrderDetail(order3);
-        OrderDetail orderDetail8 = createOrderDetail(order3);
-        OrderDetail orderDetail9 = createOrderDetail(order3);
+        OrderDetail orderDetail7 = createOrderDetail(order3,7L);
+        OrderDetail orderDetail8 = createOrderDetail(order3,8L);
+        OrderDetail orderDetail9 = createOrderDetail(order3,9L);
 
-        OrderDetail orderDetail10 = createOrderDetail(order4);
-        OrderDetail orderDetail11 = createOrderDetail(order4);
-        OrderDetail orderDetail12 = createOrderDetail(order4);
+        OrderDetail orderDetail10 = createOrderDetail(order4,10L);
+        OrderDetail orderDetail11 = createOrderDetail(order4,11L);
+        OrderDetail orderDetail12 = createOrderDetail(order4,12L);
 
-        OrderDetail orderDetail13 = createOrderDetail(order5);
-        OrderDetail orderDetail14 = createOrderDetail(order5);
-        OrderDetail orderDetail15 = createOrderDetail(order5);
+        OrderDetail orderDetail13 = createOrderDetail(order5,13L);
+        OrderDetail orderDetail14 = createOrderDetail(order5,14L);
+        OrderDetail orderDetail15 = createOrderDetail(order5,15L);
 
-        OrderDetail orderDetail16 = createOrderDetail(order6);
-        OrderDetail orderDetail17 = createOrderDetail(order6);
-        OrderDetail orderDetail18 = createOrderDetail(order6);
+        OrderDetail orderDetail16 = createOrderDetail(order6,16L);
+        OrderDetail orderDetail17 = createOrderDetail(order6,17L);
+        OrderDetail orderDetail18 = createOrderDetail(order6,18L);
 
-        OrderDetail orderDetail19 = createOrderDetail(order7);
-        OrderDetail orderDetail20 = createOrderDetail(order7);
-        OrderDetail orderDetail21 = createOrderDetail(order7);
+        OrderDetail orderDetail19 = createOrderDetail(order7,19L);
+        OrderDetail orderDetail20 = createOrderDetail(order7,20L);
+        OrderDetail orderDetail21 = createOrderDetail(order7,21L);
 
-        OrderDetail orderDetail22 = createOrderDetail(order8);
-        OrderDetail orderDetail23 = createOrderDetail(order8);
-        OrderDetail orderDetail24 = createOrderDetail(order8);
+        OrderDetail orderDetail22 = createOrderDetail(order8,22L);
+        OrderDetail orderDetail23 = createOrderDetail(order8,23L);
+        OrderDetail orderDetail24 = createOrderDetail(order8,24L);
 
         orderRepository.save(order1);
         orderRepository.save(order2);
@@ -375,15 +376,14 @@ class OrderServiceTest {
 
         // when
         ProductPageResponse productPageResponse = orderService.getOrdersWithPaging(userId, pageRequest);
-        OrderDetailResponse orderDetailResponse = productPageResponse.getContents().get(0) // mostRecentOrderResponse
-                .getOrderDetailResponses().get(0); // OrderResponse속 OrderDetailResponse값들 중 하나
 
         // then
         Assertions.assertThat(productPageResponse.getTotalPage()).isEqualTo(2);
         Assertions.assertThat(productPageResponse.getContents()).hasSize(5);
-        Assertions.assertThat(orderDetailResponse)
-                .extracting("price","quantity","productName","productThumbnail")
-                .containsExactly(10L,100L,"제품명","제품썸네일");
+        Assertions.assertThat(productPageResponse.getContents())
+                .flatExtracting(v -> v.getOrderDetailResponses())
+                .extracting("price")
+                .containsExactlyInAnyOrder(10L,11L,12L,13L,14L,15L,16L,17L,18L,19L,20L,21L,22L,23L,24L);
 
     }
 
@@ -394,11 +394,11 @@ class OrderServiceTest {
                 .build();
     }
 
-    private OrderDetail createOrderDetail(Order order) {
+    private OrderDetail createOrderDetail(Order order,Long price) {
         return OrderDetail.builder()
                 .order(order)
                 .productId(1L)
-                .price(10L)
+                .price(price)
                 .quantity(100L)
                 .productName("제품명")
                 .productThumbnail("제품썸네일")
