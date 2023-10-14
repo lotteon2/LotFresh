@@ -8,11 +8,10 @@ import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class PaymentStep implements WorkflowStep {
+public class PaymentStep extends WorkflowStep {
     private final PaymentFeignClient feignClient;
     private final PaymentRequest paymentRequest;
     private final KafkaProducer kafkaProducer;
-    private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
 
     @Override
     public boolean isRevertTarget() {

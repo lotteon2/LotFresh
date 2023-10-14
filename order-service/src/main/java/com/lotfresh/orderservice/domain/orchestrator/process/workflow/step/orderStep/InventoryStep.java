@@ -10,11 +10,11 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class InventoryStep implements WorkflowStep {
+public class InventoryStep extends WorkflowStep {
     private final InventoryFeignClient feignClient;
     private final List<InventoryRequest> inventoryRequests;
     private final KafkaProducer kafkaProducer;
-    private WorkflowStepStatus status = WorkflowStepStatus.PENDING;
+
 
     @Override
     public boolean isRevertTarget() {
