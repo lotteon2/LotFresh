@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import shop.lotfresh.paymentservice.domain.refund.api.request.RefundCreateRequest;
 import shop.lotfresh.paymentservice.domain.refund.service.RefundService;
 
@@ -18,7 +19,12 @@ public class RefundApiController {
 
     @PostMapping("/order-details/{orderDetailId}")
     public ResponseEntity<Long> createRefund(@PathVariable Long orderDetailId,
-                                             @Valid @RequestBody RefundCreateRequest request) {
+                                             @Valid @RequestBody RefundCreateRequest request,
+                                             @RequestHeader(value = "userId", required = false) String userId) {
+
+        if (userId == null || userId.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User id is missing in the header");
+        }
 
         Long refundId = refundService.createRefund(orderDetailId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(refundId);

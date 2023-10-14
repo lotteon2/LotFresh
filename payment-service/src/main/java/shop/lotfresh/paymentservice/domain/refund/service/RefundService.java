@@ -37,6 +37,9 @@ public class RefundService {
 
         Payment payment = paymentRepository.findByOrderId(request.getOrderId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid order ID: " + request.getOrderId()));
+
+        // TODO: 해당 payment가 내꺼인지 확인.
+
         Refund refund = request.toEntity(orderDetailId, payment);
         Refund createdRefund = refundRepository.save(refund);
         return createdRefund.getId();
@@ -68,7 +71,11 @@ public class RefundService {
             refund.approveRefund();
         } catch (RuntimeException e) {
             log.error("Failed to refund KakaoPay: " + e.getMessage());
-            // 통신하던 도중에 오류로 환불이 안된거니까 내 Data의 상태는 변경하지 않았다.
+            /*
+             통신하던 도중에 오류로 환불이 안된거니까 내 Data의 상태는 변경하지 않았다.
+             여기서 에러나면 READY 상태인 데이터가 그대로 쌓이게 됨. 백엔드에서 카카오서버에 다시 요청하되,
+             TODO: 재요청시에도 안되면 관리자가 클라이언트에서 다시 승인해주는걸로하자.
+             */
             throw e;
         }
     }

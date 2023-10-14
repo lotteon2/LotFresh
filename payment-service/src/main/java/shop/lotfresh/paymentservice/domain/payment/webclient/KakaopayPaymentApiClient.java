@@ -30,10 +30,23 @@ public class KakaopayPaymentApiClient {
                         .build())
                 .header("Authorization", adminKey)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .bodyValue(request.toMultiValueMap()) // 요청 형식에 맞게 객체를 변환
+                .bodyValue(request.toMultiValueMap())
                 .retrieve()
                 .bodyToMono(KakaopayReadyResponseVO.class)
                 .block();
+        // bodyValue까지가 HTTP request에 대한 명세작성.
+
+        // 실제 네트워크 요청이 발생하고 응답을 받아오는 작업은 retrieve() 메서드가 호출될 때 수행됨.
+        // retrieve() 메소드는 ClientResponse 객체를 return함.
+
+        // 이거를 body로 받을때 Mono<T> 혹은 Flux<T>중 뭘로 받을지 bodyToMono, bodyToFlux로 결정함.
+        // 괄호 안에 들어가는건 return type의 class
+
+        // 근데 block을 하면 동기적으로 처리하겠다는 뜻이니 return type을 Mono<T>로 받는게 아니라 T로 받는다.
+
+        // 참고: retrieve만 있는게 아니라 exchange라는것도 저 자리에 올 수 있음.
+        // 성공적인 응답만 예상하고 그 외 경우에 대해서는 예외 처리하기 원한다면: retrieve()
+        // 모든 종류의 응답(성공/실패 포함)에 대해 직접 제어하려면: exchange()
     }
 
     public KakaopayApproveResponseVO kakaopayApprove(KakaopayApproveVO request) {
