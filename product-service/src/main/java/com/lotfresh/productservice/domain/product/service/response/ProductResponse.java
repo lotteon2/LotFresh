@@ -2,9 +2,14 @@ package com.lotfresh.productservice.domain.product.service.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lotfresh.productservice.domain.product.entity.Product;
+import com.lotfresh.productservice.domain.product.vo.BestProductVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @ToString
@@ -91,5 +96,19 @@ public class ProductResponse {
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())
         .build();
+  }
+
+  public static List<ProductResponse> createProductResponses(
+      List<BestProductVo> bestProductsVo,
+      Map<Long, Product> productMap,
+      Map<Long, Double> rateGroupByCategory) {
+    return bestProductsVo.stream()
+        .map(
+            vo -> {
+              Product product = productMap.get(vo.getId());
+              return ProductResponse.of(
+                  product, rateGroupByCategory.getOrDefault(product.getCategory().getId(), 0d));
+            })
+        .collect(Collectors.toList());
   }
 }

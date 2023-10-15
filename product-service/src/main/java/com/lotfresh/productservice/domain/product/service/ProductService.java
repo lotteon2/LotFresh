@@ -12,12 +12,20 @@ import com.lotfresh.productservice.domain.product.exception.ProductNotFound;
 import com.lotfresh.productservice.domain.product.repository.ProductRepository;
 import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
 import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
+import com.lotfresh.productservice.domain.product.vo.BestProductVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -26,6 +34,9 @@ public class ProductService {
   private final ProductRepository productRepository;
   private final CategoryRepository categoryRepository;
   private final DiscountRepository discountRepository;
+  private final RedisTemplate<String, List<BestProductVo>> redisTemplate;
+
+  private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
   @Transactional
   public Long createProduct(ProductCreateRequest request) {
@@ -73,6 +84,31 @@ public class ProductService {
     Page<Product> productPage = productRepository.findAllByCategory(categoryId, pageRequest);
     Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
     return ProductPageResponse.of(productPage, rateGroupByCategory);
+  }
+
+  public List<ProductResponse> getBestProducts() {
+
+    List<BestProductVo> bestProductsVo =
+        redisTemplate.opsForValue().get(format.format(LocalDate.now()));
+
+    if (bestProductsVo.isEmpty()) {
+      return Collections.EMPTY_LIST;
+    }
+
+    List<Long> bestProductIds = extractBestProductIds(bestProductsVo);
+    Map<Long, Product> productMap = getProductMapById(bestProductIds);
+    Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
+
+    return ProductResponse.createProductResponses(bestProductsVo, productMap, rateGroupByCategory);
+  }
+
+  private Map<Long, Product> getProductMapById(List<Long> bestProductIds) {
+    return productRepository.findBestProducts(bestProductIds).stream()
+        .collect(Collectors.toMap(Product::getId, Function.identity()));
+  }
+
+  private List<Long> extractBestProductIds(List<BestProductVo> bestProductsVo) {
+    return bestProductsVo.stream().map(best -> best.getId()).collect(Collectors.toList());
   }
 
   private Double getDiscountRateByCategory(Long categoryId) {
