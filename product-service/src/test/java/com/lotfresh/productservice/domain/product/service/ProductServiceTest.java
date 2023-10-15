@@ -387,7 +387,7 @@ class ProductServiceTest {
     assertThat(productPageResponse.getTotalPage()).isEqualTo(1);
   }
 
-  @DisplayName("최대 판매된 상품 순을 기준으로 상위 100개의 상품을 조회한다.")
+  @DisplayName("판매된 상품 순을 기준으로 상위 100개의 상품을 조회한다.")
   @Test
   void getBestProducts() throws Exception {
     // given
@@ -404,27 +404,25 @@ class ProductServiceTest {
     Product product6 = createProduct(category2, "바나나", "thumbnail.jpeg", "detail6", 6000, "P006");
     productRepository.saveAll(List.of(product1, product2, product3, product4, product5, product6));
 
-    BestProductVO bestProductVO1 = new BestProductVO(product1.getId(), 10);
-    BestProductVO bestProductVO2 = new BestProductVO(product2.getId(), 20);
-    BestProductVO bestProductVO3 = new BestProductVO(product3.getId(), 30);
-    BestProductVO bestProductVO4 = new BestProductVO(product4.getId(), 5);
-    BestProductVO bestProductVO5 = new BestProductVO(product5.getId(), 40);
-    BestProductVO bestProductVO6 = new BestProductVO(product6.getId(), 50);
+    BestProductVO bestProductVO1 = new BestProductVO(product1.getId(), 10L);
+    BestProductVO bestProductVO2 = new BestProductVO(product2.getId(), 20L);
+    BestProductVO bestProductVO3 = new BestProductVO(product3.getId(), 30L);
+    BestProductVO bestProductVO4 = new BestProductVO(product4.getId(), 5L);
+    BestProductVO bestProductVO5 = new BestProductVO(product5.getId(), 40L);
+    BestProductVO bestProductVO6 = new BestProductVO(product6.getId(), 50L);
 
     // 상품 순서  -> 바나나, 딸기, 곶감, 블루베리, 충주사과, 단감 순서
     String stringFormat = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    String stringList = objectMapper.writeValueAsString(List.of(
-            bestProductVO1,
-            bestProductVO2,
-            bestProductVO3,
-            bestProductVO4,
-            bestProductVO5,
-            bestProductVO6));
-    redisTemplate
-        .opsForValue()
-        .set(
-            stringFormat,
-            stringList);
+    String stringList =
+        objectMapper.writeValueAsString(
+            List.of(
+                bestProductVO1,
+                bestProductVO2,
+                bestProductVO3,
+                bestProductVO4,
+                bestProductVO5,
+                bestProductVO6));
+    redisTemplate.opsForValue().set(stringFormat, stringList);
     // when
     List<ProductResponse> bestProducts = productService.getBestProducts();
     // then

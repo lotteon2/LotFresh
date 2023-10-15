@@ -104,10 +104,10 @@ public class ProductResponse {
       Map<Long, Product> productMap,
       Map<Long, Double> rateGroupByCategory) {
     return bestProductsVo.stream()
-        .sorted(Comparator.comparing(BestProductVO::getCount).reversed())
+        .sorted(Comparator.comparing(BestProductVO::getCnt).reversed())
         .map(
             vo -> {
-              Product product = productMap.get(vo.getId());
+              Product product = productMap.get(vo.getProductId());
               return ProductResponse.of(
                   product, rateGroupByCategory.getOrDefault(product.getCategory().getId(), 0d));
             })
