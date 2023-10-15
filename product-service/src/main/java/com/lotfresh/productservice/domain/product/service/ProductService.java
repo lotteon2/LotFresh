@@ -94,7 +94,7 @@ public class ProductService {
         objectMapper.readValue(
             redisTemplate
                 .opsForValue()
-                .get(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))),
+                .get(LocalDate.now().toString()),
             new TypeReference<>() {});
 
     if (bestProductsVO.isEmpty()) {

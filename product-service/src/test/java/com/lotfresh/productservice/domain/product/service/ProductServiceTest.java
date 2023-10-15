@@ -24,7 +24,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -412,7 +411,7 @@ class ProductServiceTest {
     BestProductVO bestProductVO6 = new BestProductVO(product6.getId(), 50L);
 
     // 상품 순서  -> 바나나, 딸기, 곶감, 블루베리, 충주사과, 단감 순서
-    String stringFormat = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    String stringFormat = LocalDate.now().toString();
     String stringList =
         objectMapper.writeValueAsString(
             List.of(
