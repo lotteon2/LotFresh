@@ -84,7 +84,7 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.name").value("name can not be empty"));
+        .andExpect(jsonPath("$.validation.name").value("name can not be blank"));
   }
 
   @DisplayName("상품을 등록 시 썸네일은 필수 값이다")
@@ -109,7 +109,7 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.thumbnail").value("thumbnail can not be empty"));
+        .andExpect(jsonPath("$.validation.thumbnail").value("thumbnail can not be blank"));
   }
 
   @DisplayName("상품을 등록 시 상세정보는 필수 값이다")
@@ -134,7 +134,7 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.detail").value("detail can not be empty"));
+        .andExpect(jsonPath("$.validation.detail").value("detail can not be blank"));
   }
 
   @DisplayName("상품을 등록 시 가격은 필수 값이다")
@@ -184,7 +184,7 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.productCode").value("productCode can not be empty"));
+        .andExpect(jsonPath("$.validation.productCode").value("productCode can not be blank"));
   }
 
   @DisplayName("상품을 수정한다.")
@@ -257,7 +257,7 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.name").value("name can not be empty"));
+        .andExpect(jsonPath("$.validation.name").value("name can not be blank"));
   }
 
   @DisplayName("상품 수정 시 썸네일은 필수 값이다")
@@ -282,7 +282,7 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.thumbnail").value("thumbnail can not be empty"));
+        .andExpect(jsonPath("$.validation.thumbnail").value("thumbnail can not be blank"));
   }
 
   @DisplayName("상품 수정 시 상세정보는 필수 값이다")
@@ -307,7 +307,7 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.detail").value("detail can not be empty"));
+        .andExpect(jsonPath("$.validation.detail").value("detail can not be blank"));
   }
 
   @DisplayName("상품 수정 시 가격은 필수 값이다")
@@ -357,7 +357,7 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.productCode").value("productCode can not be empty"));
+        .andExpect(jsonPath("$.validation.productCode").value("productCode can not be blank"));
   }
 
   @DisplayName("상품을 (논리) 삭제 한다.")

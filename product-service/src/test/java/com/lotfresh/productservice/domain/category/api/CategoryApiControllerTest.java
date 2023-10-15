@@ -43,7 +43,7 @@ class CategoryApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.name").value("name cannot be null"));
+        .andExpect(jsonPath("$.validation.name").value("name cannot be blank"));
   }
 
   @DisplayName("카테고리를 수정 한다.")
@@ -84,7 +84,7 @@ class CategoryApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.name").value("name cannot be null"));
+        .andExpect(jsonPath("$.validation.name").value("name cannot be blank"));
   }
 
   @DisplayName("카테고리를 논리삭제 한다.")
