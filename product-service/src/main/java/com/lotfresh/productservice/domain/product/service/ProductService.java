@@ -95,13 +95,13 @@ public class ProductService {
       return Collections.EMPTY_LIST;
     }
 
-    Map<Long, Product> productMap = extractProductMapById(bestProductsVO);
+    Map<Long, Product> productMap = extractProductMapByVO(bestProductsVO);
     Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
 
     return ProductResponse.createProductResponses(bestProductsVO, productMap, rateGroupByCategory);
   }
 
-  private Map<Long, Product> extractProductMapById(List<BestProductVO> bestProductsVO) {
+  private Map<Long, Product> extractProductMapByVO(List<BestProductVO> bestProductsVO) {
     List<Long> bestProductIds =
         bestProductsVO.stream().map(best -> best.getId()).collect(Collectors.toList());
     return productRepository.findBestProducts(bestProductIds).stream()
