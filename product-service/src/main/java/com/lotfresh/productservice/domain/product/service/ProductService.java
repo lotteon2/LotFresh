@@ -12,7 +12,7 @@ import com.lotfresh.productservice.domain.product.exception.ProductNotFound;
 import com.lotfresh.productservice.domain.product.repository.ProductRepository;
 import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
 import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
-import com.lotfresh.productservice.domain.product.vo.BestProductVo;
+import com.lotfresh.productservice.domain.product.vo.BestProductVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,7 +34,7 @@ public class ProductService {
   private final ProductRepository productRepository;
   private final CategoryRepository categoryRepository;
   private final DiscountRepository discountRepository;
-  private final RedisTemplate<String, List<BestProductVo>> redisTemplate;
+  private final RedisTemplate<String, List<BestProductVO>> redisTemplate;
 
   private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -88,7 +88,7 @@ public class ProductService {
 
   public List<ProductResponse> getBestProducts() {
 
-    List<BestProductVo> bestProductsVo =
+    List<BestProductVO> bestProductsVo =
         redisTemplate.opsForValue().get(format.format(LocalDate.now()));
 
     if (bestProductsVo.isEmpty()) {
@@ -107,7 +107,7 @@ public class ProductService {
         .collect(Collectors.toMap(Product::getId, Function.identity()));
   }
 
-  private List<Long> extractBestProductIds(List<BestProductVo> bestProductsVo) {
+  private List<Long> extractBestProductIds(List<BestProductVO> bestProductsVo) {
     return bestProductsVo.stream().map(best -> best.getId()).collect(Collectors.toList());
   }
 
