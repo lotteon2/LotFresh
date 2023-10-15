@@ -1,5 +1,6 @@
 package com.lotfresh.productservice.domain.product.service.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lotfresh.productservice.domain.product.entity.Product;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +18,8 @@ public class ProductResponse {
   private String productCode;
   private Long categoryId;
   private String categoryName;
-  private Long parentId;
-  private String parentName;
+  @JsonIgnore private Long parentId;
+  @JsonIgnore private String parentName;
   private Integer stock;
 
   @Builder
@@ -57,7 +58,9 @@ public class ProductResponse {
         .detail(product.getDetail())
         .price(product.getPrice())
         .salesPrice(
-                discountRate == 0d ? null : product.getPrice() - (int) (product.getPrice() * (discountRate * 0.01)))
+            discountRate == 0d
+                ? null
+                : product.getPrice() - (int) (product.getPrice() * (discountRate * 0.01)))
         .productCode(product.getProductCode())
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())
@@ -81,8 +84,10 @@ public class ProductResponse {
         .detail(product.getDetail())
         .price(product.getPrice())
         .salesPrice(
-                discountRate == 0d ? null : product.getPrice() - (int) (product.getPrice() * (discountRate * 0.01)))
-            .productCode(product.getProductCode())
+            discountRate == 0d
+                ? null
+                : product.getPrice() - (int) (product.getPrice() * (discountRate * 0.01)))
+        .productCode(product.getProductCode())
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())
         .build();

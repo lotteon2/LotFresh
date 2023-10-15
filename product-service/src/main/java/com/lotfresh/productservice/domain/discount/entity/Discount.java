@@ -23,9 +23,7 @@ public class Discount {
 
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(
-      name = "category_id",
-      foreignKey = @ForeignKey(name = "fk_discount_to_category"))
+  @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "fk_discount_to_category"))
   private Category category;
 
   @NotNull private Double rate;
@@ -36,8 +34,7 @@ public class Discount {
 
   @NotNull private String imgurl;
 
-  @NotNull
-  @Column(columnDefinition = "boolean default false")
+  @Column(nullable = false, columnDefinition = "boolean default false")
   private Boolean isDeleted;
 
   @Builder

@@ -24,15 +24,13 @@ public class Category {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull
-  private String name;
+  @NotNull private String name;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "parent_id", foreignKey = @ForeignKey(name = "fk_category_to_parent_category"))
   private Category parent;
 
-  @NotNull
-  @Column(columnDefinition = "boolean default false")
+  @Column(nullable = false, columnDefinition = "boolean default false")
   private Boolean isDeleted;
 
   @Builder
