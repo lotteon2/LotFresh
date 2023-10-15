@@ -88,27 +88,24 @@ public class ProductService {
 
   public List<ProductResponse> getBestProducts() {
 
-    List<BestProductVO> bestProductsVo =
+    List<BestProductVO> bestProductsVO =
         redisTemplate.opsForValue().get(format.format(LocalDate.now()));
 
-    if (bestProductsVo.isEmpty()) {
+    if (bestProductsVO.isEmpty()) {
       return Collections.EMPTY_LIST;
     }
 
-    List<Long> bestProductIds = extractBestProductIds(bestProductsVo);
-    Map<Long, Product> productMap = getProductMapById(bestProductIds);
+    Map<Long, Product> productMap = extractProductMapById(bestProductsVO);
     Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
 
-    return ProductResponse.createProductResponses(bestProductsVo, productMap, rateGroupByCategory);
+    return ProductResponse.createProductResponses(bestProductsVO, productMap, rateGroupByCategory);
   }
 
-  private Map<Long, Product> getProductMapById(List<Long> bestProductIds) {
+  private Map<Long, Product> extractProductMapById(List<BestProductVO> bestProductsVO) {
+    List<Long> bestProductIds =
+        bestProductsVO.stream().map(best -> best.getId()).collect(Collectors.toList());
     return productRepository.findBestProducts(bestProductIds).stream()
         .collect(Collectors.toMap(Product::getId, Function.identity()));
-  }
-
-  private List<Long> extractBestProductIds(List<BestProductVO> bestProductsVo) {
-    return bestProductsVo.stream().map(best -> best.getId()).collect(Collectors.toList());
   }
 
   private Double getDiscountRateByCategory(Long categoryId) {
