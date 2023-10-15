@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -103,6 +104,7 @@ public class ProductResponse {
       Map<Long, Product> productMap,
       Map<Long, Double> rateGroupByCategory) {
     return bestProductsVo.stream()
+        .sorted(Comparator.comparing(BestProductVo::getCount).reversed())
         .map(
             vo -> {
               Product product = productMap.get(vo.getId());
