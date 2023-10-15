@@ -1,5 +1,8 @@
 package com.lotfresh.productservice.domain.product.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
@@ -19,8 +22,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +37,8 @@ public class ProductService {
   private final ProductRepository productRepository;
   private final CategoryRepository categoryRepository;
   private final DiscountRepository discountRepository;
-  private final RedisTemplate<String, List<BestProductVO>> redisTemplate;
-
-  private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+  private final RedisTemplate<String, String> redisTemplate;
+  private final ObjectMapper objectMapper;
 
   @Transactional
   public Long createProduct(ProductCreateRequest request) {
@@ -86,10 +88,14 @@ public class ProductService {
     return ProductPageResponse.of(productPage, rateGroupByCategory);
   }
 
-  public List<ProductResponse> getBestProducts() {
-
+  // TODO redis 로직 분리 (재사용을 위함)
+  public List<ProductResponse> getBestProducts() throws JsonProcessingException {
     List<BestProductVO> bestProductsVO =
-        redisTemplate.opsForValue().get(format.format(LocalDate.now()));
+        objectMapper.readValue(
+            redisTemplate
+                .opsForValue()
+                .get(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))),
+            new TypeReference<>() {});
 
     if (bestProductsVO.isEmpty()) {
       return Collections.EMPTY_LIST;

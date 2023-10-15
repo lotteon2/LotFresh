@@ -1,5 +1,6 @@
 package com.lotfresh.productservice.domain.product.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
@@ -13,29 +14,31 @@ import com.lotfresh.productservice.domain.product.exception.ProductNotFound;
 import com.lotfresh.productservice.domain.product.repository.ProductRepository;
 import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
 import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
+import com.lotfresh.productservice.domain.product.vo.BestProductVO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-@ActiveProfiles("test")
 class ProductServiceTest {
   @Autowired EntityManager em;
   @Autowired ProductService productService;
   @Autowired CategoryRepository categoryRepository;
   @Autowired ProductRepository productRepository;
   @Autowired DiscountRepository discountRepository;
+  @Autowired RedisTemplate<String, String> redisTemplate;
+  @Autowired ObjectMapper objectMapper;
 
   @AfterEach
   void tearDown() {
@@ -382,6 +385,52 @@ class ProductServiceTest {
         .extracting("name")
         .containsExactlyInAnyOrder("바나나");
     assertThat(productPageResponse.getTotalPage()).isEqualTo(1);
+  }
+
+  @DisplayName("최대 판매된 상품 순을 기준으로 상위 100개의 상품을 조회한다.")
+  @Test
+  void getBestProducts() throws Exception {
+    // given
+    Category category1 = createCategory(null, "냉장");
+    Category category2 = createCategory(category1, "과일");
+    Category category3 = createCategory(category1, "야채");
+    categoryRepository.saveAll(List.of(category1, category2, category3));
+
+    Product product1 = createProduct(category2, "충주사과", "thumbnail.jpeg", "detail1", 1000, "P001");
+    Product product2 = createProduct(category2, "블루베리", "thumbnail.jpeg", "detail2", 2000, "P002");
+    Product product3 = createProduct(category2, "곶감", "thumbnail.jpeg", "detail3", 3000, "P003");
+    Product product4 = createProduct(category2, "단감", "thumbnail.jpeg", "detail4", 4000, "P004");
+    Product product5 = createProduct(category2, "딸기", "thumbnail.jpeg", "detail5", 5000, "P005");
+    Product product6 = createProduct(category2, "바나나", "thumbnail.jpeg", "detail6", 6000, "P006");
+    productRepository.saveAll(List.of(product1, product2, product3, product4, product5, product6));
+
+    BestProductVO bestProductVO1 = new BestProductVO(product1.getId(), 10);
+    BestProductVO bestProductVO2 = new BestProductVO(product2.getId(), 20);
+    BestProductVO bestProductVO3 = new BestProductVO(product3.getId(), 30);
+    BestProductVO bestProductVO4 = new BestProductVO(product4.getId(), 5);
+    BestProductVO bestProductVO5 = new BestProductVO(product5.getId(), 40);
+    BestProductVO bestProductVO6 = new BestProductVO(product6.getId(), 50);
+
+    // 상품 순서  -> 바나나, 딸기, 곶감, 블루베리, 충주사과, 단감 순서
+    String stringFormat = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    String stringList = objectMapper.writeValueAsString(List.of(
+            bestProductVO1,
+            bestProductVO2,
+            bestProductVO3,
+            bestProductVO4,
+            bestProductVO5,
+            bestProductVO6));
+    redisTemplate
+        .opsForValue()
+        .set(
+            stringFormat,
+            stringList);
+    // when
+    List<ProductResponse> bestProducts = productService.getBestProducts();
+    // then
+    assertThat(bestProducts)
+        .extracting("name")
+        .containsExactlyInAnyOrder("바나나", "딸기", "곶감", "블루베리", "충주사과", "단감");
   }
 
   private Product createProduct(
