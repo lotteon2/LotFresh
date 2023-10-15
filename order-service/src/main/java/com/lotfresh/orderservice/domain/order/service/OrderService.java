@@ -107,7 +107,6 @@ public class OrderService {
                 .build();
     }
 
-    // TODO : 매일 정해진 시간에 Redis에 값 전달(배치처리 or 카프카 커넥트 등등)
     public List<BestProductsResponse> getMostSoldProducts(int limitCnt) {
         return orderDetailRepository.mostSoldProducts(limitCnt);
     }
