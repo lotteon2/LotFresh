@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -39,8 +38,7 @@ public class Product extends BaseEntity {
   @Column(unique = true)
   private String productCode;
 
-  @NotNull
-  @Column(columnDefinition = "boolean default false")
+  @Column(nullable = false, columnDefinition = "boolean default false")
   private Boolean isDeleted;
 
   @Builder

@@ -400,4 +400,25 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isOk());
   }
+
+  @DisplayName("베스트 상품을 조회한다.")
+  @Test
+  void getBestProducts() throws Exception {
+    // given
+
+    // when // then
+    mockMvc.perform(get("/products/best-products")).andDo(print()).andExpect(status().isOk());
+  }
+
+  @DisplayName("마감임박 상품 리스트를 조회 한다.")
+  @Test
+  void getSalesProducts() throws Exception {
+    // given
+    Long userId = 1L;
+    // when // then
+    mockMvc
+        .perform(get("/products/sales-products").header("userId", userId))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
 }
