@@ -1,34 +1,35 @@
-package shop.lotfresh.paymentservice.domain.payment.webclient;
+package shop.lotfresh.paymentservice.webclient;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import shop.lotfresh.paymentservice.domain.payment.vo.*;
-
+import shop.lotfresh.paymentservice.domain.refund.vo.KakaopayRefundResponseVO;
+import shop.lotfresh.paymentservice.domain.refund.vo.KakaopayRefundVO;
 
 @Component
-public class KakaopayPaymentApiClient {
+public class KakaopayApiClient {
+
     private final WebClient webClient;
 
     @Value("${kakaopay.admin_key}")
     private String KAKAOPAY_SERVICE_APP_ADMIN_KEY;
+    private final String ADMIN_KEY = "KakaoAK " + KAKAOPAY_SERVICE_APP_ADMIN_KEY;
 
-    public KakaopayPaymentApiClient(WebClient.Builder webClientBuilder) {
+    public KakaopayApiClient(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl("https://kapi.kakao.com").build();
     }
 
     public KakaopayReadyResponseVO kakaopayReady(Long orderId, KakaopayReadyVO request) {
-        String adminKey = "KakaoAK " + KAKAOPAY_SERVICE_APP_ADMIN_KEY;
-
         return webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/v1/payment/ready")
                         .queryParam("orderId", orderId)
                         .build())
-                .header("Authorization", adminKey)
+                .header("Authorization", ADMIN_KEY)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .bodyValue(request.toMultiValueMap())
                 .retrieve()
@@ -50,11 +51,9 @@ public class KakaopayPaymentApiClient {
     }
 
     public KakaopayApproveResponseVO kakaopayApprove(KakaopayApproveVO request) {
-        String adminKey = "KakaoAK " + KAKAOPAY_SERVICE_APP_ADMIN_KEY;
-
         return webClient.post()
                 .uri("/v1/payment/approve")
-                .header("Authorization", adminKey)
+                .header("Authorization", ADMIN_KEY)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .bodyValue(request.toMultiValueMap()) // 요청 형식에 맞게 객체를 변환
                 .retrieve()
@@ -66,5 +65,24 @@ public class KakaopayPaymentApiClient {
                                                 ", Extras=" + errorBody.getExtras()))))
                 .bodyToMono(KakaopayApproveResponseVO.class)
                 .block();
+    }
+
+
+    public KakaopayRefundResponseVO kakaopayRefund(KakaopayRefundVO request) {
+        return webClient.post()
+                .uri("/v1/payment/cancel")
+                .header("Authorization", ADMIN_KEY)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .bodyValue(request.toMultiValueMap()) // 요청 형식에 맞게 객체를 변환
+                .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, clientResponse ->
+                        clientResponse.bodyToMono(KakaopayApproveErrorResponseVO.class)
+                                .flatMap(errorBody -> Mono.error(new RuntimeException(
+                                        "Error during payment approval: Code=" + errorBody.getCode() +
+                                                ", Message=" + errorBody.getMessage() +
+                                                ", Extras=" + errorBody.getExtras()))))
+                .bodyToMono(KakaopayRefundResponseVO.class)
+                .block();
+
     }
 }

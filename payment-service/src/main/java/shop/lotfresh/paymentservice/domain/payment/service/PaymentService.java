@@ -8,12 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.lotfresh.paymentservice.domain.payment.api.request.KakaopayApproveRequest;
 import shop.lotfresh.paymentservice.domain.payment.api.request.KakaopayReadyRequest;
 import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
+import shop.lotfresh.paymentservice.domain.payment.entity.PaymentStatus;
 import shop.lotfresh.paymentservice.domain.payment.repository.PaymentRepository;
 import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayApproveVO;
 import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayReadyVO;
 import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayReadyResponseVO;
 import shop.lotfresh.paymentservice.domain.payment.vo.OrderDetailVO;
-import shop.lotfresh.paymentservice.domain.payment.webclient.KakaopayPaymentApiClient;
+import shop.lotfresh.paymentservice.webclient.KakaopayApiClient;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,7 +25,7 @@ import java.util.NoSuchElementException;
 @Service
 public class PaymentService {
     private final PaymentRepository paymentRepository;
-    private final KakaopayPaymentApiClient kakaopayPaymentApiClient;
+    private final KakaopayApiClient kakaopayApiClient;
 
     @Value("${kakaopay.admin_key}")
     private String adminKey;
@@ -65,7 +66,7 @@ public class PaymentService {
                                                                     cancelUrl);
 
         // queryParam에 orderId넘겨야 받을때 조립가능
-        KakaopayReadyResponseVO kakaopayReadyResponseVO = kakaopayPaymentApiClient.kakaopayReady(orderId, kakaopayReadyVO);
+        KakaopayReadyResponseVO kakaopayReadyResponseVO = kakaopayApiClient.kakaopayReady(orderId, kakaopayReadyVO);
 
         Payment payment = kakaopayReadyResponseVO.toEntity(userId, orderId, totalPrice);
         paymentRepository.save(payment); // TODO: 예외처리할게 있는지?
@@ -81,7 +82,8 @@ public class PaymentService {
 
         try {
             // 카카오페이 명세에 맞게 작성하였으나, 들어오는 객체의 값이 현재 우리 DB에 반영되는 상황은 아니라서 메소드 호출만 했음.
-            kakaopayPaymentApiClient.kakaopayApprove(kakaopayApproveVO);
+            kakaopayApiClient.kakaopayApprove(kakaopayApproveVO);
+            payment.linkPaymentGateway(payment.getPgToken());
             payment.completePayment();
         } catch (RuntimeException e) {
             log.error("Failed to approve KakaoPay: " + e.getMessage());
@@ -89,6 +91,25 @@ public class PaymentService {
             throw e;
         }
     }
+
+    @Transactional
+    public void abortPayment(Long orderId, PaymentStatus status) {
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new NoSuchElementException("No such order: " + orderId));
+
+        switch (status) {
+            case CANCELED:
+                payment.cancelPayment();
+                break;
+            case FAILED:
+                payment.failPayment();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid status for aborting a payment: " + status);
+        }
+    }
+
+
 
     public String generateItemName(List<OrderDetailVO> orderDetails) {
         String itemName;

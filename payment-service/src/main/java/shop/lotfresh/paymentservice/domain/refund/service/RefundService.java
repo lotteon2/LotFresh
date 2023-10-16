@@ -3,6 +3,7 @@ package shop.lotfresh.paymentservice.domain.refund.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
@@ -10,9 +11,10 @@ import shop.lotfresh.paymentservice.domain.payment.repository.PaymentRepository;
 import shop.lotfresh.paymentservice.domain.refund.api.request.RefundCreateRequest;
 import shop.lotfresh.paymentservice.domain.refund.entity.Refund;
 import shop.lotfresh.paymentservice.domain.refund.entity.RefundStatus;
+import shop.lotfresh.paymentservice.domain.refund.listener.message.RefundSuccessMessage;
 import shop.lotfresh.paymentservice.domain.refund.repository.RefundRepository;
 import shop.lotfresh.paymentservice.domain.refund.vo.KakaopayRefundVO;
-import shop.lotfresh.paymentservice.domain.refund.webclient.KakaopayRefundApiClient;
+import shop.lotfresh.paymentservice.webclient.KakaopayApiClient;
 
 import java.util.NoSuchElementException;
 
@@ -23,7 +25,8 @@ import java.util.NoSuchElementException;
 public class RefundService {
     private final RefundRepository refundRepository;
     private final PaymentRepository paymentRepository;
-    private final KakaopayRefundApiClient kakaopayRefundApiClient;
+    private final KakaopayApiClient kakaopayApiClient;
+    private final KafkaTemplate<String,Object> kafkaTemplate;
 
     @Value("${kakaopay.cid}")
     private String kakaopayCid;
@@ -63,11 +66,11 @@ public class RefundService {
 
         KakaopayRefundVO request = refund.toVO(kakaopayCid);
         try {
-            // 카카오페이 명세에 맞게 작성하였으나, 들어오는 객체의 값이 현재 우리 DB에 반영되는 상황은 아니라서 메소드 호출만 했음.
-            kakaopayRefundApiClient.kakaopayRefund(request);
+            kakaopayApiClient.kakaopayRefund(request);
 
-            // TODO: Kafka 통해 던지기 주문서버에 환불을 했으니 상태변경하라는 메세지 보내기. 😀
-            // 이거 받고 주문서버에서 적절한 상품인 경우 재고 업데이트 하라고 해야되나? 내가 도와줄 수 있는 부분이 있나?
+            // Kafka 통해 던지기. 주문서버에 환불을 했으니 상태변경하라는 메세지 보내기.
+            RefundSuccessMessage message = RefundSuccessMessage.builder().build();
+            kafkaTemplate.send("refund-success", String.valueOf(refund.getOrderDetailId()), message);
             refund.approveRefund();
         } catch (RuntimeException e) {
             log.error("Failed to refund KakaoPay: " + e.getMessage());
