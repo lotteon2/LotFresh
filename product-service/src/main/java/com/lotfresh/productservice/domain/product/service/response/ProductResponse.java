@@ -117,7 +117,7 @@ public class ProductResponse {
 
   public static List<ProductResponse> createSalesProductResponses(
       List<SalesProductVO> salesProductsVO, Map<Long, Product> productMap) {
-    return salesProductsVO.stream()
+    return salesProductsVO.stream().sorted(Comparator.comparing(SalesProductVO::getStock))
         .map(
             vo -> {
               Product product = productMap.get(vo.getProductId());
