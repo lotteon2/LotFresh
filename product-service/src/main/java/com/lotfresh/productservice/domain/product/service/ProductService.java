@@ -1,8 +1,6 @@
 package com.lotfresh.productservice.domain.product.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.category.entity.Category;
 import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
@@ -13,17 +11,16 @@ import com.lotfresh.productservice.domain.product.api.request.ProductModifyReque
 import com.lotfresh.productservice.domain.product.entity.Product;
 import com.lotfresh.productservice.domain.product.exception.ProductNotFound;
 import com.lotfresh.productservice.domain.product.repository.ProductRepository;
+import com.lotfresh.productservice.domain.product.repository.ProductRedisRepository;
 import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
 import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
 import com.lotfresh.productservice.domain.product.vo.BestProductVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +34,7 @@ public class ProductService {
   private final ProductRepository productRepository;
   private final CategoryRepository categoryRepository;
   private final DiscountRepository discountRepository;
-  private final RedisTemplate<String, String> redisTemplate;
-  private final ObjectMapper objectMapper;
+  private final ProductRedisRepository redisRepository;
 
   @Transactional
   public Long createProduct(ProductCreateRequest request) {
@@ -88,14 +84,9 @@ public class ProductService {
     return ProductPageResponse.of(productPage, rateGroupByCategory);
   }
 
-  // TODO redis 로직 분리 (재사용을 위함)
-  public List<ProductResponse> getBestProducts() throws JsonProcessingException {
+   public List<ProductResponse> getBestProducts() throws JsonProcessingException {
     List<BestProductVO> bestProductsVO =
-        objectMapper.readValue(
-            redisTemplate
-                .opsForValue()
-                .get(LocalDate.now().toString()),
-            new TypeReference<>() {});
+        redisRepository.getBestProductsVO(LocalDate.now().toString());
 
     if (bestProductsVO.isEmpty()) {
       return Collections.EMPTY_LIST;
