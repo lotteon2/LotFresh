@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BestProductVO {
   private Long ProductId;
-  private Integer cnt;
+  private Long cnt;
 }
