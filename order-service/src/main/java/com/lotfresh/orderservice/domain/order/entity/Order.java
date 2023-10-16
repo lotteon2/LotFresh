@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @Entity(name = "orders")
 public class Order extends BaseEntity {
     @Id
@@ -27,8 +29,8 @@ public class Order extends BaseEntity {
     @NotNull
     private Long authId;
 
-    @NotNull
-    private Boolean isDeleted = false;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean isDeleted;
     @Builder
     private Order(Long authId) {
         this.authId = authId;

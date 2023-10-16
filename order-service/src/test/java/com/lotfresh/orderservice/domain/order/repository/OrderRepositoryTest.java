@@ -12,12 +12,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.Optional;
 
 @SpringBootTest
 @Transactional
 class OrderRepositoryTest {
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @DisplayName("회원 아이디를 입력받아 주문을 생성한다")
     @Test
@@ -29,14 +33,18 @@ class OrderRepositoryTest {
                 .build();
 
         // when
-        Order savedOrder = orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order); // jdbc에서 저장된 값을 가져오는 걸 할텐데 그때 아마 id값만 가져오는거 같다?
+
+        em.clear();
+
+        Order getOrder = orderRepository.findById(savedOrder.getId()).get();
 
         // then
-        Assertions.assertThat(savedOrder.getId()).isNotNull();
-        Assertions.assertThat(savedOrder.getAuthId()).isEqualTo(authId);
-        Assertions.assertThat(savedOrder.getIsDeleted()).isFalse();
-        Assertions.assertThat(savedOrder.getCreatedAt()).isNotNull();
-        Assertions.assertThat(savedOrder.getUpdatedAt()).isNotNull();
+        Assertions.assertThat(getOrder.getId()).isNotNull();
+        Assertions.assertThat(getOrder.getAuthId()).isEqualTo(authId);
+        Assertions.assertThat(getOrder.getIsDeleted()).isFalse();
+        Assertions.assertThat(getOrder.getCreatedAt()).isNotNull();
+        Assertions.assertThat(getOrder.getUpdatedAt()).isNotNull();
 
     }
 

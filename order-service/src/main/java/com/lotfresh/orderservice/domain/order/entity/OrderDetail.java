@@ -11,12 +11,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @Entity
 public class OrderDetail extends BaseEntity {
     @Id
@@ -40,7 +42,7 @@ public class OrderDetail extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderDetailStatus status;
 
-    @NotNull
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean isDeleted = false;
 
     @NotNull
