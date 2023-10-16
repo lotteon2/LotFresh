@@ -1,19 +1,21 @@
 package com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep;
 
-import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentRequest;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
-import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStepStatus;
-import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
+import com.lotfresh.orderservice.domain.orchestrator.feigns.InventoryFeignClient;
+import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 @RequiredArgsConstructor
-public class PaymentStep implements WorkflowStep {
+public class NormalInventoryStep implements InventoryStep {
     private final String workflowName;
-    private final PaymentFeignClient feignClient;
-    private final PaymentRequest paymentRequest;
+    private final InventoryFeignClient feignClient;
+    private final List<InventoryRequest> inventoryRequests;
     private final KafkaProducer kafkaProducer;
 
     public WorkflowStepStatus status = WorkflowStepStatus.PENDING;
@@ -25,14 +27,14 @@ public class PaymentStep implements WorkflowStep {
 
     @Override
     public Object process() {
-        ResponseEntity result = feignClient.requestPayment(paymentRequest);
+        ResponseEntity result = feignClient.deductNormalQuantity(inventoryRequests);
         changeStatus(WorkflowStepStatus.COMPLETE);
         return result;
     }
 
     @Override
     public void revert() {
-        kafkaProducer.send("payment",paymentRequest);
+        kafkaProducer.send("inventory",inventoryRequests);
         changeStatus(WorkflowStepStatus.FAILED);
     }
 
@@ -50,6 +52,5 @@ public class PaymentStep implements WorkflowStep {
     public String getWorkflowName() {
         return workflowName;
     }
-
 
 }

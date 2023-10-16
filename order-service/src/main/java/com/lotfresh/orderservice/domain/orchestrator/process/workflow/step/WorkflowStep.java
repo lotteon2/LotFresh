@@ -1,7 +1,6 @@
 package com.lotfresh.orderservice.domain.orchestrator.process.workflow.step;
 
-public abstract class WorkflowStep {
-    public WorkflowStepStatus status = WorkflowStepStatus.PENDING;
+public interface WorkflowStep {
     abstract public boolean isRevertTarget();
     abstract public Object process();
     abstract public void revert();
