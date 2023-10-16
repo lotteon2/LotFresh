@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class StorageCreateRequest {
-    private Long id;
 
     @NotNull(message = "StorageName can not be null")
     private String name;
@@ -20,7 +19,6 @@ public class StorageCreateRequest {
 
     public Storage toEntity() {
         return Storage.builder()
-                .id(id)
                 .name(name)
                 .province(province)
                 .build();

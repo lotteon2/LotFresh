@@ -1,6 +1,5 @@
 package shop.lotfresh.storageservice.domain.storageproduct.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
 import shop.lotfresh.storageservice.domain.storageproduct.repository.StorageProductRepository;
@@ -12,7 +11,6 @@ import java.util.List;
 public class StorageProductService {
     private final StorageProductRepository storageProductRepository;
 
-    @Autowired
     public StorageProductService(StorageProductRepository storageProductRepository) {
         this.storageProductRepository = storageProductRepository;
     }

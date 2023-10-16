@@ -17,10 +17,8 @@ public class StorageProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "product_id")
     private Long productId;
 
-    @Column(name = "storage_id")
     private Long storageId;
 
     private Long stock;

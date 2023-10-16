@@ -1,15 +1,11 @@
 package shop.lotfresh.storageservice.domain.storageproduct.api.request;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Getter;
+
 import java.util.Date;
 
+@Getter
 public class StorageProductSearchRequest {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private Long product_id;
 
@@ -21,9 +17,4 @@ public class StorageProductSearchRequest {
 
     private Date expiration_date_end;
 
-
-    public Long getStorage() {
-        return this.storage_id;
-
-    }
 }
