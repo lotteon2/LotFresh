@@ -1,5 +1,6 @@
 package com.lotfresh.productservice.domain.product.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.product.api.request.ProductCreateRequest;
 import com.lotfresh.productservice.domain.product.api.request.ProductModifyRequest;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -59,5 +61,10 @@ public class ProductApiController {
   public ResponseEntity<ProductPageResponse> getProductsByCategory(
       @ModelAttribute PageRequest pageRequest, @PathVariable("categoryId") Long categoryId) {
     return ResponseEntity.ok(productService.getProductsByCategory(categoryId, pageRequest));
+  }
+
+  @GetMapping("/best-products")
+  public ResponseEntity<List<ProductResponse>> getBestProducts() throws JsonProcessingException {
+    return ResponseEntity.ok(productService.getBestProducts());
   }
 }

@@ -400,4 +400,13 @@ class ProductApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isOk());
   }
+
+  @DisplayName("베스트 상품을 조회한다.")
+  @Test
+  void getBestProducts() throws Exception {
+    // given
+
+    // when // then
+    mockMvc.perform(get("/products/best-products")).andDo(print()).andExpect(status().isOk());
+  }
 }
