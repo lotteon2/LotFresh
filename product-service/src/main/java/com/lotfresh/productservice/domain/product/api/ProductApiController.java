@@ -1,8 +1,10 @@
 package com.lotfresh.productservice.domain.product.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.product.api.request.ProductCreateRequest;
 import com.lotfresh.productservice.domain.product.api.request.ProductModifyRequest;
+import com.lotfresh.productservice.domain.product.feign.MemberApiClient;
 import com.lotfresh.productservice.domain.product.feign.StorageApiClient;
 import com.lotfresh.productservice.domain.product.service.ProductService;
 import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -23,6 +26,7 @@ import javax.validation.Valid;
 public class ProductApiController {
   private final ProductService productService;
   private final StorageApiClient storageApiClient;
+  private final MemberApiClient memberApiClient;
 
   @PostMapping("")
   public ResponseEntity<Long> createProduct(@Valid @RequestBody ProductCreateRequest request) {
@@ -59,5 +63,23 @@ public class ProductApiController {
   public ResponseEntity<ProductPageResponse> getProductsByCategory(
       @ModelAttribute PageRequest pageRequest, @PathVariable("categoryId") Long categoryId) {
     return ResponseEntity.ok(productService.getProductsByCategory(categoryId, pageRequest));
+  }
+
+  @GetMapping("/best-products")
+  public ResponseEntity<List<ProductResponse>> getBestProducts() throws JsonProcessingException {
+    return ResponseEntity.ok(productService.getBestProducts());
+  }
+
+  @GetMapping("/sales-products")
+  public ResponseEntity<List<ProductResponse>> getSalesProducts(
+      @RequestHeader(value = "userId", required = false) Long userId)
+      throws JsonProcessingException {
+    String memberAddressKey = null;
+    try {
+      memberAddressKey = memberApiClient.getMemberAddress(userId);
+    } catch (FeignException e) {
+      log.error(e.getMessage());
+    }
+    return ResponseEntity.ok(productService.getSalesProducts(memberAddressKey));
   }
 }

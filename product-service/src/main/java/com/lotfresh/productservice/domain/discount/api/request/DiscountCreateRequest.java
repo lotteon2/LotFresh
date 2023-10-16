@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -30,7 +30,7 @@ public class DiscountCreateRequest {
   @NotNull(message = "endDate can not be null")
   private LocalDate endDate;
 
-  @NotEmpty(message = "imgurl can not be empty")
+  @NotBlank(message = "imgurl can not be blank")
   private String imgurl;
 
   public Discount toEntity(Category category) {

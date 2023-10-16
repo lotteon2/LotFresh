@@ -6,6 +6,7 @@ import com.lotfresh.productservice.domain.category.service.CategoryService;
 import com.lotfresh.productservice.domain.discount.api.DiscountApiController;
 import com.lotfresh.productservice.domain.discount.service.DiscountService;
 import com.lotfresh.productservice.domain.product.api.ProductApiController;
+import com.lotfresh.productservice.domain.product.feign.MemberApiClient;
 import com.lotfresh.productservice.domain.product.feign.StorageApiClient;
 import com.lotfresh.productservice.domain.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,4 +33,6 @@ public class ControllerTestSupport {
   @MockBean protected ProductService productService;
 
   @MockBean protected StorageApiClient storageApiClient;
+
+  @MockBean protected MemberApiClient memberApiClient;
 }

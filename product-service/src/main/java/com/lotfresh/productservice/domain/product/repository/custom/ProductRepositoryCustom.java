@@ -12,5 +12,5 @@ public interface ProductRepositoryCustom {
 
   Page<Product> findAllByCategory(Long categoryId, PageRequest pageRequest);
 
-  List<Product> findBestProducts(List<Long> ids);
+  List<Product> findAllByIds(List<Long> ids);
 }

@@ -1,9 +1,17 @@
 package com.lotfresh.productservice.domain.product.service.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lotfresh.productservice.domain.product.entity.Product;
+import com.lotfresh.productservice.domain.product.vo.BestProductVO;
+import com.lotfresh.productservice.domain.product.vo.SalesProductVO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @ToString
@@ -17,8 +25,8 @@ public class ProductResponse {
   private String productCode;
   private Long categoryId;
   private String categoryName;
-  private Long parentId;
-  private String parentName;
+  @JsonIgnore private Long parentId;
+  @JsonIgnore private String parentName;
   private Integer stock;
 
   @Builder
@@ -57,7 +65,9 @@ public class ProductResponse {
         .detail(product.getDetail())
         .price(product.getPrice())
         .salesPrice(
-                discountRate == 0d ? null : product.getPrice() - (int) (product.getPrice() * (discountRate * 0.01)))
+            discountRate == 0d
+                ? null
+                : product.getPrice() - (int) (product.getPrice() * (discountRate * 0.01)))
         .productCode(product.getProductCode())
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())
@@ -81,10 +91,38 @@ public class ProductResponse {
         .detail(product.getDetail())
         .price(product.getPrice())
         .salesPrice(
-                discountRate == 0d ? null : product.getPrice() - (int) (product.getPrice() * (discountRate * 0.01)))
-            .productCode(product.getProductCode())
+            discountRate == 0d
+                ? null
+                : product.getPrice() - (int) (product.getPrice() * (discountRate * 0.01)))
+        .productCode(product.getProductCode())
         .categoryId(product.getCategory().getId())
         .categoryName(product.getCategory().getName())
         .build();
+  }
+
+  public static List<ProductResponse> createBestProductResponses(
+      List<BestProductVO> bestProductsVo,
+      Map<Long, Product> productMap,
+      Map<Long, Double> rateGroupByCategory) {
+    return bestProductsVo.stream()
+        .sorted(Comparator.comparing(BestProductVO::getCnt).reversed())
+        .map(
+            vo -> {
+              Product product = productMap.get(vo.getProductId());
+              return ProductResponse.of(
+                  product, rateGroupByCategory.getOrDefault(product.getCategory().getId(), 0d));
+            })
+        .collect(Collectors.toList());
+  }
+
+  public static List<ProductResponse> createSalesProductResponses(
+      List<SalesProductVO> salesProductsVO, Map<Long, Product> productMap) {
+    return salesProductsVO.stream().sorted(Comparator.comparing(SalesProductVO::getStock))
+        .map(
+            vo -> {
+              Product product = productMap.get(vo.getProductId());
+              return ProductResponse.of(product, 50d, vo.getStock());
+            })
+        .collect(Collectors.toList());
   }
 }

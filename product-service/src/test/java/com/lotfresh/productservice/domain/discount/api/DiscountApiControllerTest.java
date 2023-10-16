@@ -141,7 +141,7 @@ class DiscountApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be empty"));
+        .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be blank"));
   }
 
   @DisplayName("카테고리 할인 정보를 변경한다.")
@@ -190,7 +190,7 @@ class DiscountApiControllerTest extends ControllerTestSupport {
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-            .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be empty"));
+            .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be blank"));
   }
 
   @DisplayName("카테고리 할인 상세 정보를 조회 한다.")
