@@ -89,6 +89,9 @@ public class ProductService {
     List<BestProductVO> bestProductsVO =
         redisRepository.getBestProductsVO(LocalDate.now().toString());
 
+    System.out.println("=======================================================");
+    System.out.println(bestProductsVO.get(0).getProductId());
+
     if (bestProductsVO.isEmpty()) {
       return Collections.EMPTY_LIST;
     }

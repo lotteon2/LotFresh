@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BestProductVO {
-  private Long ProductId;
+  private Long productId;
   private Long cnt;
 }
