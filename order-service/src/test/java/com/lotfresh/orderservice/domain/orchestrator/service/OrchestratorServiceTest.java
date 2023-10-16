@@ -72,6 +72,7 @@ class OrchestratorServiceTest {
         );
         OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
                 .productRequests(productRequests)
+                .isFromCart(true)
                 .build();
 
         Orchestrator orchestrator = orchestratorService.orderNormalTransaction(orderCreateRequest);
