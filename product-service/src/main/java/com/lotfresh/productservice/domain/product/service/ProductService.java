@@ -102,7 +102,7 @@ public class ProductService {
 
     List<Long> bestProductIds =
         bestProductsVO.stream().map(best -> best.getProductId()).collect(Collectors.toList());
-    return productRepository.findBestProducts(bestProductIds).stream()
+    return productRepository.findAllByIds(bestProductIds).stream()
         .collect(Collectors.toMap(Product::getId, Function.identity()));
   }
 

@@ -73,7 +73,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
   }
 
   @Override
-  public List<Product> findBestProducts(List<Long> ids) {
+  public List<Product> findAllByIds(List<Long> ids) {
     return query
         .selectFrom(product)
         .join(product.category)
