@@ -19,4 +19,6 @@ public class OrderCreateRequest {
     @NotNull(message = "productRequests cannot be null")
     @Size(min = 1, message = "productRequests cannot be empty")
     private List<ProductRequest> productRequests;
+
+    private Boolean isFromCart;
 }

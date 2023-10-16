@@ -31,7 +31,4 @@ public class Orchestrator {
                 .filter(WorkflowStep::isRevertTarget)
                 .forEach(WorkflowStep::revert);
     }
-    public void doAfterSuccess() {
-        afterSuccessTasks.workAll();
-    }
 }

@@ -35,12 +35,9 @@ public class OrchestratorService {
         PaymentRequest paymentRequest = makePaymentRequest();
         CartRequest cartRequest = makeCartRequest(userId,orderCreateResponse.getOrderDetails());
 
-        TaskList taskList = makeTaskList(cartRequest);
-
         Workflow orderWorkflow = orderWorkflowGenerator.generateNormalOrderWorkflow(inventoryRequests,paymentRequest);
         Orchestrator orderOrchestrator = Orchestrator.builder()
                 .workflow(orderWorkflow)
-                .afterSuccessTasks(taskList)
                 .build();
         try {
             orderOrchestrator.doTransaction();
@@ -50,8 +47,9 @@ public class OrchestratorService {
             orderOrchestrator.revertProcess();
         }
 
-        if(orderOrchestrator.isSuccessed()) {
-            orderOrchestrator.doAfterSuccess();
+        if(orderOrchestrator.isSuccessed() && orderCreateRequest.getIsFromCart()) {
+            CartTask cartTask = new CartTask(cartFeignClient,cartRequest);
+            cartTask.work();
         }
 
         return orderOrchestrator;
@@ -65,12 +63,9 @@ public class OrchestratorService {
         PaymentRequest paymentRequest = makePaymentRequest();
         CartRequest cartRequest = makeCartRequest(userId,orderCreateResponse.getOrderDetails());
 
-        TaskList taskList = makeTaskList(cartRequest);
-
         Workflow orderWorkflow = orderWorkflowGenerator.generateSalesOrderWorkflow(inventoryRequests,paymentRequest);
         Orchestrator orderOrchestrator = Orchestrator.builder()
                 .workflow(orderWorkflow)
-                .afterSuccessTasks(taskList)
                 .build();
         try {
             orderOrchestrator.doTransaction();
@@ -80,8 +75,9 @@ public class OrchestratorService {
             orderOrchestrator.revertProcess();
         }
 
-        if(orderOrchestrator.isSuccessed()) {
-            orderOrchestrator.doAfterSuccess();
+        if(orderOrchestrator.isSuccessed() && orderCreateRequest.getIsFromCart()) {
+            CartTask cartTask = new CartTask(cartFeignClient,cartRequest);
+            cartTask.work();
         }
 
         return orderOrchestrator;
