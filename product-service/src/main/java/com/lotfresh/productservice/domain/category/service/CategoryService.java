@@ -31,7 +31,7 @@ public class CategoryService {
   public void modifyCategory(CategoryModifyRequest request, Long categoryId) {
     Category parent = getParentOfNullable(request.getParentId());
     Category category =
-        categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFound());
+        categoryRepository.findById(categoryId).orElseThrow(CategoryNotFound::new);
     category.changeCategory(parent, request.getName());
   }
 
@@ -43,13 +43,13 @@ public class CategoryService {
   @Transactional
   public void softDeleteCategory(Long categoryId) {
     Category category =
-        categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFound());
+        categoryRepository.findById(categoryId).orElseThrow(CategoryNotFound::new);
     category.softDelete();
   }
 
   public CategoryResponse getCategory(Long categoryId) {
     Category category =
-        categoryRepository.findByIdFetch(categoryId).orElseThrow(() -> new CategoryNotFound());
+        categoryRepository.findByIdFetch(categoryId).orElseThrow(CategoryNotFound::new);
     return CategoryResponse.from(category);
   }
 
@@ -62,6 +62,6 @@ public class CategoryService {
     if (parentId == null) {
       return null;
     }
-    return categoryRepository.findById(parentId).orElseThrow(() -> new CategoryNotFound());
+    return categoryRepository.findById(parentId).orElseThrow(CategoryNotFound::new);
   }
 }

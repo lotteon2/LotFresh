@@ -40,9 +40,7 @@ public class ProductService {
   @Transactional
   public Long createProduct(ProductCreateRequest request) {
     Category category =
-        categoryRepository
-            .findById(request.getCategoryId())
-            .orElseThrow(() -> new CategoryNotFound());
+        categoryRepository.findById(request.getCategoryId()).orElseThrow(CategoryNotFound::new);
     Product product = request.toEntity(category);
     Product savedProduct = productRepository.save(product);
     return savedProduct.getId();
@@ -50,12 +48,10 @@ public class ProductService {
 
   @Transactional
   public void modifyProduct(ProductModifyRequest request, Long id) {
-    Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFound());
+    Product product = productRepository.findById(id).orElseThrow(ProductNotFound::new);
 
     Category category =
-        categoryRepository
-            .findById(request.getCategoryId())
-            .orElseThrow(() -> new CategoryNotFound());
+        categoryRepository.findById(request.getCategoryId()).orElseThrow(CategoryNotFound::new);
 
     product.changeProduct(
         category,
@@ -68,12 +64,12 @@ public class ProductService {
 
   @Transactional
   public void softDelete(Long id) {
-    Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFound());
+    Product product = productRepository.findById(id).orElseThrow(ProductNotFound::new);
     product.softDelete();
   }
 
   public ProductResponse getProductDetail(Long id, Integer stock) {
-    Product product = productRepository.findByIdFetch(id).orElseThrow(() -> new ProductNotFound());
+    Product product = productRepository.findByIdFetch(id).orElseThrow(ProductNotFound::new);
     Long categoryId = product.getCategory().getId();
     Double discountRate = getDiscountRateByCategory(categoryId);
     return ProductResponse.of(product, discountRate, stock);
@@ -88,9 +84,6 @@ public class ProductService {
   public List<ProductResponse> getBestProducts() throws JsonProcessingException {
     List<BestProductVO> bestProductsVO =
         redisRepository.getBestProductsVO(LocalDate.now().toString());
-
-    System.out.println("=======================================================");
-    System.out.println(bestProductsVO.get(0).getProductId());
 
     if (bestProductsVO.isEmpty()) {
       return Collections.EMPTY_LIST;
@@ -113,6 +106,11 @@ public class ProductService {
     Map<Long, Product> productMap = extractProductMapBySalesProductVO(salesProductsVO);
 
     return ProductResponse.createSalesProductResponses(salesProductsVO, productMap);
+  }
+
+  public ProductResponse getSalesProductDetails(Long id, Integer stock) {
+    Product product = productRepository.findByIdFetch(id).orElseThrow(ProductNotFound::new);
+    return ProductResponse.of(product, 50d, stock);
   }
 
   private Map<Long, Product> extractProductMapByBestProductVO(List<BestProductVO> bestProductsVO) {
