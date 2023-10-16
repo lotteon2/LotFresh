@@ -32,7 +32,7 @@ public class CategoryApiController {
     return ResponseEntity.ok().build();
   }
 
-  @PatchMapping("/{categoryId}")
+  @DeleteMapping("/{categoryId}")
   public ResponseEntity<Void> softDeleteCategory(@PathVariable("categoryId") Long categoryId) {
     categoryService.softDeleteCategory(categoryId);
     return ResponseEntity.ok().build();

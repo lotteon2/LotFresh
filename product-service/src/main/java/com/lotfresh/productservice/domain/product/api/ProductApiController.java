@@ -40,7 +40,7 @@ public class ProductApiController {
     return ResponseEntity.ok().build();
   }
 
-  @PatchMapping("/{productId}/soft-deletion")
+  @DeleteMapping("/{productId}")
   public ResponseEntity<Void> softDeleteProduct(@PathVariable("productId") Long productId) {
     productService.softDelete(productId);
     return ResponseEntity.ok().build();

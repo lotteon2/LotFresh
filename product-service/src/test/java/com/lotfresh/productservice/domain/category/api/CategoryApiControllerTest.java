@@ -94,7 +94,7 @@ class CategoryApiControllerTest extends ControllerTestSupport {
     Long categoryId = 1L;
     // when // then
     mockMvc
-        .perform(patch("/categories/{categoryId}", categoryId))
+        .perform(delete("/categories/{categoryId}", categoryId))
         .andDo(print())
         .andExpect(status().isOk());
   }

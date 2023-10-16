@@ -367,7 +367,7 @@ class ProductApiControllerTest extends ControllerTestSupport {
 
     // when // then
     mockMvc
-        .perform(patch("/products/{productId}/soft-deletion", productId))
+        .perform(delete("/products/{productId}", productId))
         .andDo(print())
         .andExpect(status().isOk());
   }
