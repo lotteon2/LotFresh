@@ -1,6 +1,7 @@
 package com.bit.lotte.fresh.service;
 
 import com.bit.lotte.fresh.domain.UserDomainService;
+import com.bit.lotte.fresh.domain.UserDomainServiceImpl;
 import com.bit.lotte.fresh.domain.entity.Address;
 import com.bit.lotte.fresh.domain.entity.User;
 import com.bit.lotte.fresh.domain.event.address.AddUserAddressDomainEvent;
@@ -19,17 +20,18 @@ import com.bit.lotte.fresh.service.dto.command.UpdateUserCommand;
 import com.bit.lotte.fresh.service.dto.command.UserIdCommand;
 import com.bit.lotte.fresh.service.mapper.UserDataMapper;
 import com.bit.lotte.fresh.service.repository.UserRepository;
-import com.bit.lotte.fresh.user.common.valueobject.AddressId;
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Getter
-@AllArgsConstructor
+@Component
+@RequiredArgsConstructor
 public class UserCommandHandler {
 
-  private final UserDomainService userDomainService;
+  private final UserDomainService userDomainService = new UserDomainServiceImpl();
   private final UserDataMapper userDataMapper;
   private final UserRepository userRepository;
 
@@ -39,7 +41,7 @@ public class UserCommandHandler {
 
 
   private Address getAddress(User user, AddressIdCommand addressIdCommand) {
-    return user.getAddress(addressIdCommand.getAddressId());
+    return user.getAddressById(addressIdCommand.getAddressId());
   }
 
   public GetUserInfoDomainEvent getUser(UserIdCommand userIdCommand) {
@@ -64,6 +66,7 @@ public class UserCommandHandler {
     //create Event
     CreateUserDomainEvent createUserDomainEvent = userDomainService.createUser(user);
     //save the User
+
     User createdUser = userRepository.save(user);
     if (createdUser == null) {
       throw new UserDomainException("유저를 생성할 수 없습니다.");

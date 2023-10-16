@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Builder
 @AllArgsConstructor
 @Getter
 public abstract class UserDomainEvent implements DomainEvent<UserId> {

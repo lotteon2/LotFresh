@@ -16,8 +16,6 @@ public class LoginAuthDomainCommand {
   private final AuthUserId authUserId;
   @NotNull
   private final AuthProvider authProvider;
-  private final String email;
-  private final String password;
 
 
 }

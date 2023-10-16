@@ -3,19 +3,35 @@ package com.bit.lotte.fresh.dataaccess.adapter;
 import com.bit.lotte.fresh.auth.entity.AuthUser;
 import com.bit.lotte.fresh.auth.valueobject.AuthRole;
 import java.util.Collection;
+import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
+@Getter
+@Builder
 public class AuthUserAdapter implements UserDetails {
 
- private AuthUser authUser;
+  private final AuthUser authUser;
+
+  public AuthUserAdapter(AuthUser authUser) {
+    this.authUser = authUser;
+  }
+
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-   if(authUser.getUserRole().equals(AuthRole.CATEGORY_ADMIN)){
-     new SimpleGrantedAuthority();
+    GrantedAuthority authority = null;
+   if(authUser.getUserRole().equals(AuthRole.ROLE_CATEGORY_ADMIN)){
+     authority = new SimpleGrantedAuthority(AuthRole.ROLE_CATEGORY_ADMIN+authUser.getDescription());
    }
+   else{
+     authority = new SimpleGrantedAuthority(authUser.getUserRole().name());
+   }
+   return List.of(authority);
   }
 
   @Override
@@ -45,6 +61,6 @@ public class AuthUserAdapter implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return !authUser.getUserRole().equals(AuthRole.NOT_VERIFIED);
+    return !authUser.getUserRole().equals(AuthRole.ROLE_NOT_VERIFIED);
   }
 }

@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor(libs.lombok)
     compileOnly libs.lombok
     implementation libs.jpa
     implementation libs.h2

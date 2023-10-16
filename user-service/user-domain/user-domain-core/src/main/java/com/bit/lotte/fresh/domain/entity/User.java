@@ -56,17 +56,17 @@ public class User extends AggregateRoot<UserId> {
   }
 
   public void validateName(User user) {
-    String name = user.getName();
-    if (name == null) {
+    String userName = user.getName();
+    if (userName == null) {
       throw new RegexValidationException("이름은 공백일 수 없습니다.");
     }
-    String[] nameParts = name.split("\\s+");
+    String[] nameParts = userName.split("\\s+");
     if (!(nameParts.length >= 2 && nameParts.length <= 10)) {
       throw new RegexValidationException("이름은 최소 2글자 이상 10글자 이하여야합니다.");
     }
   }
 
-  public Address getAddress(AddressId addressId){
+  public Address getAddressById(AddressId addressId){
     for(Address address: addressList){
       if(address.getId() == addressId){
         return address;
@@ -108,7 +108,7 @@ public class User extends AggregateRoot<UserId> {
 
 
   public void changeDefaultAddress(Address newDefaultAddress){
-    getDefaultAddress().setDefaultAddress(false);
+    getUserDefaultAddress().setDefaultAddress(false);
     newDefaultAddress.setDefaultAddress(true);
   }
 
@@ -124,7 +124,7 @@ public class User extends AggregateRoot<UserId> {
     }
   }
 
-  public Address getDefaultAddress() {
+  public Address getUserDefaultAddress() {
     for (Address address : addressList) {
       if (address.isDefaultAddress()) {
         return address;

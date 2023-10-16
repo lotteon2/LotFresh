@@ -17,12 +17,9 @@ import com.bit.lotte.fresh.domain.event.user.GetAddressListInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.GetUserInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.UpdateUserDomainEvent;
 import com.bit.lotte.fresh.user.common.valueobject.AddressId;
-import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import java.util.List;
-import org.springframework.stereotype.Service;
 
 
-@Service
 public interface UserDomainService {
 
     GetUserInfoDomainEvent getUser(User user);

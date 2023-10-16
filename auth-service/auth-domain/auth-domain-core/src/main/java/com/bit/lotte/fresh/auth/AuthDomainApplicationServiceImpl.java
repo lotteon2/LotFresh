@@ -7,18 +7,18 @@ import com.bit.lotte.fresh.auth.event.LoginAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginSessionExtendAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
+import com.bit.lotte.fresh.auth.valueobject.AuthProvider;
 import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-
 public class AuthDomainApplicationServiceImpl implements
     AuthDomainApplicationService {
 
   @Override
-  public CreateAuthDomainEvent createAuthUser(AuthUser authUser) {
-    AuthUser notVerifiedUser = authUser.initNotVerifiedUser(authUser.getId(),authUser.getAuthProvider());
-    return new CreateAuthDomainEvent(notVerifiedUser,ZonedDateTime.now());
+  public CreateAuthDomainEvent createOauthUser(AuthUser authUser) {
+    authUser.oauthUserCreation(authUser.getId(), AuthProvider.KAKAO);
+    return new CreateAuthDomainEvent(authUser,ZonedDateTime.now());
   }
 
   @Override

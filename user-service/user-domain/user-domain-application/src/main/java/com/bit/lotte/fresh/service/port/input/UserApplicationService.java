@@ -13,10 +13,6 @@ import com.bit.lotte.fresh.service.dto.response.DeleteAddressResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
-import com.bit.lotte.fresh.user.common.valueobject.UserId;
-import org.springframework.stereotype.Service;
-
-
 
 public interface UserApplicationService {
 

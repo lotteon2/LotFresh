@@ -2,14 +2,16 @@ package com.bit.lotte.fresh.auth.mapper;
 
 import com.bit.lotte.fresh.auth.dto.command.CreateAuthDomainCommand;
 import com.bit.lotte.fresh.auth.dto.command.LoginAuthDomainCommand;
-import com.bit.lotte.fresh.auth.dto.response.CreateInitAuthUserResponse;
+import com.bit.lotte.fresh.auth.dto.response.CreateAuthUserResponse;
 import com.bit.lotte.fresh.auth.dto.response.DeleteAuthUserResponse;
 import com.bit.lotte.fresh.auth.dto.response.LogOutAuthUserResponse;
+import com.bit.lotte.fresh.auth.dto.response.LoginAuthUserResponse;
 import com.bit.lotte.fresh.auth.dto.response.UpdateAuthUserRoleResponse;
 import com.bit.lotte.fresh.auth.dto.response.UpdateLoginSessionTimeResponse;
 import com.bit.lotte.fresh.auth.entity.AuthUser;
 import com.bit.lotte.fresh.auth.event.CreateAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.DeleteAuthDomainEvent;
+import com.bit.lotte.fresh.auth.event.LoginAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginSessionExtendAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
@@ -19,10 +21,15 @@ import java.time.ZonedDateTime;
 public class AuthUserMapper {
 
 
-  public CreateInitAuthUserResponse createAuthUserDomainEventToInitAuthUserResponse(
+  public LoginAuthUserResponse loginEventToResponse(LoginAuthDomainEvent event) {
+    AuthUser authUser = event.getAuthUser();
+    return new LoginAuthUserResponse(authUser.getId(),authUser.getAuthProvider());
+  }
+
+  public CreateAuthUserResponse createAuthUserDomainEventToInitAuthUserResponse(
       CreateAuthDomainEvent event) {
     AuthUser authUser = event.getAuthUser();
-    return new CreateInitAuthUserResponse(authUser.getId(), authUser.getAuthProvider());
+    return new CreateAuthUserResponse(authUser.getId(), authUser.getAuthProvider());
   }
 
   public AuthUser createAuthDomainCommandToAuthUser(CreateAuthDomainCommand command) {
@@ -61,4 +68,6 @@ public class AuthUserMapper {
     return new UpdateLoginSessionTimeResponse(authUser.getId(),authUser.getAuthProvider(),
         ZonedDateTime.now().plusHours(authUser.getLOGIN_SESSION_HOUR_TIME()));
   }
+
+
 }

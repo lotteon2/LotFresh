@@ -5,6 +5,7 @@ import com.bit.lotte.fresh.domain.valueobject.Province;
 import com.bit.lotte.fresh.user.common.entity.BaseEntity;
 import com.bit.lotte.fresh.user.common.valueobject.AddressId;
 import java.time.ZonedDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,11 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Builder
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Address extends BaseEntity<AddressId> {
 
   private Province province;

@@ -5,11 +5,13 @@ import com.bit.lotte.fresh.domain.entity.User;
 import com.bit.lotte.fresh.user.common.valueobject.AddressId;
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
+@AllArgsConstructor
 public class AddUserAddressResponse {
 
   @NotNull
@@ -23,7 +25,7 @@ public class AddUserAddressResponse {
   public AddUserAddressResponse(User user, Address address) {
     this.userId = user.getId();
     addressId = address.getId();
-    this.message = this.getMessage();
+    getMessage(address);
   }
 
   private void getMessage(Address address) {

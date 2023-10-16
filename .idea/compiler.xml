@@ -10,12 +10,16 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.30/f195ee86e6c896ea47a1d39defbe20eb59cd149d/lombok-1.18.30.jar" />
         </processorPath>
+        <module name="bit-lotte-fresh-user.common.common-domain.main" />
         <module name="bit-lotte-fresh-user.auth-service.auth-domain.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-domain.user-domain-application.main" />
         <module name="bit-lotte-fresh-user.user-service.user-application.main" />
+        <module name="bit-lotte-fresh-user.common.common-application.main" />
         <module name="bit-lotte-fresh-user.main" />
         <module name="bit-lotte-fresh-user.user-service.user-container.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-data-access.main" />
         <module name="bit-lotte-fresh-user.auth-service.auth-domain.auth-domain-core.main" />
-        <module name="bit-lotte-fresh-user.common.common-application.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-domain.user-domain-core.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11">

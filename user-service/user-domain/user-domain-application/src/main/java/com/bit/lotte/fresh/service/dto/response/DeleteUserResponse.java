@@ -20,7 +20,7 @@ public class DeleteUserResponse {
 
   public DeleteUserResponse(User user) {
     this.userId = user.getId();
-    this.message = this.getMessage();
+    getMessage(user);
   }
 
   private void getMessage(User user) {

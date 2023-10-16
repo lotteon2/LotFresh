@@ -19,7 +19,7 @@ public class UpdateUserResponse {
 
   public UpdateUserResponse(User user) {
     this.userId = user.getId();
-    this.message = this.getMessage();
+    getMessage(user);
   }
 
   private void getMessage(User user) {

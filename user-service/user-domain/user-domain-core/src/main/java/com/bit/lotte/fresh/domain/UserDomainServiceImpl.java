@@ -13,7 +13,6 @@ import com.bit.lotte.fresh.domain.event.user.GetAddressListInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.GetUserInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.UpdateUserDomainEvent;
 import com.bit.lotte.fresh.user.common.valueobject.AddressId;
-import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
 public class UserDomainServiceImpl implements UserDomainService {
 
     @Override
@@ -60,7 +58,7 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     @Override
     public GetAddressListInfoDomainEvent getAddress(User user, AddressId addressId) {
-        return new GetAddressListInfoDomainEvent(user,user.getAddress(addressId),ZonedDateTime.now());
+        return new GetAddressListInfoDomainEvent(user,user.getAddressById(addressId),ZonedDateTime.now());
     }
 
     @Override

@@ -24,7 +24,7 @@ public class ChangeDefaultAddressResponse {
     public ChangeDefaultAddressResponse(User user, Address newDefaultAddress) {
     this.userId = user.getId();
     addressId = newDefaultAddress.getId();
-    this.message = this.getMessage();
+    getMessage(newDefaultAddress);
   }
 
   private void getMessage(Address address){

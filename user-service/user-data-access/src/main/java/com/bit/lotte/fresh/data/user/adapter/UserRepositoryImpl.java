@@ -8,7 +8,9 @@ import com.bit.lotte.fresh.service.repository.UserRepository;
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 

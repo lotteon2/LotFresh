@@ -3,24 +3,25 @@ package com.bit.lotte.fresh.service.dto.command;
 import com.bit.lotte.fresh.domain.entity.Address;
 import com.bit.lotte.fresh.domain.valueobject.Gender;
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
-import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class CreateUserCommand {
   @NotNull
-  private final UserId userId;
+  private  UserId userId;
   @NotNull
-  private final String name;
+  private  String name;
   @NotNull
-  private final String contact;
+  private  String contact;
   @NotNull
-  private final Gender gender;
+  private  Gender gender;
   @NotNull
-  private final Address defaultAddress;
+  private  Address defaultAddress;
 }

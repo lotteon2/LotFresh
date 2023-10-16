@@ -7,5 +7,10 @@ import lombok.Getter;
 
 @Getter
 public class AuthUserIdCommand {
+
+  public AuthUserIdCommand(AuthUserId authUserId) {
+    this.authUserId = authUserId;
+  }
+
   @NotNull AuthUserId authUserId;
 }

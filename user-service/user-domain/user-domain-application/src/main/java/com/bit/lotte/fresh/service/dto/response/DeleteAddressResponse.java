@@ -24,7 +24,7 @@ public class DeleteAddressResponse {
  public DeleteAddressResponse(User user, Address newDefaultAddress) {
     this.userId = user.getId();
     addressId = newDefaultAddress.getId();
-    this.message = this.getMessage();
+    getMessage(newDefaultAddress);
   }
 
   private void getMessage(Address address){

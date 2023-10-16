@@ -11,7 +11,7 @@ import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
 
 public interface AuthDomainApplicationService {
 
-  CreateAuthDomainEvent createAuthUser(AuthUser authUser);
+  CreateAuthDomainEvent createOauthUser(AuthUser authUser);
 
   DeleteAuthDomainEvent deleteAuthUser(AuthUser authUser);
 

@@ -13,15 +13,17 @@ import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Builder
-@RequiredArgsConstructor
 @Setter
+@Builder
+@AllArgsConstructor
 public class AuthUser extends AggregateRoot<AuthUserId> {
 
  private final long LOGIN_SESSION_HOUR_TIME = 24;
@@ -35,13 +37,15 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
  private ZonedDateTime lastLoginTime;
 
 
- public AuthUser initNotVerifiedUser(AuthUserId id,
+
+ public AuthUser oauthUserCreation(AuthUserId id,
      AuthProvider authProvider) {
   if (id == null || authProvider == null) {
    throw new AuthUserDomainException("인증 제공자와, 아이디를 입력해야합니다.");
   }
-  return AuthUser.builder().id(id).authProvider(authProvider).userRole(AuthRole.NOT_VERIFIED).build();
+  return AuthUser.builder().id(id).authProvider(authProvider).userRole(AuthRole.ROLE_USER).build();
  }
+
 
  public void checkCategoryAdminAuthorization(String actorCategoryAdminDescription,
      String targetCategoryAdminDescription) {
@@ -51,18 +55,19 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
   if (!actorSubIdList.containsAll(targetSubIdList)) {
    throw new AuthorizationAuthDomainException("자신의 하위 카테고리에 관해서만 해당 카테고리 관리자로 설정할 수 있습니다.");
   }
+
  }
+
 
  public void updateAdminAuthorization(AuthRole actorRole, String actorDescription, AuthRole target,
      String targetDescription) {
-
-  if (actorRole.equals(AuthRole.USER)) {
+  if (actorRole.equals(AuthRole.ROLE_USER)) {
    throw new AuthorizationAuthDomainException("권한이 없습니다.");
-  } else if (actorRole.equals(AuthRole.CATEGORY_ADMIN)) {
+  } else if (actorRole.equals(AuthRole.ROLE_CATEGORY_ADMIN)) {
    checkCategoryAdminAuthorization(actorDescription, targetDescription);
    userRole = target;
    description = targetDescription;
-  } else if (actorRole.equals(AuthRole.SYSTEM_ADMIN)) {
+  } else if (actorRole.equals(AuthRole.ROLE_SYSTEM_ADMIN)) {
    this.userRole = target;
   }
  }
@@ -83,7 +88,7 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
 
  public void systemLogin(AuthUserId authUserId, String email, String password) {
   if (!email.equals(this.email) && password.equals(password)) {
-   throw new LoginFailedAuthDomainException("존재하지 않는 소셜 로그인 계정입니다.");
+   throw new LoginFailedAuthDomainException("존재하지 시스템 로그인 계정입니다.");
   }
  }
 
@@ -109,7 +114,7 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
  }
 
  public void setCategoryAdminSubIdList(Set<Integer> subCategoryAdminListNumber) {
-  if (userRole.equals(AuthRole.CATEGORY_ADMIN)) {
+  if (userRole.equals(AuthRole.ROLE_CATEGORY_ADMIN)) {
    this.setCategoryAdminDetailDescription(subCategoryAdminListNumber);
   } else {
    throw new AuthorizationAuthDomainException("카테고리 관리자가 아닙니다.");
@@ -117,14 +122,10 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
 
  }
 
- public void setNotVerifiedUserToUser(AuthUser authUser){
-  if(authUser.getUserRole().equals(AuthRole.NOT_VERIFIED)){
-    authUser.setUserRole(authUser.userRole);
-  }
-  throw new AlreadyVerifiedAuthDomainException("이미 인증된 회원입니다.");
- }
-
-
+ /**
+  * @param subCategoryAdminListNumber 카테고리 admin의 아이디는 description에 등록된다. 해당 컨벤션은 아이디,아이디,아이디 형식으로
+  *                                   이뤄진다.
+  */
  public void setCategoryAdminDetailDescription(Set<Integer> subCategoryAdminListNumber) {
   StringBuilder sb = new StringBuilder();
   for (Integer i : subCategoryAdminListNumber) {

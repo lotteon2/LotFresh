@@ -7,35 +7,45 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@RequiredArgsConstructor
-@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@Getter
+@Setter
+@Table(name = "address")
 @Entity
 public class AddressEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "address_id")
   private Long id;
-  @Column(nullable = false)
+  @Column(nullable = false, name = "province")
   private Province province;
-  @Column(nullable = false)
+  @Column(nullable = false, name = "roadAddress")
   private String roadAddress;
-  @Column(nullable = false)
+  @Column(nullable = false, name = "detailAddress")
   private String detailAddress;
-  @Column(nullable = false)
+  @Column(nullable = false, name = "zipCode")
   private String zipCode;
-  @Column(nullable = false)
+  @Column(nullable = false, name = "defaultAddress")
   private boolean defaultAddress;
-  @ManyToOne(optional = false)
+  @JoinColumn(name = "user_id")
+  @ManyToOne
   private UserEntity user;
 
-  public boolean getDefaultAddress(){
+  public boolean getDefaultAddress() {
     return this.defaultAddress;
   }
 }

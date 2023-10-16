@@ -1,5 +1,6 @@
 package com.bit.lotte.fresh.service;
 
+
 import com.bit.lotte.fresh.domain.event.address.AddUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.ChangeDefaultUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.DeleteUserAddressDomainEvent;
@@ -21,11 +22,8 @@ import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
 import com.bit.lotte.fresh.service.mapper.UserDataMapper;
 import com.bit.lotte.fresh.service.port.input.UserApplicationService;
-
-import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 
 @RequiredArgsConstructor
 @Service
@@ -35,8 +33,10 @@ public class UserApplicationServiceImpl implements UserApplicationService {
   private final UserCommandHandler userCommandHandler;
 
 
+
   @Override
-  public AddUserAddressResponse addAddress(UserIdCommand userId, AddAddressCommand addAddressCommand) {
+  public AddUserAddressResponse addAddress(UserIdCommand userId,
+      AddAddressCommand addAddressCommand) {
     AddUserAddressDomainEvent addUserAddressDomainEvent = userCommandHandler.addAddress(userId,
         addAddressCommand);
     return userDataMapper.addAddressDomainEventToResponse(addUserAddressDomainEvent);

@@ -1,15 +1,18 @@
 [libraries]
 spring-web = { module = "org.springframework:spring-web", version = "5.3.19" }
 spring-boot = { module = "org.springframework.boot:spring-boot-starter-web", version = "2.7.16" }
+spring-cloud = { module = "org.springframework.cloud:spring-cloud-dependencies", version = "2021.0.3" }
 spring-kafka = { module = "org.springframework.kafka:spring-kafka", version = "2.7.14" }
-spring-cloud = { module = "org.springframework.cloud:spring-cloud-starter", version = "2.2.9.RELEASE" }
-spring-fegin ={module ="org.springframework.cloud:spring-cloud-starter-openfeign", version ="2.2.9.RELEASE"}
+spring-fegin = { module = "org.springframework.cloud:spring-cloud-starter-openfeign", version = "2.2.9.RELEASE" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test", version = "2.7.16" }
-spring-security={module ="org.springframework.boot:spring-boot-starter-security", version ="2.7.16"}
-spring-feign={module ="org.springframework.cloud:spring-cloud-starter-openfeign", version ="2.2.9.RELEASE"}
+spring-security = { module = "org.springframework.boot:spring-boot-starter-security", version = "2.7.16" }
+spring-feign = { module = "org.springframework.cloud:spring-cloud-starter-openfeign", version = "2.2.9.RELEASE" }
 java-validation = { module = "javax.validation:validation-api", version = "2.0.1.Final" }
 jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version = "2.7.5" }
+hibernate={module ="org.hibernate:hibernate-core", version ="6.2.5.Final"}
 lombok = { module = "org.projectlombok:lombok", version = "1.18.30" }
 sl4j = { module = "org.slf4j:slf4j-api", version = "1.7.30" }
 h2 = { module = "com.h2database:h2", version = "2.1.214" }
+mysql ={module="mysql:mysql-connector-java", version = "8.0.13"}
+
 apache-avro = { module = "org.apache.avro:avro", version = "1.8.2" }

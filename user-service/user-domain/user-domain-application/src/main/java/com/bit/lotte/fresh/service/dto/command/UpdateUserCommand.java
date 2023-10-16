@@ -13,11 +13,11 @@ import lombok.Getter;
 public class UpdateUserCommand {
 
   @NotNull
-  private final UserId userId;
+  private  UserId userId;
   @NotNull
-  private String name;
+  private  String name;
   @NotNull
-  private String contact;
+  private  String contact;
   @NotNull
-  private Gender gender;
+  private  Gender gender;
 }

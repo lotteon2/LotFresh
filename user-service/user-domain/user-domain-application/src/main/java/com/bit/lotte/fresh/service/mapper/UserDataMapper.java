@@ -21,13 +21,15 @@ import com.bit.lotte.fresh.service.dto.response.DeleteUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
 import java.util.List;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
-
+@Component
+@NoArgsConstructor
 public class UserDataMapper {
 
-
   public User createCommandUserToUser(CreateUserCommand createUserCommand) {
-    return User.builder().contact(createUserCommand.getContact())
+    return User.builder().id(createUserCommand.getUserId()).contact(createUserCommand.getContact())
         .gender(createUserCommand.getGender()).name(
             createUserCommand.getName()).addressList(List.of(createUserCommand.getDefaultAddress()))
         .build();

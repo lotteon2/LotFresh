@@ -1,0 +1,9 @@
+
+z
+java:S1104"]Make LOGIN_SESSION_SEC a static final constant or non-public and provide accessors if needed.(¾ºé×8¡ŠŽ•³1
+T
+java:S1444"7Make this "public static LOGIN_SESSION_SEC" field final(¾ºé×8¡ŠŽ•³1
+y
+java:S3008"\Rename this field "LOGIN_SESSION_SEC" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾ºé×8¡ŠŽ•³1
+\
+java:S1118":Add a private constructor to hide the implicit public one.(®¤©Âøÿÿÿÿ8ëÄÒŠ³1

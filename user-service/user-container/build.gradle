@@ -10,14 +10,14 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.spring.feign)
-    implementation(libs.spring.cloud)
     implementation(libs.sl4j)
     implementation(libs.jpa)
     annotationProcessor(libs.lombok)
     compileOnly(libs.lombok)
     implementation(libs.java.validation)
     implementation(libs.spring.boot)
+    implementation(libs.mysql)
+    implementation(libs.jpa)
     implementation project(':user-service:user-application')
     implementation project(':user-service:user-data-access')
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
