@@ -5,12 +5,15 @@ import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.Workf
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.InventoryFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class InventoryStep extends WorkflowStep {
+    private final String workflowName;
     private final InventoryFeignClient feignClient;
     private final List<InventoryRequest> inventoryRequests;
     private final KafkaProducer kafkaProducer;
@@ -22,9 +25,10 @@ public class InventoryStep extends WorkflowStep {
     }
 
     @Override
-    public void process() {
-        feignClient.deductQuantity(inventoryRequests);
+    public Object process() {
+        ResponseEntity result = feignClient.deductQuantity(inventoryRequests);
         changeStatus(WorkflowStepStatus.COMPLETE);
+        return result;
     }
 
     @Override
@@ -42,4 +46,10 @@ public class InventoryStep extends WorkflowStep {
     public WorkflowStepStatus getStatus() {
         return status;
     }
+
+    @Override
+    public String getWorkflowName() {
+        return workflowName;
+    }
+
 }

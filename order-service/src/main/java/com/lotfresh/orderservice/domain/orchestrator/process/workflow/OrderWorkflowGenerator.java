@@ -22,8 +22,8 @@ public class OrderWorkflowGenerator {
 
     public OrderWorkflow generateOrderWorkflow(List<InventoryRequest> inventoryRequests, PaymentRequest paymentRequest){
         List<WorkflowStep> workflowSteps = List.of(
-                new InventoryStep(inventoryFeignClient,inventoryRequests,kafkaProducer),
-                new PaymentStep(paymentFeignClient,paymentRequest,kafkaProducer));
+                new InventoryStep("InventoryStep",inventoryFeignClient,inventoryRequests,kafkaProducer),
+                new PaymentStep("PaymentStep",paymentFeignClient,paymentRequest,kafkaProducer));
 
         return OrderWorkflow.builder()
                 .workflowSteps(workflowSteps)

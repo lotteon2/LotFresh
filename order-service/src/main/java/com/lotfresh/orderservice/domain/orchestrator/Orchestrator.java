@@ -6,6 +6,10 @@ import com.lotfresh.orderservice.domain.orchestrator.process.workflow.Workflow;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 
 @Builder
 @Getter
@@ -13,8 +17,13 @@ public class Orchestrator {
     Workflow workflow;
     TaskList afterSuccessTasks;
     boolean isSuccessed;
+    Map<String,Object> workflowResults;
     public void doTransaction() {
-        workflow.getSteps().forEach(WorkflowStep::process);
+        workflowResults = workflow.getSteps().stream()
+                .collect(Collectors.toMap(
+                        WorkflowStep::getWorkflowName,
+                        WorkflowStep::process
+                ));
         isSuccessed = true;
     }
     public void revertProcess() {

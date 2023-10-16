@@ -5,10 +5,13 @@ import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStepStatus;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PaymentStep extends WorkflowStep {
+    private final String workflowName;
     private final PaymentFeignClient feignClient;
     private final PaymentRequest paymentRequest;
     private final KafkaProducer kafkaProducer;
@@ -19,9 +22,10 @@ public class PaymentStep extends WorkflowStep {
     }
 
     @Override
-    public void process() {
-        feignClient.requestPayment(paymentRequest);
+    public Object process() {
+        ResponseEntity result = feignClient.requestPayment(paymentRequest);
         changeStatus(WorkflowStepStatus.COMPLETE);
+        return result;
     }
 
     @Override
@@ -39,4 +43,11 @@ public class PaymentStep extends WorkflowStep {
     public WorkflowStepStatus getStatus() {
         return status;
     }
+
+    @Override
+    public String getWorkflowName() {
+        return workflowName;
+    }
+
+
 }
