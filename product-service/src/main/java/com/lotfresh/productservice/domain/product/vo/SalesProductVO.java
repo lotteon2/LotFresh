@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BestProductVO {
-  private Long ProductId;
-  private Integer cnt;
+public class SalesProductVO {
+  private Long productId;
+  private Integer stock;
 }

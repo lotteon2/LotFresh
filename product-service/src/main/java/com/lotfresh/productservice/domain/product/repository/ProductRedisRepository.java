@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.productservice.domain.product.vo.BestProductVO;
+import com.lotfresh.productservice.domain.product.vo.SalesProductVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,11 @@ public class ProductRedisRepository {
     List<BestProductVO> bestProductsVO =
         objectMapper.readValue(redisTemplate.opsForValue().get(key), new TypeReference<>() {});
     return bestProductsVO;
+  }
+
+  public List<SalesProductVO> getSalesProductsIds(String key) throws JsonProcessingException {
+    List<SalesProductVO> salesProductsVO =
+        objectMapper.readValue(redisTemplate.opsForValue().get(key), new TypeReference<>() {});
+    return salesProductsVO;
   }
 }

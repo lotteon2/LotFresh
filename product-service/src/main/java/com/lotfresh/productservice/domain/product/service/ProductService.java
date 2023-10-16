@@ -10,11 +10,12 @@ import com.lotfresh.productservice.domain.product.api.request.ProductCreateReque
 import com.lotfresh.productservice.domain.product.api.request.ProductModifyRequest;
 import com.lotfresh.productservice.domain.product.entity.Product;
 import com.lotfresh.productservice.domain.product.exception.ProductNotFound;
-import com.lotfresh.productservice.domain.product.repository.ProductRepository;
 import com.lotfresh.productservice.domain.product.repository.ProductRedisRepository;
+import com.lotfresh.productservice.domain.product.repository.ProductRepository;
 import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
 import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
 import com.lotfresh.productservice.domain.product.vo.BestProductVO;
+import com.lotfresh.productservice.domain.product.vo.SalesProductVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -84,7 +85,7 @@ public class ProductService {
     return ProductPageResponse.of(productPage, rateGroupByCategory);
   }
 
-   public List<ProductResponse> getBestProducts() throws JsonProcessingException {
+  public List<ProductResponse> getBestProducts() throws JsonProcessingException {
     List<BestProductVO> bestProductsVO =
         redisRepository.getBestProductsVO(LocalDate.now().toString());
 
@@ -92,17 +93,39 @@ public class ProductService {
       return Collections.EMPTY_LIST;
     }
 
-    Map<Long, Product> productMap = extractProductMapByVO(bestProductsVO);
+    Map<Long, Product> productMap = extractProductMapByBestProductVO(bestProductsVO);
     Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
 
-    return ProductResponse.createProductResponses(bestProductsVO, productMap, rateGroupByCategory);
+    return ProductResponse.createBestProductResponses(bestProductsVO, productMap, rateGroupByCategory);
   }
 
-  private Map<Long, Product> extractProductMapByVO(List<BestProductVO> bestProductsVO) {
+  public List<ProductResponse> getSalesProducts(String memberAddressKey)
+      throws JsonProcessingException {
+    List<SalesProductVO> salesProductsVO = redisRepository.getSalesProductsIds(memberAddressKey);
 
+    if (salesProductsVO.isEmpty()) {
+      return Collections.EMPTY_LIST;
+    }
+
+    Map<Long, Product> productMap = extractProductMapBySalesProductVO(salesProductsVO);
+
+    return ProductResponse.createSalesProductResponses(salesProductsVO, productMap);
+  }
+
+  private Map<Long, Product> extractProductMapByBestProductVO(List<BestProductVO> bestProductsVO) {
     List<Long> bestProductIds =
         bestProductsVO.stream().map(best -> best.getProductId()).collect(Collectors.toList());
-    return productRepository.findAllByIds(bestProductIds).stream()
+    return extractProductMapByIds(bestProductIds);
+  }
+
+  private Map<Long, Product> extractProductMapBySalesProductVO(List<SalesProductVO> salesProductsVO) {
+    List<Long> salesProductIds =
+            salesProductsVO.stream().map(sales -> sales.getProductId()).collect(Collectors.toList());
+    return extractProductMapByIds(salesProductIds);
+  }
+
+  private Map<Long, Product> extractProductMapByIds(List<Long> productIds) {
+    return productRepository.findAllByIds(productIds).stream()
         .collect(Collectors.toMap(Product::getId, Function.identity()));
   }
 

@@ -3,6 +3,7 @@ package com.lotfresh.productservice.domain.product.service.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lotfresh.productservice.domain.product.entity.Product;
 import com.lotfresh.productservice.domain.product.vo.BestProductVO;
+import com.lotfresh.productservice.domain.product.vo.SalesProductVO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -99,7 +100,7 @@ public class ProductResponse {
         .build();
   }
 
-  public static List<ProductResponse> createProductResponses(
+  public static List<ProductResponse> createBestProductResponses(
       List<BestProductVO> bestProductsVo,
       Map<Long, Product> productMap,
       Map<Long, Double> rateGroupByCategory) {
@@ -110,6 +111,17 @@ public class ProductResponse {
               Product product = productMap.get(vo.getProductId());
               return ProductResponse.of(
                   product, rateGroupByCategory.getOrDefault(product.getCategory().getId(), 0d));
+            })
+        .collect(Collectors.toList());
+  }
+
+  public static List<ProductResponse> createSalesProductResponses(
+      List<SalesProductVO> salesProductsVO, Map<Long, Product> productMap) {
+    return salesProductsVO.stream()
+        .map(
+            vo -> {
+              Product product = productMap.get(vo.getProductId());
+              return ProductResponse.of(product, 50d, vo.getStock());
             })
         .collect(Collectors.toList());
   }
