@@ -11,7 +11,6 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class RedisService {
     private final RedisTemplate<String,String> redisTemplate;
-
     public void setValues(String key, String value, Duration duration) {
         ValueOperations<String,String> stringValueOperations = redisTemplate.opsForValue();
         stringValueOperations.set(key,value,duration);
