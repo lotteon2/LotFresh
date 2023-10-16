@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -18,14 +19,26 @@ public class ProductRedisRepository {
   private final ObjectMapper objectMapper;
 
   public List<BestProductVO> getBestProductsVO(String key) throws JsonProcessingException {
+    String stringValue = redisTemplate.opsForValue().get(key);
+    if (isInValidValue(key)) {
+      return Collections.EMPTY_LIST;
+    }
     List<BestProductVO> bestProductsVO =
-        objectMapper.readValue(redisTemplate.opsForValue().get(key), new TypeReference<>() {});
+        objectMapper.readValue(stringValue, new TypeReference<>() {});
     return bestProductsVO;
   }
 
-  public List<SalesProductVO> getSalesProductsIds(String key) throws JsonProcessingException {
+  public List<SalesProductVO> getSalesProductsVO(String key) throws JsonProcessingException {
+    String stringValue = redisTemplate.opsForValue().get(key);
+    if (isInValidValue(stringValue)) {
+      return Collections.EMPTY_LIST;
+    }
     List<SalesProductVO> salesProductsVO =
-        objectMapper.readValue(redisTemplate.opsForValue().get(key), new TypeReference<>() {});
+        objectMapper.readValue(stringValue, new TypeReference<>() {});
     return salesProductsVO;
+  }
+
+  private Boolean isInValidValue(String key) {
+    return key == null ? true : false;
   }
 }

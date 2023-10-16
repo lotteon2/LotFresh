@@ -15,6 +15,7 @@ import com.lotfresh.productservice.domain.product.repository.ProductRepository;
 import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
 import com.lotfresh.productservice.domain.product.service.response.ProductResponse;
 import com.lotfresh.productservice.domain.product.vo.BestProductVO;
+import com.lotfresh.productservice.domain.product.vo.SalesProductVO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,8 +27,7 @@ import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 class ProductServiceTest {
@@ -428,6 +428,63 @@ class ProductServiceTest {
     assertThat(bestProducts)
         .extracting("name")
         .containsExactlyInAnyOrder("바나나", "딸기", "곶감", "블루베리", "충주사과", "단감");
+  }
+
+  @DisplayName("마감임박 할인 중인 상품 리스트를 조회한다. 정렬은 재고 오름차순 정렬이다.")
+  @Test
+  void getSalesProducts() throws Exception {
+    // given
+    Category category1 = createCategory(null, "냉장");
+    Category category2 = createCategory(category1, "과일");
+    Category category3 = createCategory(category1, "야채");
+    categoryRepository.saveAll(List.of(category1, category2, category3));
+
+    Product product1 = createProduct(category2, "충주사과", "thumbnail.jpeg", "detail1", 1000, "P001");
+    Product product2 = createProduct(category2, "블루베리", "thumbnail.jpeg", "detail2", 2000, "P002");
+    Product product3 = createProduct(category2, "곶감", "thumbnail.jpeg", "detail3", 3000, "P003");
+    Product product4 = createProduct(category2, "단감", "thumbnail.jpeg", "detail4", 4000, "P004");
+    Product product5 = createProduct(category2, "딸기", "thumbnail.jpeg", "detail5", 5000, "P005");
+    Product product6 = createProduct(category2, "바나나", "thumbnail.jpeg", "detail6", 6000, "P006");
+    productRepository.saveAll(List.of(product1, product2, product3, product4, product5, product6));
+
+    SalesProductVO salesProductVO1 = new SalesProductVO(product1.getId(), 10);
+    SalesProductVO salesProductVO2 = new SalesProductVO(product2.getId(), 20);
+    SalesProductVO salesProductVO3 = new SalesProductVO(product3.getId(), 30);
+    SalesProductVO salesProductVO4 = new SalesProductVO(product4.getId(), 5);
+    SalesProductVO salesProductVO5 = new SalesProductVO(product5.getId(), 40);
+    SalesProductVO salesProductVO6 = new SalesProductVO(product6.getId(), 50);
+
+    String memberAddressKey = "경기";
+    String stringList =
+            objectMapper.writeValueAsString(
+                    List.of(
+                            salesProductVO1,
+                            salesProductVO2,
+                            salesProductVO3,
+                            salesProductVO4,
+                            salesProductVO5,
+                            salesProductVO6));
+    redisTemplate.opsForValue().set(memberAddressKey, stringList);
+
+    // 상품 순서  -> 단감, 충주사과, 블루베리, 곶감, 딸기, 바나나
+    // when
+    List<ProductResponse> salesProducts = productService.getSalesProducts(memberAddressKey);
+
+    // then
+    assertThat(salesProducts)
+            .extracting("name")
+            .containsExactlyInAnyOrder("단감", "충주사과", "블루베리", "곶감", "딸기", "바나나");
+  }
+
+  @DisplayName("배달이 불가능한 지역의 경우 마감할인 상품리스트는 빈 리스트로 반환한다.")
+  @Test
+  void getSalesProductsByInvalidKey() throws Exception {
+    // given
+    String invalidMemberAddressKey = "제주";
+    // when
+    List<ProductResponse> salesProducts = productService.getSalesProducts(invalidMemberAddressKey);
+    // then
+    assertThat(salesProducts).isEmpty();
   }
 
   private Product createProduct(
