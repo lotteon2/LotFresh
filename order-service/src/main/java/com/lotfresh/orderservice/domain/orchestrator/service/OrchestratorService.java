@@ -27,7 +27,7 @@ public class OrchestratorService {
     private final OrderService orderService;
     private final CartFeignClient cartFeignClient;
 
-    public Orchestrator orderTransaction(OrderCreateRequest orderCreateRequest) {
+    public Orchestrator orderNormalTransaction(OrderCreateRequest orderCreateRequest) {
         // TODO : header로부터 userId값 꺼내기
         Long userId = 1L;
         OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest);
@@ -37,7 +37,37 @@ public class OrchestratorService {
 
         TaskList taskList = makeTaskList(cartRequest);
 
-        Workflow orderWorkflow = orderWorkflowGenerator.generateOrderWorkflow(inventoryRequests,paymentRequest);
+        Workflow orderWorkflow = orderWorkflowGenerator.generateNormalOrderWorkflow(inventoryRequests,paymentRequest);
+        Orchestrator orderOrchestrator = Orchestrator.builder()
+                .workflow(orderWorkflow)
+                .afterSuccessTasks(taskList)
+                .build();
+        try {
+            orderOrchestrator.doTransaction();
+        }catch(Exception e) {
+            // TODO : 예외 및 예외처리 고도화
+            orderService.revertInsertOrder(orderCreateResponse);
+            orderOrchestrator.revertProcess();
+        }
+
+        if(orderOrchestrator.isSuccessed()) {
+            orderOrchestrator.doAfterSuccess();
+        }
+
+        return orderOrchestrator;
+    }
+
+    public Orchestrator orderSalesTransaction(OrderCreateRequest orderCreateRequest) {
+        // TODO : header로부터 userId값 꺼내기
+        Long userId = 1L;
+        OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest);
+        List<InventoryRequest> inventoryRequests = makeInventoryRequests(orderCreateResponse.getOrderDetails());
+        PaymentRequest paymentRequest = makePaymentRequest();
+        CartRequest cartRequest = makeCartRequest(userId,orderCreateResponse.getOrderDetails());
+
+        TaskList taskList = makeTaskList(cartRequest);
+
+        Workflow orderWorkflow = orderWorkflowGenerator.generateSalesOrderWorkflow(inventoryRequests,paymentRequest);
         Orchestrator orderOrchestrator = Orchestrator.builder()
                 .workflow(orderWorkflow)
                 .afterSuccessTasks(taskList)

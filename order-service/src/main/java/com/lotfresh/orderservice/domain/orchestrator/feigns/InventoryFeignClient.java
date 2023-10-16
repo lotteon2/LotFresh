@@ -11,8 +11,9 @@ import java.util.List;
 @FeignClient(name="Inventory",url="localhost:80/inventory")
 public interface InventoryFeignClient {
 
-    @PostMapping("/deductQuantity")
-    ResponseEntity deductQuantity(@RequestBody List<InventoryRequest> inventoryRequests);
-    @PostMapping("/revertDeductQuantity")
-    ResponseEntity revertDeductQuantity(@RequestBody List<InventoryRequest> inventoryRequests);
+    @PostMapping("normal/deductQuantity")
+    ResponseEntity deductNormalQuantity(@RequestBody List<InventoryRequest> inventoryRequests);
+
+    @PostMapping("sales/deductQuantity")
+    ResponseEntity deductSalesQuantity(@RequestBody List<InventoryRequest> inventoryRequests);
 }

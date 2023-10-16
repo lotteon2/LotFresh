@@ -57,7 +57,7 @@ class OrchestratorServiceTest {
     @Test
     void orderProduct() {
         // given
-        BDDMockito.given(inventoryFeignClient.deductQuantity(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalQuantity(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
@@ -74,7 +74,7 @@ class OrchestratorServiceTest {
                 .productRequests(productRequests)
                 .build();
 
-        Orchestrator orchestrator = orchestratorService.orderTransaction(orderCreateRequest);
+        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(orderCreateRequest);
 
         // when
         orchestrator.doTransaction();
@@ -101,7 +101,7 @@ class OrchestratorServiceTest {
     @Test
     void orderDeletedWhenDeductQuantityFailed(){
         // given
-        BDDMockito.given(inventoryFeignClient.deductQuantity(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalQuantity(BDDMockito.any()))
                 .willThrow(new RuntimeException());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
@@ -121,7 +121,7 @@ class OrchestratorServiceTest {
                 .build();
 
         // when
-        Orchestrator orchestrator = orchestratorService.orderTransaction(orderCreateRequest);
+        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(orderCreateRequest);
 
         Order order = orderRepository.findAll().get(0);
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();
@@ -140,7 +140,7 @@ class OrchestratorServiceTest {
     @Test
     void orderAndInventoryRollbackedWhenPaymentFailed(){
         // given
-        BDDMockito.given(inventoryFeignClient.deductQuantity(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalQuantity(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willThrow(new RuntimeException());
@@ -160,7 +160,7 @@ class OrchestratorServiceTest {
                 .build();
 
         // when
-        Orchestrator orchestrator = orchestratorService.orderTransaction(orderCreateRequest);
+        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(orderCreateRequest);
 
         Order order = orderRepository.findAll().get(0);
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();

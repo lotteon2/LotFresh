@@ -6,8 +6,9 @@ import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryReq
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentRequest;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
-import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep.InventoryStep;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep.NormalInventoryStep;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep.PaymentStep;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep.SalesInventoryStep;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,13 +21,23 @@ public class OrderWorkflowGenerator {
     private final PaymentFeignClient paymentFeignClient;
     private final KafkaProducer kafkaProducer;
 
-    public OrderWorkflow generateOrderWorkflow(List<InventoryRequest> inventoryRequests, PaymentRequest paymentRequest){
+    public OrderWorkflow generateNormalOrderWorkflow(List<InventoryRequest> inventoryRequests, PaymentRequest paymentRequest){
         List<WorkflowStep> workflowSteps = List.of(
-                new InventoryStep("InventoryStep",inventoryFeignClient,inventoryRequests,kafkaProducer),
+                new NormalInventoryStep("InventoryStep",inventoryFeignClient,inventoryRequests,kafkaProducer),
                 new PaymentStep("PaymentStep",paymentFeignClient,paymentRequest,kafkaProducer));
 
         return OrderWorkflow.builder()
                 .workflowSteps(workflowSteps)
                 .build();
+    }
+    public OrderWorkflow generateSalesOrderWorkflow(List<InventoryRequest> inventoryRequests, PaymentRequest paymentRequest){
+        List<WorkflowStep> workflowSteps = List.of(
+                new SalesInventoryStep("InventoryStep",inventoryFeignClient,inventoryRequests,kafkaProducer),
+                new PaymentStep("PaymentStep",paymentFeignClient,paymentRequest,kafkaProducer));
+
+        return OrderWorkflow.builder()
+                .workflowSteps(workflowSteps)
+                .build();
+
     }
 }
