@@ -46,7 +46,7 @@ class InsertOrderControllerTest {
                 .build();
 
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/order/normal")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(orderCreateRequest))
         )
@@ -63,7 +63,7 @@ class InsertOrderControllerTest {
                 .productRequests(null)
                 .build();
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/order/normal")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(orderCreateRequest))
         )
@@ -83,7 +83,7 @@ class InsertOrderControllerTest {
                 .productRequests(List.of())
                 .build();
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/order/normal")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orderCreateRequest))
                 )
@@ -109,7 +109,7 @@ class InsertOrderControllerTest {
                 .build();
 
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/order/normal")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orderCreateRequest))
                 )
