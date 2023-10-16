@@ -16,4 +16,9 @@ public interface StorageApiClient {
   Integer getStock(
       @RequestHeader(value = "userId", required = false) Long userId,
       @PathVariable("productId") Long productId);
+
+  @GetMapping("/storages/sales-products/{productId}/stock")
+  Integer getSalesProductStock(
+          @RequestHeader(value = "userId", required = false) Long userId,
+          @PathVariable("productId") Long productId);
 }

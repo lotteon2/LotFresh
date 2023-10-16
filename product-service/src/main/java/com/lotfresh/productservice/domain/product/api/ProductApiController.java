@@ -82,4 +82,16 @@ public class ProductApiController {
     }
     return ResponseEntity.ok(productService.getSalesProducts(memberAddressKey));
   }
+
+  @GetMapping("/sales-products/{productId}")
+  public ResponseEntity<ProductResponse> getSalesProductDetails(
+      @RequestHeader(value = "userId", required = false) Long userId,
+      @PathVariable("productId") Long productId) {
+    Integer stock = null;
+    try {
+      stock = storageApiClient.getSalesProductStock(userId, productId);
+    } catch (FeignException e) {
+    }
+    return ResponseEntity.ok(productService.getSalesProductDetails(productId, stock));
+  }
 }
