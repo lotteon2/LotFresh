@@ -1,0 +1,165 @@
+version: '3.7'
+services:
+  mysql-user:
+    image: mysql:latest
+    build:
+      context: ./mysql-user
+      args:
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_DATABASE1=${MYSQL_DATABASE1}
+        - MYSQL_DATABASE2=${MYSQL_DATABASE2}
+        - MYSQL_DATABASE3=${MYSQL_DATABASE3}
+    env_file:
+      - .env
+    environment:
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      TZ: "Asia/Seoul"
+    volumes:
+      - product-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - lot-fresh
+  
+  mysql-product:
+    image: mysql:latest
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: productdb
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      TZ: "Asia/Seoul"
+    volumes:
+      - product-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - lot-fresh
+
+  mysql-order:
+    image: mysql:latest
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: orderdb
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      TZ: "Asia/Seoul"
+    volumes:
+      - order-data:/var/lib/mysql
+    ports:
+      - "3308:3306"
+    networks:
+      - lot-fresh
+
+  mysql-payment:
+    image: mysql:latest
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: paymentdb
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      TZ: "Asia/Seoul"
+    volumes:
+      - payment-data:/var/lib/mysql
+    ports:
+      - "3309:3306"
+    networks:
+      - lot-fresh
+
+  mysql-storage:
+    image: mysql:latest
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: storagedb
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      TZ: "Asia/Seoul"
+    volumes:
+      - storage-data:/var/lib/mysql
+    ports:
+      - "3310:3306"
+    networks:
+      - lot-fresh
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - lot-fresh
+
+  kafka1:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    networks:
+      - lot-fresh
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 300M
+
+  # kafka2:
+  #   image: confluentinc/cp-kafka:latest
+  #   depends_on:
+  #     - zookeeper
+  #   environment:
+  #     KAFKA_BROKER_ID: 2
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9093
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+  #   ports:
+  #     - "9093:9093"
+  #   networks:
+  #     - lot-fresh
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 300M
+
+  # kafka3:
+  #   image: confluentinc/cp-kafka:latest
+  #   depends_on:
+  #     - zookeeper
+  #   environment:
+  #     KAFKA_BROKER_ID: 3  
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka3:9094
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+  #   ports:
+  #     - "9094:9094"
+  #   networks:
+  #     - lot-fresh
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 300M
+
+volumes:
+  product-data:
+  order-data:
+  payment-data:
+  storage-data:
+
+networks:
+  lot-fresh:
+
+
+# docker-compose 파일과 같은 위치에 있는 .env파일에 MYSQL_ROOT_PASSWORD=value로 지정
+# 메모리 및 리소스 제한할지?
+# 토픽 및 파티션 설정 어떻게?
+# 리플리케이션 팩터 설정?
+# 로그 디렉토리 따로 둘지?

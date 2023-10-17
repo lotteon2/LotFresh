@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:~/productService
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  redis:
+    host: localhost
+    port: 6379
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  profiles:
+    active: test
+
+logging:
+  level:
+    org:
+      springframework:
+        transaction:
+          interceptor: TRACE
