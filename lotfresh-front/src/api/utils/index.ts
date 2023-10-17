@@ -6,7 +6,6 @@ const BASE_URL = "http://localhost:8083";
 const axiosApi = (baseURL: string) => {
   const instance = axios.create({
     baseURL,
-    withCredentials: true,
   });
   return instance;
 };

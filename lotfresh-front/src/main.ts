@@ -12,3 +12,9 @@ app.use(createPinia());
 app.use(router);
 
 app.mount("#app");
+
+declare module "@vue/runtime-core" {
+  export interface ComponentCustomProperties {
+    $goto: any;
+  }
+}
