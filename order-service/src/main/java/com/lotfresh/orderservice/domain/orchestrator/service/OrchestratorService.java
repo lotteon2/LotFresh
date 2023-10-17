@@ -50,7 +50,7 @@ public class OrchestratorService {
             orderOrchestrator.doTransaction();
         }catch(Exception e) {
             // TODO : 예외 및 예외처리 고도화
-            orderService.revertInsertOrder(userId, orderDetailIds);
+            orderService.revertInsertOrder(orderId, orderDetailIds);
             orderOrchestrator.revertProcess();
         }
 

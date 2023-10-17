@@ -174,7 +174,7 @@ class OrchestratorServiceTest {
         em.flush();
         em.clear();
 
-        Order cancledOrder = orderRepository.findById(1L).get();
+        Order cancledOrder = orderRepository.findById(order.getId()).get();
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();
 
         // then
@@ -215,7 +215,7 @@ class OrchestratorServiceTest {
         em.flush();
         em.clear();
 
-        Order cancledOrder = orderRepository.findById(1L).get();
+        Order cancledOrder = orderRepository.findById(order.getId()).get();
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();
 
         // then
