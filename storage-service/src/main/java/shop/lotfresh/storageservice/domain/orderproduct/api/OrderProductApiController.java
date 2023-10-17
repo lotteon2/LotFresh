@@ -8,7 +8,7 @@ import shop.lotfresh.storageservice.domain.storageproduct.service.StorageProduct
 
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/storageorderproduct")
 public class OrderProductApiController {
 
     private final OrderProductService orderProductService;
