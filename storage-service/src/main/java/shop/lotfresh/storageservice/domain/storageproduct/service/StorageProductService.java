@@ -20,19 +20,22 @@ public class StorageProductService {
         return storageProductRepository.findProductsByStorageId(storageId);
     }
 
+    public Long getProductStock(Long storageId, Long productId) {
+        return storageProductRepository.getProductStock(storageId, productId);
+    }
     @Transactional
-    //TODO 리턴값 재고만 줄지, 객체 다 줄지 생각해보기
-    public List<StorageProduct> productStockCheck(Long storageId, Long productId) {
-        return storageProductRepository.productStockCheck(storageId, productId);
+    public List<StorageProduct> getProductOrderList(Long storageId, Long productId) {
+        return storageProductRepository.getProductOrderList(storageId, productId);
     }
 
     //TODO 음수, 0, 이상한값 들어오는거 처리해야함/ 예외처리랑 같이 작업하기
     //TODO 상품주문에 넘겨주는 로직 짜기 << 단순히 리턴값으로 재고 차단한 객체 ID 전달보다 좋은 방법 있는지?
     @Transactional
     public List<StorageProduct> productOrder(Long storageId, Long productId, Long stock) {
-        List<StorageProduct> products = storageProductRepository.productStockCheck(storageId, productId);
+        List<StorageProduct> products = storageProductRepository.getProductOrderList(storageId, productId);
 
-        long totalStock = products.stream().mapToLong(StorageProduct::getStock).sum();
+        long totalStock = storageProductRepository.getProductStock(storageId, productId);
+
         if (totalStock < stock) {
             throw new IllegalArgumentException("주문을 위한 재고가 부족합니다..");
         }

@@ -1,20 +1,23 @@
 package shop.lotfresh.storageservice.domain.orderproduct.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import shop.lotfresh.storageservice.domain.orderproduct.api.request.OrderRequest;
-import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
 import shop.lotfresh.storageservice.domain.orderproduct.entity.OrderProduct;
+import shop.lotfresh.storageservice.domain.orderproduct.repository.OrderProductRepository;
+import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
+
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class OrderProductService {
-    @Autowired
-    private OrderProductService orderProductRepository;
+    private final OrderProductRepository orderProductRepository;
+
+    public OrderProductService(OrderProductRepository orderProductRepository) {
+        this.orderProductRepository = orderProductRepository;
+    }
 
 
-    public OrderProduct save(OrderRequest orderProduct) {
+    public OrderProduct save(OrderProduct orderProduct) {
         return orderProductRepository.save(orderProduct);
     }
 

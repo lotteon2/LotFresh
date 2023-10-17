@@ -6,7 +6,9 @@ import java.util.List;
 public interface StorageProductRepositoryCustom {
     List<StorageProduct> findProductsByStorageId(Long storageId);
 
-    List<StorageProduct> productStockCheck(Long storageId, Long productId);
+    Long getProductStock(Long storageId, Long productId);
+
+    List<StorageProduct> getProductOrderList(Long storageId, Long productId);
 
     List<StorageProduct> productOrder(Long storageId, Long productId, Long stock);
 }

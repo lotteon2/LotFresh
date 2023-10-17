@@ -4,7 +4,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
 
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static shop.lotfresh.storageservice.domain.storageproduct.entity.QStorageProduct.storageProduct;
@@ -13,7 +12,6 @@ import static shop.lotfresh.storageservice.domain.storageproduct.entity.QStorage
 @RequiredArgsConstructor
 public class StorageProductRepositoryCustomImpl implements StorageProductRepositoryCustom{
 
-    @PersistenceContext
     private final JPAQueryFactory queryFactory;
 
 
@@ -26,7 +24,16 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
     }
 
     @Override
-    public List<StorageProduct> productStockCheck(Long storageId, Long productId) {
+    public Long getProductStock(Long storageId, Long productId) {
+        return queryFactory.select(storageProduct.stock.sum())
+                .from(storageProduct)
+                .where(storageProduct.storageId.eq(storageId)
+                        .and(storageProduct.productId.eq(productId)))
+                .fetchOne();
+    }
+
+    @Override
+    public List<StorageProduct> getProductOrderList(Long storageId, Long productId) {
         return queryFactory.selectFrom(storageProduct)
                 .where(storageProduct.storageId.eq(storageId)
                         .and(storageProduct.productId.eq(productId)))

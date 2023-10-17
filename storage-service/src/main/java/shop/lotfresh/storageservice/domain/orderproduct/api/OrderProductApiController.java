@@ -1,20 +1,14 @@
 package shop.lotfresh.storageservice.domain.orderproduct.api;
 
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import shop.lotfresh.storageservice.domain.orderproduct.api.request.OrderRequest;
-import shop.lotfresh.storageservice.domain.orderproduct.entity.OrderProduct;
 import shop.lotfresh.storageservice.domain.orderproduct.service.OrderProductService;
 import shop.lotfresh.storageservice.domain.storageproduct.service.StorageProductService;
 
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/order")
 public class OrderProductApiController {
 
     private final OrderProductService orderProductService;
@@ -25,10 +19,10 @@ public class OrderProductApiController {
         this.storageProductService = storageProductService;
     }
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest request) {
 
-        OrderRequest order = new OrderRequest();
+        OrderProduct order = new OrderRequest();
         order.setStorage_product_id(request.getStorage_product_id());
         order.setOrder_detail_id(request.getOrder_detail_id());
         order.setQuantity(request.getQuantity());
@@ -43,6 +37,6 @@ public class OrderProductApiController {
         }
 
         return ResponseEntity.ok(savedOrder);
-    }
+    }*/
 }
 

@@ -20,10 +20,14 @@ public class StorageProductApiController {
     public ResponseEntity<List<StorageProduct>> search(@PathVariable Long storageId) {
         return ResponseEntity.ok(storageProductService.findProductsByStorageId(storageId));
     }
-    @GetMapping("/check/{storageId}/{productId}")
-    public ResponseEntity<List<StorageProduct>> check(@PathVariable Long storageId, @PathVariable Long productId) {
-        return ResponseEntity.ok(storageProductService.productStockCheck(storageId, productId));
+    @GetMapping("/stock/{storageId}/{productId}")
+    public ResponseEntity <Long> stock (@PathVariable Long storageId, @PathVariable Long productId){
+        return ResponseEntity.ok(storageProductService.getProductStock(storageId, productId));
     }
+/*    @GetMapping("/stock/{storageId}/{productId}")
+    public ResponseEntity<List<StorageProduct>> stock(@PathVariable Long storageId, @PathVariable Long productId) {
+        return ResponseEntity.ok(storageProductService.getProductOrderList(storageId, productId));
+    }*/
     @PostMapping("/order/{storageId}/{productId}/{stock}")
     public ResponseEntity<List<StorageProduct>> order(@PathVariable Long storageId, @PathVariable Long productId, @PathVariable Long stock) {
         return ResponseEntity.ok(storageProductService.productOrder(storageId,
