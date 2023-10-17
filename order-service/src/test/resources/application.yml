@@ -22,6 +22,7 @@ spring:
     consumer:
       auto-offset-reset: earliest
       bootstrap-servers: localhost:7777
+    group-id: order-detail-status
     server-config: localhost:7777
 
   redis:

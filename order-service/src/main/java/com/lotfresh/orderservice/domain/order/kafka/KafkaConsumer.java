@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class KafkaConsumer {
     private final OrderService orderService;
 
-    @KafkaListener(topics = "refund-success", groupId = "${spring.group-id}")
+    @KafkaListener(topics = "refund-success", groupId = "${spring.kafka.group-id}")
     public void listenOrderDetailStatus(ConsumerRecord<Long, OrderDetailStatus> record) {
         Long orderDetailId = record.key();
         OrderDetailStatus value = record.value();

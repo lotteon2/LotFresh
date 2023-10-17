@@ -7,9 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class KafkaProducer {
-    private final KafkaTemplate<String,Object> kafkaTemplate;
+    private final KafkaTemplate<Long,Object> kafkaTemplate;
 
     public void send(String topic, Object value){
         kafkaTemplate.send(topic,value);
+    }
+    public void send(String topic, Long key, Object value){
+        kafkaTemplate.send(topic,key,value);
     }
 }

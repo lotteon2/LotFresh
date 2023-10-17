@@ -18,7 +18,7 @@ import java.util.Map;
 public class KafkaConsumerConfig {
     @Value("${spring.kafka.server-config}")
     private String SERVER_CONFIG;
-    @Value("${spring.group-id}")
+    @Value("${spring.kafka.group-id}")
     private String GROUP_ID;
     @Bean
     public ConsumerFactory<String, OrderDetailStatus> consumerFactory() {
