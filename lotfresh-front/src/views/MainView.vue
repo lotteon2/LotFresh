@@ -7,31 +7,14 @@
       <p class="css-1efm9d2 e1py8bme0"></p>
     </div>
     <div class="slider">
-      <product-list v-for="(product, index) in products" :key="index" />
+      <product-list :arrows="true" :dots="true" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useProductStore } from "@/stores/product";
-import ProductList from "../components/product/ProductList.vue";
-import { defaultInstance } from "@/api/utils";
-import { ref } from "vue";
-
-const products = ref([]);
-
-const callApi = () => {
-  defaultInstance
-    .get(`/products/best-products`)
-    .then((response) => {
-      products.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-callApi();
+import ProductList from "@/components/product/ProductList.vue";
+import VueSlickCarousel from "vue-slick-carousel";
 </script>
 
 <style scoped>

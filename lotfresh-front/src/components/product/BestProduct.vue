@@ -1,13 +1,8 @@
 <template>
   <div class="item">
-    <div>{{ product }}</div>
+    <!-- <div>{{ product }}</div> -->
     <div class="thumb">
-      <img
-        class="product-img"
-        id="${m.productNo}"
-        :src="product.thumbnail"
-        onclick="imageDataToNav(this.id)"
-      />
+      <img class="product-img" id="${m.productNo}" :src="product.thumbnail" />
       <div class="group-btn">
         <input type="hidden" class="pid" value="${m.productNo}" />
         <button
@@ -21,19 +16,17 @@
     <div class="info">
       <span class="name">{{ product.name }}</span>
       <span class="cost">
-        <c:if test="${m.discountPrice==0}">
-          <span class="price"
-            ><fmt:formatNumber value="${m.productPrice}" pattern="###,###" />
-          </span>
-        </c:if>
-        <c:if test="${m.discountPrice!=0}">
+        <span v-if="!product.salesPrice" class="price"
+          >{{ product.price }}
+        </span>
+        <span v-else>
           <span style="text-decoration: line-through; color: #999999"
-            ><fmt:formatNumber value="${m.productPrice}" pattern="###,###" />
+            >{{ product.price }}
           </span>
-          →<fmt:formatNumber value="${m.discountPrice}" pattern="###,###" />
-        </c:if>
+          →{{ product.salesPrice }}
+        </span>
       </span>
-      <span class="simple-content">${m.productSimpleContent}</span>
+      <!-- <span class="simple-content">{{ product.detail }}</span> -->
     </div>
   </div>
 </template>
@@ -114,7 +107,7 @@ img {
 
 .product-img {
   height: 435px;
-  /*height: auto;*/
+  /* height: auto; */
 }
 
 .thumb img {
@@ -131,10 +124,10 @@ img {
   border: 0;
 }
 
-/* .thumb .cart-btn {
-  background: url(../front/images/cart-btn.png) no-repeat 50% 50%;
+.thumb .cart-btn {
+  background: url(../../assets/cart-btn.png) no-repeat 50% 50%;
   background-size: 45px 45px;
-} */
+}
 
 .thumb .group-btn {
   position: absolute;
