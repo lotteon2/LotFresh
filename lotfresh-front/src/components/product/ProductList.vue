@@ -1,28 +1,24 @@
 <template>
   <div>
-    <best-product
-      v-for="(product, index) in products"
-      :key="index"
-      :product="product"
-    />
-
-    <!-- <VueSlickCarousel :rows="2" :slidesToShow="2">
-      <div v-for="i in 10" class="pd16">
-        <div class="card">{{ i }}</div>
-      </div>
-    </VueSlickCarousel> -->
+    <VueSlickCarousel ref="carousel" :rows="3" :slidesToShow="2">
+      <best-product
+        v-for="(product, index) in products"
+        :key="index"
+        :product="product"
+      />
+    </VueSlickCarousel>
   </div>
 </template>
 
 <script setup lang="ts">
-// import VueSlickCarousel from "vue-slick-carousel";
-// import "vue-slick-carousel/dist/vue-slick-carousel.css";
-// import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
-
+import { ListSlickMethods, VueSlickCarousel } from "vue-slick-ts";
+import type { SlickInstance } from "vue-slick-ts";
+import "vue-slick-ts/dist/css/slick.css";
 import BestProduct from "./BestProduct.vue";
 import { defaultInstance } from "@/api/utils";
 import { ref } from "vue";
 
+const carousel = ref<SlickInstance | null>(null);
 const products = ref([]);
 
 const callApi = () => {
@@ -40,3 +36,29 @@ callApi();
 </script>
 
 <style scoped></style>
+<style>
+.slider .im img {
+  width: 310px;
+  max-width: 100%;
+  height: 435px;
+}
+
+.slider {
+  width: 1070px;
+  margin: 0px auto;
+}
+
+.slider .slick-slide {
+  height: auto;
+  margin: 10px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #444444;
+}
+/* .slick-prev,
+.slick-next {
+  top: 40%;
+} */
+</style>
