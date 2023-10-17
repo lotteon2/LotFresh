@@ -181,7 +181,7 @@ class OrchestratorServiceTest {
         Assertions.assertThat(cancledOrder.getIsDeleted()).isTrue();
 
         boolean isAllOrderDetailDeleted = orderDetails.stream()
-                .allMatch(orderDetail -> orderDetail.getIsDeleted());
+                .allMatch(OrderDetail::getIsDeleted);
         Assertions.assertThat(isAllOrderDetailDeleted).isTrue();
         Assertions.assertThat(orchestrator.isSuccessed()).isFalse();
 
