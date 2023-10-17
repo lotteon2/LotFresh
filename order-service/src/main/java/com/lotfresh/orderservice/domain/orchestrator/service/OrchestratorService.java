@@ -5,7 +5,7 @@ import com.lotfresh.orderservice.domain.orchestrator.controller.request.OrderCre
 import com.lotfresh.orderservice.domain.orchestrator.feigns.CartFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.*;
-import com.lotfresh.orderservice.domain.orchestrator.process.task.CartTask;
+import com.lotfresh.orderservice.domain.orchestrator.task.CartTask;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.OrderWorkflowGenerator;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.Workflow;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
@@ -34,8 +34,6 @@ public class OrchestratorService {
     }
 
     public Orchestrator orderNormalTransaction(Long userId, Long orderId, boolean isFromCart) {
-        // TODO : header로부터 userId값 꺼내기
-
         List<OrderDetail> orderDetails = orderService.getOrderDetails(orderId);
         List<Long> orderDetailIds = orderDetails.stream()
                 .map(OrderDetail::getId)
@@ -43,7 +41,6 @@ public class OrchestratorService {
 
         List<InventoryRequest> inventoryRequests = makeInventoryRequests(orderDetails);
         PaymentRequest paymentRequest = makePaymentRequest();
-        CartRequest cartRequest = makeCartRequest(userId,orderDetails);
 
         Workflow orderWorkflow = orderWorkflowGenerator.generateNormalOrderWorkflow(inventoryRequests,paymentRequest);
         Orchestrator orderOrchestrator = Orchestrator.builder()
@@ -58,6 +55,7 @@ public class OrchestratorService {
         }
 
         if(orderOrchestrator.isSuccessed() && isFromCart) {
+            CartRequest cartRequest = makeCartRequest(userId,orderDetails);
             CartTask cartTask = new CartTask(cartFeignClient,cartRequest);
             cartTask.work();
         }

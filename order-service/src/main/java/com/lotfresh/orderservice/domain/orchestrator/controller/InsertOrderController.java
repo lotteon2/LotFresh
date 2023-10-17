@@ -4,10 +4,7 @@ import com.lotfresh.orderservice.domain.orchestrator.service.OrchestratorService
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.OrderCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,11 +20,13 @@ public class InsertOrderController {
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/normal")
-//    public ResponseEntity insertNormalOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
-//        orchestratorService.orderNormalTransaction(orderCreateRequest);
-//        return ResponseEntity.ok().build();
-//    }
+    @PostMapping("/normal")
+    public ResponseEntity insertNormalOrder(@RequestHeader(value = "userId", required = false) Long userId,
+            @RequestParam Long orderId, @RequestParam Boolean isFromCart) {
+        orchestratorService.orderNormalTransaction(userId, orderId, isFromCart);
+        return ResponseEntity.ok().build();
+    }
+
 //    @PostMapping("/sales")
 //    public ResponseEntity insertSalesOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
 //        orchestratorService.orderSalesTransaction(orderCreateRequest);

@@ -46,7 +46,7 @@ class InsertOrderControllerTest {
                 .build();
 
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/order/normal")
+        mockMvc.perform(MockMvcRequestBuilders.post("/order")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(orderCreateRequest))
         )
@@ -57,13 +57,13 @@ class InsertOrderControllerTest {
 
     @DisplayName("productRequests는 null일 수 없다")
     @Test
-    void func() throws Exception {
+    void productRequestsCannotBeNull() throws Exception {
         // given
         OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
                 .productRequests(null)
                 .build();
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/order/normal")
+        mockMvc.perform(MockMvcRequestBuilders.post("/order")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(orderCreateRequest))
         )
@@ -77,13 +77,13 @@ class InsertOrderControllerTest {
 
     @DisplayName("productRequests의 size가 0일 수 없다")
     @Test
-    void func1() throws Exception {
+    void productRequestsSizeIsLargerThanZero() throws Exception {
         // given
         OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
                 .productRequests(List.of())
                 .build();
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/order/normal")
+        mockMvc.perform(MockMvcRequestBuilders.post("/order")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orderCreateRequest))
                 )
@@ -96,7 +96,7 @@ class InsertOrderControllerTest {
 
     @DisplayName("ProductRequest의 productId, productPrice, productQuantity는 null일 수 없다")
     @Test
-    void func2() throws Exception {
+    void paramsInProductRequestCannotBeNull() throws Exception {
         // given
         List<ProductRequest> productRequests  = List.of(
                 createProductRequest(null, 100L, 1L),
@@ -109,7 +109,7 @@ class InsertOrderControllerTest {
                 .build();
 
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/order/normal")
+        mockMvc.perform(MockMvcRequestBuilders.post("/order")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orderCreateRequest))
                 )
