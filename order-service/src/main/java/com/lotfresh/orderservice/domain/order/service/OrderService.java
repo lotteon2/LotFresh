@@ -63,10 +63,10 @@ public class OrderService {
     }
 
     @Transactional
-    public void changeProductOrderStatus(OrderDetailChangeStatusRequest orderDetailChangeStatusRequest) {
-        OrderDetail orderDetail = orderDetailRepository.findById(orderDetailChangeStatusRequest.getOrderDetailId())
+    public void changeProductOrderStatus(Long orderDetailId, OrderDetailStatus newStatus) {
+        OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
                                             .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
-        orderDetail.changeProductOrderStatus(orderDetailChangeStatusRequest.getOrderDetailStatus());
+        orderDetail.changeProductOrderStatus(newStatus);
     }
 
     @Transactional

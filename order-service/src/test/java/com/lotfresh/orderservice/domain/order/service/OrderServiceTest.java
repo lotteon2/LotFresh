@@ -78,13 +78,9 @@ class OrderServiceTest {
         orderDetailRepository.save(orderDetail);
 
         OrderDetailStatus requestedStatus = OrderDetailStatus.CONFIRMED;
-        OrderDetailChangeStatusRequest orderDetailChangeStatusRequest = OrderDetailChangeStatusRequest.builder()
-                .orderDetailId(orderDetail.getId())
-                .orderDetailStatus(requestedStatus)
-                .build();
 
         // when
-        orderService.changeProductOrderStatus(orderDetailChangeStatusRequest);
+        orderService.changeProductOrderStatus(orderDetail.getId(),requestedStatus);
 
         em.flush();
         em.clear();
@@ -102,13 +98,9 @@ class OrderServiceTest {
         Long nonExistOrderDetailId = 1L;
 
         OrderDetailStatus requestedStatus = OrderDetailStatus.CONFIRMED;
-        OrderDetailChangeStatusRequest orderDetailChangeStatusRequest = OrderDetailChangeStatusRequest.builder()
-                .orderDetailId(nonExistOrderDetailId)
-                .orderDetailStatus(requestedStatus)
-                .build();
 
         // when // then
-        Assertions.assertThatThrownBy(() -> orderService.changeProductOrderStatus(orderDetailChangeStatusRequest))
+        Assertions.assertThatThrownBy(() -> orderService.changeProductOrderStatus(nonExistOrderDetailId,requestedStatus))
                 .isInstanceOf(CustomException.class)
                 .hasMessage("데이터가 존재하지 않습니다");
 
