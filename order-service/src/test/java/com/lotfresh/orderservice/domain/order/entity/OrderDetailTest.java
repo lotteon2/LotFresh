@@ -4,7 +4,6 @@ import com.lotfresh.orderservice.domain.order.entity.status.DeliveryStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.PaymentStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.RefundStatus;
-import com.lotfresh.orderservice.exception.CustomException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,7 +66,7 @@ class OrderDetailTest {
 
     }
 
-    private OrderDetail createOrderDetail(OrderDetailStatus orderDetailStatus,PaymentStatus paymentStatus,
+    private OrderDetail createOrderDetail(OrderDetailStatus orderDetailStatus, PaymentStatus paymentStatus,
                                           DeliveryStatus deliveryStatus, RefundStatus refundStatus) {
         Order order = Order.builder()
                 .authId(1L)

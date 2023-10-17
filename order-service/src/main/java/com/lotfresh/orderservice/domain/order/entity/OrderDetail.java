@@ -5,8 +5,6 @@ import com.lotfresh.orderservice.domain.order.entity.status.DeliveryStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.PaymentStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.RefundStatus;
-import com.lotfresh.orderservice.exception.CustomException;
-import com.lotfresh.orderservice.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -61,7 +59,7 @@ public class OrderDetail extends BaseEntity {
 
     @Builder
     private OrderDetail(Order order, Long productId, Long price, Long quantity, OrderDetailStatus status,
-            String productName, String productThumbnail) {
+                        String productName, String productThumbnail) {
         // 엔티티가 아닌 순수 객체 상태에서도 양방향 연관관계를 구현
         order.getOrderDetails().add(this);
         this.order = order;
