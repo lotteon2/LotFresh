@@ -16,14 +16,21 @@ import javax.validation.Valid;
 @RequestMapping("/order")
 public class InsertOrderController {
     private final OrchestratorService orchestratorService;
-    @PostMapping("/normal")
-    public ResponseEntity insertNormalOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
-        orchestratorService.orderNormalTransaction(orderCreateRequest);
+
+    @PostMapping()
+    public ResponseEntity createOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
+        orchestratorService.createOrderAndRequestToPayment(orderCreateRequest);
         return ResponseEntity.ok().build();
     }
-    @PostMapping("/sales")
-    public ResponseEntity insertSalesOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
-        orchestratorService.orderSalesTransaction(orderCreateRequest);
-        return ResponseEntity.ok().build();
-    }
+
+//    @PostMapping("/normal")
+//    public ResponseEntity insertNormalOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
+//        orchestratorService.orderNormalTransaction(orderCreateRequest);
+//        return ResponseEntity.ok().build();
+//    }
+//    @PostMapping("/sales")
+//    public ResponseEntity insertSalesOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
+//        orchestratorService.orderSalesTransaction(orderCreateRequest);
+//        return ResponseEntity.ok().build();
+//    }
 }

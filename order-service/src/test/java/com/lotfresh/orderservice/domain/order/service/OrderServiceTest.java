@@ -1,17 +1,13 @@
 package com.lotfresh.orderservice.domain.order.service;
 
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
-import com.lotfresh.orderservice.domain.orchestrator.service.response.OrderCreateResponse;
+import com.lotfresh.orderservice.domain.order.service.response.*;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import com.lotfresh.orderservice.domain.order.entity.Order;
-import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
+import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
-import com.lotfresh.orderservice.domain.order.service.response.BestProductsResponse;
-import com.lotfresh.orderservice.domain.order.service.response.OrderDetailResponse;
-import com.lotfresh.orderservice.domain.order.service.response.OrderResponse;
-import com.lotfresh.orderservice.domain.order.service.response.ProductPageResponse;
 import com.lotfresh.orderservice.exception.CustomException;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
@@ -24,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SpringBootTest
 @Transactional
@@ -149,14 +144,8 @@ class OrderServiceTest {
         orderDetailRepository.save(orderDetail1);
         orderDetailRepository.save(orderDetail2);
 
-        OrderCreateResponse orderCreateResponse =
-                OrderCreateResponse.builder()
-                        .order(savedOrder)
-                        .orderDetails(List.of(orderDetail1,orderDetail2))
-                        .build();
-
         // when
-        orderService.revertInsertOrder(orderCreateResponse);
+        orderService.revertInsertOrder(savedOrder.getId(), List.of(orderDetail1.getId(), orderDetail2.getId()));
         Order revertedOrder = orderRepository.findById(savedOrder.getId()).get();
         OrderDetail revertedOrderDetail1 = orderDetailRepository
                 .findById(orderDetail1.getId()).get();
@@ -218,7 +207,7 @@ class OrderServiceTest {
         orderDetailRepository.save(orderDetail2);
 
         // when
-        OrderResponse orderResponse = orderService.getOrderDetails(savedOrder.getId());
+        OrderResponse orderResponse = orderService.getOrderResponse(savedOrder.getId());
 
         // then
         Assertions.assertThat(orderResponse.getOrderCreatedTime()).isEqualTo(savedOrder.getCreatedAt());
@@ -394,7 +383,7 @@ class OrderServiceTest {
                 .build();
     }
 
-    private OrderDetail createOrderDetail(Order order,Long price) {
+    private OrderDetail createOrderDetail(Order order, Long price) {
         return OrderDetail.builder()
                 .order(order)
                 .productId(1L)

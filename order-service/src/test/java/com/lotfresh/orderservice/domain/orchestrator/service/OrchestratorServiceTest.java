@@ -53,6 +53,41 @@ class OrchestratorServiceTest {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
+    @DisplayName("사용자의 주문요청을 받아 주문을 생성한 뒤 QR코드를 반환한다")
+    @Test
+    void createOrderAndReturnQRCode() {
+        // given
+        BDDMockito.given(paymentFeignClient.kakaopayReady(BDDMockito.any()))
+                .willReturn(ResponseEntity.ok().body("URL"));
+
+        List<ProductRequest> productRequests  = List.of(
+                createProductRequest(1L, 100L, 1L),
+                createProductRequest(2L, 500L, 2L),
+                createProductRequest(3L, 1000L, 3L),
+                createProductRequest(4L, 10000L, 4L)
+        );
+        OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
+                .productRequests(productRequests)
+                .isFromCart(true)
+                .build();
+
+        // when
+        String url = orchestratorService.createOrderAndRequestToPayment(orderCreateRequest);
+        List<OrderDetail> orderDetails = orderDetailRepository.findAll();
+
+        // then
+        Assertions.assertThat(url).isEqualTo("URL");
+        Assertions.assertThat(orderDetails)
+                .extracting("productId","quantity","isDeleted")
+                .containsExactlyInAnyOrder(
+                        Tuple.tuple(1L,1L,false),
+                        Tuple.tuple(2L,2L,false),
+                        Tuple.tuple(3L,3L,false),
+                        Tuple.tuple(4L,4L,false)
+                );
+    }
+
+
     @DisplayName("주문, 재고차감, 결제가 모두 정상적으로 처리됐을 때 주문이 성공한다")
     @Test
     void orderProduct() {
@@ -178,6 +213,8 @@ class OrchestratorServiceTest {
         Assertions.assertThat(orchestrator.isSuccessed()).isFalse();
 
     }
+
+
 
     private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
         return ProductRequest.builder()

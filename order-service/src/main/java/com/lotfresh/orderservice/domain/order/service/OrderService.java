@@ -2,17 +2,14 @@ package com.lotfresh.orderservice.domain.order.service;
 
 
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
-import com.lotfresh.orderservice.domain.orchestrator.service.response.OrderCreateResponse;
+import com.lotfresh.orderservice.domain.order.service.response.OrderCreateResponse;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
 import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
-import com.lotfresh.orderservice.domain.order.service.response.BestProductsResponse;
-import com.lotfresh.orderservice.domain.order.service.response.OrderDetailResponse;
-import com.lotfresh.orderservice.domain.order.service.response.OrderResponse;
-import com.lotfresh.orderservice.domain.order.service.response.ProductPageResponse;
+import com.lotfresh.orderservice.domain.order.service.response.*;
 import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -45,21 +42,21 @@ public class OrderService {
 
         orderDetailRepository.saveAll(orderDetails);
 
+        List<OrderDetailCreateResponse> orderDetailCreateResponses = orderDetails.stream()
+                .map(OrderDetailCreateResponse::from)
+                .collect(Collectors.toList());
+
         return OrderCreateResponse.builder()
-                .order(order)
-                .orderDetails(orderDetails)
+                .orderId(order.getId())
+                .orderDetailCreateResponses(orderDetailCreateResponses)
                 .build();
     }
 
     @Transactional
-    public void revertInsertOrder(OrderCreateResponse orderCreateResponse) {
-        Order order = orderRepository.findById(orderCreateResponse.getOrder().getId())
+    public void revertInsertOrder(Long orderId, List<Long> orderDetailIds) {
+        Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
         order.softDelete();
-
-        List<Long> orderDetailIds = orderCreateResponse.getOrderDetails().stream()
-                .map(OrderDetail::getId)
-                .collect(Collectors.toList());
 
         List<OrderDetail> orderDetails = orderDetailRepository.findAllById(orderDetailIds);
         orderDetails.forEach(OrderDetail::softDelete);
@@ -79,7 +76,11 @@ public class OrderService {
         orderDetail.changeProductOrderStatus(OrderDetailStatus.CANCELED);
     }
 
-    public OrderResponse getOrderDetails(Long orderId) {
+    public List<OrderDetail> getOrderDetails(Long orderId) {
+        return orderDetailRepository.findAllByOrderId(orderId);
+    }
+
+    public OrderResponse getOrderResponse(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
         List<OrderDetail> orderDetails = orderDetailRepository.findOrderDetailsByOrderId(orderId);

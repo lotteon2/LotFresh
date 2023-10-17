@@ -1,6 +1,7 @@
 package com.lotfresh.orderservice.domain.orchestrator.feigns.request;
 
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
+import com.lotfresh.orderservice.domain.order.service.response.OrderDetailCreateResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,11 +16,12 @@ public class InventoryRequest {
     private Long productId;
     private Long productQuantity;
 
-
-    public InventoryRequest(OrderDetail orderDetail){
-        this.orderDetailId = orderDetail.getId();
-        this.productId = orderDetail.getProductId();
-        this.productQuantity = orderDetail.getQuantity();
+    public static InventoryRequest from(OrderDetail orderDetail) {
+        return InventoryRequest.builder()
+                .orderDetailId(orderDetail.getId())
+                .productId(orderDetail.getProductId())
+                .productQuantity(orderDetail.getQuantity())
+                .build();
     }
 
 }
