@@ -16,12 +16,13 @@ public class KakaopayReadyResponseVO {
     private String iosAppScheme;
     private LocalDateTime createdAt;
 
-    public Payment toEntity(Long oauthId, Long orderId, Long transactionAmount) {
+    public Payment toEntity(Long oauthId, Long orderId, Long originalAmount ,Long transactionAmount) {
         return Payment.builder()
                 .tid(tid)
                 .orderId(orderId)
                 .oauthId(oauthId)
                 .paymentMethod("KAKAOPAY")
+                .originalAmount(originalAmount)
                 .transactionAmount(transactionAmount)
                 .build();
     }

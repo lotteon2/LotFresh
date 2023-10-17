@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.lotfresh.paymentservice.domain.payment.api.request.KakaopayApproveRequest;
 import shop.lotfresh.paymentservice.domain.payment.api.request.KakaopayReadyRequest;
+import shop.lotfresh.paymentservice.domain.payment.dto.PaymentInfoResponseDTO;
 import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
 import shop.lotfresh.paymentservice.domain.payment.entity.PaymentStatus;
 import shop.lotfresh.paymentservice.domain.payment.repository.PaymentRepository;
@@ -52,28 +53,30 @@ public class PaymentService {
                 .mapToLong(OrderDetailVO::getQuantity)
                 .sum();
 
-        Long totalPrice = orderDetails.stream()
-                .mapToLong(order -> order.getPrice() * order.getQuantity())
+        Long totalOriginalAmount = orderDetails.stream()
+                .mapToLong(order -> order.getOriginalPrice() * order.getQuantity())
+                .sum();
+
+        Long totalTransactionAmount = orderDetails.stream()
+                .mapToLong(order -> order.getDiscountedPrice() * order.getQuantity())
                 .sum();
 
         KakaopayReadyVO kakaopayReadyVO = request.toKakaopayReadyVO(userId,
                                                                     itemName,
                                                                     totalQuantity,
-                                                                    totalPrice,
+                                                                    totalTransactionAmount,
                                                                     kakaopayCid,
                                                                     approvalUrl,
                                                                     failUrl,
                                                                     cancelUrl);
-
         // queryParam에 orderId넘겨야 받을때 조립가능
         KakaopayReadyResponseVO kakaopayReadyResponseVO = kakaopayApiClient.kakaopayReady(orderId, kakaopayReadyVO);
-
-        Payment payment = kakaopayReadyResponseVO.toEntity(userId, orderId, totalPrice);
+        Payment payment = kakaopayReadyResponseVO.toEntity(userId, orderId, totalOriginalAmount, totalTransactionAmount);
         paymentRepository.save(payment); // TODO: 예외처리할게 있는지?
-
         //TODO: 큐알코드 화면 url만 넘겨줘도 괜찮을지 고민중.
         return kakaopayReadyResponseVO.getNextRedirectPcUrl();
     }
+
 
     @Transactional
     public void kakaopayApprove(KakaopayApproveRequest request) {
@@ -92,6 +95,7 @@ public class PaymentService {
         }
     }
 
+
     @Transactional
     public void abortPayment(Long orderId, PaymentStatus status) {
         Payment payment = paymentRepository.findByOrderId(orderId)
@@ -109,6 +113,19 @@ public class PaymentService {
         }
     }
 
+
+    public PaymentInfoResponseDTO getPaymentByOrderId(Long orderId) {
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new NoSuchElementException("No such order: " + orderId));
+
+        Long discountedAmount = payment.getOriginalAmount() - payment.getTransactionAmount();
+        return PaymentInfoResponseDTO.builder()
+                                     .paymentMethod(payment.getPaymentMethod())
+                                     .originalAmount(payment.getOriginalAmount())
+                                     .discountedAmount(discountedAmount)
+                                     .transactionAmount(payment.getTransactionAmount())
+                                     .build();
+    }
 
 
     public String generateItemName(List<OrderDetailVO> orderDetails) {

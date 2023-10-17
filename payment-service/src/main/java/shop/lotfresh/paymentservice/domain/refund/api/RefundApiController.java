@@ -1,6 +1,7 @@
 package shop.lotfresh.paymentservice.domain.refund.api;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import shop.lotfresh.paymentservice.domain.refund.service.RefundService;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/refunds")
@@ -36,6 +38,8 @@ public class RefundApiController {
             refundService.approveRefund(refundId);
             return ResponseEntity.ok().build();
         } catch (RuntimeException e) {
+
+            log.warn(e.toString());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

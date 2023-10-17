@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 8081
 
 spring:
   application:
@@ -15,10 +15,10 @@ spring:
 
   kafka:
     producer:
-      bootstrap-servers: kafka:9092
+      bootstrap-servers: 3.38.228.196:9092
       acks: all
     consumer:
-      bootstrap-servers: kafka:9092
+      bootstrap-servers: 3.38.228.196:9092
       group-id: payment-service-group
     listener:
       type: SINGLE
@@ -41,7 +41,8 @@ logging:
 
 kakaopay:
   cid: "TC0ONETIME"
-  approval_url: "/order/payments/kakaopay/approve"
-  fail_url: "/order/payments/kakaopay/fail"
-  cancel_url: "/order/payments/kakaopay/cancel"
+  approval_url: "https://lot-fresh.shop/order/payments/kakaopay/approve"
+  fail_url: "https://lot-fresh.shop/order/payments/kakaopay/fail"
+  cancel_url: "https://lot-fresh.shop/order/payments/kakaopay/cancel"
   admin_key: "8f2de5fceef170ccd187a4e94c813657"
+

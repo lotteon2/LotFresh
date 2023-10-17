@@ -30,9 +30,9 @@ public class PaymentApiControllerTest extends ControllerTestSupport {
     @DisplayName("order-service로부터 카카오페이 준비요청을 받는다.")
     @Test
     void kakaopayReady() throws Exception {
-        OrderDetailVO orderDetailVO1 = new OrderDetailVO("강원도 고랭지 감자 2KG", 9500L, 3L);
-        OrderDetailVO orderDetailVO2 = new OrderDetailVO("홍천 당근 500G", 2500L, 1L);
-        OrderDetailVO orderDetailVO3 = new OrderDetailVO("냉동 블루베리 1KG", 8500L, 2L);
+        OrderDetailVO orderDetailVO1 = new OrderDetailVO("강원도 고랭지 감자 2KG",10000L, 9500L, 3L);
+        OrderDetailVO orderDetailVO2 = new OrderDetailVO("홍천 당근 500G",3000L, 2500L, 1L);
+        OrderDetailVO orderDetailVO3 = new OrderDetailVO("냉동 블루베리 1KG",8500L, 8500L, 2L);
         List<OrderDetailVO> orderDetails = Arrays.asList(orderDetailVO1, orderDetailVO2, orderDetailVO3);
         KakaopayReadyRequest request = new KakaopayReadyRequest(1L, orderDetails);
 
@@ -58,7 +58,7 @@ public class PaymentApiControllerTest extends ControllerTestSupport {
     @DisplayName("준비요청에 header에 userId가 존재해야한다.")
     @Test
     void kakaopayReadyWithoutHeader() throws Exception {
-        OrderDetailVO orderDetailVO1 = new OrderDetailVO("강원도 고랭지 감자 2KG", 9500L, 3L);
+        OrderDetailVO orderDetailVO1 = new OrderDetailVO("강원도 고랭지 감자 2KG",10000L, 9500L, 3L);
         List<OrderDetailVO> orderDetails = List.of(orderDetailVO1);
         KakaopayReadyRequest request = new KakaopayReadyRequest(1L, orderDetails);
 
@@ -74,9 +74,9 @@ public class PaymentApiControllerTest extends ControllerTestSupport {
     @DisplayName("준비요청 orderDetails 내부에 있는 orderDetailVO의 각 price값은 0 이상의 정수여야한다.")
     @Test
     void kakaopayReadyWithNegativePrice() throws Exception {
-        OrderDetailVO orderDetailVO1 = new OrderDetailVO("강원도 고랭지 감자 2KG", 9500L, 3L);
-        OrderDetailVO orderDetailVO2 = new OrderDetailVO("홍천 당근 500G", -1L, 1L);
-        OrderDetailVO orderDetailVO3 = new OrderDetailVO("냉동 블루베리 1KG", 0L, 2L);
+        OrderDetailVO orderDetailVO1 = new OrderDetailVO("강원도 고랭지 감자 2KG",10000L, 9500L, 3L);
+        OrderDetailVO orderDetailVO2 = new OrderDetailVO("홍천 당근 500G",3000L, 2500L, 1L);
+        OrderDetailVO orderDetailVO3 = new OrderDetailVO("냉동 블루베리 1KG",8500L, 8500L, 2L);
         List<OrderDetailVO> orderDetails = Arrays.asList(orderDetailVO1, orderDetailVO2, orderDetailVO3);
         KakaopayReadyRequest request = new KakaopayReadyRequest(1L, orderDetails);
 
@@ -93,9 +93,9 @@ public class PaymentApiControllerTest extends ControllerTestSupport {
     @DisplayName("준비요청 orderDetails 내부에 있는 orderDetailVO의 각 price값은 0 이상의 정수여야한다.")
     @Test
     void kakaopayReadyWithoutPositiveQuantity() throws Exception {
-        OrderDetailVO orderDetailVO1 = new OrderDetailVO("강원도 고랭지 감자 2KG", 9500L, 3L);
-        OrderDetailVO orderDetailVO2 = new OrderDetailVO("홍천 당근 500G", 1L, 0L);
-        OrderDetailVO orderDetailVO3 = new OrderDetailVO("냉동 블루베리 1KG", 0L, -1L);
+        OrderDetailVO orderDetailVO1 = new OrderDetailVO("강원도 고랭지 감자 2KG",10000L, 9500L, 3L);
+        OrderDetailVO orderDetailVO2 = new OrderDetailVO("홍천 당근 500G",3000L, 2500L, 1L);
+        OrderDetailVO orderDetailVO3 = new OrderDetailVO("냉동 블루베리 1KG",8500L, 8500L, 2L);
         List<OrderDetailVO> orderDetails = Arrays.asList(orderDetailVO1, orderDetailVO2, orderDetailVO3);
         KakaopayReadyRequest request = new KakaopayReadyRequest(1L, orderDetails);
 

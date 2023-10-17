@@ -1,5 +1,6 @@
 package shop.lotfresh.paymentservice.webclient;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,6 +11,9 @@ import shop.lotfresh.paymentservice.domain.payment.vo.*;
 import shop.lotfresh.paymentservice.domain.refund.vo.KakaopayRefundResponseVO;
 import shop.lotfresh.paymentservice.domain.refund.vo.KakaopayRefundVO;
 
+import javax.annotation.PostConstruct;
+
+@Slf4j
 @Component
 public class KakaopayApiClient {
 
@@ -17,18 +21,29 @@ public class KakaopayApiClient {
 
     @Value("${kakaopay.admin_key}")
     private String KAKAOPAY_SERVICE_APP_ADMIN_KEY;
-    private final String ADMIN_KEY = "KakaoAK " + KAKAOPAY_SERVICE_APP_ADMIN_KEY;
+//    private final String ADMIN_KEY = "KakaoAK " + KAKAOPAY_SERVICE_APP_ADMIN_KEY;
+    private String ADMIN_KEY;
+
+    @PostConstruct
+    public void init() {
+        ADMIN_KEY = "KakaoAK " + KAKAOPAY_SERVICE_APP_ADMIN_KEY;
+    }
 
     public KakaopayApiClient(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl("https://kapi.kakao.com").build();
     }
 
     public KakaopayReadyResponseVO kakaopayReady(Long orderId, KakaopayReadyVO request) {
+        log.warn(orderId.toString());
+        log.warn(ADMIN_KEY);
+        log.warn(request.toMultiValueMap().toString());
+
+
         return webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/v1/payment/ready")
-                        .queryParam("orderId", orderId)
-                        .build())
+                        .queryParam("orderId", orderId + "%26" + "param2=55")
+                        .build())// %26이 &로 디코딩 될 수 있음. 디코딩하고, split으로 내가 쪼개서 가져가면 됨.
                 .header("Authorization", ADMIN_KEY)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .bodyValue(request.toMultiValueMap())

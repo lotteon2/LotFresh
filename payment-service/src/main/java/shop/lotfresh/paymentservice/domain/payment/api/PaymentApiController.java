@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.lotfresh.paymentservice.domain.payment.api.request.KakaopayApproveRequest;
 import shop.lotfresh.paymentservice.domain.payment.api.request.KakaopayReadyRequest;
+import shop.lotfresh.paymentservice.domain.payment.dto.PaymentInfoResponseDTO;
+import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
 import shop.lotfresh.paymentservice.domain.payment.service.PaymentService;
 
 import javax.validation.Valid;
@@ -33,6 +35,16 @@ public class PaymentApiController {
             return ResponseEntity.ok().build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/orderid/{orderId}")
+    public ResponseEntity<PaymentInfoResponseDTO> getPaymentByOrderId(@PathVariable Long orderId) {
+        try {
+            PaymentInfoResponseDTO paymentInfoResponseDTO = paymentService.getPaymentByOrderId(orderId);
+            return ResponseEntity.ok(paymentInfoResponseDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

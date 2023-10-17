@@ -24,6 +24,8 @@ public class Payment extends BaseTimeEntity {
     @Column(nullable = false)
     private String tid;
 
+    @Column(nullable = false)
+    private Long originalAmount;
 
     @Column(nullable = false)
     private Long transactionAmount;

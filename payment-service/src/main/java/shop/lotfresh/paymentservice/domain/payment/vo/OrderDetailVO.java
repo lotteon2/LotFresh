@@ -17,7 +17,10 @@ public class OrderDetailVO {
     private String productName;
 
     @Min(value = 0, message = "Price must be equal or greater than 0")
-    private Long price;
+    private Long originalPrice;
+
+    @Min(value = 0, message = "Price must be equal or greater than 0")
+    private Long discountedPrice;
 
     @Min(value = 1, message = "Quantity must be equal or greater than 1")
     private Long quantity;
