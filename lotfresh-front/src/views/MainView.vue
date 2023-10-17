@@ -4,6 +4,9 @@
       <div class="css-7xc07p e6oc3j93">
         <span class="css-195c6n4 e1py8bme1">이 상품 어때요?</span>
       </div>
+      <div class="css-7xc07p e6oc3j93">
+        <span class="css-195c6n4 e1py8bme1">인기 상품 추천</span>
+      </div>
       <p class="css-1efm9d2 e1py8bme0"></p>
     </div>
     <div class="slider">

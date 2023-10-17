@@ -2,7 +2,12 @@
   <div class="item">
     <!-- <div>{{ product }}</div> -->
     <div class="thumb">
-      <img class="product-img" id="${m.productNo}" :src="product.thumbnail" />
+      <img
+        @click="a"
+        class="product-img"
+        :id="product.id"
+        :src="product.thumbnail"
+      />
       <div class="group-btn">
         <input type="hidden" class="pid" value="${m.productNo}" />
         <button
@@ -33,6 +38,9 @@
 
 <script setup lang="ts">
 const props = defineProps(["product", "index"]);
+const a = () => {
+  console.log(props.product.id);
+};
 </script>
 
 <style scoped>
@@ -92,7 +100,7 @@ img {
   display: block;
   position: relative;
   width: 100%;
-  height: 435px;
+  height: 300px;
   background-color: #f9f8f9;
 }
 
@@ -106,7 +114,7 @@ img {
 }
 
 .product-img {
-  height: 435px;
+  height: 300px;
   /* height: auto; */
 }
 
@@ -195,11 +203,11 @@ button {
   color: #333;
 }
 
-.simple-content {
+/* .simple-content {
   display: block;
   padding-top: 11px;
   font-size: 13px;
   color: #999;
   line-height: 19px;
-}
+} */
 </style>
