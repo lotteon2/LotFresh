@@ -17,7 +17,8 @@ public class OrderController {
 
     @PatchMapping("/status")
     public ResponseEntity changeStatus(@Valid @RequestBody OrderDetailChangeStatusRequest orderDetailChangeStatusRequest) {
-        orderService.changeProductOrderStatus(orderDetailChangeStatusRequest);
+        orderService.changeProductOrderStatus(orderDetailChangeStatusRequest.getOrderDetailId(),
+                orderDetailChangeStatusRequest.getOrderDetailStatus());
         return ResponseEntity.ok().build();
     }
 
