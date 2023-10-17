@@ -23,6 +23,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/products")
+@CrossOrigin(origins = "*")
 public class ProductApiController {
   private final ProductService productService;
   private final StorageApiClient storageApiClient;
