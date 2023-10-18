@@ -117,12 +117,23 @@ public class ProductResponse {
 
   public static List<ProductResponse> createSalesProductResponses(
       List<SalesProductVO> salesProductsVO, Map<Long, Product> productMap) {
-    return salesProductsVO.stream().sorted(Comparator.comparing(SalesProductVO::getStock))
+    return salesProductsVO.stream()
+        .sorted(Comparator.comparing(SalesProductVO::getStock))
         .map(
             vo -> {
               Product product = productMap.get(vo.getProductId());
               return ProductResponse.of(product, 50d, vo.getStock());
             })
+        .collect(Collectors.toList());
+  }
+
+  public static List<ProductResponse> createNewProductResponse(
+      List<Product> newProducts, Map<Long, Double> rateGroupByCategory) {
+    return newProducts.stream()
+        .map(
+            product ->
+                ProductResponse.of(
+                    product, rateGroupByCategory.getOrDefault(product.getCategory().getId(), 0d)))
         .collect(Collectors.toList());
   }
 }
