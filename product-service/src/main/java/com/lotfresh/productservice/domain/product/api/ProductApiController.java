@@ -95,4 +95,9 @@ public class ProductApiController {
     }
     return ResponseEntity.ok(productService.getSalesProductDetails(productId, stock));
   }
+
+  @GetMapping("/new-products")
+  public ResponseEntity<List<ProductResponse>> getNewProducts() {
+    return ResponseEntity.ok(productService.getNewProducts());
+  }
 }
