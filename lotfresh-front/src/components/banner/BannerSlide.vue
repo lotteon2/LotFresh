@@ -1,8 +1,8 @@
 <template>
-  <div v-if="products">
-    <carousel :items-to-show="4">
-      <slide v-for="(product, index) in products" :key="index">
-        <product :key="index" :product="product" />
+  <div v-if="banners" class="banner">
+    <carousel :items-to-show="0.8" :autoplay="3500" :wrap-around="true">
+      <slide v-for="(banner, index) in banners" :key="index">
+        <banner :key="index" :banner="banner" />
       </slide>
 
       <template #addons>
@@ -13,19 +13,19 @@
 </template>
 
 <script setup lang="ts">
-import Product from "./item/ProductItem.vue";
+import Banner from "./BannerItem.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
 import { defaultInstance } from "@/api/utils";
 import { ref } from "vue";
 
-const products = ref([]);
+const banners = ref([]);
 
 const callApi = () => {
   defaultInstance
-    .get(`/products/best-products`)
+    .get(`/discounts`)
     .then((response) => {
-      products.value = response.data;
+      banners.value = response.data;
     })
     .catch((error) => {
       console.log(error);
@@ -36,15 +36,3 @@ callApi();
 </script>
 
 <style scoped></style>
-<style>
-.carousel__prev,
-.carousel__next {
-  margin-top: -70px;
-  border: solid;
-  border-radius: 15px;
-}
-
-.carousel__viewport {
-  padding-bottom: 50px;
-}
-</style>

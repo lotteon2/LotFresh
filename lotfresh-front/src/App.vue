@@ -1,9 +1,9 @@
 <template>
   <div>
     <Header class="body_width" />
+
     <!-- <div class="outter_flex_box"> -->
     <!-- <div>나는 왼쪽 광고야</div> -->
-
     <RouterView class="body_content" />
     <!-- <div>나는 오른쪽 최근본상품이야</div> -->
     <!-- </div> -->
@@ -13,14 +13,17 @@
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
-import Header from "./components/Header.vue";
-import Footer from "./components/Footer.vue";
+import Header from "./components/common/Header.vue";
+import Footer from "./components/common/Footer.vue";
 </script>
 
-<style>
+<style scored>
 .body_width {
   width: 65%;
   margin: auto;
+}
+.banner_width {
+  width: 100%;
 }
 
 /* .outter_flex_box {

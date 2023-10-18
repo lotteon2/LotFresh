@@ -2,7 +2,7 @@
   <div>
     <div class="header">
       <div class="header_wrap">
-        <img class="logo_img" src="../assets/logo.png" />
+        <img class="logo_img" src="../../assets/logo.png" />
         <div class="search_wrap">
           <input class="input_bar" placeholder="검색어를 입력해주세요." />
           <button id="submit" class="search_btn"></button>

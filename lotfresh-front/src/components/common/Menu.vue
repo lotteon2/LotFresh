@@ -176,7 +176,7 @@ ul {
   width: 16px;
   height: 14px;
   margin: 8px 0 0 0px;
-  background: url("../assets/menu.png") no-repeat;
+  background: url("../../assets/menu.png") no-repeat;
   background-size: 15px;
 }
 
