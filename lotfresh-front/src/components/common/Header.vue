@@ -26,6 +26,7 @@ import Menu from "./Menu.vue";
   padding: 20px;
   display: flex;
   justify-content: space-between;
+  font-weight: 900;
 }
 
 .header_wrap {
