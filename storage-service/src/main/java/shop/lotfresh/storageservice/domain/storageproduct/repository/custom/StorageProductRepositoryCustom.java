@@ -19,4 +19,6 @@ public interface StorageProductRepositoryCustom {
     Long getSalesProductStock(Long storageId, Long productId);
 
     List<StorageProduct> getSalesProductOrderList(Long storageId, Long productId);
+
+    List<StorageProduct> salesProductOrder(Long storageId, Long productId, Long stock);
 }

@@ -105,4 +105,10 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
                         .and(storageProduct.expirationDateEnd.goe(nearExpiry)))
                 .fetch();
     }
+
+    @Override
+    public List<StorageProduct> salesProductOrder(Long storageId, Long productId, Long stock) {
+        return null;
+    }
+
 }
