@@ -42,7 +42,7 @@ class OrderDetailRepositoryTest {
 
         // then
         Assertions.assertThat(orderDetails).hasSize(2)
-                .extracting("productId","price","quantity")
+                .extracting("productId","price","stock")
                 .containsExactlyInAnyOrder(
                         Tuple.tuple(1L,10L,100L),
                         Tuple.tuple(2L,20L,200L)
@@ -103,7 +103,7 @@ class OrderDetailRepositoryTest {
                 .order(order)
                 .productId(productId)
                 .price(price)
-                .quantity(quantity)
+                .stock(quantity)
                 .productName("제품명")
                 .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)

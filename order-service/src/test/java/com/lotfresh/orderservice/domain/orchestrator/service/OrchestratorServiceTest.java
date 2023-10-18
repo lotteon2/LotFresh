@@ -84,7 +84,7 @@ class OrchestratorServiceTest {
         // then
         Assertions.assertThat(url).isEqualTo("URL");
         Assertions.assertThat(orderDetails)
-                .extracting("productId","quantity","isDeleted")
+                .extracting("productId","stock","isDeleted")
                 .containsExactlyInAnyOrder(
                         Tuple.tuple(1L,1L,false),
                         Tuple.tuple(2L,2L,false),
@@ -235,7 +235,7 @@ class OrchestratorServiceTest {
         return ProductRequest.builder()
                 .productId(productId)
                 .productPrice(productPrice)
-                .productQuantity(productQuantity)
+                .productStock(productQuantity)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
                 .build();
@@ -252,7 +252,7 @@ class OrchestratorServiceTest {
                 .order(order)
                 .productId(1L)
                 .price(price)
-                .quantity(100L)
+                .stock(100L)
                 .productName("제품명")
                 .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
