@@ -3,6 +3,7 @@ package com.lotfresh.orderservice.domain.orchestrator.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.OrderCreateRequest;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
+import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.service.OrchestratorService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,9 @@ class InsertOrderControllerTest {
 
     @MockBean
     private OrchestratorService orchestratorService;
+
+    @MockBean
+    private KafkaProducer kafkaProducer;
 
     @DisplayName("주문을 생성한다")
     @Test
