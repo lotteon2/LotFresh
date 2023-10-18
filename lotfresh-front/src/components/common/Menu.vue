@@ -3,9 +3,9 @@
     <div class="inner-menu">
       <ul class="menu-item">
         <li class="menu1">
-          <a href="#"
+          <span class="menu-inner-span"
             ><span class="menu-img"></span
-            ><span class="txt">전체 카테고리</span></a
+            ><span class="txt">전체 카테고리</span></span
           >
           <div
             class="items"
@@ -101,111 +101,23 @@
                   /><a href="#">베이커리·치즈·델리</a>
                 </div>
               </li>
-
-              <li>
-                <div class="category-box">
-                  <img
-                    style="width: 25px; height: 25px"
-                    src="https://img-cf.kurly.com/category/icon/pc/9044b1a5-e992-408d-acda-7acdbd3c8e53"
-                  /><a href="#">건강식품</a>
-                </div>
-              </li>
-
-              <li>
-                <div class="category-box">
-                  <img
-                    style="width: 25px; height: 25px"
-                    src="https://img-cf.kurly.com/category/icon/pc/753de9b2-895c-469a-b7dd-04fe27099f35"
-                  /><a href="#">와인</a>
-                </div>
-              </li>
-
-              <li>
-                <div class="category-box">
-                  <img
-                    style="width: 25px; height: 25px"
-                    src="https://img-cf.kurly.com/category/icon/pc/bbb8804f-0606-455f-a002-48e534e30632"
-                  /><a href="#">전통주</a>
-                </div>
-              </li>
-
-              <li>
-                <div class="category-box">
-                  <img
-                    style="width: 25px; height: 25px"
-                    src="https://img-cf.kurly.com/category/icon/pc/69bbc1c2-148f-445a-bef6-dae71034f710"
-                  /><a href="#">생활용품·리빙·캠핑</a>
-                </div>
-              </li>
-
-              <li>
-                <div class="category-box">
-                  <img
-                    style="width: 25px; height: 25px"
-                    src="https://img-cf.kurly.com/category/icon/pc/800f92b0-3138-4cda-bc3b-94b174ba7988"
-                  /><a href="#">스킨케어·메이크업</a>
-                </div>
-              </li>
-
-              <li>
-                <div class="category-box">
-                  <img
-                    style="width: 25px; height: 25px"
-                    src="https://img-cf.kurly.com/category/icon/pc/43ccbbc6-d484-45a2-bc23-86451c2793e8"
-                  /><a href="#">헤어·바디·구강</a>
-                </div>
-              </li>
-
-              <li>
-                <div class="category-box">
-                  <img
-                    style="width: 25px; height: 25px"
-                    src="https://img-cf.kurly.com/category/icon/pc/58ca8f5e-4dc8-4fee-99d9-bf14092fc29a"
-                  /><a href="#">주방용품</a>
-                </div>
-              </li>
-
-              <li>
-                <div class="category-box">
-                  <img
-                    style="width: 25px; height: 25px"
-                    src="https://img-cf.kurly.com/category/icon/pc/de135ae2-216e-4d04-8736-103ecf69d35f"
-                  /><a href="#">가전제품</a>
-                </div>
-              </li>
-
-              <li>
-                <div class="category-box">
-                  <img
-                    style="width: 25px; height: 25px"
-                    src="https://img-cf.kurly.com/category/icon/pc/e5fcc642-fded-4e32-9cc3-7184f4209bcf"
-                  /><a href="#">반려동물</a>
-                </div>
-              </li>
-
-              <li>
-                <div class="category-box">
-                  <img
-                    style="width: 25px; height: 25px"
-                    src="https://img-cf.kurly.com/category/icon/pc/0b8d3f56-5c59-4e1e-9721-3a35b50dbe61"
-                  /><a href="#">베이비·키즈·완구</a>
-                </div>
-              </li>
             </ul>
           </div>
         </li>
 
         <li class="menu2">
-          <a href="#">
+          <span class="menu-inner-span">
             <span class="txt">신상품</span>
-          </a>
+          </span>
         </li>
         <li class="menu3">
-          <a href="#"><span class="txt">베스트</span></a>
+          <span class="menu-inner-span"><span class="txt">베스트</span></span>
         </li>
 
         <li class="menu4">
-          <a href="#"><span class="txt">마감 임박</span></a>
+          <span class="menu-inner-span"
+            ><span class="txt">마감 임박</span></span
+          >
         </li>
       </ul>
     </div>
@@ -264,7 +176,7 @@ ul {
   width: 16px;
   height: 14px;
   margin: 8px 0 0 0px;
-  background: url("../assets/menu.png") no-repeat;
+  background: url("../../assets/menu.png") no-repeat;
   background-size: 15px;
 }
 
@@ -281,12 +193,30 @@ ul {
   float: left;
   width: 180px;
   height: 55px;
-  padding: 0;
+  padding-left: 55px;
   font-size: 16px;
   color: #333;
-  /*line-height: 20px;*/
   text-align: center;
   text-decoration: none;
+}
+
+.menu-inner-span {
+  overflow: hidden;
+  float: left;
+  width: 180px;
+  height: 55px;
+  padding-left: 55px;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+  text-decoration: none;
+}
+
+.menu-inner-span .txt:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: #333;
+  color: #ef2a23;
 }
 
 .items ul {

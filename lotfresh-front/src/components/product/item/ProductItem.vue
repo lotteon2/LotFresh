@@ -1,13 +1,7 @@
 <template>
   <div class="item">
-    <div>{{ product }}</div>
     <div class="thumb">
-      <img
-        class="product-img"
-        id="${m.productNo}"
-        :src="product.thumbnail"
-        onclick="imageDataToNav(this.id)"
-      />
+      <img class="product-img" :id="product.id" :src="product.thumbnail" />
       <div class="group-btn">
         <input type="hidden" class="pid" value="${m.productNo}" />
         <button
@@ -21,19 +15,17 @@
     <div class="info">
       <span class="name">{{ product.name }}</span>
       <span class="cost">
-        <c:if test="${m.discountPrice==0}">
-          <span class="price"
-            ><fmt:formatNumber value="${m.productPrice}" pattern="###,###" />
-          </span>
-        </c:if>
-        <c:if test="${m.discountPrice!=0}">
+        <span v-if="!product.salesPrice" class="price"
+          >{{ product.price }}
+        </span>
+        <span v-else>
           <span style="text-decoration: line-through; color: #999999"
-            ><fmt:formatNumber value="${m.productPrice}" pattern="###,###" />
+            >{{ product.price }}
           </span>
-          →<fmt:formatNumber value="${m.discountPrice}" pattern="###,###" />
-        </c:if>
+          →{{ product.salesPrice }}
+        </span>
       </span>
-      <span class="simple-content">${m.productSimpleContent}</span>
+      <!-- <span class="simple-content">{{ product.detail }}</span> -->
     </div>
   </div>
 </template>
@@ -43,63 +35,17 @@ const props = defineProps(["product", "index"]);
 </script>
 
 <style scoped>
-.slick-list {
-  width: 1074px;
-}
-
 img {
   margin: 0;
 }
 
-.boxbox {
-  margin-bottom: 100px;
-}
-
-.slider .im img {
-  width: 310px;
-  max-width: 100%;
-  height: 435px;
-}
-
-.slider {
-  width: 1070px;
-  margin: 0px auto;
-}
-
-.slider .slick-slide {
-  height: auto;
-  margin: 10px;
-}
-
-.slick-prev:before,
-.slick-next:before {
-  color: #444444;
-}
-
-.slick-prev,
-.slick-next {
-  top: 40%;
-}
-
-.grey-hr {
-  width: 1050px;
-  color: #e2e2e2;
-  margin: 50px auto;
-}
-
 /* 음 */
-
-.item {
-  display: block;
-  background-color: #fff;
-  cursor: pointer;
-}
 
 .thumb {
   display: block;
   position: relative;
   width: 100%;
-  height: 435px;
+  height: 300px;
   background-color: #f9f8f9;
 }
 
@@ -113,8 +59,7 @@ img {
 }
 
 .product-img {
-  height: 435px;
-  /*height: auto;*/
+  height: 300px;
 }
 
 .thumb img {
@@ -131,10 +76,10 @@ img {
   border: 0;
 }
 
-/* .thumb .cart-btn {
-  background: url(../front/images/cart-btn.png) no-repeat 50% 50%;
-  background-size: 45px 45px;
-} */
+.thumb .cart-btn {
+  background: url("../../../assets/cart-btn.png") no-repeat 40% 50%;
+  background-size: 40px 40px;
+}
 
 .thumb .group-btn {
   position: absolute;
@@ -202,11 +147,11 @@ button {
   color: #333;
 }
 
-.simple-content {
+/* .simple-content {
   display: block;
   padding-top: 11px;
   font-size: 13px;
   color: #999;
   line-height: 19px;
-}
+} */
 </style>
