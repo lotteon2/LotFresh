@@ -53,7 +53,7 @@ img {
 
 .css-195c6n4 {
   color: rgb(51, 51, 51);
-  font-size: 28px;
+  font-size: 23px;
   line-height: 1.15;
   letter-spacing: -0.26px;
   font-weight: 600;

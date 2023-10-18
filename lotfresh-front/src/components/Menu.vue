@@ -3,9 +3,9 @@
     <div class="inner-menu">
       <ul class="menu-item">
         <li class="menu1">
-          <a href="#"
+          <span class="menu-inner-span"
             ><span class="menu-img"></span
-            ><span class="txt">전체 카테고리</span></a
+            ><span class="txt">전체 카테고리</span></span
           >
           <div
             class="items"
@@ -196,16 +196,18 @@
         </li>
 
         <li class="menu2">
-          <a href="#">
+          <span class="menu-inner-span">
             <span class="txt">신상품</span>
-          </a>
+          </span>
         </li>
         <li class="menu3">
-          <a href="#"><span class="txt">베스트</span></a>
+          <span class="menu-inner-span"><span class="txt">베스트</span></span>
         </li>
 
         <li class="menu4">
-          <a href="#"><span class="txt">마감 임박</span></a>
+          <span class="menu-inner-span"
+            ><span class="txt">마감 임박</span></span
+          >
         </li>
       </ul>
     </div>
@@ -281,12 +283,30 @@ ul {
   float: left;
   width: 180px;
   height: 55px;
-  padding: 0;
+  padding-left: 55px;
   font-size: 16px;
   color: #333;
-  /*line-height: 20px;*/
   text-align: center;
   text-decoration: none;
+}
+
+.menu-inner-span {
+  overflow: hidden;
+  float: left;
+  width: 180px;
+  height: 55px;
+  padding-left: 55px;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+  text-decoration: none;
+}
+
+.menu-inner-span .txt:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: #333;
+  color: #ef2a23;
 }
 
 .items ul {

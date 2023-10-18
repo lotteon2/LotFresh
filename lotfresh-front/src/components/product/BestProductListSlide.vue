@@ -43,4 +43,8 @@ callApi();
   border: solid;
   border-radius: 15px;
 }
+
+.carousel__viewport {
+  padding-bottom: 50px;
+}
 </style>
