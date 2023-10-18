@@ -1,13 +1,7 @@
 <template>
   <div class="item">
-    <!-- <div>{{ product }}</div> -->
     <div class="thumb">
-      <img
-        @click="a"
-        class="product-img"
-        :id="product.id"
-        :src="product.thumbnail"
-      />
+      <img class="product-img" :id="product.id" :src="product.thumbnail" />
       <div class="group-btn">
         <input type="hidden" class="pid" value="${m.productNo}" />
         <button
@@ -38,63 +32,14 @@
 
 <script setup lang="ts">
 const props = defineProps(["product", "index"]);
-const a = () => {
-  console.log(props.product.id);
-};
 </script>
 
 <style scoped>
-.slick-list {
-  width: 1074px;
-}
-
 img {
   margin: 0;
 }
 
-.boxbox {
-  margin-bottom: 100px;
-}
-
-.slider .im img {
-  width: 310px;
-  max-width: 100%;
-  height: 435px;
-}
-
-.slider {
-  width: 1070px;
-  margin: 0px auto;
-}
-
-.slider .slick-slide {
-  height: auto;
-  margin: 10px;
-}
-
-.slick-prev:before,
-.slick-next:before {
-  color: #444444;
-}
-
-.slick-prev,
-.slick-next {
-  top: 40%;
-}
-
-.grey-hr {
-  width: 1050px;
-  color: #e2e2e2;
-  margin: 50px auto;
-}
-
 /* 음 */
-
-.item {
-  display: block;
-  background-color: #fff;
-  cursor: pointer;
-}
 
 .thumb {
   display: block;
@@ -115,7 +60,6 @@ img {
 
 .product-img {
   height: 300px;
-  /* height: auto; */
 }
 
 .thumb img {
@@ -133,8 +77,8 @@ img {
 }
 
 .thumb .cart-btn {
-  background: url(../../assets/cart-btn.png) no-repeat 50% 50%;
-  background-size: 45px 45px;
+  background: url("../../../assets/cart-btn.png") no-repeat 40% 50%;
+  background-size: 40px 40px;
 }
 
 .thumb .group-btn {

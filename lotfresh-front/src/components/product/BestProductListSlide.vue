@@ -2,21 +2,20 @@
   <div v-if="products">
     <carousel :items-to-show="4">
       <slide v-for="(product, index) in products" :key="index">
-        <best-product :key="index" :product="product" />
+        <product :key="index" :product="product" />
       </slide>
 
       <template #addons>
         <navigation />
-        <pagination />
       </template>
     </carousel>
   </div>
 </template>
 
 <script setup lang="ts">
+import Product from "./item/ProductItem.vue";
 import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import BestProduct from "./BestProduct.vue";
+import { Carousel, Slide, Navigation } from "vue3-carousel";
 import { defaultInstance } from "@/api/utils";
 import { ref } from "vue";
 
