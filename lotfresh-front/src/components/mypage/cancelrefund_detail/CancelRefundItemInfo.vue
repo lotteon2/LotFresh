@@ -1,26 +1,24 @@
 <template>
   <div class="item_wrapper">
     <div class="flex_row item_header_wrapper">
-      <span class="margin_left_sm right_margin_sm">취소 접수일: </span>
-      <span class="item_header_content">2023.09.26</span>
-      <span class="right_margin_sm">주문일: </span>
-      <span class="item_header_content">2023.09.25</span>
-      <span class="right_margin_sm">주문상세번호: </span>
-      <span class="item_header_content">165584</span>
+      <div>상품</div>
+      <div>금액</div>
+      <div>진행상태</div>
+      
     </div>
 
     <div class="item_content_wrapper flex_row">
       <div class="margin_left_sm item_content_box">
         <div class="product_name">오리엔탈 드레싱</div>
-        <div class="to_cart_button">장바구니 담기</div>
+        <!-- <div class="to_cart_button">장바구니 담기</div> -->
       </div>
       <div class="item_content_box">
-        <div class="text_center stock">1개</div>
+        <div class="text_center stock font-normal">1개</div>
         <div class="text_center price">27,300원</div>
       </div>
       <div class="item_content_box align-items-center">
         <div class="text_center refund_state">취소 완료</div>
-        <div class="refund_detail_button">취소 상세</div>
+        <!-- <div class="refund_detail_button">취소 상세</div> -->
       </div>
     </div>
   </div>
@@ -72,14 +70,24 @@ export default {
 
 .flex_row > div:nth-child(1) {
   flex: 3;
+  text-align: center;
+  font-weight: bold;
 }
 
 .flex_row > div:nth-child(2) {
   flex: 1;
+  text-align: center;
+  font-weight: bold;
 }
 
 .flex_row > div:nth-child(3) {
   flex: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
+.font-normal {
+  font-weight: normal;
 }
 
 

@@ -17,15 +17,15 @@ export default {
 .header_wrapper {
   /* width:60%; */
   width:100%;
-  padding-top: 10vh;
-  padding-bottom: 5vh;
-  margin-bottom: 3vh;
+  padding-top: 8vh;
+  padding-bottom: 3.5vh;
+  margin-bottom: 5vh;
   border-bottom: solid red 1px;
 }
 
 .header_text {
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.4rem;
   text-align: center;
 }
 </style>
