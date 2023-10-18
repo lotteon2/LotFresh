@@ -13,4 +13,6 @@ public interface ProductRepositoryCustom {
   Page<Product> findAllByCategory(Long categoryId, PageRequest pageRequest);
 
   List<Product> findAllByIds(List<Long> ids);
+
+  List<Product> findNewProductsLimit100();
 }
