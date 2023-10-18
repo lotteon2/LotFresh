@@ -18,6 +18,9 @@ import Footer from "./components/common/Footer.vue";
 </script>
 
 <style scored>
+body {
+  overflow-x: hidden;
+}
 .body_width {
   width: 65%;
   margin: auto;
@@ -32,8 +35,8 @@ import Footer from "./components/common/Footer.vue";
   justify-content: center;
 } */
 
-/* .body_content {
+.body_content {
   width: 100%;
   height: 100%;
-} */
+}
 </style>

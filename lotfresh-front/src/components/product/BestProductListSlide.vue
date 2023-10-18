@@ -1,6 +1,6 @@
 <template>
   <div v-if="products">
-    <carousel :items-to-show="4">
+    <carousel :items-to-show="4" :items-to-scroll="2">
       <slide v-for="(product, index) in products" :key="index">
         <product :key="index" :product="product" />
       </slide>
@@ -36,15 +36,3 @@ callApi();
 </script>
 
 <style scoped></style>
-<style>
-.carousel__prev,
-.carousel__next {
-  margin-top: -70px;
-  border: solid;
-  border-radius: 15px;
-}
-
-.carousel__viewport {
-  padding-bottom: 50px;
-}
-</style>
