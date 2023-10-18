@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header class="body_width" />
-
     <!-- <div class="outter_flex_box"> -->
     <!-- <div>나는 왼쪽 광고야</div> -->
     <RouterView />
