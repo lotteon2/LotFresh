@@ -18,10 +18,8 @@ spring:
     group:
       develop: "env"
 
-
 logging:
   level:
     org.hibernate.SQL: debug
-    org.hibernate.type: trace
     org:
-      springframework: INFO
+      springframework:
