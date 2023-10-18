@@ -12,14 +12,16 @@ import javax.persistence.Id;
 public class OrderRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long Id;
 
-    private long storage_product_id;
+    private long storageId;
 
-    private long order_detail_id;
+    private long productId;
 
-    private long quantity;
+    private long orderDetailId;
 
-    private int is_deleted;
+    private long stock;
+
+    private int isDeleted;
 
 }

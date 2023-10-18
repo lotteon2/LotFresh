@@ -1,8 +1,6 @@
 package shop.lotfresh.storageservice.domain.orderproduct.entity;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -12,18 +10,19 @@ import javax.persistence.Id;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long Id;
 
-    private long storage_product_id;
+    private long storageId;
 
-    private long order_detail_id;
+    private long storageProductId;
 
-    private long quantity;
+    private long orderDetailId;
 
-    private int is_deleted;
+    private long stock;
+
+    private int isDeleted;
 }
