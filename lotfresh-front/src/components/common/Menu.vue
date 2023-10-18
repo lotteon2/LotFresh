@@ -113,7 +113,11 @@
           </span>
         </li>
         <li class="menu3">
-          <span class="menu-inner-span"><span class="txt">베스트</span></span>
+          <span class="menu-inner-span">
+            <router-link to="/market-best">
+              <span class="txt">베스트</span>
+            </router-link>
+          </span>
         </li>
 
         <li class="menu4">
