@@ -108,6 +108,12 @@ public class ProductService {
     return ProductResponse.createSalesProductResponses(salesProductsVO, productMap);
   }
 
+  public List<ProductResponse> getNewProducts() {
+    List<Product> newProducts = productRepository.findNewProductsLimit100();
+    Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
+    return ProductResponse.createNewProductResponse(newProducts, rateGroupByCategory);
+  }
+
   public ProductResponse getSalesProductDetails(Long id, Integer stock) {
     Product product = productRepository.findByIdFetch(id).orElseThrow(ProductNotFound::new);
     return ProductResponse.of(product, 50d, stock);
