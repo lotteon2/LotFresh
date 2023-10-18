@@ -1,15 +1,14 @@
 <template>
-  <div class="item">
-    <div class="thumb">
-      <img class="product-img" :id="product.id" :src="product.thumbnail" />
+  <div v-if="props.product" class="item">
+    <div class="thumb" :style="{ height: componentHeight }">
+      <img
+        class="product-img"
+        :style="{ height: componentHeight }"
+        :id="product.id"
+        :src="product.thumbnail"
+      />
       <div class="group-btn">
-        <input type="hidden" class="pid" value="${m.productNo}" />
-        <button
-          id="${m.productNo}"
-          type="button"
-          class="btn cart-btn"
-          onclick="bucksubmit(this)"
-        ></button>
+        <button type="button" class="btn cart-btn"></button>
       </div>
     </div>
     <div class="info">
@@ -31,7 +30,8 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["product", "index"]);
+import { ref } from "vue";
+const props = defineProps(["product", "index", "componentHeight"]);
 </script>
 
 <style scoped>
@@ -45,7 +45,6 @@ img {
   display: block;
   position: relative;
   width: 100%;
-  height: 300px;
   background-color: #f9f8f9;
 }
 
@@ -56,10 +55,6 @@ img {
   top: 0;
   width: 100%;
   height: 100%;
-}
-
-.product-img {
-  height: 300px;
 }
 
 .thumb img {
@@ -77,7 +72,7 @@ img {
 }
 
 .thumb .cart-btn {
-  background: url("../../../assets/cart-btn.png") no-repeat 40% 50%;
+  background: url("../../../assets/cart-btn.png") no-repeat 60% 50%;
   background-size: 40px 40px;
 }
 

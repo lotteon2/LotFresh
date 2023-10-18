@@ -107,7 +107,9 @@
 
         <li class="menu2">
           <span class="menu-inner-span">
-            <span class="txt">신상품</span>
+            <router-link to="/market-newproduct">
+              <span class="txt">신상품</span>
+            </router-link>
           </span>
         </li>
         <li class="menu3">
