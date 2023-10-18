@@ -4,7 +4,7 @@
 
     <!-- <div class="outter_flex_box"> -->
     <!-- <div>나는 왼쪽 광고야</div> -->
-    <RouterView class="body_content" />
+    <RouterView />
     <!-- <div>나는 오른쪽 최근본상품이야</div> -->
     <!-- </div> -->
     <Footer class="body_width" />
