@@ -4,7 +4,6 @@
       <div>상품</div>
       <div>금액</div>
       <div>진행상태</div>
-      
     </div>
 
     <div class="item_content_wrapper flex_row">
@@ -25,27 +24,25 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style scoped>
 .item_wrapper {
-    border: solid 4px #c8c8c8;
-    border-radius: 5px;
-    padding-top: 2vh;
+  border: solid 4px #c8c8c8;
+  border-radius: 5px;
+  padding-top: 2vh;
+  margin-bottom: 5vh;
 }
 
 .flex_row {
-    display: flex;
-    flex-direction: row;
-
+  display: flex;
+  flex-direction: row;
 }
 
-.item_content_wrapper { 
-    display: flex;
-    flex-direction: row;
+.item_content_wrapper {
+  display: flex;
+  flex-direction: row;
 }
 
 .text_center {
@@ -53,13 +50,13 @@ export default {
 }
 
 .item_content_box {
-    border-right: solid 4px #c8c8c8;
-    padding-top: 3vh;
-    padding-bottom: 2vh;
+  border-right: solid 4px #c8c8c8;
+  padding-top: 3vh;
+  padding-bottom: 2vh;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .product_name {
@@ -90,8 +87,6 @@ export default {
   font-weight: normal;
 }
 
-
-
 .item_header_wrapper {
   padding-top: 0.3vh;
   padding-bottom: 2vh;
@@ -102,23 +97,21 @@ export default {
 }
 
 .margin_left_sm {
-    margin-left: 0.5vw;
+  margin-left: 0.5vw;
 }
 
 .item_header_content {
   margin-right: 2vw;
-  
+
   font-weight: bold;
   font-size: 1.2rem;
 }
 
-
 .right_margin_sm {
-    margin-right: 0.5vw;
+  margin-right: 0.5vw;
 }
 
 .item_name {
-
 }
 
 .to_cart_button {
@@ -135,7 +128,7 @@ export default {
 
 .to_cart_button:hover {
   background-color: #f5f5f5; /* 마우스 오버시 배경색 변경 */
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .to_cart_button:active {
@@ -145,7 +138,6 @@ export default {
 .stock {
   font-size: 1.1rem;
   margin-bottom: 1vh;
-
 }
 
 .price {
@@ -157,7 +149,6 @@ export default {
   font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 1.5vh;
-
 }
 
 .align-items-center {
@@ -169,18 +160,18 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 5px;
-  border: 2px solid #EF2A23;
-  color:#EF2A23;
+  border: 2px solid #ef2a23;
+  color: #ef2a23;
   padding: 10px 5px 10px 5px;
   width: 6vw;
 }
 
 .refund_detail_button:hover {
-    background-color: #FED8D9;
-    cursor:pointer;
+  background-color: #fed8d9;
+  cursor: pointer;
 }
 
 .refund_detail_button:active {
-    background-color: #FEB4B6;
+  background-color: #feb4b6;
 }
 </style>

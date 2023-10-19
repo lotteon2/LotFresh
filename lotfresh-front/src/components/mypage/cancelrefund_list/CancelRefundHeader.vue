@@ -1,26 +1,21 @@
 <template>
   <div class="header_wrapper">
-    <div class="header_text">
-        취소 및 반품 내역
-    </div>
+    <div class="header_text">취소 및 반품 내역</div>
   </div>
-
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style scoped>
 .header_wrapper {
   /* width:60%; */
-  width:100%;
+  width: 100%;
   padding-top: 8vh;
   padding-bottom: 3.5vh;
   margin-bottom: 5vh;
-  border-bottom: solid red 1px;
+  border-bottom: solid red 1.5px;
 }
 
 .header_text {
