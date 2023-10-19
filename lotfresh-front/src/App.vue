@@ -4,11 +4,11 @@
     <div v-if="$route.path == '/'" class="banners">
       <banner-slide />
     </div>
-    <!-- <div class="outter_flex_box"> -->
-    <!-- <div>나는 왼쪽 광고야</div> -->
-    <RouterView class="body_width" />
-    <!-- <div>나는 오른쪽 최근본상품이야</div> -->
-    <!-- </div> -->
+    <div class="outter_flex_box">
+      <div class="left_side">나는 왼쪽 광고야</div>
+      <RouterView class="body_content" />
+      <div class="right_side">나는 오른쪽 최근본상품이야</div>
+    </div>
     <Footer class="body_width" />
   </div>
 </template>
@@ -25,11 +25,18 @@ body {
   overflow-x: hidden;
 }
 .body_width {
-  width: 65%;
+  width: 65vw;
   margin: auto;
 }
 .banner_width {
   width: 100%;
+}
+
+.outter_flex_box {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .banners {
@@ -37,7 +44,19 @@ body {
 }
 
 .body_content {
-  width: 100%;
+  width: 50%;
   height: 100%;
+}
+
+.left_side {
+  width: 25vw;
+}
+
+.right_side {
+  width: 25vw;
+}
+
+.display_none {
+  display: none;
 }
 </style>
