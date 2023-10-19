@@ -44,7 +44,7 @@ import Menu from "./Menu.vue";
   display: flex;
   align-items: center;
   position: relative;
-  left: 350px;
+  left: 400px;
   height: 45px;
   border: 1px solid red;
   border-radius: 6px;
@@ -65,6 +65,7 @@ import Menu from "./Menu.vue";
 
 .logo_img {
   top: 20px;
+  left: 100px;
   width: 150px;
   height: auto;
   position: absolute;
@@ -85,7 +86,8 @@ import Menu from "./Menu.vue";
 }
 
 .header_icon_wrap {
-  left: 550px;
+  top: 10px;
+  left: 590px;
   display: flex;
   align-items: center;
   position: relative;

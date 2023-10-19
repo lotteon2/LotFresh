@@ -3,10 +3,9 @@
     <div class="inner-menu">
       <ul class="menu-item">
         <li class="menu1">
-          <span class="menu-inner-span"
-            ><span class="menu-img"></span
-            ><span class="txt">전체 카테고리</span></span
-          >
+          <span class="menu-inner-span">
+            <span class="txt"><span class="menu-img"></span>카테고리</span>
+          </span>
           <div
             class="items"
             style="position: absolute; flex-direction: column; top: 60px"
@@ -163,12 +162,15 @@ ul {
 
 /*#menubar */
 .inner-menu {
+  display: flex;
+  flex-direction: column;
   position: relative;
   width: 1050px;
   height: 56px;
   margin: 0 auto;
   border-top: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
+  margin-bottom: 5px;
 }
 
 /*#menubar .menubar-box .inner-menu */
@@ -179,11 +181,15 @@ ul {
 
 .menu-img {
   float: left;
-  width: 16px;
+  width: 20px;
   height: 14px;
-  margin: 8px 0 0 0px;
+  margin: 7px 0 0 0px;
   background: url("../../assets/menu.png") no-repeat;
   background-size: 15px;
+}
+
+.menu-img:hover {
+  cursor: pointer;
 }
 
 .menu1 a {
@@ -196,10 +202,10 @@ ul {
 
 .menu-item a {
   overflow: hidden;
-  float: left;
+  /* float: none; */
   width: 180px;
   height: 55px;
-  padding-left: 55px;
+  /* padding-left: 55px; */
   font-size: 16px;
   color: #333;
   text-align: center;
@@ -209,9 +215,12 @@ ul {
 .menu-inner-span {
   overflow: hidden;
   float: left;
-  width: 180px;
+  width: fit-content;
   height: 55px;
-  padding-left: 55px;
+  margin-left: 110px;
+  margin-right: 50px;
+  /* padding-left: 55px; */
+  padding-top: 16px;
   font-size: 16px;
   color: #333;
   text-align: center;
@@ -258,6 +267,8 @@ ul {
   height: 40px;
 }
 .item-list {
+  margin-top: -5px;
+  margin-left: 107px;
   padding: 0;
 }
 </style>

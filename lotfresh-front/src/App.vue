@@ -1,6 +1,9 @@
 <template>
   <div>
     <Header class="body_width" />
+    <div v-if="$route.path == '/'" class="banners">
+      <banner-slide />
+    </div>
     <div class="outter_flex_box">
       <div class="left_side">나는 왼쪽 광고야</div>
       <RouterView class="body_content" />
@@ -13,6 +16,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import Header from "./components/common/Header.vue";
+import BannerSlide from "@/components/banner/BannerSlide.vue";
 import Footer from "./components/common/Footer.vue";
 </script>
 
@@ -33,6 +37,10 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+.banners {
+  width: 100%;
 }
 
 .body_content {
