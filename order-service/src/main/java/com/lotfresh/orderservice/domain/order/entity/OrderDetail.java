@@ -13,6 +13,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -56,6 +57,7 @@ public class OrderDetail extends BaseEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     private RefundStatus refundStatus = RefundStatus.READY;
+    private LocalDateTime refundCreatedAt;
 
     @Builder
     private OrderDetail(Order order, Long productId, Long price, Long stock, OrderDetailStatus status,
