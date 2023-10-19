@@ -1,7 +1,16 @@
 <template>
-  <div>나는 썸네일</div>
+  <div class="thumb">
+    <img :src="props.product_thumbnail" alt="상품 대표 이미지" class="bg" />
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = defineProps(["product_thumbnail"]);
+</script>
 
-<style></style>
+<style scoped>
+.thumb .bg {
+  width: 350px;
+  height: 450px;
+}
+</style>
