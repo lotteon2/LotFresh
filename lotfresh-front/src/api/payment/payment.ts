@@ -1,7 +1,13 @@
 import { defaultInstance } from "../utils";
 
-export const getBestProducts = async () => {
-    const { data } = await defaultInstance.get("/products/best-products");
-    return data;
-  };
-  
+interface PaymentInfo {
+  paymentMethod: string;
+  originalAmount: number;
+  discountedAmount: number;
+  transactionAmount: number;
+}
+
+export const getPaymentInfo = async (orderId: number): Promise<PaymentInfo> => {
+  const { data } = await defaultInstance.get(`/orderid/${orderId}`);
+  return data;
+};
