@@ -29,10 +29,17 @@ public class OrderController {
     }
 
     @GetMapping("/myOrders")
-    public ResponseEntity myOrders(@RequestHeader(value = "userId", required = false) Long userId,
+    public ResponseEntity myOrders(@RequestHeader(value = "userId") Long userId,
                                    @PageableDefault(size = 5) Pageable pageable) {
         return ResponseEntity.ok().body(orderService.getOrdersWithPaging(userId,pageable));
     }
+
+    @GetMapping("/refunds/me")
+    public ResponseEntity refunds(@RequestHeader(value = "userId") Long userId,
+                                  @PageableDefault(size = 5) Pageable pageable) {
+        return ResponseEntity.ok().body(orderService.getRefundsWithPaging(userId,pageable));
+    }
+
 
     @GetMapping("/{orderId}")
     public ResponseEntity orderDetail(@PathVariable Long orderId) {

@@ -56,7 +56,7 @@ public class OrderDetail extends BaseEntity {
     private PaymentStatus paymentStatus = PaymentStatus.READY;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private RefundStatus refundStatus = RefundStatus.READY;
+    private RefundStatus refundStatus = RefundStatus.CREATED;
     private LocalDateTime refundCreatedAt;
 
     @Builder
