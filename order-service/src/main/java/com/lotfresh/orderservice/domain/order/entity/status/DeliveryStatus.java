@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum DeliveryStatus {
-    READY("배송 준비"), COMPLETE("배송 완료");
+    READY("배송 준비"), DELIVERING("배송 중"), COMPLETE("배송 완료");
 
     private final String message;
 
