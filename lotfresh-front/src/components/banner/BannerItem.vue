@@ -8,4 +8,8 @@
 const props = defineProps(["banner", "index"]);
 </script>
 
-<style scoped></style>
+<style scoped>
+.banner_img {
+  width: 110%;
+}
+</style>

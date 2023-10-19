@@ -1,12 +1,13 @@
 <template>
   <div v-if="props.product" class="item">
     <div class="thumb" :style="{ height: componentHeight }">
-      <img
-        class="product-img"
-        :style="{ height: componentHeight }"
-        :id="product.id"
-        :src="product.thumbnail"
-      />
+      <router-link :to="`/goods/${props.product.id}`">
+        <img
+          class="product-img"
+          :style="{ height: componentHeight }"
+          :src="product.thumbnail"
+        />
+      </router-link>
       <div class="group-btn">
         <button type="button" class="btn cart-btn"></button>
       </div>
