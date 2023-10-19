@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div class="banners">
-      <banner-slide />
-    </div>
     <div class="SectionTitle css-2u0lrw e1py8bme2">
       <div class="css-7xc07p e6oc3j93">
         <span class="css-195c6n4 e1py8bme1">이 상품 어때요?</span>
@@ -23,15 +20,11 @@
 </template>
 
 <script setup lang="ts">
-import BannerSlide from "@/components/banner/BannerSlide.vue";
 import BestProductListSlide from "@/components/product/BestProductListSlide.vue";
 import NewProductListSlide from "@/components/product/NewProductListSlide.vue";
 </script>
 
 <style scoped>
-.banners {
-  width: 100%;
-}
 img {
   margin: 0;
 }
@@ -54,7 +47,7 @@ img {
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-  padding: 8px;
+  padding: 15px;
 }
 
 .css-195c6n4 {

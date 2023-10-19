@@ -17,6 +17,8 @@ interface ProductResponse {
   stock: number | null;
 }
 export const useProductStore = defineStore("product", () => {
+  const a = ref();
+
   const getBestProductsAction = async () => {
     return await getBestProducts();
   };

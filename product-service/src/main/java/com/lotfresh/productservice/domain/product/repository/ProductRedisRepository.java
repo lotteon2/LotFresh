@@ -20,7 +20,7 @@ public class ProductRedisRepository {
 
   public List<BestProductVO> getBestProductsVO(String key) throws JsonProcessingException {
     String stringValue = redisTemplate.opsForValue().get(key);
-    if (isInValidValue(key)) {
+    if (isInValidValue(stringValue)) {
       return Collections.EMPTY_LIST;
     }
     List<BestProductVO> bestProductsVO =
