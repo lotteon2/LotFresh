@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDetailResponse {
+    private Long orderDetailId;
     private Long price;
     private Long quantity;
     private String status;
@@ -19,6 +20,7 @@ public class OrderDetailResponse {
 
     public static OrderDetailResponse from(OrderDetail orderDetail) {
         return OrderDetailResponse.builder()
+                .orderDetailId(orderDetail.getId())
                 .price(orderDetail.getPrice())
                 .quantity(orderDetail.getQuantity())
                 .status(orderDetail.getFinalStatusAsString())

@@ -7,7 +7,9 @@ interface PaymentInfo {
   transactionAmount: number;
 }
 
-export const getPaymentInfo = async (orderId: number): Promise<PaymentInfo> => {
+export const getPaymentDetailInfo = async (
+  orderId: number
+): Promise<PaymentInfo> => {
   const { data } = await defaultInstance.get(`/orderid/${orderId}`);
   return data;
 };

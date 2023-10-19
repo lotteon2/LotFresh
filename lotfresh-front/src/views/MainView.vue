@@ -29,11 +29,14 @@ import NewProductListSlide from "@/components/product/NewProductListSlide.vue";
 </script>
 
 <style scoped>
+.banners {
+  width: 100%;
+}
 img {
   margin: 0;
 }
 .slider {
-  width: 1070px;
+  width: 100%;
   margin: 20px auto;
 }
 
@@ -83,13 +86,12 @@ img {
 <style>
 .banners .carousel__prev,
 .banners .carousel__next {
-  margin-top: -30px;
   border: solid;
   border-radius: 15px;
 }
 
 .banners .carousel__viewport {
-  overflow: inherit;
+  overflow: visible;
 }
 
 .slider .carousel__prev,

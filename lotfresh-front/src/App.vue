@@ -1,11 +1,11 @@
 <template>
   <div>
     <Header class="body_width" />
-      <div class="outter_flex_box">
-        <div class="left_side">나는 왼쪽 광고야</div>
-          <RouterView class="body_content" />
-        <div class="right_side">나는 오른쪽 최근본상품이야</div>
-      </div>  
+    <div class="outter_flex_box">
+      <div class="left_side">나는 왼쪽 광고야</div>
+      <RouterView class="body_content" />
+      <div class="right_side">나는 오른쪽 최근본상품이야</div>
+    </div>
     <Footer class="body_width" />
   </div>
 </template>
@@ -17,6 +17,9 @@ import Footer from "./components/common/Footer.vue";
 </script>
 
 <style scored>
+body {
+  overflow-x: hidden;
+}
 .body_width {
   width: 65vw;
   margin: auto;
@@ -38,12 +41,11 @@ import Footer from "./components/common/Footer.vue";
 }
 
 .left_side {
-width: 25vw;
+  width: 25vw;
 }
 
 .right_side {
   width: 25vw;
-
 }
 
 .display_none {

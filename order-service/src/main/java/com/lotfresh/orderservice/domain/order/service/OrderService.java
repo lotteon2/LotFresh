@@ -96,6 +96,8 @@ public class OrderService {
     }
 
     public ProductPageResponse getOrdersWithPaging(Long userId, Pageable pageable) {
+        // TODO : header에서 userId 받기
+        userId = 1L;
         Page<Order> orderPages = orderRepository.getOrdersWithPaging(userId, pageable);
 
         List<OrderResponse> contents = orderPages.getContent().stream()

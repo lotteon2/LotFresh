@@ -2,9 +2,8 @@
   <div v-if="banners" class="banner">
     <carousel :items-to-show="0.8" :autoplay="3500" :wrap-around="true">
       <slide v-for="(banner, index) in banners" :key="index">
-        <banner :key="index" :banner="banner" />
+        <banner :banner="banner" />
       </slide>
-
       <template #addons>
         <navigation />
       </template>
