@@ -29,13 +29,13 @@ public class OrderController {
     }
 
     @GetMapping("/myOrders")
-    public ResponseEntity myOrders(@RequestHeader(value = "userId") Long userId,
+    public ResponseEntity myOrders(@RequestHeader(value = "userId", required = false) Long userId,
                                    @PageableDefault(size = 5) Pageable pageable) {
         return ResponseEntity.ok().body(orderService.getOrdersWithPaging(userId,pageable));
     }
 
     @GetMapping("/refunds/me")
-    public ResponseEntity refunds(@RequestHeader(value = "userId") Long userId,
+    public ResponseEntity refunds(@RequestHeader(value = "userId", required = false) Long userId,
                                   @PageableDefault(size = 5) Pageable pageable) {
         return ResponseEntity.ok().body(orderService.getRefundsWithPaging(userId,pageable));
     }

@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -33,7 +34,8 @@ public class OrchestratorService {
         return result.getBody();
     }
 
-    public Orchestrator orderNormalTransaction(Long userId, Long orderId, boolean isFromCart) {
+    public Orchestrator orderTransaction(Long userId, Long orderId, boolean isFromCart,
+                                         BiFunction<List<InventoryRequest>,PaymentRequest,Workflow> workflowGenerator) {
         List<OrderDetail> orderDetails = orderService.getOrderDetails(orderId);
         List<Long> orderDetailIds = orderDetails.stream()
                 .map(OrderDetail::getId)
@@ -42,7 +44,8 @@ public class OrchestratorService {
         List<InventoryRequest> inventoryRequests = makeInventoryRequests(orderDetails);
         PaymentRequest paymentRequest = makePaymentRequest();
 
-        Workflow orderWorkflow = orderWorkflowGenerator.generateNormalOrderWorkflow(inventoryRequests,paymentRequest);
+        Workflow orderWorkflow = workflowGenerator.apply(inventoryRequests,paymentRequest);
+
         Orchestrator orderOrchestrator = Orchestrator.builder()
                 .workflow(orderWorkflow)
                 .build();
@@ -63,33 +66,15 @@ public class OrchestratorService {
         return orderOrchestrator;
     }
 
-//    public Orchestrator orderSalesTransaction(OrderCreateRequest orderCreateRequest) {
-//        // TODO : header로부터 userId값 꺼내기
-//        Long userId = 1L;
-//        OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest);
-//        List<InventoryRequest> inventoryRequests = makeInventoryRequests(orderCreateResponse.getOrderDetailCreateResponses());
-//        PaymentRequest paymentRequest = makePaymentRequest();
-//        CartRequest cartRequest = makeCartRequest(userId,orderCreateResponse.getOrderDetailCreateResponses());
-//
-//        Workflow orderWorkflow = orderWorkflowGenerator.generateSalesOrderWorkflow(inventoryRequests,paymentRequest);
-//        Orchestrator orderOrchestrator = Orchestrator.builder()
-//                .workflow(orderWorkflow)
-//                .build();
-//        try {
-//            orderOrchestrator.doTransaction();
-//        }catch(Exception e) {
-//            // TODO : 예외 및 예외처리 고도화
-//            orderService.revertInsertOrder(orderCreateResponse);
-//            orderOrchestrator.revertProcess();
-//        }
-//
-//        if(orderOrchestrator.isSuccessed() && orderCreateRequest.getIsFromCart()) {
-//            CartTask cartTask = new CartTask(cartFeignClient,cartRequest);
-//            cartTask.work();
-//        }
-//
-//        return orderOrchestrator;
-//    }
+    public Orchestrator orderNormalTransaction(Long userId, Long orderId, boolean isFromCart) {
+        return orderTransaction(userId, orderId, isFromCart,
+                (inventoryRequests, paymentRequest) -> orderWorkflowGenerator.generateNormalOrderWorkflow(inventoryRequests, paymentRequest));
+    }
+
+    public Orchestrator orderSalesTransaction(Long userId, Long orderId, boolean isFromCart) {
+        return orderTransaction(userId, orderId, isFromCart,
+                (inventoryRequests, paymentRequest) -> orderWorkflowGenerator.generateSalesOrderWorkflow(inventoryRequests, paymentRequest));
+    }
 
     private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest) {
         return orderService.insertOrder(orderCreateRequest.getProductRequests());

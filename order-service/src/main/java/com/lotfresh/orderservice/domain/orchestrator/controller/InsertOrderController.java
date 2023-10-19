@@ -19,22 +19,22 @@ public class InsertOrderController {
 
     @PostMapping()
     public ResponseEntity createOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
-        orchestratorService.createOrderAndRequestToPayment(orderCreateRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(orchestratorService.createOrderAndRequestToPayment(orderCreateRequest));
     }
 
-    @PostMapping("/normal")
+    @GetMapping("/normal")
     public ResponseEntity insertNormalOrder(@RequestHeader(value = "userId", required = false) Long userId,
             @RequestParam Long orderId, @RequestParam Boolean isFromCart) {
         orchestratorService.orderNormalTransaction(userId, orderId, isFromCart);
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/sales")
-//    public ResponseEntity insertSalesOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
-//        orchestratorService.orderSalesTransaction(orderCreateRequest);
-//        return ResponseEntity.ok().build();
-//    }
+    @GetMapping("/sales")
+    public ResponseEntity insertSalesOrder(@RequestHeader(value = "userId", required = false) Long userId,
+                                           @RequestParam Long orderId, @RequestParam Boolean isFromCart) {
+        orchestratorService.orderSalesTransaction(userId, orderId, isFromCart);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/failed")
     public void kakaoFailed(@RequestParam Long orderId) {
