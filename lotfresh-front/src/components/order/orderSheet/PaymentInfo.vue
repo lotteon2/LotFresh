@@ -1,38 +1,35 @@
 <template>
-  <div>
+  <div class="payment-info-container">
     <div class="container">
       <div class="bill">
-        결제금액
+        <div class="title"><h3>결제금액</h3></div>
         <div class="section">
           <div class="item">주문 금액</div>
           <div class="item"></div>
-          <div class="item">4,800원</div>
+          <div class="item text-right">4,800원</div>
         </div>
         <div class="section">
           <div class="item gray-text small-text">상품금액</div>
           <div class="item"></div>
-          <div class="item gray-text small-text">4,800원</div>
+          <div class="item gray-text small-text text-right">4,800원</div>
         </div>
         <div class="section">
           <div class="item gray-text small-text">상품할인금액</div>
           <div class="item"></div>
-          <div class="item gray-text small-text">0원</div>
+          <div class="item gray-text small-text text-right">0원</div>
         </div>
         <div class="section">
           <div class="item">적립금사용</div>
           <div class="item"></div>
-          <div class="item">0원</div>
+          <div class="item text-right">0원</div>
         </div>
         <div class="section">
           <div class="item">최종결제금액</div>
           <div class="item"></div>
-          <div class="item">7,800원</div>
+          <div class="item text-right">7,800원</div>
         </div>
       </div>
-      <div class="bill">a</div>
-      <div class="bill">b</div>
     </div>
-    <hr />
   </div>
 </template>
 
@@ -49,8 +46,11 @@ export default {};
 .text-left {
   text-align: right;
 }
+.text-right {
+  text-align: right;
+}
+
 .bill {
-  border-radius: 25px;
   border: 1px solid black;
 }
 .section {
@@ -66,5 +66,15 @@ export default {};
 }
 .small-text {
   font-size: 13px;
+}
+.payment-info-container {
+  width: 1000px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+  margin-bottom: 70px;
+}
+.title {
+  margin-bottom: 20px;
 }
 </style>

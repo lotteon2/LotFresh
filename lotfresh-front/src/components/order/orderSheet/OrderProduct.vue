@@ -1,20 +1,19 @@
 <template>
-  <div>
+  <div class="order-product-container">
     <div class="title">
-      <div class="item">주문 상품</div>
-      <div class="item">a</div>
-      <div class="item">b</div>
-      <div class="item">c</div>
-      <div class="item">d</div>
-      <div class="item">e</div>
-      <div class="item">f</div>
-      <div class="item">g</div>
-      <div class="item">h</div>
-      <div class="item">i</div>
-      <div class="item">j</div>
+      <div class="item"><h3>주문 상품</h3></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
       <div class="item text-right">위로 화살표 아이콘</div>
     </div>
-    <hr />
   </div>
 </template>
 
@@ -26,8 +25,15 @@ export default {};
 .title {
   display: grid;
   grid: ". . . . . . . . . . . .";
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgb(0, 0, 0);
 }
 .text-right {
   text-align: right;
+}
+.order-product-container {
+  width: 1000px;
+  margin-right: auto;
+  margin-left: auto;
 }
 </style>

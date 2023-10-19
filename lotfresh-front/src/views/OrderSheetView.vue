@@ -1,38 +1,18 @@
 <template>
   <div>
     <div class="pageTitle">
-      <h3>주문서</h3>
+      <div class="title">
+        <h3>주문서</h3>
+      </div>
     </div>
 
-    <br />
-    <br />
-    <br />
-
     <order-product />
-
-    <br />
-    <br />
-    <br />
-
     <orderer-info />
-
-    <br />
-    <br />
-    <br />
-
     <delivery-info />
-
-    <br />
-    <br />
-    <br />
-
     <payment-info />
-
-    <br />
-    <br />
-    <br />
-
-    <button>카카오페이로 결제하기</button>
+    <div class="pay-button">
+      <button>카카오페이로 결제하기</button>
+    </div>
   </div>
 </template>
 
@@ -47,7 +27,13 @@ export default {
 </script>
 
 <style scoped>
-.pageTitle {
+.title {
   text-align: center;
+  margin-top: 150px;
+  margin-bottom: 50px;
+}
+.pay-button {
+  text-align: center;
+  margin-bottom: 200px;
 }
 </style>

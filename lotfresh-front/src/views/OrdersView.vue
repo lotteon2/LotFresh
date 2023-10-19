@@ -1,31 +1,30 @@
 <template>
   <div>
     <div class="pageTitle">
-      <h3>전체 주문 내역</h3>
+      <div class="title">
+        <h3>전체 주문 내역</h3>
+      </div>
 
       <div v-for="order in orders" :key="order.orderId">
         <order :orderData="order" />
       </div>
       <div class="paging-box">
-        <template>
-          <div class="text-center">
-            <v-container>
-              <v-row justify="center">
-                <v-col cols="8">
-                  <v-container class="max-width">
-                    <v-pagination
-                      v-model="page"
-                      class="my-4"
-                      :length="totalPage"
-                    ></v-pagination>
-                  </v-container>
-                </v-col>
-              </v-row>
-            </v-container>
-          </div>
-        </template>
+        <div class="text-center">
+          <v-container>
+            <v-row justify="center">
+              <v-col cols="8">
+                <v-container class="max-width">
+                  <v-pagination
+                    v-model="page"
+                    class="my-4"
+                    :length="totalPage"
+                  ></v-pagination>
+                </v-container>
+              </v-col>
+            </v-row>
+          </v-container>
+        </div>
       </div>
-      페이징 처리하기 {{ totalPage }}
     </div>
   </div>
 </template>
@@ -39,17 +38,20 @@ export default {
   data() {
     return {
       orders: [],
-      pageable: {
-        page: 0,
-      },
       page: 1,
+      size: 5,
       totalPage: 0,
     };
   },
+  watch: {
+    page(newPage) {
+      this.callAPI(this.page);
+    },
+  },
   methods: {
-    callAPI() {
+    callAPI(page: number) {
       orderInstance
-        .get<orderType[]>(`/order/myOrders`, this.pageable)
+        .get(`/order/myOrders` + "?page=" + (page - 1) + "&size=" + this.size)
         .then((res) => {
           console.log("전체 주문 가져오기 성공");
           console.log(res.data);
@@ -62,18 +64,21 @@ export default {
         });
     },
   },
-  mounted() {
-    this.callAPI();
+  created() {
+    this.callAPI(this.page);
   },
 };
 </script>
 
-<style>
-.pageTitle {
+<style scoped>
+.title {
   text-align: center;
-}
-.paging-box {
-  display: flex;
-  flex-direction: row;
+  margin-top: 150px;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  border-bottom: 2px solid rgb(245, 199, 199);
 }
 </style>

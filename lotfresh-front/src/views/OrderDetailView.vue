@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="pageTitle">
-      <h3>주문 상세정보</h3>
+      <div class="title">
+        <h3>주문 상세정보</h3>
+      </div>
       <order :orderData="order" />
 
       <br />
@@ -48,14 +50,21 @@ export default {
         });
     },
   },
-  mounted() {
+  created() {
     this.callAPI();
   },
 };
 </script>
 
 <style scoped>
-.pageTitle {
+.title {
   text-align: center;
+  margin-top: 150px;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  border-bottom: 2px solid rgb(245, 199, 199);
 }
 </style>

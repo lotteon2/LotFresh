@@ -1,44 +1,47 @@
 <template>
-  <div>
-    <div class="title">
-      <div class="item">주문자 정보</div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
+  <div class="outer">
+    <div>
+      <div class="title">
+        <div class="item"><h3>주문자 정보</h3></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
     </div>
-    <hr />
-  </div>
-  <div class="container">
-    <div class="item">보내는 분</div>
-    <div class="item">홍길동</div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-  </div>
-  <div class="container">
-    <div class="item">휴대폰</div>
-    <div class="item">010-1234-5678</div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-  </div>
-  <div class="container">
-    <div class="item">이메일</div>
-    <div class="item">qwerty1434@naver.com</div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
+    <div class="orderer-info-container">
+      <div class="container">
+        <div class="item">보내는 분</div>
+        <div class="item">홍길동</div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+      <div class="container">
+        <div class="item">휴대폰</div>
+        <div class="item">010-1234-5678</div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+      <div class="container">
+        <div class="item">이메일</div>
+        <div class="item">qwerty1434@naver.com</div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,9 +53,26 @@ export default {};
 .title {
   display: grid;
   grid: ". . . . . . . . . . . .";
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgb(0, 0, 0);
+  margin-top: 30px;
 }
+
 .container {
   display: grid;
   grid: ". . . . . .";
+}
+
+.orderer-info-container {
+  margin-top: 40px;
+}
+.outer {
+  width: 1000px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.item {
+  margin-bottom: 20px;
 }
 </style>
