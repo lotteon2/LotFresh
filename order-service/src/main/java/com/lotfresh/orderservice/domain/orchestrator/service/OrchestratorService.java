@@ -68,12 +68,12 @@ public class OrchestratorService {
 
     public Orchestrator orderNormalTransaction(Long userId, Long orderId, boolean isFromCart) {
         return orderTransaction(userId, orderId, isFromCart,
-                (inventoryRequests, paymentRequest) -> orderWorkflowGenerator.generateNormalOrderWorkflow(inventoryRequests, paymentRequest));
+                orderWorkflowGenerator::generateNormalOrderWorkflow);
     }
 
     public Orchestrator orderSalesTransaction(Long userId, Long orderId, boolean isFromCart) {
         return orderTransaction(userId, orderId, isFromCart,
-                (inventoryRequests, paymentRequest) -> orderWorkflowGenerator.generateSalesOrderWorkflow(inventoryRequests, paymentRequest));
+                orderWorkflowGenerator::generateSalesOrderWorkflow);
     }
 
     private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest) {
