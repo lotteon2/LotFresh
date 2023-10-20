@@ -1,16 +1,16 @@
 <template>
   <div class="SectionTitle st1">
     <div class="title">
-      <span class="title_span">베스트 상품</span>
+      <span class="title_span">신상품</span>
     </div>
     <div class="content">
-      <best-product-list />
+      <new-product-list />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import BestProductList from "@/components/product/BestProductList.vue";
+import NewProductList from "@/components/product/NewProductList.vue";
 </script>
 
 <style scoped>
@@ -38,7 +38,7 @@ import BestProductList from "@/components/product/BestProductList.vue";
 }
 
 .SectionTitle {
-  width: 1050px;
+  /* width: 1050px; */
   margin: auto;
 }
 </style>

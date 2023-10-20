@@ -32,7 +32,7 @@ import Menu from "./Menu.vue";
 }
 
 .header_wrap {
-  padding-top: 20px;
+  padding-top: 2vh;
   display: flex;
   height: 55px;
   width: 100%;
@@ -40,11 +40,11 @@ import Menu from "./Menu.vue";
 }
 .search_wrap {
   padding-right: 10px;
-  top: 5px;
+  top: 5x;
   display: flex;
   align-items: center;
   position: relative;
-  left: 400px;
+  left: 340px;
   height: 45px;
   border: 1px solid red;
   border-radius: 6px;
@@ -64,8 +64,7 @@ import Menu from "./Menu.vue";
 }
 
 .logo_img {
-  top: 20px;
-  left: 100px;
+  margin-top: -0.4vh;
   width: 150px;
   height: auto;
   position: absolute;
@@ -87,7 +86,7 @@ import Menu from "./Menu.vue";
 
 .header_icon_wrap {
   top: 10px;
-  left: 590px;
+  left: 600px;
   display: flex;
   align-items: center;
   position: relative;

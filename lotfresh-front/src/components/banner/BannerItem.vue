@@ -10,6 +10,6 @@ const props = defineProps(["banner", "index"]);
 
 <style scoped>
 .banner_img {
-  width: 110%;
+  width: 100%;
 }
 </style>

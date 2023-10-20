@@ -70,7 +70,7 @@ img {
 }
 
 .SectionTitle {
-  width: 1050px;
+  /* width: 1050px; */
   margin: auto;
   padding-top: 10px;
 }
