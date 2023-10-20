@@ -2,34 +2,88 @@ server:
   port: 8090
 
 spring:
+  application:
+    name: gateway-service
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      globalcors:
+        cors-configurations:
+          "[/**]":
+            allowedOrigins:
+              - "https://www.lot-fresh.shop"
+              - "https://lot-fresh.shop"
+              - "https://admin.lot-fresh.shop"
+              - "http://localhost:5173"
+            allow-credentials: true
+            allowedHeaders: "*"
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+              - PATCH
+              - OPTIONS
       routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth-service/**
+          filters:
+            - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
+#            - AuthenticationFilter
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+#            - AuthenticationFilter
+
+        - id: cart-service
+          uri: lb://CART-SERVICE
+          predicates:
+            - Path=/cart-service/**
+          filters:
+            - RewritePath=/cart-service/(?<segment>.*), /$\{segment}
+#            - AuthenticationFilter
+
         - id: product-service
-          uri: http://product-service:8082 # product 서비스의 실제 포트 번호에 맞게 수정하세요.
+          uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/product-service/**
+          filters:
+            - RewritePath=/product-service/(?<segment>.*), /$\{segment}
+#            - AuthenticationFilter
 
         - id: order-service
-          uri: http://order-service:8083 # order 서비스의 실제 포트 번호에 맞게 수정하세요.
+          uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order-service/**
+          filters:
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
+#           - AuthenticationFilter
 
         - id: payment-service
-          uri: http://payment-service:8084 # payment 서비스의 실제 포트 번호에 맞게 수정하세요.
+          uri: lb://PAYMENT-SERVICE
           predicates:
-            - Path=/payment-services/**
+            - Path=/payment-service/**
+          filters:
+            - RewritePath=/payment-service/(?<segment>.*), /$\{segment}
+#            - AuthenticationFilter
 
-        - id: storage-services
-          uri: http://storage-services:8085 # storage 서비스의 실제 포트 번호에 맞게 수정하세요.
+        - id: storage-service
+          uri: lb://STORAGE-SERVICE
           predicates:
-            - Path=/storage-services/**
-        #        - id: auth-service
-        #          uri: http://auth-service:8080 # Change the port number to match your auth service's actual port number.
-        #          predicates:
-        #            - Path=/auth-service/**
-        #
-        #        - id: user-service
-        #          uri: http://user-service:8081 # Change the port number to match your user service's actual port number.
-        #          predicates:
-        #            - Path=/user-service/**
+            - Path=/storage-service/**
+          filters:
+            - RewritePath=/storage-service/(?<segment>.*), /$\{segment}
+
+#jwt:
+#  secret: "{cipher}da7466e7a9eb7ac36437d2c348716476e35c9a0aab815125254b17c493973781bb913ede701574ee7fb655802d147ce5d5bbf96a5304830413b0ecf7217d2e62"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
