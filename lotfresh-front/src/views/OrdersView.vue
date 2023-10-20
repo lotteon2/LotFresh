@@ -9,21 +9,13 @@
         <order :orderData="order" />
       </div>
       <div class="paging-box">
-        <div class="text-center">
-          <v-container>
-            <v-row justify="center">
-              <v-col cols="8">
-                <v-container class="max-width">
-                  <v-pagination
-                    v-model="page"
-                    class="my-4"
-                    :length="totalPage"
-                  ></v-pagination>
-                </v-container>
-              </v-col>
-            </v-row>
-          </v-container>
-        </div>
+        <el-pagination
+          :page-size="size"
+          :pager-count="11"
+          layout="prev, pager, next"
+          :total="totalPage * size"
+          v-model:currentPage="page"
+        />
       </div>
     </div>
   </div>
@@ -92,5 +84,10 @@ export default {
   margin-left: auto;
   margin-right: auto;
   border-bottom: 2px solid rgb(245, 199, 199);
+}
+
+.paging-box {
+  display: flex;
+  justify-content: center;
 }
 </style>
