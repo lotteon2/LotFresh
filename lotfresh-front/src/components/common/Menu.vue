@@ -16,7 +16,8 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/25040bd0-5889-4d8c-b863-13f71750a8e6"
-                  /><a href="#">채소</a>
+                  />
+                  <router-link to="/categories/1"> 채소 </router-link>
                 </div>
               </li>
 
