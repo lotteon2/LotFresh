@@ -5,9 +5,9 @@
         <h3>전체 주문 내역</h3>
       </div>
 
-      <!-- <div v-for="order in orders" :key="order?.orderId">
+      <div v-for="order in orders" :key="order.orderId">
         <order :orderData="order" />
-      </div> -->
+      </div>
       <div class="paging-box">
         <div class="text-center">
           <v-container>
@@ -32,12 +32,25 @@
 <script lang="ts">
 import { orderInstance } from "@/api/utils";
 import Order from "../components/order/Order.vue";
+interface Order {
+  orderId: number;
+  orderCreatedTime: Date;
+  orderDetailResponses: OrderDetail[];
+}
+interface OrderDetail {
+  orderDetailId: number;
+  price: number;
+  stock: number;
+  status: string;
+  productName: string;
+  productThumbnail: string;
+}
 
 export default {
   components: { Order },
   data() {
     return {
-      orders: [],
+      orders: [] as Order[],
       page: 1,
       size: 5,
       totalPage: 0,
@@ -76,7 +89,6 @@ export default {
   margin-top: 150px;
   margin-bottom: 30px;
   padding-bottom: 30px;
-  width: 900px;
   margin-left: auto;
   margin-right: auto;
   border-bottom: 2px solid rgb(245, 199, 199);
