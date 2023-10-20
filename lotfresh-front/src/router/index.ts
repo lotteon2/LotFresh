@@ -9,6 +9,7 @@ import OrdersView from "../views/OrdersView.vue";
 import NewProuductsView from "@/views/product/NewProductsView.vue";
 import BestProductsView from "@/views/product/BestProductsView.vue";
 import SalesProductView from "@/views/product/SalesProductsView.vue";
+import CategoryProductsView from "@/views/product/CategoryProductsView.vue";
 import ProductDetailView from "@/views/product/ProductDetailView.vue";
 
 const router = createRouter({
@@ -86,6 +87,11 @@ const router = createRouter({
       path: "/market-time-sales",
       name: "market-time-sales",
       component: SalesProductView,
+    },
+    {
+      path: "/categories/:id",
+      name: "category-products",
+      component: CategoryProductsView,
     },
     {
       path: "/goods/:id",
