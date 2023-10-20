@@ -120,9 +120,11 @@
         </li>
 
         <li class="menu4">
-          <span class="menu-inner-span"
-            ><span class="txt">마감 임박</span></span
-          >
+          <span class="menu-inner-span">
+            <router-link to="/market-time-sales">
+              <span class="txt">마감 임박</span>
+            </router-link>
+          </span>
         </li>
       </ul>
     </div>
@@ -155,7 +157,7 @@ ul {
 .menubar-box {
   position: relative;
   z-index: 300;
-  min-width: 1050px;
+  /* min-width: 1050px; */
   background-color: #fff;
   letter-spacing: -0.3px;
 }
@@ -177,6 +179,7 @@ ul {
 .txt {
   font-weight: 700;
   border-bottom-style: none;
+  word-wrap: break-word;
 }
 
 .menu-img {
@@ -200,12 +203,16 @@ ul {
   width: 100px;
 }
 
+.menu-item {
+  display: flex;
+  justify-content: center;
+  gap: 200px;
+}
+
 .menu-item a {
   overflow: hidden;
-  /* float: none; */
   width: 180px;
   height: 55px;
-  /* padding-left: 55px; */
   font-size: 16px;
   color: #333;
   text-align: center;
@@ -217,9 +224,6 @@ ul {
   float: left;
   width: fit-content;
   height: 55px;
-  margin-left: 110px;
-  margin-right: 50px;
-  /* padding-left: 55px; */
   padding-top: 16px;
   font-size: 16px;
   color: #333;
@@ -261,14 +265,16 @@ ul {
 .menu1:focus .items ul {
   display: block;
 }
-
 .category-box {
   display: inline-flex;
   height: 40px;
 }
+.category-box a {
+  padding-top: 4px;
+}
 .item-list {
   margin-top: -5px;
-  margin-left: 107px;
+  margin-left: -15px;
   padding: 0;
 }
 </style>

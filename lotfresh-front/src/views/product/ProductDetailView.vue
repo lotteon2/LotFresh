@@ -5,7 +5,7 @@
       <product-detail :product="product" />
     </div>
     <div class="detail_image">
-      <product-detail-image :product-detail-img="product.detail" />
+      <product-detail-image :product_detail_img="product.detail" />
     </div>
   </div>
 </template>
@@ -25,7 +25,6 @@ const callApi = () => {
     .get(`/products/${route.params.id}`)
     .then((response) => {
       product.value = response.data;
-      console.log(product.value);
     })
     .catch((error) => {
       console.log(error);
@@ -36,13 +35,11 @@ callApi();
 </script>
 
 <style scoped>
-.content {
-  padding-left: 135px;
-}
 .wrap {
   padding-top: 100px;
   display: flex;
-  gap: 40px;
+  gap: 2.5vw;
   justify-content: start;
+  /* height: 48vh; */
 }
 </style>
