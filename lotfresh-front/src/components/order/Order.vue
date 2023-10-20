@@ -14,19 +14,42 @@
         >
       </div>
     </div>
-    <div v-for="orderDetail in orderData.orderDetailResponses">
+    <div
+      v-for="orderDetail in orderData.orderDetailResponses"
+      :key="orderDetail.orderDetailId"
+    >
       <order-detail :orderDetailData="orderDetail" />
     </div>
+    <div class="empty-bottom"></div>
   </div>
 </template>
 
 <script lang="ts">
 import OrderDetail from "./OrderDetail.vue";
+interface Order {
+  orderId: number;
+  orderCreatedTime: Date;
+  orderDetailResponses: OrderDetail[];
+}
+interface OrderDetail {
+  orderDetailId: number;
+  price: number;
+  stock: number;
+  status: string;
+  productName: string;
+  productThumbnail: string;
+}
 
 export default {
   components: { OrderDetail },
   props: {
-    orderData: Object,
+    orderData: {
+      type: Object as () => Order,
+      required: true,
+    },
+  },
+  setup(props) {
+    return {};
   },
   computed: {
     formattedData() {
@@ -49,7 +72,6 @@ export default {
 .order-container {
   border: 2px solid rgb(204, 194, 194);
   border-radius: 20px;
-  width: 800px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 40px;
@@ -63,6 +85,10 @@ export default {
 .item {
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+.empty-bottom {
+  margin-bottom: 50px;
 }
 
 .bold-text {

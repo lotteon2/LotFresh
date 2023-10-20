@@ -32,7 +32,6 @@ export default {};
   text-align: right;
 }
 .order-product-container {
-  width: 1000px;
   margin-right: auto;
   margin-left: auto;
 }

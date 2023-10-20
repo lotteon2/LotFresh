@@ -11,8 +11,8 @@ pipeline {
         // 변수로 쓸 값 달아두기
         DOCKER_REGISTRY = "eon8718/lot-fresh"
         CLIENT_IMAGE_TAG = "client"
-        // AUTH_SERVICE_IMAGE_TAG = "auth-service"
-        // USER_SERVICE_IMAGE_TAG = "user-service"
+        AUTH_SERVICE_IMAGE_TAG = "auth-service"
+        USER_SERVICE_IMAGE_TAG = "user-service"
 		// CART_SERVICE_IMAGE_TAG = "cart-service"
         PRODUCT_SERVICE_IMAGE_TAG = "product-service"
 		ORDER_SERVICE_IMAGE_TAG = "order-service"
@@ -31,41 +31,41 @@ pipeline {
 		}
 		stage('build') {
             parallel {
-                // stage('client build') {
-				// 	when {
-				// 		allOf {
-				// 			expression {
-				// 				currentBuild.result == null || currentBuild.result == 'SUCCESS'
-				// 			}
-				// 			changeset "lotfresh-front/**"
-				// 		}
-				// 	}
-				// 	steps {
-				// 		dir('lotfresh-front') {
-				// 			sh 'npm install'
-				// 			sh '''
-                //                 echo -e "REACT_APP_KAKAOPAY_IMP='${REACT_APP_KAKAOPAY_IMP}' \
-                //                 REACT_APP_API_OAUTH2_BASE_URL='${REACT_APP_API_OAUTH2_BASE_URL}' \
-                //                 REACT_APP_GOOGLE_AUTH_URL='${REACT_APP_GOOGLE_AUTH_URL}' \
-                //                 REACT_APP_TWITTER_AUTH_URL='${REACT_APP_TWITTER_AUTH_URL}' \
-                //                 REACT_APP_API_AUTH_BASE_URL='${REACT_APP_API_AUTH_BASE_URL}' \
-                //                 REACT_APP_API_USER_BASE_URL='${REACT_APP_API_USER_BASE_URL}' \
-                //                 REACT_APP_API_BASE_URL='${REACT_APP_API_BASE_URL}'" > .env.local
-                //             '''
-				// 			sh 'CI=false npm run build'
-				// 			sh 'docker build -t ${DOCKER_REGISTRY}:${CLIENT_IMAGE_TAG} .'
-				// 			sh 'docker push ${DOCKER_REGISTRY}:${CLIENT_IMAGE_TAG}'
-				// 		}
-				// 	}
-				// 	post {
-				// 		success {
-				// 			echo 'client build succeeded'
-				// 		}
-				// 		failure {
-				// 			echo 'client build failed'
-				// 		}
-				// 	}
-        		// }
+                stage('client build') {
+					when {
+						allOf {
+							expression {
+								currentBuild.result == null || currentBuild.result == 'SUCCESS'
+							}
+							changeset "lotfresh-front/**"
+						}
+					}
+					steps {
+						dir('lotfresh-front') {
+							sh 'npm install'
+							// sh '''
+                            //     echo -e "VUE_APP_KAKAOPAY_IMP='${VUE_APP_KAKAOPAY_IMP}' \
+                            //     VUE_APP_API_OAUTH2_BASE_URL='${VUE_APP_API_OAUTH2_BASE_URL}' \
+                            //     VUE_APP_GOOGLE_AUTH_URL='${VUE_APP_GOOGLE_AUTH_URL}' \
+                            //     VUE_APP_TWITTER_AUTH_URL='${VUE_APP_TWITTER_AUTH_URL}' \
+                            //     VUE_APP_API_AUTH_BASE_URL='${VUE_APP_API_AUTH_BASE_URL}' \
+                            //     VUE_APP_API_USER_BASE_URL='${VUE_APP_API_USER_BASE_URL}' \
+                            //     VUE_APP_API_BASE_URL='${VUE_APP_API_BASE_URL}'" > .env.local
+                            // '''
+							sh 'CI=false npm run build'
+							sh 'docker build -t ${DOCKER_REGISTRY}:${CLIENT_IMAGE_TAG} .'
+							sh 'docker push ${DOCKER_REGISTRY}:${CLIENT_IMAGE_TAG}'
+						}
+					}
+					post {
+						success {
+							echo 'client build succeeded'
+						}
+						failure {
+							echo 'client build failed'
+						}
+					}
+        		}
 
 				// stage('auth-service build') {
 				// 	when {
@@ -261,28 +261,28 @@ pipeline {
         
         stage('deploy') {
             parallel {
-                // stage('replace client container') {
-                //     when {
-                //     	allOf {
-                //       		expression {
-                //         		currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                //       		}
-                //       		changeset "lotfresh-front/**"
-                //     	}
-                //   	}
-                //     steps {
-                //         script {
-            	// 			sshagent(credentials: ['ssh']) {
-				// 				sh """
-				// 					if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${CLIENT_IMAGE_TAG}; then
-				// 						ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${CLIENT_IMAGE_TAG}
-				// 					fi
-				// 					ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 3000:3000 --name ${CLIENT_IMAGE_TAG} --network gemini -d --rm ${DOCKER_REGISTRY}:${CLIENT_IMAGE_TAG}
-				// 				"""
-            	// 			}
-        		// 		}
-		        //    	}
-                // }
+                stage('replace client container') {
+                    when {
+                    	allOf {
+                      		expression {
+                        		currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                      		}
+                      		changeset "lotfresh-front/**"
+                    	}
+                  	}
+                    steps {
+                        script {
+            				sshagent(credentials: ['ssh']) {
+								sh """
+									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${CLIENT_IMAGE_TAG}; then
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${CLIENT_IMAGE_TAG}
+									fi
+									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 5173:5173 --name ${CLIENT_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${CLIENT_IMAGE_TAG}
+								"""
+            				}
+        				}
+		           	}
+                }
 
                 // stage('replace auth-service container') {
                 //     when {
