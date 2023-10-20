@@ -1,5 +1,5 @@
 <template>
-  <div v-if="banners" class="banner">
+  <div v-if="banners.length != 0" class="banner">
     <carousel :items-to-show="0.8" :autoplay="3500" :wrap-around="true">
       <slide v-for="(banner, index) in banners" :key="index">
         <banner :banner="banner" />

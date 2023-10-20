@@ -15,7 +15,7 @@ import { defaultInstance } from "@/api/utils";
 import { ref } from "vue";
 
 const products = ref([]);
-const componentHeight = ref("250px");
+const componentHeight = ref("300px");
 
 const callApi = () => {
   defaultInstance

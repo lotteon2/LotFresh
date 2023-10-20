@@ -9,8 +9,12 @@ const props = defineProps(["product_thumbnail"]);
 </script>
 
 <style scoped>
+.thumb {
+  width: 24vw;
+  height: 48vh;
+}
 .thumb .bg {
-  width: 350px;
-  height: 450px;
+  width: inherit;
+  height: inherit;
 }
 </style>
