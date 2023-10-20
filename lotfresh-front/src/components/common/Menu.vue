@@ -120,9 +120,11 @@
         </li>
 
         <li class="menu4">
-          <span class="menu-inner-span"
-            ><span class="txt">마감 임박</span></span
-          >
+          <span class="menu-inner-span">
+            <router-link to="/market-time-sales">
+              <span class="txt">마감 임박</span>
+            </router-link>
+          </span>
         </li>
       </ul>
     </div>

@@ -8,7 +8,9 @@ import OrderDetailView from "../views/OrderDetailView.vue";
 import OrdersView from "../views/OrdersView.vue";
 import NewProuductsView from "@/views/product/NewProductsView.vue";
 import BestProductsView from "@/views/product/BestProductsView.vue";
+import SalesProductView from "@/views/product/SalesProductsView.vue";
 import ProductDetailView from "@/views/product/ProductDetailView.vue";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -79,6 +81,11 @@ const router = createRouter({
       path: "/market-best",
       name: "market-best",
       component: BestProductsView,
+    },
+    {
+      path: "/market-time-sales",
+      name: "market-time-sales",
+      component: SalesProductView,
     },
     {
       path: "/goods/:id",
