@@ -32,7 +32,7 @@ spring:
             - Path=/auth-service/**
           filters:
             - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
-#            - AuthenticationFilter
+        #            - AuthenticationFilter
 
         - id: user-service
           uri: lb://USER-SERVICE
@@ -40,7 +40,7 @@ spring:
             - Path=/user-service/**
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-#            - AuthenticationFilter
+        #            - AuthenticationFilter
 
         - id: cart-service
           uri: lb://CART-SERVICE
@@ -48,7 +48,7 @@ spring:
             - Path=/cart-service/**
           filters:
             - RewritePath=/cart-service/(?<segment>.*), /$\{segment}
-#            - AuthenticationFilter
+        #            - AuthenticationFilter
 
         - id: product-service
           uri: lb://PRODUCT-SERVICE
@@ -56,7 +56,7 @@ spring:
             - Path=/product-service/**
           filters:
             - RewritePath=/product-service/(?<segment>.*), /$\{segment}
-#            - AuthenticationFilter
+        #            - AuthenticationFilter
 
         - id: order-service
           uri: lb://ORDER-SERVICE
@@ -64,7 +64,7 @@ spring:
             - Path=/order-service/**
           filters:
             - RewritePath=/order-service/(?<segment>.*), /$\{segment}
-#           - AuthenticationFilter
+        #           - AuthenticationFilter
 
         - id: payment-service
           uri: lb://PAYMENT-SERVICE
@@ -72,7 +72,7 @@ spring:
             - Path=/payment-service/**
           filters:
             - RewritePath=/payment-service/(?<segment>.*), /$\{segment}
-#            - AuthenticationFilter
+        #            - AuthenticationFilter
 
         - id: storage-service
           uri: lb://STORAGE-SERVICE
@@ -80,6 +80,11 @@ spring:
             - Path=/storage-service/**
           filters:
             - RewritePath=/storage-service/(?<segment>.*), /$\{segment}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/
 
 #jwt:
 #  secret: "{cipher}da7466e7a9eb7ac36437d2c348716476e35c9a0aab815125254b17c493973781bb913ede701574ee7fb655802d147ce5d5bbf96a5304830413b0ecf7217d2e62"
