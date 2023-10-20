@@ -172,6 +172,9 @@ class OrderServiceTest {
         orderRepository.save(order);
         orderDetailRepository.save(orderDetail);
 
+        em.flush();
+        em.clear();
+
         // when
         orderService.refundOrder(orderDetail.getId());
 

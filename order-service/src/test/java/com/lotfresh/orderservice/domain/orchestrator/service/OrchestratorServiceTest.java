@@ -79,6 +79,10 @@ class OrchestratorServiceTest {
 
         // when
         String url = orchestratorService.createOrderAndRequestToPayment(orderCreateRequest);
+
+        em.flush();
+        em.clear();
+
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();
 
         // then

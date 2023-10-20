@@ -42,7 +42,7 @@ public class OrderDetail extends BaseEntity {
     private OrderDetailStatus status;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
-    private Boolean isDeleted = false;
+    private Boolean isDeleted;
 
     @NotNull
     private String productName;
