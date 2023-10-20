@@ -54,7 +54,6 @@ export default {};
   font-size: 13px;
 }
 .delivery-info-container {
-  width: 1000px;
   margin-right: auto;
   margin-left: auto;
 }

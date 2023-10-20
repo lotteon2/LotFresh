@@ -68,7 +68,6 @@ export default {};
   font-size: 13px;
 }
 .payment-info-container {
-  width: 1000px;
   margin-right: auto;
   margin-left: auto;
   margin-top: 100px;

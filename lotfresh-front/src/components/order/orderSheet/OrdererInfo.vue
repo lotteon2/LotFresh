@@ -67,7 +67,6 @@ export default {};
   margin-top: 40px;
 }
 .outer {
-  width: 1000px;
   margin-right: auto;
   margin-left: auto;
 }

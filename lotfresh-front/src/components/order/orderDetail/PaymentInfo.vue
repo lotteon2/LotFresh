@@ -38,7 +38,6 @@ export default {};
   margin-right: auto;
 }
 .outer {
-  width: 800px;
   margin-right: auto;
   margin-left: auto;
 }

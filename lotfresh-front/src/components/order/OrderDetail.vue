@@ -56,9 +56,24 @@
 </template>
 
 <script lang="ts">
+interface OrderDetail {
+  orderDetailId: number;
+  price: number;
+  stock: number;
+  status: string;
+  productName: string;
+  productThumbnail: string;
+}
+
 export default {
   props: {
-    orderDetailData: Object,
+    orderDetailData: {
+      type: Object as () => OrderDetail,
+      required: true,
+    },
+  },
+  setup(props) {
+    return {};
   },
   methods: {
     statusClassification(status: string): string {
