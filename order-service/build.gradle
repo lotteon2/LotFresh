@@ -33,6 +33,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation platform("org.springframework.cloud:spring-cloud-dependencies:2021.0.5")
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	// 제가 추가해봤습니다(성중)
 	// 다른 모듈과의 통신
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.8'
 	// querydsl

@@ -17,6 +17,11 @@ spring:
     group:
       develop: "env"
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/
+
 logging:
   level:
     org.hibernate.SQL: debug
