@@ -1,4 +1,4 @@
-package com.lotfresh.orderservice.domain.order.redis;
+package com.lotfresh.orderservice.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

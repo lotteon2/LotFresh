@@ -1,4 +1,4 @@
-package com.lotfresh.orderservice.domain.orchestrator.kafka;
+package com.lotfresh.orderservice.config;
 
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
