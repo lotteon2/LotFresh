@@ -1,4 +1,4 @@
-package com.lotfresh.orderservice.domain.order.kafka;
+package com.lotfresh.orderservice.config;
 
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
