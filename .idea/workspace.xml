@@ -1664,25 +1664,11 @@
       <change afterPath="$PROJECT_DIR$/../cart-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/gradlew" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/classes/java/main/com/bit/lotte/fresh/config/SecurityConfig$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/classes/java/main/com/bit/lotte/fresh/config/SecurityConfig$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/classes/java/main/com/bit/lotte/fresh/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/classes/java/main/com/bit/lotte/fresh/config/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/libs/auth-config-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/libs/auth-config-1.0-SNAPSHOT-plain.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/filter/src/main/java/com/bit/lotte/fresh/filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/filter/src/main/java/com/bit/lotte/fresh/filter/JwtAuthenticationFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/7.1/dependencies-accessors/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.gradle/7.1/dependencies-accessors/gc.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/7.1/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.gradle/7.1/gc.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/vcs-1/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.gradle/vcs-1/gc.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/common-application/build/classes/java/main/com/bit/lotte/fresh/application/handler/json/JsonDeserialization.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/common-application/build/libs/common-application-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-application/build/libs/common-application-1.0-SNAPSHOT-plain.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/common-application/src/main/java/com/bit/lotte/fresh/application/handler/json/JsonDeserialization.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/common/common-domain/src/main/java/com/bit/lotte/fresh/user/common/instant/DomainConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/src/main/java/com/bit/lotte/fresh/cart/common/domain/instant/DomainConstants.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
