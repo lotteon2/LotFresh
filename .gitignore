@@ -1,0 +1,2 @@
+auth-service/auth-infra/auth-config/build/resources/main/application.properties auth-service/auth-infra/auth-config/src/main/resources/application.properties
+auth-service/auth-container/build/resources/main/application.yml auth-service/auth-container/src/main/resources/application.yml user-service/user-container/build/resources/main/application.yml user-service/user-container/src/main/resources/application.yml user-service/user-data-access/build/resources/main/application.yml user-service/user-data-access/src/main/resources/application.yml

@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation libs.spring.oauth
+////:5.7.11
+
+    compileOnly libs.lombok
+    implementation libs.spring.security
+    implementation libs.jpa
+    implementation project(':auth-service:auth-common')
+    implementation project(':common:common-domain')
+    implementation project(':auth-service:auth-application')
+    implementation project(':auth-service:auth-domain:auth-domain-applicaiton')
+    implementation project(':auth-service:auth-domain:auth-domain-core')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}

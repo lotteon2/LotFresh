@@ -1,0 +1,26 @@
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    implementation(libs.spring.feign)
+    implementation(libs.sl4j)
+    implementation(libs.jpa)
+    implementation(libs.java.validation)
+    implementation(libs.mysql)
+    implementation(libs.jpa)
+    implementation project(':user-service:user-infra:spring-cloud')
+    implementation project(':user-service:user-messaging')
+    implementation project(':user-service:user-messaging')
+    implementation project(':user-service:user-application')
+    implementation project(':user-service:user-data-access')
+}
+
+test {
+    useJUnitPlatform()
+}

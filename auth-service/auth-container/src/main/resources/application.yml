@@ -1,0 +1,35 @@
+  server:
+    port: 8082
+  spring:
+    datasource:
+      url: jdbc:mysql://localhost:3306/auth-service?serverTimezone=Asia/Seoul
+      username: root
+      password: k1651227
+    jpa:
+      hibernate:
+        ddl-auto: update
+      show-sql: true
+
+    cloud:
+      config:
+        import-check:
+          enabled: false
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 5dca3ee52a5c5e81b0415473b05366f0
+            client-secret: RifFZkO0SBAISOUJn2XsGVRczr0h9qFj
+            redirect-uri: http://localhost:8082/auth/oauth/kakao/login
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: lotte-fresh
+            grant-type: authorization_code
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id

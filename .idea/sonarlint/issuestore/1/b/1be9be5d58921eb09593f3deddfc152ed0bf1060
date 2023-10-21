@@ -1,7 +1,0 @@
-
-M
-java:S2589}"7Remove this expression which always evaluates to "true"(™®ùŸ
-t	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Î„ñ¯ıÿÿÿÿ
-o	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(—ôØ
-U
-java:S1118":Add a private constructor to hide the implicit public one.(°›¸İÿÿÿÿÿ

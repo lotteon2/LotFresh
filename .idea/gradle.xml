@@ -31,13 +31,6 @@
             <option value="$PROJECT_DIR$/common-application" />
             <option value="$PROJECT_DIR$/common/common-application" />
             <option value="$PROJECT_DIR$/common/common-domain" />
-            <option value="$PROJECT_DIR$/infrastructure" />
-            <option value="$PROJECT_DIR$/infrastructure/kafka" />
-            <option value="$PROJECT_DIR$/infrastructure/kafka-config" />
-            <option value="$PROJECT_DIR$/infrastructure/kafka/kafka-config" />
-            <option value="$PROJECT_DIR$/infrastructure/kafka/kafka-consumer" />
-            <option value="$PROJECT_DIR$/infrastructure/kafka/kafka-model" />
-            <option value="$PROJECT_DIR$/infrastructure/kafka/kafka-producer" />
             <option value="$PROJECT_DIR$/user-service" />
             <option value="$PROJECT_DIR$/user-service/user-application" />
             <option value="$PROJECT_DIR$/user-service/user-container" />
