@@ -2,6 +2,7 @@ package com.lotfresh.orderservice.exception.advice;
 
 import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.exception.ErrorResponse;
+import com.lotfresh.orderservice.exception.SagaException;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,16 @@ public class ControllerAdvice {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                 "서버에 문제가 발생해 요청이 실패했습니다");
         log.error("FeignClientError : {}요청을 보냈지만 실패했습니다. 에러 코드: {}",e.request(), e.status());
+        return ResponseEntity
+                .badRequest()
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(SagaException.class)
+    public ResponseEntity<ErrorResponse> sagaException(SagaException e) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                "서버에 문제가 발생해 요청이 실패했습니다");
+        log.error("SagaTransactionError : {}에서 트랜잭션이 실패했습니다. 에러 메시지: {}",e.getProcessName(), e.getMessage());
         return ResponseEntity
                 .badRequest()
                 .body(errorResponse);

@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @Getter
 public class Orchestrator {
     Workflow workflow;
-    boolean isSuccessed;
     Map<String,Object> workflowResults;
     public void doTransaction() {
         workflowResults = workflow.getSteps().stream()
@@ -21,7 +20,6 @@ public class Orchestrator {
                         WorkflowStep::getWorkflowName,
                         WorkflowStep::process
                 ));
-        isSuccessed = true;
     }
     public void revertProcess() {
         workflow.getSteps().stream()

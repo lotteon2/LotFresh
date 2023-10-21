@@ -12,6 +12,7 @@ import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.service.OrderService;
 import com.lotfresh.orderservice.domain.order.service.response.OrderCreateResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class OrchestratorService {
@@ -51,13 +53,15 @@ public class OrchestratorService {
                 .build();
         try {
             orderOrchestrator.doTransaction();
+            log.info("orderTranscation 성공");
         }catch(Exception e) {
-            // TODO : 예외 및 예외처리 고도화
+            log.info("orderTransaction 실패");
             orderService.revertInsertOrder(orderId, orderDetailIds);
             orderOrchestrator.revertProcess();
+            throw e;
         }
 
-        if(orderOrchestrator.isSuccessed() && isFromCart) {
+        if(isFromCart) {
             CartRequest cartRequest = makeCartRequest(userId,orderDetails);
             CartTask cartTask = new CartTask(cartFeignClient,cartRequest);
             cartTask.work();

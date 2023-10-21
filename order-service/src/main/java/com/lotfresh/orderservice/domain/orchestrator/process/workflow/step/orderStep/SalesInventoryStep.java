@@ -4,11 +4,14 @@ import com.lotfresh.orderservice.domain.orchestrator.feigns.InventoryFeignClient
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStepStatus;
+import com.lotfresh.orderservice.exception.SagaException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 public class SalesInventoryStep implements InventoryStep{
     private final String workflowName;
@@ -25,15 +28,22 @@ public class SalesInventoryStep implements InventoryStep{
 
     @Override
     public Object process() {
-        ResponseEntity result = feignClient.deductSalesQuantity(inventoryRequests);
-        changeStatus(WorkflowStepStatus.COMPLETE);
-        return result;
+        try {
+            ResponseEntity result = feignClient.deductSalesQuantity(inventoryRequests);
+            changeStatus(WorkflowStepStatus.COMPLETE);
+            log.info("SalesInventoryStep : 성공");
+            return result;
+        } catch (Exception e) {
+            log.error("SalesInventoryStep : 실패");
+            throw new SagaException(e.getMessage(),"InventoryStep");
+        }
     }
 
     @Override
     public void revert() {
         kafkaProducer.send("inventory",inventoryRequests);
         changeStatus(WorkflowStepStatus.FAILED);
+        log.info("SalesInventoryStepRevert : 성공");
     }
 
     @Override

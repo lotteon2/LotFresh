@@ -14,6 +14,8 @@ import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
 import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
+import com.lotfresh.orderservice.exception.CustomException;
+import com.lotfresh.orderservice.exception.SagaException;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
@@ -124,7 +126,6 @@ class OrchestratorServiceTest {
         for (WorkflowStep step : orchestrator.getWorkflow().getSteps()) {
             Assertions.assertThat(step.getStatus()).isEqualTo(WorkflowStepStatus.COMPLETE);
         }
-        Assertions.assertThat(orchestrator.isSuccessed()).isTrue();
     }
 
     @DisplayName("장바구니로부터의 구매는 구매 성공 후 장바구니에게 삭제 요청을 보낸다")
@@ -173,21 +174,22 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(1L,order.getId(),true);
+        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,order.getId(),true))
+                .isInstanceOf(SagaException.class);
+
 
         em.flush();
         em.clear();
 
-        Order cancledOrder = orderRepository.findById(order.getId()).get();
+        Order canceledOrder = orderRepository.findById(order.getId()).get();
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();
 
         // then
-        Assertions.assertThat(cancledOrder.getIsDeleted()).isTrue();
+        Assertions.assertThat(canceledOrder.getIsDeleted()).isTrue();
 
         boolean isAllOrderDetailDeleted = orderDetails.stream()
                 .allMatch(OrderDetail::getIsDeleted);
         Assertions.assertThat(isAllOrderDetailDeleted).isTrue();
-        Assertions.assertThat(orchestrator.isSuccessed()).isFalse();
 
     }
 
@@ -214,24 +216,21 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(1L,order.getId(),true);
+        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,order.getId(),true))
+                .isInstanceOf(SagaException.class);
 
         em.flush();
         em.clear();
 
-        Order cancledOrder = orderRepository.findById(order.getId()).get();
+        Order canceledOrder = orderRepository.findById(order.getId()).get();
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();
 
         // then
-        Assertions.assertThat(cancledOrder.getIsDeleted()).isTrue();
+        Assertions.assertThat(canceledOrder.getIsDeleted()).isTrue();
 
         boolean isAllOrderDetailDeleted = orderDetails.stream()
                 .allMatch(OrderDetail::getIsDeleted);
         Assertions.assertThat(isAllOrderDetailDeleted).isTrue();
-
-        WorkflowStep inventoryStep = orchestrator.getWorkflow().getSteps().get(0);
-        Assertions.assertThat(inventoryStep.getStatus()).isEqualTo(WorkflowStepStatus.FAILED);
-        Assertions.assertThat(orchestrator.isSuccessed()).isFalse();
 
     }
 
