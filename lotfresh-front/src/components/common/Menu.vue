@@ -187,7 +187,7 @@ ul {
   float: left;
   width: 20px;
   height: 14px;
-  margin: 7px 0 0 0px;
+  margin: 5px 0 0 0px;
   background: url("../../assets/menu.png") no-repeat;
   background-size: 15px;
 }
@@ -225,7 +225,7 @@ ul {
   float: left;
   width: fit-content;
   height: 55px;
-  padding-top: 16px;
+  padding-top: 4px;
   font-size: 16px;
   color: #333;
   text-align: center;

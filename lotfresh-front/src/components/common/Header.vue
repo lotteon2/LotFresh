@@ -25,7 +25,7 @@ import Menu from "./Menu.vue";
 
 <style scoped>
 .header {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   font-weight: 900;
@@ -40,7 +40,6 @@ import Menu from "./Menu.vue";
 }
 .search_wrap {
   padding-right: 10px;
-  top: 5x;
   display: flex;
   align-items: center;
   position: relative;
@@ -64,7 +63,7 @@ import Menu from "./Menu.vue";
 }
 
 .logo_img {
-  margin-top: -0.4vh;
+  left: 30px;
   width: 150px;
   height: auto;
   position: absolute;
@@ -85,8 +84,8 @@ import Menu from "./Menu.vue";
 }
 
 .header_icon_wrap {
-  top: 10px;
-  left: 600px;
+  top: 5px;
+  left: 550px;
   display: flex;
   align-items: center;
   position: relative;
