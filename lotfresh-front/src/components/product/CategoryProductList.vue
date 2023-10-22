@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import ProductItem from "@/components/product/item/ProductItem.vue";
 import { defaultInstance } from "@/api/utils";
-import { ref } from "vue";
+import { watch, ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -32,10 +32,18 @@ const products = ref([]);
 const componentHeight = ref("300px");
 const totalPage = ref();
 const totalElements = ref();
+
 const pageReq = ref({
   keyword: "",
   page: 1,
 });
+
+watch(
+  () => pageReq.value.page,
+  () => {
+    callApi();
+  }
+);
 
 const callApi = () => {
   defaultInstance
