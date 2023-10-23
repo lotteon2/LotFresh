@@ -1,6 +1,6 @@
 <template>
   <div v-if="products.length != 0">
-    <carousel :items-to-show="4" :items-to-scroll="2">
+    <carousel :items-to-show="4" :items-to-scroll="4">
       <slide v-for="(product, index) in products" :key="index">
         <product-item
           :key="index"

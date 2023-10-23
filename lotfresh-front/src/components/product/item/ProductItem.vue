@@ -16,7 +16,7 @@
       <span class="name">{{ product.name }}</span>
       <span class="cost">
         <span v-if="!product.salesPrice" class="price"
-          >{{ formattedPrice }}
+          >{{ formattedPrice }}원
         </span>
         <span v-else>
           <span style="text-decoration: line-through; color: #999999"
