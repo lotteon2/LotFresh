@@ -399,7 +399,8 @@ pipeline {
 											ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${ORDER_SERVICE_IMAGE_TAG}
 										fi
 										scp $ORDER_ENV_LIST ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/order-env.list
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}
+										ENV_VARS=$(cat $ORDER_ENV_LIST | tr '\n' ' ')
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG} $ENV_VARS
 									"""
 								}
             				}
