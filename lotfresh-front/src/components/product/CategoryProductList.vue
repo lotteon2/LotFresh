@@ -1,13 +1,11 @@
-<template>
-  <div v-if="products.length != 0" class="container">
-    <!-- <div class="content"> -->
+<template v-if="products.length != 0">
+  <div class="container">
     <div v-for="(product, index) in products" :key="index">
       <product-item
         :key="index"
         :product="product"
         :componentHeight="componentHeight"
       />
-      <!-- </div> -->
     </div>
   </div>
   <div class="pagination">
@@ -89,5 +87,6 @@ callApi();
 .el-pagination {
   display: flex;
   justify-content: center;
+  padding-left: 55px;
 }
 </style>
