@@ -25,7 +25,7 @@ public class CategoryApiController {
     return ResponseEntity.status(HttpStatus.CREATED).body(categoryId);
   }
 
-  @PutMapping("/{categoryId}")
+  @PatchMapping("/{categoryId}")
   public ResponseEntity<Void> modifyCategory(
       @Valid @RequestBody CategoryModifyRequest request,
       @PathVariable("categoryId") Long categoryId) {

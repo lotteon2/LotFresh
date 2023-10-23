@@ -24,7 +24,7 @@ public class DiscountApiController {
     return ResponseEntity.status(HttpStatus.CREATED).body(discountService.createDiscount(request));
   }
 
-  @PutMapping("/{discountId}")
+  @PatchMapping("/{discountId}")
   public ResponseEntity<Void> modifyDiscount(
       @Valid @RequestBody DiscountModifyRequest request,
       @PathVariable("discountId") Long discountId) {

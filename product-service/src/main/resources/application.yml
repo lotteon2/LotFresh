@@ -9,8 +9,6 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
-      hibernate:
-        format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
   profiles:
     active:
@@ -26,6 +24,6 @@ eureka:
 
 logging:
   level:
-    org.hibernate.SQL: debug
+    org.hibernate.SQL: warn
     org:
       springframework:
