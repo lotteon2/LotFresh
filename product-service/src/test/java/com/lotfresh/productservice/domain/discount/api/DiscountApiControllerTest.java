@@ -152,7 +152,7 @@ class DiscountApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
             .perform(
-                    put("/discounts/{discountID}", 1L)
+                    patch("/discounts/{discountID}", 1L)
                             .content(objectMapper.writeValueAsString(request))
                             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
@@ -167,7 +167,7 @@ class DiscountApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
             .perform(
-                    put("/discounts/{discountID}", 1L)
+                    patch("/discounts/{discountID}", 1L)
                             .content(objectMapper.writeValueAsString(request))
                             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
@@ -184,7 +184,7 @@ class DiscountApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
             .perform(
-                    put("/discounts/{discountID}", 1L)
+                    patch("/discounts/{discountID}", 1L)
                             .content(objectMapper.writeValueAsString(request))
                             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
