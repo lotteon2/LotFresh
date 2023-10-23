@@ -2,7 +2,7 @@ package com.lotfresh.orderservice.domain.order.scheduler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lotfresh.orderservice.domain.order.redis.RedisService;
+import com.lotfresh.orderservice.domain.order.redis.RedisRepository;
 import com.lotfresh.orderservice.domain.order.service.OrderService;
 import com.lotfresh.orderservice.domain.order.service.response.BestProductsResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class BestSellerScheduler {
-    private final RedisService redisService;
+    private final RedisRepository redisRepository;
     private final OrderService orderService;
     private final ObjectMapper objectMapper;
     final Integer BEST_SELLER_CNT = 100;
@@ -28,7 +28,7 @@ public class BestSellerScheduler {
     public void saveBestSellerProducts() throws JsonProcessingException {
         String key = LocalDate.now().toString();
         List<BestProductsResponse> bestSellers = orderService.getMostSoldProducts(BEST_SELLER_CNT);
-        redisService.setValues(key,objectMapper.writeValueAsString(bestSellers),EXPIRATION_DATE);
+        redisRepository.setValues(key,objectMapper.writeValueAsString(bestSellers),EXPIRATION_DATE);
     }
 
 }

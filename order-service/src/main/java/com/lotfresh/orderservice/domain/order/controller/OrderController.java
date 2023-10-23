@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/order")
@@ -34,6 +35,16 @@ public class OrderController {
         return ResponseEntity.ok().body(orderService.getOrdersWithPaging(userId,pageable));
     }
 
+<<<<<<< HEAD
+=======
+    @GetMapping("/refunds/me")
+    public ResponseEntity refunds(@RequestHeader(value = "userId", required = false) Long userId,
+                                  @PageableDefault(size = 5) Pageable pageable) {
+        return ResponseEntity.ok().body(orderService.getRefundsWithPaging(userId,pageable));
+    }
+
+
+>>>>>>> cbf5ac72ff459143008ea0b333b1890476bcf682
     @GetMapping("/{orderId}")
     public ResponseEntity orderDetail(@PathVariable Long orderId) {
         return ResponseEntity.ok().body(orderService.getOrderResponse(orderId));

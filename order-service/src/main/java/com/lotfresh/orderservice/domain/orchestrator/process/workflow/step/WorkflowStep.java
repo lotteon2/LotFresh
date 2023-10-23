@@ -1,11 +1,13 @@
 package com.lotfresh.orderservice.domain.orchestrator.process.workflow.step;
 
+import com.lotfresh.orderservice.exception.SagaException;
+
 public interface WorkflowStep {
-    abstract public boolean isRevertTarget();
-    abstract public Object process();
-    abstract public void revert();
-    abstract public void changeStatus(WorkflowStepStatus status);
-    abstract public WorkflowStepStatus getStatus();
-    abstract public String getWorkflowName();
+    boolean isRevertTarget();
+     Object process() throws SagaException;
+     void revert();
+     void changeStatus(WorkflowStepStatus status);
+     WorkflowStepStatus getStatus();
+     String getWorkflowName();
 
 }

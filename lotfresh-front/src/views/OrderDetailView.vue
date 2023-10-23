@@ -2,7 +2,7 @@
   <div>
     <div class="pageTitle">
       <div class="title">
-        <h3>주문 상세정보</h3>
+        <h2>주문 상세정보</h2>
       </div>
       <order :orderData="order" />
 

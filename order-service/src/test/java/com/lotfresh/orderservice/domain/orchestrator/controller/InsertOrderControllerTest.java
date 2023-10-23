@@ -123,7 +123,7 @@ class InsertOrderControllerTest {
                 .andExpect(jsonPath("$.message").value("잘못된 요청입니다"))
                 .andExpect(jsonPath("$.validation.productId").value("productId cannot be null"))
                 .andExpect(jsonPath("$.validation.productPrice").value("productPrice cannot be null"))
-                .andExpect(jsonPath("$.validation.productQuantity").value("productQuantity cannot be null"));
+                .andExpect(jsonPath("$.validation.productStock").value("productStock cannot be null"));
     }
 
 
@@ -131,7 +131,7 @@ class InsertOrderControllerTest {
         return ProductRequest.builder()
                 .productId(productId)
                 .productPrice(productPrice)
-                .productQuantity(productQuantity)
+                .productStock(productQuantity)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
                 .build();
