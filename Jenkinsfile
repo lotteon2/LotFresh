@@ -161,7 +161,7 @@ pipeline {
 					steps {
 						dir('product-service') {
 							sh 'chmod +x ./gradlew'
-							sh './gradlew clean build'
+							sh './gradlew clean assemble'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${PRODUCT_SERVICE_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${PRODUCT_SERVICE_IMAGE_TAG}'
 						}
@@ -188,7 +188,7 @@ pipeline {
 					steps {
 						dir('order-service') {
 							sh 'chmod +x ./gradlew'
-							sh './gradlew clean build'
+							sh './gradlew clean assemble'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}'
 						}
@@ -215,7 +215,7 @@ pipeline {
 					steps {
 						dir('payment-service') {
 							sh 'chmod +x ./gradlew'
-							sh './gradlew clean build'
+							sh './gradlew clean assemble'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${PAYMENT_SERVICE_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${PAYMENT_SERVICE_IMAGE_TAG}'
 						}
@@ -242,7 +242,7 @@ pipeline {
 					steps {
 						dir('storage-service') {
 							sh 'chmod +x ./gradlew'
-							sh './gradlew clean build'
+							sh './gradlew clean assemble'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${STORAGE_SERVICE_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${STORAGE_SERVICE_IMAGE_TAG}'
 						}
