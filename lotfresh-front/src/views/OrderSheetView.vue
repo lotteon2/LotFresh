@@ -2,7 +2,7 @@
   <div>
     <div class="pageTitle">
       <div class="title">
-        <h2>주문서</h2>
+        <h1>주문서</h1>
       </div>
     </div>
 
@@ -31,6 +31,7 @@ export default {
   text-align: center;
   margin-top: 150px;
   margin-bottom: 50px;
+  font-size: 25px;
 }
 .pay-button {
   text-align: center;

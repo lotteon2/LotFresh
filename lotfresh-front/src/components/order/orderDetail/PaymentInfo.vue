@@ -40,6 +40,7 @@ export default {};
 .outer {
   margin-right: auto;
   margin-left: auto;
+  font-size: 25px;
 }
 
 .item {

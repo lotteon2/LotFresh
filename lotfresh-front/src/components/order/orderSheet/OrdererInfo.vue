@@ -2,18 +2,7 @@
   <div class="outer">
     <div>
       <div class="title">
-        <div class="item"><h3>주문자 정보</h3></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
+        <div class=""><h3>주문자 정보</h3></div>
       </div>
     </div>
     <div class="orderer-info-container">
@@ -53,9 +42,9 @@ export default {};
 .title {
   display: grid;
   grid: ". . . . . . . . . . . .";
-  padding-bottom: 10px;
   border-bottom: 2px solid rgb(0, 0, 0);
   margin-top: 30px;
+  padding-bottom: 10px;
 }
 
 .container {
@@ -69,6 +58,7 @@ export default {};
 .outer {
   margin-right: auto;
   margin-left: auto;
+  font-size: 25px;
 }
 
 .item {
