@@ -13,6 +13,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,14 +35,14 @@ public class OrderDetail extends BaseEntity {
     private Long price;
 
     @NotNull
-    private Long quantity;
+    private Long stock;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private OrderDetailStatus status;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
-    private Boolean isDeleted = false;
+    private Boolean isDeleted;
 
     @NotNull
     private String productName;
@@ -55,17 +56,18 @@ public class OrderDetail extends BaseEntity {
     private PaymentStatus paymentStatus = PaymentStatus.READY;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private RefundStatus refundStatus = RefundStatus.READY;
+    private RefundStatus refundStatus = RefundStatus.CREATED;
+    private LocalDateTime refundCreatedAt;
 
     @Builder
-    private OrderDetail(Order order, Long productId, Long price, Long quantity, OrderDetailStatus status,
+    private OrderDetail(Order order, Long productId, Long price, Long stock, OrderDetailStatus status,
                         String productName, String productThumbnail) {
         // 엔티티가 아닌 순수 객체 상태에서도 양방향 연관관계를 구현
         order.getOrderDetails().add(this);
         this.order = order;
         this.productId = productId;
         this.price = price;
-        this.quantity = quantity;
+        this.stock = stock;
         this.status = status;
         this.productName = productName;
         this.productThumbnail = productThumbnail;

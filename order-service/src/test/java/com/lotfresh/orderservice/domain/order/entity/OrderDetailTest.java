@@ -75,7 +75,7 @@ class OrderDetailTest {
                 .order(order)
                 .productId(1L)
                 .price(2L)
-                .quantity(3L)
+                .stock(3L)
                 .status(orderDetailStatus)
                 .build();
         orderDetail.changePaymentStatus(paymentStatus);

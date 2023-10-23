@@ -5,10 +5,13 @@ import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStepStatus;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
+import com.lotfresh.orderservice.exception.SagaException;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 
+@Slf4j
 @RequiredArgsConstructor
 public class PaymentStep implements WorkflowStep {
     private final String workflowName;
@@ -25,15 +28,22 @@ public class PaymentStep implements WorkflowStep {
 
     @Override
     public Object process() {
-        ResponseEntity result = feignClient.requestPayment(paymentRequest);
-        changeStatus(WorkflowStepStatus.COMPLETE);
-        return result;
+        try{
+            ResponseEntity result = feignClient.requestPayment(paymentRequest);
+            changeStatus(WorkflowStepStatus.COMPLETE);
+            log.info("PaymentStep : 성공");
+            return result;
+        } catch (Exception e) {
+            log.error("PaymentStep : 실패");
+            throw new SagaException(e.getMessage(),"PaymentStep");
+        }
     }
 
     @Override
     public void revert() {
         kafkaProducer.send("payment",paymentRequest);
         changeStatus(WorkflowStepStatus.FAILED);
+        log.info("PaymentStepRevert : 성공");
     }
 
     @Override
