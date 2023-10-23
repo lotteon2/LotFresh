@@ -43,6 +43,9 @@ const formattedDiscountPrice = computed(() => {
 </script>
 
 <style scoped>
+.item {
+  width: 220px;
+}
 img {
   margin: 0;
 }

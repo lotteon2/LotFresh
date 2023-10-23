@@ -36,5 +36,6 @@ callApi();
   display: flex;
   flex-wrap: wrap;
   gap: 39px;
+  padding-left: 55px;
 }
 </style>

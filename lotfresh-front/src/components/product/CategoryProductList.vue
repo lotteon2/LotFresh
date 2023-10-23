@@ -1,23 +1,23 @@
 <template>
   <div v-if="products.length != 0" class="container">
-    <div class="content">
-      <div v-for="(product, index) in products" :key="index">
-        <product-item
-          :key="index"
-          :product="product"
-          :componentHeight="componentHeight"
-        />
-      </div>
-    </div>
-    <div class="pagination">
-      <el-pagination
-        :page-size="20"
-        :pager-count="11"
-        layout="prev, pager, next"
-        :total="totalPage * totalElements"
-        v-model:currentPage="pageReq.page"
+    <!-- <div class="content"> -->
+    <div v-for="(product, index) in products" :key="index">
+      <product-item
+        :key="index"
+        :product="product"
+        :componentHeight="componentHeight"
       />
+      <!-- </div> -->
     </div>
+  </div>
+  <div class="pagination">
+    <el-pagination
+      :page-size="20"
+      :pager-count="11"
+      layout="prev, pager, next"
+      :total="totalPage * totalElements"
+      v-model:currentPage="pageReq.page"
+    />
   </div>
 </template>
 
@@ -73,10 +73,17 @@ callApi();
 </script>
 
 <style scoped>
-.content {
+/* .content {
   display: flex;
   flex-wrap: wrap;
   gap: 39px;
+} */
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 39px;
+  padding-left: 55px;
 }
 
 .el-pagination {
