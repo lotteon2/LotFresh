@@ -58,7 +58,7 @@ class CategoryApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
         .perform(
-            put("/categories/{categoryId}", categoryId)
+            patch("/categories/{categoryId}", categoryId)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
         .andDo(print())
@@ -78,7 +78,7 @@ class CategoryApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
         .perform(
-            put("/categories/{categoryId}", categoryId)
+            patch("/categories/{categoryId}", categoryId)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
         .andDo(print())
