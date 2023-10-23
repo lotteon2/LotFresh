@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: payment-service
+  datasource:
+    url: jdbc:mysql://${DB_IP}:${PAYMENT_DB_PORT}/${PAYMENT_DB_SCHEMA}?serverTimeZone=UTC
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   datasource:
     url: jdbc:mysql://${DB_IP}:${PAYMENT_DB_PORT}/${PAYMENT_DB_SCHEMA}?serverTimeZone=UTC
@@ -42,6 +47,15 @@ spring:
     group:
       develop: "env"
 
+  redis:
+    host: ${DB_IP}
+    port: ${REDIS_PORT}
+    password: ${DB_PASSWORD}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/
 
 logging:
   level:

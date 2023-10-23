@@ -1,6 +1,9 @@
 spring:
+  profiles:
+    active: test
+
   datasource:
-    url: jdbc:h2:mem:~/productService
+    url: jdbc:h2:mem:~/orderService
     driver-class-name: org.h2.Driver
     username: sa
     password:
@@ -12,3 +15,27 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  kafka:
+    producer:
+      bootstrap-servers: localhost:7777
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: localhost:7777
+    group-id: order-detail-status
+    server-config: localhost:7777
+
+  redis:
+    host: localhost
+    port: 6379
+
+  cloud:
+    discovery:
+      enabled: false
+
+logging:
+  level:
+    org:
+      springframework:
+        transaction:
+          interceptor: TRACE

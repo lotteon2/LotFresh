@@ -27,7 +27,7 @@ public class DiscountService {
   public Long createDiscount(DiscountCreateRequest request) {
     Long categoryId = request.getCategoryId();
     Category getCategory =
-        categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFound());
+        categoryRepository.findById(categoryId).orElseThrow(CategoryNotFound::new);
     Discount discount = request.toEntity(getCategory);
     Discount savedDiscount = discountRepository.save(discount);
     return savedDiscount.getId();
@@ -35,19 +35,19 @@ public class DiscountService {
 
   @Transactional
   public void modifyDiscount(DiscountModifyRequest request, Long id) {
-    Discount discount = discountRepository.findById(id).orElseThrow(() -> new DiscountNotFound());
+    Discount discount = discountRepository.findById(id).orElseThrow(DiscountNotFound::new);
     discount.changeDiscount(request.getRate(), request.getImgurl());
   }
 
   public DiscountResponse getDiscount(Long id) {
     Discount discount =
-        discountRepository.findByIdFetch(id).orElseThrow(() -> new DiscountNotFound());
-    DiscountResponse discountResponse = DiscountResponse.of(discount);
+        discountRepository.findByIdFetch(id).orElseThrow(DiscountNotFound::new);
+    DiscountResponse discountResponse = DiscountResponse.from(discount);
     return discountResponse;
   }
 
   public List<DiscountResponse> getDiscounts() {
     List<Discount> discountList = discountRepository.findAllFetch();
-    return discountList.stream().map(DiscountResponse::of).collect(Collectors.toList());
+    return discountList.stream().map(DiscountResponse::from).collect(Collectors.toList());
   }
 }
