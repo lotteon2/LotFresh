@@ -26,7 +26,7 @@ public class RefundApiControllerTest extends ControllerTestSupport {
     void refundCreate() throws Exception {
         Long orderDetailId = 1L;
         RefundCreateRequest request =
-                new RefundCreateRequest(5000L, 12L, "KAKAOPAY", "그냥");
+                new RefundCreateRequest(5000L, 12L, 1L, "KAKAOPAY", "그냥");
 
         Long mockRefundId = 1L;
         when(refundService.createRefund(anyLong(), any(RefundCreateRequest.class)))
@@ -50,7 +50,7 @@ public class RefundApiControllerTest extends ControllerTestSupport {
     void refundCreateWithoutUserId() throws Exception {
         Long orderDetailId = 1L;
         RefundCreateRequest request =
-                new RefundCreateRequest(5000L, 12L, "KAKAOPAY", "그냥");
+                new RefundCreateRequest(5000L, 12L, 1L, "KAKAOPAY", "그냥");
 
         Long mockRefundId = 1L;
         when(refundService.createRefund(anyLong(), any(RefundCreateRequest.class)))
@@ -69,7 +69,7 @@ public class RefundApiControllerTest extends ControllerTestSupport {
     void refundCreateWithoutAmount() throws Exception {
         Long orderDetailId = 1L;
         RefundCreateRequest request =
-                new RefundCreateRequest(null, 12L, "KAKAOPAY", "그냥");
+                new RefundCreateRequest(5000L, null, 1L, "KAKAOPAY", "그냥");
 
         Long mockRefundId = 1L;
         when(refundService.createRefund(anyLong(), any(RefundCreateRequest.class)))
@@ -91,7 +91,7 @@ public class RefundApiControllerTest extends ControllerTestSupport {
     void refundCreateWithoutOrderId() throws Exception {
         Long orderDetailId = 1L;
         RefundCreateRequest request =
-                new RefundCreateRequest(5000L, null, "KAKAOPAY", "그냥");
+                new RefundCreateRequest(5000L, 12L, null, "KAKAOPAY", "그냥");
 
         Long mockRefundId = 1L;
         when(refundService.createRefund(anyLong(), any(RefundCreateRequest.class)))
@@ -113,7 +113,7 @@ public class RefundApiControllerTest extends ControllerTestSupport {
     void refundCreateWithoutRefundMethod() throws Exception {
         Long orderDetailId = 1L;
         RefundCreateRequest request =
-                new RefundCreateRequest(5000L, 12L, null, "그냥");
+                new RefundCreateRequest(5000L, 12L, 1L, null, "그냥");
 
         Long mockRefundId = 1L;
         when(refundService.createRefund(anyLong(), any(RefundCreateRequest.class)))
@@ -135,7 +135,7 @@ public class RefundApiControllerTest extends ControllerTestSupport {
     void refundCreateWithoutRefundReason() throws Exception {
         Long orderDetailId = 1L;
         RefundCreateRequest request =
-                new RefundCreateRequest(5000L, 12L, "KAKAOPAY", null);
+                new RefundCreateRequest(5000L, 12L, 1L, "KAKAOPAY", null);
 
         Long mockRefundId = 1L;
         when(refundService.createRefund(anyLong(), any(RefundCreateRequest.class)))
