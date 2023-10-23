@@ -15,7 +15,11 @@
   </div>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+export default {
+  // 이거를 안쓰더라도 넣어주셔야 다른 파일에서 이 컴포넌트를 import 할 수 있습니다.
+};
+</script>
 
 <style scoped>
 .text-right {
