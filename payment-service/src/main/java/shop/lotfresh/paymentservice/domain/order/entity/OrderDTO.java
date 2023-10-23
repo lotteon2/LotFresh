@@ -1,15 +1,16 @@
 package shop.lotfresh.paymentservice.domain.order.entity;
 
 import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import shop.lotfresh.paymentservice.common.BaseTimeEntity;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Order {
+public class OrderDTO extends BaseTimeEntity {
+
     private Long id;
+    private Long oauthId;
+    private Boolean isDeleted;
 
 }
