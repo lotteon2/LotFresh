@@ -14,9 +14,10 @@ spring:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
   profiles:
     active:
-      - develop
+      - ${PROFILE:local}
     group:
       develop: "env"
+      local: "local"
 
 eureka:
   client:

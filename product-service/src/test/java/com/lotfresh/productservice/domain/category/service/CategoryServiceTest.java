@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -197,6 +198,25 @@ class CategoryServiceTest {
     List<CategoryResponse> categories = categoryService.getCategories();
     // then
     assertThat(categories).extracting("name").containsExactlyInAnyOrder("냉동", "냉장");
+  }
+
+  @DisplayName("카테고리 id를 입력 받아 자식 카테고리 id를 set으로 반환한다.")
+  @Test
+  void getChildrenById() {
+    // given
+    Category category1 = Category.builder().parent(null).name("냉동").build();
+    Category category2 = Category.builder().parent(null).name("냉장").build();
+    Category category3 = Category.builder().parent(category2).name("과일").build();
+    Category category4 = Category.builder().parent(category2).name("블루베리").build();
+    categoryRepository.saveAll(List.of(category1, category2, category3, category4));
+
+    // when
+    Set<Long> childrenIdsById = categoryService.getChildrenIdsById(category2.getId());
+
+    // then
+    assertThat(childrenIdsById)
+            .contains(category3.getId(), category4.getId());
+
   }
 
   private Category createCategory() {

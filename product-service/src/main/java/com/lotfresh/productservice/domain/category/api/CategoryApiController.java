@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,5 +47,10 @@ public class CategoryApiController {
   @GetMapping("")
   public ResponseEntity<List<CategoryResponse>> getCategories() {
     return ResponseEntity.ok(categoryService.getCategories());
+  }
+
+  @GetMapping("/{categoryId}/children")
+          public ResponseEntity<Set<Long>> getChildrenIdsById(@PathVariable ("categoryId") Long categoryId) {
+    return ResponseEntity.ok(categoryService.getChildrenIdsById(categoryId));
   }
 }
