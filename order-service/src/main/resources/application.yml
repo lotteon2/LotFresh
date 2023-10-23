@@ -8,19 +8,15 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
-      hibernate:
-        format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
   profiles:
     active:
-      - develop
+      - ${PROFILE:local}
     group:
       develop: "env"
+      local: "local"
 
-
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
-    org:
-      springframework: INFO
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka
