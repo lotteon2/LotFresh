@@ -15,6 +15,7 @@ public class KafkaConsumer {
     @KafkaListener(topics = "refund-success", groupId = "${spring.kafka.group-id}")
     public void listenOrderDetailStatus(ConsumerRecord<Long, OrderDetailStatus> record) {
         Long orderDetailId = record.key();
+        // TODO : kafka로 통신하는 상태가 orderDetail에 대한 상태인지? 아니면 refundStatus에 대한 상태인지
         OrderDetailStatus value = record.value();
         orderService.changeProductOrderStatus(orderDetailId,value);
     }

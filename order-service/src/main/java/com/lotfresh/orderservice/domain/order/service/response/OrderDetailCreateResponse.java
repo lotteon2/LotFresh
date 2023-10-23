@@ -15,7 +15,7 @@ public class OrderDetailCreateResponse {
     private Long productId;
     private String productName;
     private Long price;
-    private Long quantity;
+    private Long stock;
 
     public static OrderDetailCreateResponse from(OrderDetail orderDetail) {
         return OrderDetailCreateResponse.builder()
@@ -23,7 +23,7 @@ public class OrderDetailCreateResponse {
                 .productId(orderDetail.getProductId())
                 .productName(orderDetail.getProductName())
                 .price(orderDetail.getPrice())
-                .quantity(orderDetail.getQuantity())
+                .stock(orderDetail.getStock())
                 .build();
     }
 }

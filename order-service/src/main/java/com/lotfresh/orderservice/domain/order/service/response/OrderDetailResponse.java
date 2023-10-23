@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class OrderDetailResponse {
     private Long orderDetailId;
     private Long price;
-    private Long quantity;
+    private Long stock;
     private String status;
     private String productName;
     private String productThumbnail;
@@ -22,7 +22,7 @@ public class OrderDetailResponse {
         return OrderDetailResponse.builder()
                 .orderDetailId(orderDetail.getId())
                 .price(orderDetail.getPrice())
-                .quantity(orderDetail.getQuantity())
+                .stock(orderDetail.getStock())
                 .status(orderDetail.getFinalStatusAsString())
                 .productName(orderDetail.getProductName())
                 .productThumbnail(orderDetail.getProductThumbnail())

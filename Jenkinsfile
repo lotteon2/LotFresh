@@ -161,7 +161,7 @@ pipeline {
 					steps {
 						dir('product-service') {
 							sh 'chmod +x ./gradlew'
-							sh './gradlew clean build'
+							sh './gradlew clean assemble'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${PRODUCT_SERVICE_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${PRODUCT_SERVICE_IMAGE_TAG}'
 						}
@@ -188,7 +188,7 @@ pipeline {
 					steps {
 						dir('order-service') {
 							sh 'chmod +x ./gradlew'
-							sh './gradlew clean build'
+							sh './gradlew clean assemble'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}'
 						}
@@ -215,7 +215,7 @@ pipeline {
 					steps {
 						dir('payment-service') {
 							sh 'chmod +x ./gradlew'
-							sh './gradlew clean build'
+							sh './gradlew clean assemble'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${PAYMENT_SERVICE_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${PAYMENT_SERVICE_IMAGE_TAG}'
 						}
@@ -242,7 +242,7 @@ pipeline {
 					steps {
 						dir('storage-service') {
 							sh 'chmod +x ./gradlew'
-							sh './gradlew clean build'
+							sh './gradlew clean assemble'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${STORAGE_SERVICE_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${STORAGE_SERVICE_IMAGE_TAG}'
 						}
@@ -366,12 +366,14 @@ pipeline {
                     steps {
 						script {
             				sshagent(credentials: ['ssh']) {
-								sh """
-									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${PRODUCT_SERVICE_IMAGE_TAG}; then
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${PRODUCT_SERVICE_IMAGE_TAG}
-									fi
-									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8083:8083 --name ${PRODUCT_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${PRODUCT_SERVICE_IMAGE_TAG}
-								"""
+									sh """
+										if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${PRODUCT_SERVICE_IMAGE_TAG}; then
+											ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${PRODUCT_SERVICE_IMAGE_TAG}
+										fi
+										
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8083:8083 --name ${PRODUCT_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${PRODUCT_SERVICE_IMAGE_TAG}
+
+									"""
             				}
         				}
                     }
@@ -389,12 +391,13 @@ pipeline {
                     steps {
 						script {
             				sshagent(credentials: ['ssh']) {
-								sh """
-									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${ORDER_SERVICE_IMAGE_TAG}; then
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${ORDER_SERVICE_IMAGE_TAG}
-									fi
-									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}
-								"""
+									sh '''
+										if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${ORDER_SERVICE_IMAGE_TAG}; then
+											ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${ORDER_SERVICE_IMAGE_TAG}
+										fi
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}
+									'''
+								
             				}
         				}
                     }

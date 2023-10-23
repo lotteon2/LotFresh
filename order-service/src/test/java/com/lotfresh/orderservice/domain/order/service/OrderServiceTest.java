@@ -1,6 +1,7 @@
 package com.lotfresh.orderservice.domain.order.service;
 
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
+import com.lotfresh.orderservice.domain.order.entity.status.RefundStatus;
 import com.lotfresh.orderservice.domain.order.service.response.*;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import com.lotfresh.orderservice.domain.order.entity.Order;
@@ -68,7 +69,7 @@ class OrderServiceTest {
                 .order(order)
                 .productId(1L)
                 .price(1000L)
-                .quantity(1L)
+                .stock(1L)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
@@ -117,7 +118,7 @@ class OrderServiceTest {
                 .order(order)
                 .productId(1L)
                 .price(1000L)
-                .quantity(1L)
+                .stock(1L)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
@@ -126,7 +127,7 @@ class OrderServiceTest {
                 .order(order)
                 .productId(1L)
                 .price(1000L)
-                .quantity(1L)
+                .stock(1L)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
@@ -162,7 +163,7 @@ class OrderServiceTest {
                 .order(order)
                 .productId(1L)
                 .price(1000L)
-                .quantity(1L)
+                .stock(1L)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
@@ -170,6 +171,9 @@ class OrderServiceTest {
 
         orderRepository.save(order);
         orderDetailRepository.save(orderDetail);
+
+        em.flush();
+        em.clear();
 
         // when
         orderService.refundOrder(orderDetail.getId());
@@ -204,7 +208,7 @@ class OrderServiceTest {
         // then
         Assertions.assertThat(orderResponse.getOrderCreatedTime()).isEqualTo(savedOrder.getCreatedAt());
         Assertions.assertThat(orderResponse.getOrderDetailResponses()).hasSize(2)
-                .extracting("price","quantity","productName","productThumbnail")
+                .extracting("price","stock","productName","productThumbnail")
                 .containsExactlyInAnyOrder(
                         Tuple.tuple(10L,100L,"제품명","제품썸네일"),
                         Tuple.tuple(20L,200L,"제품명","제품썸네일")
@@ -368,6 +372,57 @@ class OrderServiceTest {
 
     }
 
+    @DisplayName("특정 유저의 환불 정보를 pageable해서 요구한 만큼만 가져온다")
+    @Test
+    void getRefundsWithPaging() {
+        // given
+        Long userId = 1L;
+        Order order = createOrder(userId);
+        Order savedOrder = orderRepository.save(order);
+
+        OrderDetail orderDetail1 = createOrderDetail(savedOrder, 1L,1L,1L);
+        OrderDetail orderDetail2 = createOrderDetail(savedOrder, 2L,2L,2L);
+        OrderDetail orderDetail3 = createOrderDetail(savedOrder, 3L,3L,3L);
+        OrderDetail orderDetail4 = createOrderDetail(savedOrder, 4L,4L,4L);
+        OrderDetail orderDetail5 = createOrderDetail(savedOrder, 5L,5L,5L);
+        OrderDetail orderDetail6 = createOrderDetail(savedOrder, 6L,6L,6L);
+        OrderDetail orderDetail7 = createOrderDetail(savedOrder, 7L,7L,7L);
+
+        changeRefundStatus(orderDetail1, RefundStatus.REJECTED);
+        changeRefundStatus(orderDetail2,RefundStatus.REJECTED);
+        changeRefundStatus(orderDetail3,RefundStatus.READY);
+        changeRefundStatus(orderDetail4,RefundStatus.READY);
+        changeRefundStatus(orderDetail5,RefundStatus.APPROVED);
+        changeRefundStatus(orderDetail6,RefundStatus.APPROVED);
+        changeRefundStatus(orderDetail7,RefundStatus.CREATED);
+
+        orderDetailRepository.save(orderDetail1);
+        orderDetailRepository.save(orderDetail2);
+        orderDetailRepository.save(orderDetail3);
+        orderDetailRepository.save(orderDetail4);
+        orderDetailRepository.save(orderDetail5);
+        orderDetailRepository.save(orderDetail6);
+        orderDetailRepository.save(orderDetail7);
+
+        em.flush();
+        em.clear();
+
+        int page = 0;
+        int size = 5;
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        // when
+        RefundPageResponse refundsWithPaging = orderService.getRefundsWithPaging(userId, pageRequest);
+
+        // then
+        Assertions.assertThat(refundsWithPaging.getTotalPage()).isEqualTo(2);
+        Assertions.assertThat(refundsWithPaging.getContents()).hasSize(5);
+        Assertions.assertThat(refundsWithPaging.getContents())
+                .extracting("refundStatus")
+                .doesNotContain(RefundStatus.CREATED);
+
+    }
+
 
     private Order createOrder(Long userId) {
         return Order.builder()
@@ -380,7 +435,7 @@ class OrderServiceTest {
                 .order(order)
                 .productId(1L)
                 .price(price)
-                .quantity(100L)
+                .stock(100L)
                 .productName("제품명")
                 .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
@@ -391,7 +446,7 @@ class OrderServiceTest {
         return ProductRequest.builder()
                 .productId(productId)
                 .productPrice(productPrice)
-                .productQuantity(productQuantity)
+                .productStock(productQuantity)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
                 .build();
@@ -402,11 +457,15 @@ class OrderServiceTest {
                 .order(order)
                 .productId(productId)
                 .price(price)
-                .quantity(quantity)
+                .stock(quantity)
                 .productName("제품명")
                 .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
                 .build();
+    }
+
+    private void changeRefundStatus(OrderDetail orderDetail, RefundStatus status){
+        orderDetail.changeRefundStatus(status);
     }
 
 }

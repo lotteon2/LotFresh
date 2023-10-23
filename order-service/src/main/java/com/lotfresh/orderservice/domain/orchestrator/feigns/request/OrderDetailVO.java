@@ -19,7 +19,7 @@ public class OrderDetailVO {
         return OrderDetailVO.builder()
                 .productName(orderDetailCreateResponse.getProductName())
                 .price(orderDetailCreateResponse.getPrice())
-                .quantity(orderDetailCreateResponse.getQuantity())
+                .quantity(orderDetailCreateResponse.getStock())
                 .build();
     }
 }
