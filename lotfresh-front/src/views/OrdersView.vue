@@ -2,7 +2,7 @@
   <div>
     <div class="pageTitle">
       <div class="title">
-        <h3>전체 주문 내역</h3>
+        <h2>전체 주문 내역</h2>
       </div>
 
       <div v-for="order in orders" :key="order.orderId">

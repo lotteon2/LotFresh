@@ -2,14 +2,14 @@
   <div>
     <div class="pageTitle">
       <div class="title">
-        <h3>주문서</h3>
+        <h2>주문서</h2>
       </div>
     </div>
 
     <order-product />
     <orderer-info />
     <delivery-info />
-    <payment-info />
+    <payment-bill />
     <div class="pay-button">
       <button>카카오페이로 결제하기</button>
     </div>
@@ -20,9 +20,9 @@
 import DeliveryInfo from "../components/order/orderSheet/DeliveryInfo.vue";
 import OrdererInfo from "../components/order/orderSheet/OrdererInfo.vue";
 import OrderProduct from "../components/order/orderSheet/OrderProduct.vue";
-import PaymentInfo from "../components/order/orderSheet/PaymentInfo.vue";
+import PaymentBill from "../components/order/orderSheet/PaymentBill.vue";
 export default {
-  components: { DeliveryInfo, OrdererInfo, OrderProduct, PaymentInfo },
+  components: { DeliveryInfo, OrdererInfo, OrderProduct, PaymentBill },
 };
 </script>
 
