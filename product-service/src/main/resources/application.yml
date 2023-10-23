@@ -12,12 +12,12 @@ spring:
       hibernate:
         format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
-  profiles:
-    active:
-      - ${PROFILE:local}
-    group:
-      develop: "env"
-      local: "local"
+  # profiles:
+  #   active:
+  #     - ${PROFILE:local}
+  #   group:
+  #     develop: "env"
+  #     local: "local"
 
 eureka:
   client:
