@@ -366,13 +366,14 @@ pipeline {
                     steps {
 						script {
             				sshagent(credentials: ['ssh']) {
-								configFileProvider([configFile(fileId: '6e06d92f-6fc9-40c3-bbfc-50020bf37a2c', variable: 'PRODUCT_ENV_LIST')]) {  // env.list 파일 가져오기
+								configFileProvider([configFile(fileId: '6e06d92f-6fc9-40c3-bbfc-50020bf37a2c', variable: 'PRODUCT_ENV_LIST')]) {
 									sh """
 										if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${ORDER_SERVICE_IMAGE_TAG}; then
 											ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${ORDER_SERVICE_IMAGE_TAG}
 										fi
 										scp $PRODUCT_ENV_LIST ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/product-env.list
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run --env-file /home/ubuntu/product-env.list -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run --env-file /home/ubuntu/product-env.list -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG} bash -c 'env'
+
 									"""
 								}
 

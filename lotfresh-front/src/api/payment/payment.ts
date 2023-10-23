@@ -5,6 +5,7 @@ interface PaymentInfo {
   originalAmount: number;
   discountedAmount: number;
   transactionAmount: number;
+  //
 }
 
 export const getPaymentDetailInfo = async (
