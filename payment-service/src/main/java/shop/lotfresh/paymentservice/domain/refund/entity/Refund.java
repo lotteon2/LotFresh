@@ -18,6 +18,9 @@ public class Refund extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
+    private Long stock;
+
+    @Column(nullable = false)
     private Long amount;
 
     @Column(nullable = false)

@@ -2,11 +2,15 @@ package shop.lotfresh.paymentservice.domain.refund.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import shop.lotfresh.paymentservice.domain.payment.dto.PaymentInfoResponseDTO;
 import shop.lotfresh.paymentservice.domain.refund.api.request.RefundCreateRequest;
+import shop.lotfresh.paymentservice.domain.refund.dto.RefundInfoResponseDTO;
 import shop.lotfresh.paymentservice.domain.refund.service.RefundService;
 
 import javax.validation.Valid;
@@ -49,4 +53,15 @@ public class RefundApiController {
         refundService.rejectRefund(refundId);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{refundId}")
+    public ResponseEntity<RefundInfoResponseDTO> getRefundInfoById(@PathVariable Long refundId) {
+        try {
+            RefundInfoResponseDTO refundInfoResponseDTO = refundService.getRefundDetailByRefundId(refundId);
+            return ResponseEntity.ok(refundInfoResponseDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 }

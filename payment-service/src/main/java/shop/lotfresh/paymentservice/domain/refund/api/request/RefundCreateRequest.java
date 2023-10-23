@@ -13,6 +13,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class RefundCreateRequest {
 
+    @NotNull(message = "amount cannot be null")
+    private Long stock;
+
     // 돈 얼마 환불할지 클라이언트한테 직접 받는게 맞나? orderDetailId가 있으면 얼마를 환불해줘야할지 알 수 있는데?
     // 이 정보는 다른 Micro Service에 있다.
     // 일단 openfeign으로 얻어오는걸로 1차적인 결론을 냈음.
@@ -36,6 +39,7 @@ public class RefundCreateRequest {
 
     public Refund toEntity(Long orderDetailId, Payment payment) {
         return Refund.builder()
+                .stock(stock)
                 .amount(amount)
                 .refundReason(refundReason)
                 .refundMethod(refundMethod)
