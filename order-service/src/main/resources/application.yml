@@ -6,12 +6,16 @@ spring:
       ddl-auto: update
     properties:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
-  # profiles:
-  #   active:
-  #     - ${PROFILE:local}
-  #   group:
-  #     develop: "env"
-  #     local: "local"
+  datasource:
+    url: jdbc:mysql://${DB_IP}:${ORDER_DB_PORT}/${ORDER_DB_SCHEMA}?serverTimeZone=UTC
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: ${DB_IP}
+    port: ${REDIS_PORT}
+    password: ${DB_PASSWORD}
 
 eureka:
   client:
