@@ -393,12 +393,15 @@ pipeline {
                     steps {
 						script {
             				sshagent(credentials: ['ssh']) {
-								sh """
-									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${ORDER_SERVICE_IMAGE_TAG}; then
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${ORDER_SERVICE_IMAGE_TAG}
-									fi
-									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}
-								"""
+								configFileProvider([configFile(fileId: 'd7345a2b-1d0e-4272-bbf3-845d9539e7ea', variable: 'ORDER_ENV_LIST')]) {
+									sh """
+										if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${ORDER_SERVICE_IMAGE_TAG}; then
+											ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${ORDER_SERVICE_IMAGE_TAG}
+										fi
+										scp $ORDER_ENV_LIST ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/order-env.list
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}
+									"""
+								}
             				}
         				}
                     }
