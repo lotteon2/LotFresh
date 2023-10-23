@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -30,8 +31,7 @@ public class CategoryService {
   @Transactional
   public void modifyCategory(CategoryModifyRequest request, Long categoryId) {
     Category parent = getParentOfNullable(request.getParentId());
-    Category category =
-        categoryRepository.findById(categoryId).orElseThrow(CategoryNotFound::new);
+    Category category = categoryRepository.findById(categoryId).orElseThrow(CategoryNotFound::new);
     category.changeCategory(parent, request.getName());
   }
 
@@ -42,8 +42,7 @@ public class CategoryService {
    */
   @Transactional
   public void softDeleteCategory(Long categoryId) {
-    Category category =
-        categoryRepository.findById(categoryId).orElseThrow(CategoryNotFound::new);
+    Category category = categoryRepository.findById(categoryId).orElseThrow(CategoryNotFound::new);
     category.softDelete();
   }
 
@@ -56,6 +55,12 @@ public class CategoryService {
   public List<CategoryResponse> getCategories() {
     List<Category> categories = categoryRepository.findAllQuery();
     return categories.stream().map(CategoryResponse::from).collect(Collectors.toList());
+  }
+
+  public Set<Long> getChildrenIdsById(Long categoryId) {
+    Category category =
+        categoryRepository.findByIdFetch(categoryId).orElseThrow(CategoryNotFound::new);
+    return category.getChildren().stream().map(Category::getId).collect(Collectors.toSet());
   }
 
   private Category getParentOfNullable(Long parentId) {
