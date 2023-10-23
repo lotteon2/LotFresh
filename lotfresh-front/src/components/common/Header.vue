@@ -29,6 +29,8 @@ import Menu from "./Menu.vue";
   display: flex;
   justify-content: space-between;
   font-weight: 900;
+  width: 1050px;
+  margin: 0 auto;
 }
 
 .header_wrap {
