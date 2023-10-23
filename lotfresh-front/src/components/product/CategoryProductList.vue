@@ -45,6 +45,12 @@ watch(
   }
 );
 
+watch(
+  () => route.params.id,
+  () => {
+    callApi();
+  }
+);
 const callApi = () => {
   defaultInstance
     .get(`/products/categories/${route.params.id}`, {
