@@ -1,6 +1,6 @@
-import { defaultInstance } from "../utils";
+import { defaultInstance, productInstance } from "../utils";
 
 export const getBestProducts = async () => {
-  const { data } = await defaultInstance.get("/products/best-products");
+  const { data } = await productInstance.get("/products/best-products");
   return data;
 };
