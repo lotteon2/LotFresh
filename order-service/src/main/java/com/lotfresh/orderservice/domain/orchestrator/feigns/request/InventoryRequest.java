@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class InventoryRequest {
     private String province;
+    private Long orderId;
     private List<ProductInfo> productInfos;
 
 }

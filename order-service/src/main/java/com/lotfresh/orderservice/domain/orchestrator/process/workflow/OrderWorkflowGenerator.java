@@ -3,7 +3,6 @@ package com.lotfresh.orderservice.domain.orchestrator.process.workflow;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.InventoryFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
-import com.lotfresh.orderservice.domain.orchestrator.feigns.request.ProductInfo;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentRequest;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;

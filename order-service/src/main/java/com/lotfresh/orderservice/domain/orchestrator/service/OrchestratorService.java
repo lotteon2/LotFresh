@@ -43,7 +43,7 @@ public class OrchestratorService {
                 .map(OrderDetail::getId)
                 .collect(Collectors.toList());
 
-        InventoryRequest inventoryRequest = makeInventoryRequest(orderDetails,userProvince);
+        InventoryRequest inventoryRequest = makeInventoryRequest(orderDetails,userProvince,orderId);
         PaymentRequest paymentRequest = makePaymentRequest();
 
         Workflow orderWorkflow = workflowGenerator.apply(inventoryRequest,paymentRequest);
@@ -95,13 +95,14 @@ public class OrchestratorService {
 
     }
 
-    private InventoryRequest makeInventoryRequest(List<OrderDetail> orderDetails, String userProvince) {
+    private InventoryRequest makeInventoryRequest(List<OrderDetail> orderDetails, String userProvince, Long orderId) {
         List<ProductInfo> productInfos = orderDetails.stream()
                 .map(ProductInfo::from)
                 .collect(Collectors.toList());
         return InventoryRequest.builder()
                 .productInfos(productInfos)
                 .province(userProvince)
+                .orderId(orderId)
                 .build();
     }
     private PaymentRequest makePaymentRequest() {
