@@ -31,7 +31,7 @@ public class OrderProductService {
 
     @Transactional
     public void orderProduct(@RequestBody OrderProductRequest request){
-        List<StorageProductOrder> productOrders = storageProductService.productOrder(request.getStorageId(), request.getProductId(), request.getStock());
+        List<StorageProductOrder> productOrders = storageProductService.productOrder(request.getProvince(), request.getProductId(), request.getStock());
         for (StorageProductOrder productOrder : productOrders) {
             OrderProduct orderProd = new OrderProduct();
             orderProd.setStorageId(productOrder.getStorageProductId());

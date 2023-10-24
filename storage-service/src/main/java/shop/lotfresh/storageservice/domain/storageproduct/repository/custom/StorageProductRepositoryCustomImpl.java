@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import static shop.lotfresh.storageservice.domain.storage.entity.QStorage.storage;
 import static shop.lotfresh.storageservice.domain.storageproduct.entity.QStorageProduct.storageProduct;
 
 
@@ -32,29 +33,32 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
 
     //창고별 물품 리스트 반환(마감임박 제외)
     @Override
-    public List<StorageProduct> findProductsByStorageId(Long storageId) {
+    public List<StorageProduct> findProductsByStorageId(String province) {
         return queryFactory
-                .selectFrom(storageProduct)
-                .where(storageProduct.storageId.eq(storageId)
+        .selectFrom(storageProduct)
+                .join(storage).on(storageProduct.storageId.eq(storage.id))
+                .where(storage.province.eq(province)
                         .and(storageProduct.expirationDateEnd.goe(sfficientExpiry)))
                 .fetch();
     }
 
     @Override
-    public List<StorageProduct> findNearExpiryProductsByStorageId(Long storageId) {
+    public List<StorageProduct> findNearExpiryProductsByStorageId(String province) {
         return queryFactory
                 .selectFrom(storageProduct)
-                .where(storageProduct.storageId.eq(storageId)
+                .join(storage).on(storageProduct.storageId.eq(storage.id))
+                .where(storage.province.eq(province)
                         .and(storageProduct.expirationDateEnd.goe(nearExpiry)))
                 .fetch();
     }
 
     //특정 창고의 물품의 재고 반환(마감임박 제외)
     @Override
-    public Long getProductStock(Long storageId, Long productId) {
+    public Long getProductStock(String province, Long productId) {
         return queryFactory.select(storageProduct.stock.sum())
                 .from(storageProduct)
-                .where(storageProduct.storageId.eq(storageId)
+                .join(storage).on(storageProduct.storageId.eq(storage.id))
+                .where(storage.province.eq(province)
                         .and(storageProduct.productId.eq(productId))
                         .and(storageProduct.expirationDateEnd.goe(sfficientExpiry)))
                 .fetchOne();
@@ -62,9 +66,10 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
 
     // 특정 창고의 물품의 리스트 반환 (마감임박 제외 주문용)
     @Override
-    public List<StorageProduct> getProductOrderList(Long storageId, Long productId) {
+    public List<StorageProduct> getProductOrderList(String province, Long productId) {
         return queryFactory.selectFrom(storageProduct)
-                .where(storageProduct.storageId.eq(storageId)
+                .join(storage).on(storageProduct.storageId.eq(storage.id))
+                .where(storage.province.eq(province)
                         .and(storageProduct.productId.eq(productId))
                         .and(storageProduct.expirationDateEnd.goe(sfficientExpiry)))
                 .fetch();
@@ -72,42 +77,45 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
 
 
     @Override
-    public List<StorageProduct> productOrder(Long storageId, Long productId, Long stock) {
+    public List<StorageProduct> productOrder(String province, Long productId, Long stock) {
         return null;
     }
 
     /////////////////////////////마감 임박 상품
 
     @Override
-    public List<StorageProduct> findSalesProductsByStorageId(Long storageId, Long productId){
+    public List<StorageProduct> findSalesProductsByStorageId(String province, Long productId){
         return queryFactory
                 .selectFrom(storageProduct)
-                .where(storageProduct.storageId.eq(storageId)
+                .join(storage).on(storageProduct.storageId.eq(storage.id))
+                .where(storage.province.eq(province)
                         .and(storageProduct.expirationDateEnd.goe(nearExpiry)))
                 .fetch();
     }
 
     @Override
-    public Long getSalesProductStock(Long storageId, Long productId) {
+    public Long getSalesProductStock(String province, Long productId) {
         return queryFactory.select(storageProduct.stock.sum())
                 .from(storageProduct)
-                .where(storageProduct.storageId.eq(storageId)
+                .join(storage).on(storageProduct.storageId.eq(storage.id))
+                .where(storage.province.eq(province)
                         .and(storageProduct.productId.eq(productId))
                         .and(storageProduct.expirationDateEnd.goe(nearExpiry)))
                 .fetchOne();
     }
 
     @Override
-    public List<StorageProduct> getSalesProductOrderList(Long storageId, Long productId) {
+    public List<StorageProduct> getSalesProductOrderList(String province, Long productId) {
         return queryFactory.selectFrom(storageProduct)
-                .where(storageProduct.storageId.eq(storageId)
+                .join(storage).on(storageProduct.storageId.eq(storage.id))
+                .where(storage.province.eq(province)
                         .and(storageProduct.productId.eq(productId))
                         .and(storageProduct.expirationDateEnd.goe(nearExpiry)))
                 .fetch();
     }
 
     @Override
-    public List<StorageProduct> salesProductOrder(Long storageId, Long productId, Long stock) {
+    public List<StorageProduct> salesProductOrder(String province, Long productId, Long stock) {
         return null;
     }
 

@@ -27,21 +27,21 @@ public class StorageProductService {
     }
 
     @Transactional
-    public List<StorageProduct> findProductsByStorageId(Long storageId) {
-        return storageProductRepository.findProductsByStorageId(storageId);
+    public List<StorageProduct> findProductsByStorageId(String province) {
+        return storageProductRepository.findProductsByStorageId(province);
     }
 
     @Transactional
-    public List<StorageProduct> findNearExpiryProductsByStorageId(Long storageId) {
-        return storageProductRepository.findNearExpiryProductsByStorageId(storageId);
+    public List<StorageProduct> findNearExpiryProductsByStorageId(String province) {
+        return storageProductRepository.findNearExpiryProductsByStorageId(province);
     }
 
-    public Long getProductStock(Long storageId, Long productId) {
-        return storageProductRepository.getProductStock(storageId, productId);
+    public Long getProductStock(String province, Long productId) {
+        return storageProductRepository.getProductStock(province, productId);
     }
     @Transactional
-    public List<StorageProduct> getProductOrderList(Long storageId, Long productId) {
-        return storageProductRepository.getProductOrderList(storageId, productId);
+    public List<StorageProduct> getProductOrderList(String province, Long productId) {
+        return storageProductRepository.getProductOrderList(province, productId);
     }
 
     //TODO 음수, 0, 이상한값 들어오는거 처리해야함/ 예외처리랑 같이 작업하기
@@ -70,10 +70,10 @@ public class StorageProductService {
     }*/
 
     @Transactional
-    public List<StorageProductOrder> productOrder(Long storageId, Long productId, Long stock) {
-        List<StorageProduct> products = storageProductRepository.getProductOrderList(storageId, productId);
+    public List<StorageProductOrder> productOrder(String province, Long productId, Long stock) {
+        List<StorageProduct> products = storageProductRepository.getProductOrderList(province, productId);
 
-        long totalStock = storageProductRepository.getProductStock(storageId, productId);
+        long totalStock = storageProductRepository.getProductStock(province, productId);
 
         if (totalStock < stock) {
             throw new IllegalArgumentException("주문을 위한 재고가 부족합니다..");

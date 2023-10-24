@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderProductRequest {
-    private long StorageId;
+    private String province;
 
     private long orderDetailId;
 

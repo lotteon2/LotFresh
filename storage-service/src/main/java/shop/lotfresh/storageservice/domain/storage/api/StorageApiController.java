@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/storage")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StorageApiController{
     private final StorageService storageService;
 

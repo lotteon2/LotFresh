@@ -4,21 +4,23 @@ import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
 import java.util.List;
 
 public interface StorageProductRepositoryCustom {
-    List<StorageProduct> findProductsByStorageId(Long storageId);
 
-    List<StorageProduct> findNearExpiryProductsByStorageId(Long storageId);
+    //창고별 물품 리스트 반환(마감임박 제외)
+    List<StorageProduct> findProductsByStorageId(String province);
 
-    Long getProductStock(Long storageId, Long productId);
+    List<StorageProduct> findNearExpiryProductsByStorageId(String province);
 
-    List<StorageProduct> getProductOrderList(Long storageId, Long productId);
+    Long getProductStock(String province, Long productId);
 
-    List<StorageProduct> productOrder(Long storageId, Long productId, Long stock);
+    List<StorageProduct> getProductOrderList(String province, Long productId);
 
-    List<StorageProduct> findSalesProductsByStorageId(Long storageId, Long productId);
+    List<StorageProduct> productOrder(String province, Long productId, Long stock);
 
-    Long getSalesProductStock(Long storageId, Long productId);
+    List<StorageProduct> findSalesProductsByStorageId(String province, Long productId);
 
-    List<StorageProduct> getSalesProductOrderList(Long storageId, Long productId);
+    Long getSalesProductStock(String province, Long productId);
 
-    List<StorageProduct> salesProductOrder(Long storageId, Long productId, Long stock);
+    List<StorageProduct> getSalesProductOrderList(String province, Long productId);
+
+    List<StorageProduct> salesProductOrder(String province, Long productId, Long stock);
 }

@@ -9,7 +9,7 @@ public class StorageProductSearchRequest {
 
     private Long product_id;
 
-    private Long storage_id;
+    private String province;
 
     private Long stock;
 
