@@ -7,6 +7,7 @@ import com.lotfresh.productservice.domain.category.exception.CategoryNotFound;
 import com.lotfresh.productservice.domain.category.repository.CategoryRepository;
 import com.lotfresh.productservice.domain.category.service.response.CategoryResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,6 +53,7 @@ public class CategoryService {
     return CategoryResponse.from(category);
   }
 
+  @Cacheable(key = "'all'", value = "categoryCache")
   public List<CategoryResponse> getCategories() {
     List<Category> categories = categoryRepository.findAllQuery();
     return categories.stream().map(CategoryResponse::from).collect(Collectors.toList());

@@ -10,6 +10,7 @@ import com.lotfresh.productservice.domain.discount.exception.DiscountNotFound;
 import com.lotfresh.productservice.domain.discount.repository.DiscountRepository;
 import com.lotfresh.productservice.domain.discount.service.response.DiscountResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,12 +41,12 @@ public class DiscountService {
   }
 
   public DiscountResponse getDiscount(Long id) {
-    Discount discount =
-        discountRepository.findByIdFetch(id).orElseThrow(DiscountNotFound::new);
+    Discount discount = discountRepository.findByIdFetch(id).orElseThrow(DiscountNotFound::new);
     DiscountResponse discountResponse = DiscountResponse.from(discount);
     return discountResponse;
   }
 
+  @Cacheable(key = "'all'", value = "discountCache", unless = "#result == null")
   public List<DiscountResponse> getDiscounts() {
     List<Discount> discountList = discountRepository.findAllFetch();
     return discountList.stream().map(DiscountResponse::from).collect(Collectors.toList());

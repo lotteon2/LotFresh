@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Setter
 @Getter
 @ToString
-public class DiscountResponse {
+public class DiscountResponse implements Serializable {
   private Long id;
   private Double rate;
   private String imgurl;
