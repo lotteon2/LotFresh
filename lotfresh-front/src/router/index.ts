@@ -11,6 +11,7 @@ import BestProductsView from "@/views/product/BestProductsView.vue";
 import SalesProductView from "@/views/product/SalesProductsView.vue";
 import CategoryProductsView from "@/views/product/CategoryProductsView.vue";
 import ProductDetailView from "@/views/product/ProductDetailView.vue";
+import SearchProductsView from "@/views/product/SarchProductsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -92,6 +93,11 @@ const router = createRouter({
       path: "/categories/:id",
       name: "category-products",
       component: CategoryProductsView,
+    },
+    {
+      path: "/search",
+      name: "search-products",
+      component: SearchProductsView,
     },
     {
       path: "/goods/:id",

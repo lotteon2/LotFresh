@@ -6,8 +6,13 @@
           <img class="logo_img" src="../../assets/logo.png" />
         </router-link>
         <div class="search_wrap">
-          <input class="input_bar" placeholder="검색어를 입력해주세요." />
-          <button id="submit" class="search_btn"></button>
+          <input
+            @keyup.enter="next"
+            v-model.trim="keyword"
+            class="input_bar"
+            placeholder="검색어를 입력해주세요."
+          />
+          <button @click="next" id="submit" class="search_btn"></button>
         </div>
         <div class="header_icon_wrap">
           <div class="header_icon_1"></div>
@@ -21,6 +26,17 @@
 
 <script setup lang="ts">
 import Menu from "./Menu.vue";
+import { ref } from "vue";
+import router from "@/router";
+const keyword = ref();
+
+const next = () => {
+  if (!keyword.value) {
+    alert("검색어를 입력해주세요");
+    return;
+  }
+  router.push({ path: "/search", query: { keyword: keyword.value } });
+};
 </script>
 
 <style scoped>
