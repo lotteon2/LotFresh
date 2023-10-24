@@ -9,7 +9,6 @@ import com.bit.lotte.fresh.auth.service.repository.AuthUserRepository;
 import com.bit.lotte.fresh.auth.valueobject.AuthRole;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
 import java.time.ZonedDateTime;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

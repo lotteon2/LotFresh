@@ -51,7 +51,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-public class AuthUserApplication {
+public class AuthUserController {
 
   private final AuthUserApplicationService applicationService;
   private final OauthAuthorizationRequestHelper oauthAuthorizationRequestHelper;

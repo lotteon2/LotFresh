@@ -1640,18 +1640,94 @@
       <change afterPath="$PROJECT_DIR$/../cart-service/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/jpa-buddy.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/cart-container/cart-service.cart-container.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/cart-container/cart-service.cart-container.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/cart-dataaccess/cart-service.cart-dataaccess.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/cart-domain/cart-domain-application/cart-service.cart-domain.cart-domain-application.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/cart-domain/cart-domain-core/cart-service.cart-domain.cart-domain-core.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/cart-message/cart-service.cart-message.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/cart-service.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/common/cart-service.common.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/common/cart-service.common.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/common/common-application/cart-service.common.common-application.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/common/common-application/cart-service.common.common-application.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/common/common-domain/cart-service.common.common-domain.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/3/b/3b137423eafa158b295423a83f5e4d91fe7e167c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/6/7/671c0ebaf7dfcea586605d2b8c79f034f4c78688" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/6/d/6d044f8fac5e8ce7bb8a3e143b5db2e3971df8a6" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/7/9/791ed5829b21cc22b2c21ac0a281cc428eb8f125" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/7/9/79b17492ba96bd3ab2c0562cfe05bcbb29e4c700" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/8/9/8984f0e27f473bb37ff3880586dfc23dd4a6d316" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/8/a/8ac4201016dc33c740a805de0a2e00f29baf3ad1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/8/d/8db6954891072554bd8e64777934b1014c97cecc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/9/c/9c3dcb98e459559bcf05e02b7059a90c70db0bdd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/b/3/b3cab90b648878b4456cc6381c709452ba0ac49a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/b/8/b89e166aa911cee10f2a914b26466fc08d481b64" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/b/f/bfcd5a6e7f7dc9eaa09a062ecc89a4033e314def" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/d/7/d7595319a0658be6f1ed500ad590d42e4b28bc4f" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/d/d/ddab38e2b19806c06aed9ac927ef26436b5119f9" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/d/d/ddc88804956f3ac149b1645606ca9c10eebf26e4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/e/4/e4eb514996de37df23be7802ed6ca302b0805719" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/f/6/f640d922efe0720e0e31a9df0f58fa63b9ea5bf3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/f/8/f84e93ef3226b0fa4e0420d6454a74bba04cd8d7" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/cart-application/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-application/src/main/java/com/bit/lotte/fresh/cart/app/exception/CartGlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-application/src/main/java/com/bit/lotte/fresh/cart/app/rest/CartRestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-application/src/main/java/com/bit/lotte/fresh/cart/app/rest/ProductRestController.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/cart-container/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-container/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-container/src/main/java/com/bit/lotte/fresh/cart/container/CartApplication.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/cart-dataaccess/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-dataaccess/src/main/java/com/bit/lotte/fresh/cart/data/adapter/CartRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-dataaccess/src/main/java/com/bit/lotte/fresh/cart/data/adapter/ProductRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-dataaccess/src/main/java/com/bit/lotte/fresh/cart/data/entity/CartEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-dataaccess/src/main/java/com/bit/lotte/fresh/cart/data/entity/ProductEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-dataaccess/src/main/java/com/bit/lotte/fresh/cart/data/mapper/CartDataMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-dataaccess/src/main/java/com/bit/lotte/fresh/cart/data/mapper/ProductDataMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-dataaccess/src/main/java/com/bit/lotte/fresh/cart/data/repository/CartJpaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-dataaccess/src/main/java/com/bit/lotte/fresh/cart/data/repository/ProductJpaRepository.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/build.gradle" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/CartApplicationServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/CartCommandHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/ProductApplicationServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/ProductCommandHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/dto/command/AddProductInCartCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/dto/command/UpdateCartProductStockCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/dto/command/UpdateCartSelectedQuantityCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/dto/response/AddProductInCartResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/dto/response/BuyProductInCartResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/dto/response/ProductInfoResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/dto/response/RemoveCartProductResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/dto/response/UpdateProductStockResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/mapper/CartMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/mapper/ProductMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/port/input/CartApplicationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/port/input/ProductApplicationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/port/output/BuyCartItemPublisher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/repository/CartRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-application/src/main/java/com/bit/lotte/fresh/cart/service/repository/ProductRepository.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-core/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-core/src/main/java/com/bit/lotte/fresh/cart/domain/CartDomainService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-core/src/main/java/com/bit/lotte/fresh/cart/domain/ProductService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-core/src/main/java/com/bit/lotte/fresh/cart/domain/ProductServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-core/src/main/java/com/bit/lotte/fresh/cart/domain/entity/Cart.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-core/src/main/java/com/bit/lotte/fresh/cart/domain/event/product/ProductDomainEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-core/src/main/java/com/bit/lotte/fresh/cart/domain/event/product/ProductStockUpdatedDomainEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-core/src/main/java/com/bit/lotte/fresh/cart/domain/excepton/CartDomainException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-domain/cart-domain-core/src/main/java/com/bit/lotte/fresh/cart/domain/valueobject/Province.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/cart-message/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-message/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/cart-message/src/main/java/com/bit/lotte/fresh/cart/message/input/ProductStockUpdatedListenerImpl.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/common/build.gradle" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/common/common-application/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/common/common-application/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/common/common-application/src/main/java/com/bit/lotte/fresh/cart/common/application/handler/ErrorDTO.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/common/common-application/src/main/java/com/bit/lotte/fresh/cart/common/application/handler/GlobalExceptionHandler.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/src/main/java/com/bit/lotte/fresh/cart/common/domain/entity/AggregateRoot.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/src/main/java/com/bit/lotte/fresh/cart/common/domain/entity/BaseEntity.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/src/main/java/com/bit/lotte/fresh/cart/common/domain/event/DomainEvent.java" afterDir="false" />
@@ -1659,17 +1735,72 @@
       <change afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/src/main/java/com/bit/lotte/fresh/cart/common/domain/exception/DomainException.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/src/main/java/com/bit/lotte/fresh/cart/common/domain/instant/AuthHeaderName.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/src/main/java/com/bit/lotte/fresh/cart/common/domain/valueobject/BaseId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/src/main/java/com/bit/lotte/fresh/cart/common/domain/valueobject/ProductId.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/gradle/libs.versions.toml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/gradlew" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../cart-service/gradlew.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f465ac7c-f721-4951-82f5-68b166c7ed7e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f465ac7c-f721-4951-82f5-68b166c7ed7e.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/user-service/user-domain/bit-lotte-fresh-user.user-service.user-domain-core.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/modules/cart-application/cart-service.cart-application.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/8/28d408b240572fed1ad4ce1aa9cc5ca76b162c29" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/c/5c23a73f3b1be7d6214194048e5ccd4842575f5c" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/0/5/05efc8b1657769a27696d478ded1e95f38737233" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/9/89634f108f23df89bd4ae6c0ae21b3d579b78405" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/0/8/084812c09b7a0227a95fe39812befd820f8883a3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/3/d3b0e4f7e9d67589388225a49753086bfeb45368" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/d/dd3945fa3cb7998f433b2324cd644e45872db7e4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/f/df8528256a2b0f676ec0198fbdd7b57a9d957a06" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/f/df8528256a2b0f676ec0198fbdd7b57a9d957a06" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/0/f0b44d674d2a2e528fdf29b198caaaf477169dec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/1/f168a6329a2329d9961d6394ba223c1fab815e16" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-application/build/classes/java/main/com/bit/lotte/fresh/auth/app/rest/AuthUserApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-application/build/libs/auth-application-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-application/build/libs/auth-application-1.0-SNAPSHOT-plain.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-application/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-application/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-application/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/cart-message/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-dataaccess/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-dataaccess/build/classes/java/main/com/bit/lotte/fresh/auth/dataaccess/adapter/AuthUserRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/build/classes/java/main/com/bit/lotte/fresh/auth/dataaccess/adapter/AuthUserRepositoryImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-dataaccess/build/libs/auth-dataaccess-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/build/libs/auth-dataaccess-1.0-SNAPSHOT-plain.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-dataaccess/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-dataaccess/src/main/java/com/bit/lotte/fresh/auth/dataaccess/adapter/AuthUserRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-dataaccess/src/main/java/com/bit/lotte/fresh/auth/dataaccess/adapter/AuthUserRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-applicaiton/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/classes/java/main/com/bit/lotte/fresh/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/classes/java/main/com/bit/lotte/fresh/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/libs/auth-config-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/libs/auth-config-1.0-SNAPSHOT-plain.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/3/e/3ef64994818bf1916a2b71241e66c84d315b0c0a" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/classes/java/main/com/bit/lotte/fresh/filter/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/classes/java/main/com/bit/lotte/fresh/filter/JwtAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/libs/filter-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/libs/filter-1.0-SNAPSHOT-plain.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/7.1/dependencies-accessors/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.gradle/7.1/dependencies-accessors/gc.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/7.1/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.gradle/7.1/gc.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/vcs-1/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.gradle/vcs-1/gc.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common-application/build/classes/java/main/com/bit/lotte/fresh/application/handler/GlobalExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-application/build/classes/java/main/com/bit/lotte/fresh/application/handler/GlobalExceptionHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common-application/build/libs/common-application-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-application/build/libs/common-application-1.0-SNAPSHOT-plain.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common-application/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-application/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common-application/src/main/java/com/bit/lotte/fresh/application/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-application/src/main/java/com/bit/lotte/fresh/application/handler/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common-domain/build/classes/java/main/com/bit/lotte/fresh/user/common/valueobject/AuthUserId.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-domain/build/classes/java/main/com/bit/lotte/fresh/user/common/valueobject/AuthUserId.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common-domain/build/classes/java/main/com/bit/lotte/fresh/user/common/valueobject/BaseId.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-domain/build/classes/java/main/com/bit/lotte/fresh/user/common/valueobject/BaseId.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common-domain/build/libs/common-domain-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-domain/build/libs/common-domain-1.0-SNAPSHOT-plain.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common-domain/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-domain/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/common-domain/src/main/java/com/bit/lotte/fresh/user/common/instant/DomainConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/src/main/java/com/bit/lotte/fresh/cart/common/domain/instant/DomainConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common-domain/src/main/java/com/bit/lotte/fresh/user/common/valueobject/AuthUserId.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-domain/src/main/java/com/bit/lotte/fresh/user/common/valueobject/AuthUserId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common-domain/src/main/java/com/bit/lotte/fresh/user/common/valueobject/BaseId.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/common-domain/src/main/java/com/bit/lotte/fresh/user/common/valueobject/BaseId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-application/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-application/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-infra/spring-cloud/build/resources/main/META-INF/additional-spring-configuration-metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-infra/spring-cloud/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/common/common-application/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-infra/spring-cloud/src/main/resources/META-INF/additional-spring-configuration-metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-messaging/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../food-ordering-system-cdc/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../food-ordering-system-cdc/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1818,11 +1949,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="bit-lotte-fresh-user" type="f1a62948:ProjectNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="bit-lotte-fresh-user" type="f1a62948:ProjectNode" />
-                <item name="auth-service" type="2d1252cf:ModuleNode" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -1861,7 +1987,7 @@
     </option>
     <option name="myId2Visible">
       <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
         <entry key="com.haulmont.jpb.jpaPalette" value="false" />
         <entry key="com.haulmont.jpb.jpaStructure" value="false" />
       </map>
@@ -2258,7 +2384,7 @@
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserApplication.java</url>
+          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserController.java</url>
           <line>118</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
@@ -2278,12 +2404,12 @@
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserApplication.java</url>
+          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserController.java</url>
           <line>116</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserApplication.java</url>
+          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserController.java</url>
           <line>52</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
@@ -2298,7 +2424,7 @@
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserApplication.java</url>
+          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserController.java</url>
           <line>138</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
@@ -2308,7 +2434,7 @@
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserApplication.java</url>
+          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserController.java</url>
           <line>160</line>
           <option name="timeStamp" value="40" />
         </line-breakpoint>

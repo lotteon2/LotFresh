@@ -12,7 +12,6 @@ repositories {
 dependencies {
 
     compileOnly libs.lombok
-    implementation project(':')
     implementation libs.java.validation
     implementation libs.spring.boot
     implementation project(':auth-service:auth-domain:auth-domain-core')
