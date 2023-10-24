@@ -15,13 +15,13 @@
 import Banner from "./BannerItem.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { defaultInstance } from "@/api/utils";
+import { defaultInstance, productInstance } from "@/api/utils";
 import { ref } from "vue";
 
 const banners = ref([]);
 
 const callApi = () => {
-  defaultInstance
+  productInstance
     .get(`/discounts`)
     .then((response) => {
       banners.value = response.data;

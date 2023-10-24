@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import ProductItem from "@/components/product/item/ProductItem.vue";
-import { defaultInstance } from "@/api/utils";
+import { defaultInstance, productInstance } from "@/api/utils";
 import { watch, ref } from "vue";
 import { useRoute } from "vue-router";
 
@@ -50,7 +50,7 @@ watch(
   }
 );
 const callApi = () => {
-  defaultInstance
+  productInstance
     .get(`/products/categories/${route.params.id}`, {
       params: {
         page: pageReq.value.page,
