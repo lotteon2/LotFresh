@@ -337,7 +337,7 @@ pipeline {
 									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${CLIENT_IMAGE_TAG}; then
 										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${CLIENT_IMAGE_TAG}
 									fi
-									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 80:80 --name ${CLIENT_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${CLIENT_IMAGE_TAG}
+									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 5173:80 --name ${CLIENT_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${CLIENT_IMAGE_TAG}
 								"""
             				}
         				}
