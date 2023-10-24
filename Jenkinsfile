@@ -57,30 +57,33 @@ pipeline {
 						string(credentialsId: 'REDIS_PORT', variable: 'REDIS_PORT')
 
 					]) {
-						sh """
-							echo "AUTH_DB_PORT=$AUTH_DB_PORT" > env.list
-							echo "USER_DB_PORT=$USER_DB_PORT" >> env.list
-							echo "CART_DB_PORT=$CART_DB_PORT" >> env.list
-							echo "PRODUCT_DB_PORT=$PRODUCT_DB_PORT" >> env.list
-							echo "ORDER_DB_PORT=$ORDER_DB_PORT" >> env.list
-							echo "PAYMENT_DB_PORT=$PAYMENT_DB_PORT" >> env.list
-							echo "STORAGE_DB_PORT=$STORAGE_DB_PORT" >> env.list
+						sshagent(credentials: ['ssh']) {
+						
+							sh """
+								echo "AUTH_DB_PORT=$AUTH_DB_PORT" > env.list
+								echo "USER_DB_PORT=$USER_DB_PORT" >> env.list
+								echo "CART_DB_PORT=$CART_DB_PORT" >> env.list
+								echo "PRODUCT_DB_PORT=$PRODUCT_DB_PORT" >> env.list
+								echo "ORDER_DB_PORT=$ORDER_DB_PORT" >> env.list
+								echo "PAYMENT_DB_PORT=$PAYMENT_DB_PORT" >> env.list
+								echo "STORAGE_DB_PORT=$STORAGE_DB_PORT" >> env.list
 
-							echo "AUTH_DB_SCHEMA=$AUTH_DB_SCHEMA" >> env.list
-							echo "USER_DB_SCHEMA=$USER_DB_SCHEMA" >> env.list
-							echo "CART_DB_SCHEMA=$CART_DB_SCHEMA" >> env.list
-							echo "PRODUCT_DB_SCHEMA=$PRODUCT_DB_SCHEMA" >> env.list
-							echo "ORDER_DB_SCHEMA=$ORDER_DB_SCHEMA" >> env.list
-							echo "PAYMENT_DB_SCHEMA=$PAYMENT_DB_SCHEMA" >> env.list
-							echo "STORAGE_DB_SCHEMA=$STORAGE_DB_SCHEMA" >> env.list
+								echo "AUTH_DB_SCHEMA=$AUTH_DB_SCHEMA" >> env.list
+								echo "USER_DB_SCHEMA=$USER_DB_SCHEMA" >> env.list
+								echo "CART_DB_SCHEMA=$CART_DB_SCHEMA" >> env.list
+								echo "PRODUCT_DB_SCHEMA=$PRODUCT_DB_SCHEMA" >> env.list
+								echo "ORDER_DB_SCHEMA=$ORDER_DB_SCHEMA" >> env.list
+								echo "PAYMENT_DB_SCHEMA=$PAYMENT_DB_SCHEMA" >> env.list
+								echo "STORAGE_DB_SCHEMA=$STORAGE_DB_SCHEMA" >> env.list
 
-							echo "DB_IP=$DB_IP" >> env.list
-							echo "DB_USERNAME=$DB_USERNAME" >> env.list
-							echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
-							echo "REDIS_PORT=$REDIS_PORT" >> env.list
+								echo "DB_IP=$DB_IP" >> env.list
+								echo "DB_USERNAME=$DB_USERNAME" >> env.list
+								echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
+								echo "REDIS_PORT=$REDIS_PORT" >> env.list
 
-							scp -o StrictHostKeyChecking=no env.list ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com:~/env.list
-						"""
+								scp -o StrictHostKeyChecking=no env.list ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com:~/env.list
+							"""
+						}
 					}
 				}
 			}
