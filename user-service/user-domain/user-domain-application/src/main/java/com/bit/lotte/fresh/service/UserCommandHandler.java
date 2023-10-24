@@ -61,14 +61,11 @@ public class UserCommandHandler {
 
   public CreateUserDomainEvent createUser(CreateUserCommand createUserCommand) {
     User user = userDataMapper.createCommandUserToUser(createUserCommand);
-
     CreateUserDomainEvent createUserDomainEvent = userDomainService.createUser(user);
-
     User createdUser = userRepository.save(user);
     if (createdUser == null) {
-      throw new UserDomainException("유저를 생성할 수 없습니다.");
+      throw new UserDomainException("이미 존재하는 유저입니다.");
     }
-    //return the DomainEvent
     return createUserDomainEvent;
   }
 

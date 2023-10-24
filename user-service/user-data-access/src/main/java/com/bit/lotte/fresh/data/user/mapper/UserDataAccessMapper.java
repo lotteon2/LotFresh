@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class UserDataAccessMapper {
 
 
-  public User userEntityOptionalToUser(UserEntity userEntity) {
+  public User userEntityToUser(UserEntity userEntity) {
 
     User user = User.builder()
         .addressList(addressEntityListToAddressList(userEntity.getAddressList()))

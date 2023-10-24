@@ -20,18 +20,24 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public User get(UserId id) {
     Optional<UserEntity> userEntityOptional = userJpaRepository.findById(id.getValue());
-    return userEntityOptional.map(userDataAccessMapper::userEntityOptionalToUser).orElseThrow(()->{
+    return userEntityOptional.map(userDataAccessMapper::userEntityToUser).orElseThrow(()->{
       throw new IllegalArgumentException("존재하지 않는 유저의 아이디입니다.");
     });
   }
 
+  /**
+   *
+   * @param user 유저가 이미 존재 하더라도 user는 save된다.
+   * @return 따라서 null값을 반환해 상위 로직에서 존재한다는 유저의 알림을 보낸다
+   */
   @Override
   public User save(User user) {
-    UserEntity userEntity = userJpaRepository.save(userDataAccessMapper.userToUserEntity(user));
-    if (userEntity != null) {
-      return user;
+    if (get(user.getEntityId()) != null) {
+      return null;
     }
-    return null;
+    UserEntity userEntity = userJpaRepository.save(userDataAccessMapper.userToUserEntity(user));
+
+    return userDataAccessMapper.userEntityToUser(userEntity);
   }
 
   @Override
