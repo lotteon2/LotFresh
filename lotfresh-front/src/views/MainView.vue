@@ -97,4 +97,8 @@ img {
 .slider .carousel__viewport {
   padding-bottom: 50px;
 }
+
+.carousel__slide {
+  align-items: baseline;
+}
 </style>
