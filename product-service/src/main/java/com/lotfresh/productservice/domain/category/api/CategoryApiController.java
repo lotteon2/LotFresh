@@ -50,7 +50,7 @@ public class CategoryApiController {
   }
 
   @GetMapping("/{categoryId}/children")
-          public ResponseEntity<Set<Long>> getChildrenIdsById(@PathVariable ("categoryId") Long categoryId) {
+  public ResponseEntity<Set<Long>> getChildrenIdsById(@PathVariable("categoryId") Long categoryId) {
     return ResponseEntity.ok(categoryService.getChildrenIdsById(categoryId));
   }
 }

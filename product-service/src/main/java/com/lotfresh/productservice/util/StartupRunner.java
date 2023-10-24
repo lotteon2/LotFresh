@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Profile;
 public class StartupRunner {
 
   @Bean
-  public CommandLineRunner updateExpiredDiscounts(DiscountRepository discountRepository, ProductScheduler productScheduler)
-      throws Exception {
+  public CommandLineRunner updateExpiredDiscounts(
+      DiscountRepository discountRepository, ProductScheduler productScheduler) throws Exception {
     return args -> {
       discountRepository.updateExpiredDiscounts();
       productScheduler.clearCache();

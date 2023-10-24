@@ -15,6 +15,6 @@ public interface ProductRepositoryCustom {
 
   List<Product> findAllByIds(List<Long> ids);
 
-  @Cacheable(key="'all'", value = "newProductsCache")
+  @Cacheable(key = "'all'", value = "newProductsCache")
   List<Product> findNewProductsLimit100();
 }
