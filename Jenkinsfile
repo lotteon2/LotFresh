@@ -30,6 +30,62 @@ pipeline {
         		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
       		}
 		}
+
+		stage('env-setup') {
+			steps {
+				script {
+					withCredentials([
+						string(credentialsId: 'AUTH_DB_PORT', variable: 'AUTH_DB_PORT'),
+						string(credentialsId: 'USER_DB_PORT', variable: 'USER_DB_PORT'),
+						string(credentialsId: 'CART_DB_PORT', variable: 'CART_DB_PORT'),
+						string(credentialsId: 'PRODUCT_DB_PORT', variable: 'PRODUCT_DB_PORT'),
+						string(credentialsId: 'ORDER_DB_PORT', variable: 'ORDER_DB_PORT'),
+						string(credentialsId: 'PAYMENT_DB_PORT', variable: 'PAYMENT_DB_PORT'),
+						string(credentialsId: 'STORAGE_DB_PORT', variable: 'STORAGE_DB_PORT'),
+
+						string(credentialsId: 'AUTH_DB_SCHEMA', variable: 'AUTH_DB_SCHEMA'),
+						string(credentialsId: 'USER_DB_SCHEMA', variable: 'USER_DB_SCHEMA'),
+						string(credentialsId: 'CART_DB_SCHEMA', variable: 'CART_DB_SCHEMA'),
+						string(credentialsId: 'PRODUCT_DB_SCHEMA', variable: 'PRODUCT_DB_SCHEMA'),
+						string(credentialsId: 'ORDER_DB_SCHEMA', variable: 'ORDER_DB_SCHEMA'),
+						string(credentialsId: 'PAYMENT_DB_SCHEMA', variable: 'PAYMENT_DB_SCHEMA'),
+						string(credentialsId: 'STORAGE_DB_SCHEMA', variable: 'STORAGE_DB_SCHEMA'),
+						
+						string(credentialsId: 'DB_IP', variable: 'DB_IP'),
+						string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
+						string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
+						string(credentialsId: 'REDIS_PORT', variable: 'REDIS_PORT')
+
+					]) {
+						sh """
+							echo "AUTH_DB_PORT=$AUTH_DB_PORT" > env.list
+							echo "USER_DB_PORT=$USER_DB_PORT" >> env.list
+							echo "CART_DB_PORT=$CART_DB_PORT" >> env.list
+							echo "PRODUCT_DB_PORT=$PRODUCT_DB_PORT" >> env.list
+							echo "ORDER_DB_PORT=$ORDER_DB_PORT" >> env.list
+							echo "PAYMENT_DB_PORT=$PAYMENT_DB_PORT" >> env.list
+							echo "STORAGE_DB_PORT=$STORAGE_DB_PORT" >> env.list
+
+							echo "AUTH_DB_SCHEMA=$AUTH_DB_SCHEMA" >> env.list
+							echo "USER_DB_SCHEMA=$USER_DB_SCHEMA" >> env.list
+							echo "CART_DB_SCHEMA=$CART_DB_SCHEMA" >> env.list
+							echo "PRODUCT_DB_SCHEMA=$PRODUCT_DB_SCHEMA" >> env.list
+							echo "ORDER_DB_SCHEMA=$ORDER_DB_SCHEMA" >> env.list
+							echo "PAYMENT_DB_SCHEMA=$PAYMENT_DB_SCHEMA" >> env.list
+							echo "STORAGE_DB_SCHEMA=$STORAGE_DB_SCHEMA" >> env.list
+
+							echo "DB_IP=$DB_IP" >> env.list
+							echo "DB_USERNAME=$DB_USERNAME" >> env.list
+							echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
+							echo "REDIS_PORT=$REDIS_PORT" >> env.list
+
+							scp -o StrictHostKeyChecking=no env.list ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com:~/env.list
+						"""
+					}
+				}
+			}
+		}
+
 		stage('build') {
             parallel {
                 stage('client build') {
@@ -371,7 +427,7 @@ pipeline {
 											ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${PRODUCT_SERVICE_IMAGE_TAG}
 										fi
 										
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8083:8083 --name ${PRODUCT_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${PRODUCT_SERVICE_IMAGE_TAG}
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8083:8083 --name ${PRODUCT_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file ~/env.list ${DOCKER_REGISTRY}:${PRODUCT_SERVICE_IMAGE_TAG}
 
 									"""
             				}
@@ -391,12 +447,12 @@ pipeline {
                     steps {
 						script {
             				sshagent(credentials: ['ssh']) {
-									sh '''
+									sh """
 										if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${ORDER_SERVICE_IMAGE_TAG}; then
 											ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${ORDER_SERVICE_IMAGE_TAG}
 										fi
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}
-									'''
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file ~/env.list ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}
+									"""
 								
             				}
         				}
@@ -419,7 +475,7 @@ pipeline {
 									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${PAYMENT_SERVICE_IMAGE_TAG}; then
 										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${PAYMENT_SERVICE_IMAGE_TAG}
 									fi
-									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8085:8085 --name ${PAYMENT_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${PAYMENT_SERVICE_IMAGE_TAG}
+									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8085:8085 --name ${PAYMENT_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file ~/env.list ${DOCKER_REGISTRY}:${PAYMENT_SERVICE_IMAGE_TAG}
 								"""
             				}
         				}
@@ -442,7 +498,7 @@ pipeline {
 									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${STORAGE_SERVICE_IMAGE_TAG}; then
 										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${STORAGE_SERVICE_IMAGE_TAG}
 									fi
-									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8086:8086 --name ${STORAGE_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${STORAGE_SERVICE_IMAGE_TAG}
+									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8086:8086 --name ${STORAGE_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file ~/env.list ${DOCKER_REGISTRY}:${STORAGE_SERVICE_IMAGE_TAG}
 								"""
             				}
         				}
