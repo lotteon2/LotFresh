@@ -22,12 +22,12 @@
     <div class="detail_info">
       <div class="info_categories">
         상품 카테고리 |
-        <router-link to="/">
+        <router-link :to="`/categories/${props.product.parendId}`">
           <span v-if="props.product.parentName" class="parent_category">
             {{ props.product.parentName }} >
           </span>
         </router-link>
-        <router-link to="/">
+        <router-link :to="`/categories/${props.product.categoryId}`">
           <span class="my_category">
             {{ props.product.categoryName }}
           </span>
