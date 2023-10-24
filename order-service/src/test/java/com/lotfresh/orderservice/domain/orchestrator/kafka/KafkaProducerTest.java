@@ -1,7 +1,7 @@
 package com.lotfresh.orderservice.domain.orchestrator.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
+import com.lotfresh.orderservice.domain.orchestrator.feigns.request.ProductInfo;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -33,7 +33,7 @@ import static org.assertj.core.groups.Tuple.tuple;
 @EmbeddedKafka(
         topics = {"testTopic"},
         ports = 7777,
-        brokerProperties = {"listener=PLAINTEXT://localhost:9092"}
+        brokerProperties = {"listener=PLAINTEXT://localhost:7777"}
 )
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -51,11 +51,11 @@ class KafkaProducerTest {
     public void send(@Autowired EmbeddedKafkaBroker embeddedKafkaBroker){
         // given
         String topic = "testTopic";
-        List<InventoryRequest> inventoryRequests = List.of(
-                new InventoryRequest(1L,1L,10L),
-                new InventoryRequest(2L,2L,10L)
+        List<ProductInfo> productInfos = List.of(
+                new ProductInfo(1L,1L,10L),
+                new ProductInfo(2L,2L,10L)
         );
-        Object value = inventoryRequests;
+        Object value = productInfos;
 
         // when
         kafkaProducer.send(topic,value);
@@ -68,11 +68,11 @@ class KafkaProducerTest {
         Assertions.assertThat(records).isNotEmpty();
         for (ConsumerRecord<String, Object> record : records) {
             List<Object> lst = (List<Object>) record.value();
-            List<InventoryRequest> results = lst.stream()
-                    .map(o -> mapper.convertValue(o, InventoryRequest.class))
+            List<ProductInfo> results = lst.stream()
+                    .map(o -> mapper.convertValue(o, ProductInfo.class))
                     .collect(Collectors.toList());
             Assertions.assertThat(results)
-                    .extracting("orderDetailId","productId","productQuantity")
+                    .extracting("orderDetailId","productId","productStock")
                     .containsExactlyInAnyOrder(
                             tuple(1L,1L,10L),
                             tuple(2L,2L,10L)

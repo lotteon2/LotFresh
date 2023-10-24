@@ -9,14 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 @Slf4j
 @RequiredArgsConstructor
 public class SalesInventoryStep implements InventoryStep{
     private final String workflowName;
     private final InventoryFeignClient feignClient;
-    private final List<InventoryRequest> inventoryRequests;
+    private final InventoryRequest inventoryRequest;
     private final KafkaProducer kafkaProducer;
 
     public WorkflowStepStatus status = WorkflowStepStatus.PENDING;
@@ -29,7 +27,7 @@ public class SalesInventoryStep implements InventoryStep{
     @Override
     public Object process() {
         try {
-            ResponseEntity result = feignClient.deductSalesStock(inventoryRequests);
+            ResponseEntity result = feignClient.deductSalesStock(inventoryRequest);
             changeStatus(WorkflowStepStatus.COMPLETE);
             log.info("SalesInventoryStep : 성공");
             return result;
@@ -41,7 +39,7 @@ public class SalesInventoryStep implements InventoryStep{
 
     @Override
     public void revert() {
-        kafkaProducer.send("inventory",inventoryRequests);
+        kafkaProducer.send("inventory", inventoryRequest);
         changeStatus(WorkflowStepStatus.FAILED);
         log.info("SalesInventoryStepRevert : 성공");
     }

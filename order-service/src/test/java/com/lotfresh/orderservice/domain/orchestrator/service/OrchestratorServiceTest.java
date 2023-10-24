@@ -118,7 +118,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(1L,order.getId(),false);
+        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(1L,"SEOUL", order.getId(),false);
 
         // then
         for (WorkflowStep step : orchestrator.getWorkflow().getSteps()) {
@@ -142,7 +142,7 @@ class OrchestratorServiceTest {
         orderRepository.save(order);
 
         // when
-        orchestratorService.orderNormalTransaction(1L,order.getId(),true);
+        orchestratorService.orderNormalTransaction(1L,"SEOUL", order.getId(),true);
 
         // then
         BDDMockito.verify(cartFeignClient).removeItems(BDDMockito.any());
@@ -172,7 +172,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,order.getId(),true))
+        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,"SEOUL",order.getId(),true))
                 .isInstanceOf(SagaException.class);
 
 
@@ -214,7 +214,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,order.getId(),true))
+        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,"SEOUL",order.getId(),true))
                 .isInstanceOf(SagaException.class);
 
         em.flush();

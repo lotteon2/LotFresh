@@ -26,14 +26,16 @@ public class InsertOrderController {
     @GetMapping("/normal")
     public ResponseEntity insertNormalOrder(@RequestHeader(value = "userId", required = false) Long userId,
             @RequestParam Long orderId, @RequestParam Boolean isFromCart) {
-        orchestratorService.orderNormalTransaction(userId, orderId, isFromCart);
+        String userProvince = "temporal";
+        orchestratorService.orderNormalTransaction(userId, userProvince, orderId, isFromCart);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/sales")
     public ResponseEntity insertSalesOrder(@RequestHeader(value = "userId", required = false) Long userId,
                                            @RequestParam Long orderId, @RequestParam Boolean isFromCart) {
-        orchestratorService.orderSalesTransaction(userId, orderId, isFromCart);
+        String userProvince = "temporal";
+        orchestratorService.orderSalesTransaction(userId, userProvince, orderId, isFromCart);
         return ResponseEntity.ok().build();
     }
 

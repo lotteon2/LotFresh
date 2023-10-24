@@ -36,17 +36,17 @@ public class OrchestratorService {
         return result.getBody();
     }
 
-    public Orchestrator orderTransaction(Long userId, Long orderId, boolean isFromCart,
-                                         BiFunction<List<InventoryRequest>,PaymentRequest,Workflow> workflowGenerator) {
+    public Orchestrator orderTransaction(Long userId, String userProvince, Long orderId, boolean isFromCart,
+                                         BiFunction<InventoryRequest,PaymentRequest,Workflow> workflowGenerator) {
         List<OrderDetail> orderDetails = orderService.getOrderDetails(orderId);
         List<Long> orderDetailIds = orderDetails.stream()
                 .map(OrderDetail::getId)
                 .collect(Collectors.toList());
 
-        List<InventoryRequest> inventoryRequests = makeInventoryRequests(orderDetails);
+        InventoryRequest inventoryRequest = makeInventoryRequest(orderDetails,userProvince);
         PaymentRequest paymentRequest = makePaymentRequest();
 
-        Workflow orderWorkflow = workflowGenerator.apply(inventoryRequests,paymentRequest);
+        Workflow orderWorkflow = workflowGenerator.apply(inventoryRequest,paymentRequest);
 
         Orchestrator orderOrchestrator = Orchestrator.builder()
                 .workflow(orderWorkflow)
@@ -70,13 +70,13 @@ public class OrchestratorService {
         return orderOrchestrator;
     }
 
-    public Orchestrator orderNormalTransaction(Long userId, Long orderId, boolean isFromCart) {
-        return orderTransaction(userId, orderId, isFromCart,
+    public Orchestrator orderNormalTransaction(Long userId, String userProvince, Long orderId, boolean isFromCart) {
+        return orderTransaction(userId, userProvince, orderId, isFromCart,
                 orderWorkflowGenerator::generateNormalOrderWorkflow);
     }
 
-    public Orchestrator orderSalesTransaction(Long userId, Long orderId, boolean isFromCart) {
-        return orderTransaction(userId, orderId, isFromCart,
+    public Orchestrator orderSalesTransaction(Long userId, String userProvince, Long orderId, boolean isFromCart) {
+        return orderTransaction(userId, userProvince, orderId, isFromCart,
                 orderWorkflowGenerator::generateSalesOrderWorkflow);
     }
 
@@ -95,10 +95,14 @@ public class OrchestratorService {
 
     }
 
-    private List<InventoryRequest> makeInventoryRequests(List<OrderDetail> orderDetails) {
-        return orderDetails.stream()
-                .map(InventoryRequest::from)
+    private InventoryRequest makeInventoryRequest(List<OrderDetail> orderDetails, String userProvince) {
+        List<ProductInfo> productInfos = orderDetails.stream()
+                .map(ProductInfo::from)
                 .collect(Collectors.toList());
+        return InventoryRequest.builder()
+                .productInfos(productInfos)
+                .province(userProvince)
+                .build();
     }
     private PaymentRequest makePaymentRequest() {
         return PaymentRequest.builder()
