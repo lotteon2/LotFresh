@@ -45,6 +45,16 @@ public class CacheConfig {
                             new GenericJackson2JsonRedisSerializer())))
             .withCacheConfiguration(
                 "discountCache",
-                RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(12))));
+                RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(12)))
+            .withCacheConfiguration(
+                "newProductsCache",
+                RedisCacheConfiguration.defaultCacheConfig()
+                    .entryTtl(Duration.ofHours(24))
+                    .serializeKeysWith(
+                        RedisSerializationContext.SerializationPair.fromSerializer(
+                            new StringRedisSerializer()))
+                    .serializeValuesWith(
+                        RedisSerializationContext.SerializationPair.fromSerializer(
+                            new GenericJackson2JsonRedisSerializer()))));
   }
 }

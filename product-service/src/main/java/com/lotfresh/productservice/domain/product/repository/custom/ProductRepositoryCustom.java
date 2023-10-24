@@ -2,6 +2,7 @@ package com.lotfresh.productservice.domain.product.repository.custom;
 
 import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.product.entity.Product;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -14,5 +15,6 @@ public interface ProductRepositoryCustom {
 
   List<Product> findAllByIds(List<Long> ids);
 
+  @Cacheable(key="'all'", value = "newProductsCache")
   List<Product> findNewProductsLimit100();
 }
