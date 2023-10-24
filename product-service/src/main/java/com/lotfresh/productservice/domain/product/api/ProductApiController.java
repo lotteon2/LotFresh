@@ -102,4 +102,9 @@ public class ProductApiController {
   public ResponseEntity<List<ProductResponse>> getNewProducts() {
     return ResponseEntity.ok(productService.getNewProducts());
   }
+
+  @GetMapping("")
+  public ResponseEntity<ProductPageResponse> getProductsByKeyword(@ModelAttribute PageRequest pageRequest) {
+    return ResponseEntity.ok(productService.getProductsByKeyword(pageRequest));
+  }
 }
