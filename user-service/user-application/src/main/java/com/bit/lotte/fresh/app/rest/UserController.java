@@ -13,6 +13,7 @@ import com.bit.lotte.fresh.service.dto.response.CreateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteAddressResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
+import com.bit.lotte.fresh.service.dto.response.UserAddressListResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressProvinceResponse;
 import com.bit.lotte.fresh.service.mapper.UserDataMapper;
@@ -25,6 +26,7 @@ import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -106,6 +108,12 @@ public class UserController {
         return ResponseEntity.ok(
             userApplicationService.updateDefaultAddress(new UserIdCommand(new UserId(userId)),
                 new AddressIdCommand(new AddressId(addressId))));
+    }
+     @GetMapping(value = "/users/{userId}/addresses")
+    public ResponseEntity<UserAddressListResponse> getAddressList(
+        @PathVariable Long userId) {
+        return ResponseEntity.ok(
+            userApplicationService.getAddressList(new UserIdCommand(new UserId(userId))));
     }
 
 }

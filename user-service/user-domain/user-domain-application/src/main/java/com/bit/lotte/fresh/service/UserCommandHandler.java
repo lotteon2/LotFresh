@@ -22,7 +22,6 @@ import com.bit.lotte.fresh.service.dto.command.UserIdCommand;
 import com.bit.lotte.fresh.service.mapper.UserDataMapper;
 import com.bit.lotte.fresh.service.repository.UserRepository;
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
-import java.beans.Transient;
 import java.util.List;
 import javax.transaction.Transactional;
 import lombok.Getter;
@@ -54,6 +53,7 @@ public class UserCommandHandler {
   @Transactional
   public List<GetAddressListInfoDomainEvent> getAddressList(UserIdCommand userIdCommand) {
     User user = getUser(userIdCommand.getUserId());
+    userRepository.get(user.getEntityId())
     return userDomainService.getAddressList(user);
   }
 

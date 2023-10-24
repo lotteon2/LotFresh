@@ -21,8 +21,6 @@ yauth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/aut
 vauth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/AuthDomainApplicationServiceImpl.java,5/e/5eeef838142a14601c50960cf067c139c89a67a6
 ¢
 rauth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/AuthDomainApplicationService.java,c/b/cb49875aeec036865dca6e96a04b13faceb38d18
-à
-Xauth-service/auth-infra/filter/src/main/java/com/bit/lotte/fresh/filter/LoginFilter.java,c/0/c0bbe94df5ea05856f0660e73d766268f035bf43
 ç
 ]user-service/user-container/src/main/java/com/bit/lotte/fresh/app/UserApplicationService.java,6/5/65297faa03a7b0c31cf4af217b7bfee6800c32f3
 î
@@ -47,8 +45,6 @@ Z
 *auth-service/auth-application/build.gradle,8/a/8ae4cb78cc6d338fd93b868baba1983977735e21
 ò
 hauth-service/auth-common/src/main/java/com/bit/lotte/fresh/auth/common/util/RedisTokenBlacklistUtil.java,e/7/e7e7d168ed7f454a90f18834dbfba5a49e1d4089
-ç
-]auth-service/auth-common/src/main/java/com/bit/lotte/fresh/auth/common/util/JwtTokenUtil.java,8/5/850c390cbe7668f53677f480a5031b87d6abf66f
 ¶
 vauth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/exception/AuthUserGlobalExceptionHandler.java,7/b/7b59d8584f606e47d3c30798fcdd279095aecbc2
 [
@@ -57,8 +53,6 @@ vauth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/except
 cauth-service/auth-infra/filter/src/main/java/com/bit/lotte/fresh/filter/ExceptionHandlerFilter.java,5/2/529698e5d2c29f4c9a70a596c42949254712f45f
 ê
 `auth-service/auth-infra/auth-config/src/main/java/com/bit/lotte/fresh/config/SecurityConfig.java,1/a/1af2428348c0ed99abd90912fc294b0c5e0e61ca
-î
-dauth-service/auth-infra/filter/src/main/java/com/bit/lotte/fresh/filter/JwtAuthenticationFilter.java,4/e/4eaff0bac3032bc32ceb96c7db5b4e4e3eceb111
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302

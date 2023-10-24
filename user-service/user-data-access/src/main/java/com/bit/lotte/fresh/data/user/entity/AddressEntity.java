@@ -28,7 +28,6 @@ import lombok.Setter;
 public class AddressEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "address_id")
   private Long id;
   @Column(nullable = false, name = "province")

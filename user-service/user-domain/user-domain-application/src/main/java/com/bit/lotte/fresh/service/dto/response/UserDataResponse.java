@@ -20,15 +20,12 @@ public class UserDataResponse {
   @NotNull
   private  String contact;
   @NotNull
-  private  List<Address> addressList;
-  @NotNull
   private  Gender gender;
 
   public UserDataResponse(User user) {
     this.userId = user.getEntityId();
     this.name = user.getName();
     this.contact = user.getContact();
-    this.addressList = user.getAddressList();
     this.gender = user.getGender();
   }
 

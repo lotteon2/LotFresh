@@ -6,6 +6,7 @@ import com.bit.lotte.fresh.domain.event.address.ChangeDefaultUserAddressDomainEv
 import com.bit.lotte.fresh.domain.event.address.DeleteUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.CreateUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.DeleteUserDomainEvent;
+import com.bit.lotte.fresh.domain.event.user.GetAddressListInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.GetUserInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.UpdateUserDomainEvent;
 import com.bit.lotte.fresh.service.dto.command.AddAddressCommand;
@@ -19,10 +20,12 @@ import com.bit.lotte.fresh.service.dto.response.CreateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteAddressResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
+import com.bit.lotte.fresh.service.dto.response.UserAddressListResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressProvinceResponse;
 import com.bit.lotte.fresh.service.mapper.UserDataMapper;
 import com.bit.lotte.fresh.service.port.input.UserApplicationService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,13 @@ public class UserApplicationServiceImpl implements UserApplicationService {
 
   private final UserDataMapper userDataMapper;
   private final UserCommandHandler userCommandHandler;
+
+  @Override
+  public UserAddressListResponse getAddressList(UserIdCommand userId) {
+    List<GetAddressListInfoDomainEvent> eventList = userCommandHandler.getAddressList(userId);
+    return userDataMapper.AddressListEventToResponse(eventList);
+
+  }
 
   @Override
   public AddUserAddressResponse addAddress(UserIdCommand userId,

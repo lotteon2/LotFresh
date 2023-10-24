@@ -14,28 +14,14 @@ import java.util.Base64;
 import java.util.Date;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
 
 public class JwtTokenUtil {
 
   public static final String roleKeyName = "role";
   public static final String categoryAdminSubCategoryIdList = "category_admin_description";
-  public static String SECRET_KEY;
-
-  static {
-    try {
-      SECRET_KEY = createSecretKey();
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public static String createSecretKey() throws NoSuchAlgorithmException {
-    int keySize = 256;
-    KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
-    keyGenerator.init(keySize);
-    SecretKey secretKey = keyGenerator.generateKey();
-    return Base64.getEncoder().encodeToString(secretKey.getEncoded());
-  }
+  @Value("${jwt.secret}")
+  private String JWT_SECRET;
 
   public static String generateToken(String subject, String customClaimKey, String customClaimValue,
       Date expiration) {
