@@ -10,6 +10,7 @@ import com.lotfresh.productservice.domain.discount.exception.DiscountNotFound;
 import com.lotfresh.productservice.domain.discount.repository.DiscountRepository;
 import com.lotfresh.productservice.domain.discount.service.response.DiscountResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,7 @@ public class DiscountService {
   }
 
   @Transactional
+  @CacheEvict(value = "discountCache", allEntries = true)
   public void modifyDiscount(DiscountModifyRequest request, Long id) {
     Discount discount = discountRepository.findById(id).orElseThrow(DiscountNotFound::new);
     discount.changeDiscount(request.getRate(), request.getImgurl());
