@@ -54,7 +54,11 @@ pipeline {
 						string(credentialsId: 'DB_IP', variable: 'DB_IP'),
 						string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'),
 						string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
-						string(credentialsId: 'REDIS_PORT', variable: 'REDIS_PORT')
+						string(credentialsId: 'REDIS_PORT', variable: 'REDIS_PORT'),
+
+						string(credentialsId: 'JWT_SECRET', variable: 'JWT_SECRET'),
+						string(credentialsId: 'JWT_ACCESS_EXPIRE', variable: 'JWT_ACCESS_EXPIRE'),
+						string(credentialsId: 'JWT_REFRESH_EXPIRE', variable: 'JWT_REFRESH_EXPIRE')
 
 					]) {
 						sshagent(credentials: ['ssh']) {
@@ -80,6 +84,10 @@ pipeline {
 								echo "DB_USERNAME=$DB_USERNAME" >> env.list
 								echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
 								echo "REDIS_PORT=$REDIS_PORT" >> env.list
+
+								echo "JWT_SECRET=$JWT_SECRET" >> env.list
+								echo "JWT_ACCESS_EXPIRE=$JWT_ACCESS_EXPIRE" >> env.list
+								echo "JWT_REFRESH_EXPIRE=$JWT_REFRESH_EXPIRE" >> env.list
 
 								scp -o StrictHostKeyChecking=no env.list ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com:~/env.list
 							"""
