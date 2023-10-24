@@ -6,27 +6,28 @@
     </p>
     <p class="goods-price">
       <span class="position">
-        <span class="price">
-          <span v-if="!props.product.salesPrice" id="basic-price">
-            {{ formattedPrice }}
+        <span class="cost">
+          <span v-if="!product.salesPrice" class="price"
+            >{{ formattedPrice }}원
           </span>
-          <span style="text-decoration: line-through; color: #999999"
-            >{{ formattedPrice }}
+          <span v-else>
+            <span style="text-decoration: line-through; color: #999999"
+              >{{ formattedPrice }}
+            </span>
+            →{{ formattedDiscountPrice }}원
           </span>
-          →{{ formattedDiscountPrice }}
         </span>
-        <span class="won"> 원</span>
       </span>
     </p>
     <div class="detail_info">
       <div class="info_categories">
         상품 카테고리 |
-        <router-link to="/">
+        <router-link :to="`/categories/${props.product.parendId}`">
           <span v-if="props.product.parentName" class="parent_category">
             {{ props.product.parentName }} >
           </span>
         </router-link>
-        <router-link to="/">
+        <router-link :to="`/categories/${props.product.categoryId}`">
           <span class="my_category">
             {{ props.product.categoryName }}
           </span>
@@ -100,6 +101,9 @@ const totalPrice = computed(() => {
       props.product.salesPrice * quantity.value
     );
   }
+  return new Intl.NumberFormat("ko-KR").format(
+    props.product.price * quantity.value
+  );
 });
 
 // 여기서 버튼 클릭 발생시 내가 dto만들어서 장바구니 서버에 요청하면 장바구니는 해당데이터를 redis에만 저장한다. (유저 id를 키로)
@@ -190,7 +194,6 @@ const plus = () => {
 }
 
 #cartPut .cart-type2 .list-goods {
-  padding-bottom: 40px;
 }
 
 #cartPut .cart-type2 .list-nopackage {
@@ -331,7 +334,7 @@ const plus = () => {
 }
 
 #cartPut .cart-type2 .total {
-  padding: 30px 0 20px;
+  padding: 20px 0 20px;
 }
 
 #cartPut .cart-option .total {

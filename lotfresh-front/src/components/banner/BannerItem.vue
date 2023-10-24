@@ -1,6 +1,8 @@
 <template>
-  <div v-if="banner" class="banner_item">
-    <img class="banner_img" :src="banner.imgurl" />
+  <div v-if="props.banner" class="banner_item">
+    <router-link :to="`/categories/${props.banner.categoryId}`">
+      <img class="banner_img" :src="banner.imgurl" />
+    </router-link>
   </div>
 </template>
 
