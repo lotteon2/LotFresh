@@ -84,12 +84,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
   @Override
   public List<Product> findNewProductsLimit100() {
-    return query.selectFrom(product)
-            .join(product.category)
-            .fetchJoin()
-            .orderBy(product.id.desc())
-            .limit(100)
-            .fetch();
+    return query
+        .selectFrom(product)
+        .join(product.category)
+        .fetchJoin()
+        .orderBy(product.id.desc())
+        .limit(100)
+        .fetch();
   }
 
   private Long getTotalPageCount(String keyword) {

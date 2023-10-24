@@ -2,6 +2,7 @@ package com.lotfresh.productservice.domain.discount.repository;
 
 import com.lotfresh.productservice.domain.discount.entity.Discount;
 import com.lotfresh.productservice.domain.discount.repository.custom.DiscountRepositoryCustom;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +17,6 @@ public interface DiscountRepository
       value =
           "update discount set is_deleted = true where is_deleted = false and end_date <= curdate() + interval 1 day ",
       nativeQuery = true)
+  @CacheEvict(value = "discountCache", allEntries = true) // discountCache 전체 비움
   void updateExpiredDiscounts();
 }
