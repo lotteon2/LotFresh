@@ -2,7 +2,7 @@
   <div>
     <div class="pageTitle">
       <div class="title">
-        <h1>주문서</h1>
+        <h2>주문서</h2>
       </div>
     </div>
 
