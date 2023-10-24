@@ -20,6 +20,7 @@ import com.bit.lotte.fresh.service.dto.response.DeleteAddressResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
+import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressProvinceResponse;
 import com.bit.lotte.fresh.service.mapper.UserDataMapper;
 import com.bit.lotte.fresh.service.port.input.UserApplicationService;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +78,11 @@ public class UserApplicationServiceImpl implements UserApplicationService {
   public UserDataResponse getUser(UserIdCommand userIdCommand) {
         GetUserInfoDomainEvent getUserInfoDomainEvent = userCommandHandler.getUser(userIdCommand);
     return userDataMapper.getUserInfoEventToResponse(getUserInfoDomainEvent);
+  }
+
+  @Override
+  public UserDefaultAddressProvinceResponse getDefaultAddressProvince(UserIdCommand userIdCommand) {
+    return userDataMapper.defaultAddressEventToResponse(userCommandHandler.getUserDefaultAddressProvince(userIdCommand));
   }
 
 }

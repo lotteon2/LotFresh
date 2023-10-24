@@ -6,10 +6,12 @@ import com.bit.lotte.fresh.domain.entity.User;
 import com.bit.lotte.fresh.domain.event.address.AddUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.ChangeDefaultUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.DeleteUserAddressDomainEvent;
+import com.bit.lotte.fresh.domain.event.address.GetUserDefaultAddressProvinceEvent;
 import com.bit.lotte.fresh.domain.event.user.CreateUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.DeleteUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.GetUserInfoDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.UpdateUserDomainEvent;
+import com.bit.lotte.fresh.domain.valueobject.Province;
 import com.bit.lotte.fresh.service.dto.command.AddAddressCommand;
 import com.bit.lotte.fresh.service.dto.command.CreateUserCommand;
 import com.bit.lotte.fresh.service.dto.command.UpdateUserCommand;
@@ -20,6 +22,8 @@ import com.bit.lotte.fresh.service.dto.response.DeleteAddressResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
+import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressProvinceResponse;
+import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import java.util.List;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -84,5 +88,12 @@ public class UserDataMapper {
   public UserDataResponse getUserInfoEventToResponse(GetUserInfoDomainEvent getUserInfoDomainEvent) {
 
     return new UserDataResponse(getUserInfoDomainEvent.getUser());
+  }
+
+  public UserDefaultAddressProvinceResponse defaultAddressEventToResponse(
+      GetUserDefaultAddressProvinceEvent userDefaultAddressProvince) {
+    User user= userDefaultAddressProvince.getUser();
+    Province province = user.getUserDefaultAddress().getProvince();
+    return new UserDefaultAddressProvinceResponse(user.getEntityId(),province);
   }
 }

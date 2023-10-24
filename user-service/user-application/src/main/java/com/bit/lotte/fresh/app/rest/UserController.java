@@ -14,6 +14,7 @@ import com.bit.lotte.fresh.service.dto.response.DeleteAddressResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
+import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressProvinceResponse;
 import com.bit.lotte.fresh.service.mapper.UserDataMapper;
 import com.bit.lotte.fresh.service.port.input.UserApplicationService;
 import com.bit.lotte.fresh.service.port.output.CreateUserEventPublisher;
@@ -50,13 +51,20 @@ public class UserController {
         if (response != null) {
             publisher.publish(
                 new CreateUserDomainEvent(dataMapper.createCommandUserToUser(createUserCommand),
-                    ZonedDateTime.now()),createUserCommand.getAuthProvider());
+                    ZonedDateTime.now()), createUserCommand.getAuthProvider());
         }
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping(value = "/users/addresses/default")
+    public ResponseEntity<UserDefaultAddressProvinceResponse> getUserDefaultAddressProvince(
+        @Valid @RequestBody UserIdCommand userIdCommand) {
+        return ResponseEntity.ok(userApplicationService.getDefaultAddressProvince(userIdCommand));
+    }
+
     @DeleteMapping("/users")
-    public ResponseEntity<DeleteUserResponse> deleteUser(@Valid @RequestBody UserIdCommand userIdCommand) {
+    public ResponseEntity<DeleteUserResponse> deleteUser(
+        @Valid @RequestBody UserIdCommand userIdCommand) {
         log.info("userId:" + userIdCommand.getUserId());
         return ResponseEntity.ok(
             userApplicationService.deleteUser(userIdCommand));

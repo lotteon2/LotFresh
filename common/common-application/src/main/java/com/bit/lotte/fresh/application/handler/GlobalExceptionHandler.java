@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -28,6 +29,19 @@ public class GlobalExceptionHandler {
         .build();
     return errorDTO;
   }
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public ErrorDTO handleMessageNotReadableException(
+      HttpMessageNotReadableException messageNotReadableException) {
+    String exceptionMessage = messageNotReadableException.getMessage();
+    return ErrorDTO.builder()
+        .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
+        .status(HttpStatus.valueOf(400))
+        .message(exceptionMessage)
+        .build();
+  }
+
 
   @ExceptionHandler(value = {ValidationException.class})
   @ResponseStatus(HttpStatus.BAD_REQUEST)

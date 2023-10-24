@@ -32,11 +32,11 @@ public class UserRepositoryImpl implements UserRepository {
    */
   @Override
   public User save(User user) {
-    if (get(user.getEntityId()) != null) {
+    if (userJpaRepository.findById(user.getEntityId().getValue()).isPresent()) {
       return null;
     }
-    UserEntity userEntity = userJpaRepository.save(userDataAccessMapper.userToUserEntity(user));
 
+    UserEntity userEntity = userJpaRepository.save(userDataAccessMapper.userToUserEntity(user));
     return userDataAccessMapper.userEntityToUser(userEntity);
   }
 

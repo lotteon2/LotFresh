@@ -13,6 +13,7 @@ import com.bit.lotte.fresh.service.dto.response.DeleteAddressResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
+import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressProvinceResponse;
 
 public interface UserApplicationService {
 
@@ -23,5 +24,6 @@ public interface UserApplicationService {
   UpdateUserResponse updateUser(UpdateUserCommand updateUserCommand);
   DeleteUserResponse deleteUser(UserIdCommand userIdCommand);
   UserDataResponse getUser(UserIdCommand userIdCommand);
+  UserDefaultAddressProvinceResponse getDefaultAddressProvince(UserIdCommand userIdCommand);
 
 }

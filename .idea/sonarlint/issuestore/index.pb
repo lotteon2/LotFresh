@@ -72,7 +72,5 @@ Ycommon/common-domain/src/main/java/com/bit/lotte/fresh/user/common/event/Domain
 kauth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/AuthDomainEvent.java,d/f/df8528256a2b0f676ec0198fbdd7b57a9d957a06
 ç
 ]common/common-application/src/main/java/com/bit/lotte/fresh/application/handler/ErrorDTO.java,6/d/6d20a66f43d2409a94236b8515a499c0c39da8ce
-õ
-kcommon/common-application/src/main/java/com/bit/lotte/fresh/application/handler/GlobalExceptionHandler.java,1/5/15c161709dc79c05d3483ca19a66556c8e86d18d
 ?
 settings.gradle,0/5/05efc8b1657769a27696d478ded1e95f38737233
