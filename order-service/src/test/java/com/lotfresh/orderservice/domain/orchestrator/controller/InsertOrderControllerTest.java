@@ -3,10 +3,12 @@ package com.lotfresh.orderservice.domain.orchestrator.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.OrderCreateRequest;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
+import com.lotfresh.orderservice.domain.orchestrator.feigns.UserFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.service.OrchestratorService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,6 +30,9 @@ class InsertOrderControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private UserFeignClient userFeignClient;
 
     @MockBean
     private OrchestratorService orchestratorService;
