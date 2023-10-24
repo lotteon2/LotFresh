@@ -53,12 +53,12 @@ export default {};
   color: gray;
 }
 .small-text {
-  font-size: 20px;
+  font-size: 15px;
 }
 .delivery-info-container {
   margin-right: auto;
   margin-left: auto;
-  font-size: 25px;
+  font-size: 20px;
 }
 .title {
   padding-bottom: 10px;

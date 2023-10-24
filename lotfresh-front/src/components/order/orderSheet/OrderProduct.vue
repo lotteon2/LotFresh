@@ -28,9 +28,9 @@ export default {};
   margin-left: auto;
 }
 .title {
-  font-size: 15.6px;
+  font-size: 12.6px;
 }
 .item {
-  font-size: 30px;
+  font-size: 20px;
 }
 </style>

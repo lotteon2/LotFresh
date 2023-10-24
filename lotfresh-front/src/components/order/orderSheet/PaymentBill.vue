@@ -28,8 +28,7 @@
             <div class="item text-right"></div>
           </div>
           <div class="section">
-            <div class="item">최종결제금액</div>
-            <div class="item"></div>
+            <div class="item grid-col">최종결제금액</div>
             <div class="item text-right">7,800원</div>
           </div>
         </div>
@@ -60,6 +59,9 @@ export default {};
   grid-template-columns: 1fr 1fr 1fr;
   margin-bottom: 15px;
 }
+.grid-col {
+  grid-column: 1/3;
+}
 .gray-text {
   color: gray;
 }
@@ -71,7 +73,7 @@ export default {};
   margin-left: auto;
   margin-top: 100px;
   margin-bottom: 70px;
-  font-size: 25px;
+  font-size: 20px;
 }
 .emptySpace {
   width: 90%;

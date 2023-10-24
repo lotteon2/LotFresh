@@ -81,7 +81,7 @@ export default {
 .order-info {
   display: grid;
   grid: ". . . . . . . .";
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .item {

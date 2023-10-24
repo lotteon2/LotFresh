@@ -27,8 +27,7 @@
         v-if="statusClassification(orderDetailData.status) == 'RefundStatus'"
       >
         <div class="right-section-buttons">
-          <div class="right-inner-button"><button>환불</button></div>
-          <div class="right-inner-button"><button>환불환불</button></div>
+          <div class="right-inner-button"><button>환불 조회</button></div>
         </div>
       </div>
       <div
@@ -37,8 +36,7 @@
         "
       >
         <div class="right-section-buttons">
-          <div class="right-inner-button"><button>결제</button></div>
-          <div class="right-inner-button"><button>결제결제</button></div>
+          <div class="right-inner-button"><button>결제 조회</button></div>
         </div>
       </div>
       <div
@@ -109,7 +107,7 @@ export default {
   border: 2px solid rgb(204, 194, 194);
   border-radius: 20px;
   width: 93%;
-  height: 300px;
+  height: 270px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 15px;
@@ -124,14 +122,14 @@ export default {
 .left-inner-status {
   height: 80px;
   position: relative;
-  font-size: 20px;
+  font-size: 18px;
 }
 .left-inner-contents {
   height: 170px;
   position: relative;
 }
 .left-inner-empty {
-  height: 50px;
+  height: 20px;
 }
 .product-status {
   position: absolute;
@@ -150,7 +148,7 @@ export default {
   position: absolute;
   left: 180px;
   bottom: 75px;
-  font-size: 50px;
+  font-size: 45px;
 }
 .product-price {
   position: absolute;
@@ -182,10 +180,10 @@ export default {
   color: gray;
 }
 .small-text {
-  font-size: 20px;
+  font-size: 15px;
 }
 .mid-bar {
-  font-size: 15px;
+  font-size: 10px;
 }
 
 .bold-text {
@@ -196,5 +194,10 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+button {
+  width: 150px;
+  height: 30px;
 }
 </style>
