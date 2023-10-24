@@ -17,4 +17,6 @@ public interface ProductRepositoryCustom {
 
   @Cacheable(key = "'all'", value = "newProductsCache")
   List<Product> findNewProductsLimit100();
+
+  Page<Product> findAllByKeyword(PageRequest pageRequest);
 }
