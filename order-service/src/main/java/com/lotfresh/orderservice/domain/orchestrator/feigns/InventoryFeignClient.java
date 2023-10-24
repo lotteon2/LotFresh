@@ -12,8 +12,8 @@ import java.util.List;
 public interface InventoryFeignClient {
 
     @PostMapping("normal/deductQuantity")
-    ResponseEntity deductNormalQuantity(@RequestBody List<InventoryRequest> inventoryRequests);
+    ResponseEntity deductNormalStock(@RequestBody List<InventoryRequest> inventoryRequests);
 
     @PostMapping("sales/deductQuantity")
-    ResponseEntity deductSalesQuantity(@RequestBody List<InventoryRequest> inventoryRequests);
+    ResponseEntity deductSalesStock(@RequestBody List<InventoryRequest> inventoryRequests);
 }

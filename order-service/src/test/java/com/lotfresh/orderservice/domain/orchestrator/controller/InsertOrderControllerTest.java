@@ -98,7 +98,7 @@ class InsertOrderControllerTest {
                 .andExpect(jsonPath("$.validation.productRequests").value("productRequests cannot be empty"));
     }
 
-    @DisplayName("ProductRequest의 productId, productPrice, productQuantity는 null일 수 없다")
+    @DisplayName("ProductRequest의 productId, productPrice, productStock은 null일 수 없다")
     @Test
     void paramsInProductRequestCannotBeNull() throws Exception {
         // given
@@ -127,11 +127,11 @@ class InsertOrderControllerTest {
     }
 
 
-    private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
+    private ProductRequest createProductRequest(Long productId, Long productPrice, Long productStock){
         return ProductRequest.builder()
                 .productId(productId)
                 .productPrice(productPrice)
-                .productStock(productQuantity)
+                .productStock(productStock)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
                 .build();

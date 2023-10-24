@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 public class InventoryRequest {
     private Long orderDetailId;
     private Long productId;
-    private Long productQuantity;
+    private Long productStock;
 
     public static InventoryRequest from(OrderDetail orderDetail) {
         return InventoryRequest.builder()
                 .orderDetailId(orderDetail.getId())
                 .productId(orderDetail.getProductId())
-                .productQuantity(orderDetail.getStock())
+                .productStock(orderDetail.getStock())
                 .build();
     }
 

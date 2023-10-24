@@ -14,7 +14,6 @@ import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
 import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
-import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.exception.SagaException;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
@@ -22,7 +21,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -103,7 +101,7 @@ class OrchestratorServiceTest {
     @Test
     void orchestratorProcessSucceed() {
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalQuantity(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
@@ -132,7 +130,7 @@ class OrchestratorServiceTest {
     @Test
     void requestDeleteToCartWhenProcessSucceeded() {
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalQuantity(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
@@ -155,7 +153,7 @@ class OrchestratorServiceTest {
     @Test
     void orderDeletedWhenDeductQuantityFailed(){
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalQuantity(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
                 .willThrow(new RuntimeException());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
@@ -197,7 +195,7 @@ class OrchestratorServiceTest {
     @Test
     void orderAndInventoryRollbackedWhenPaymentFailed(){
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalQuantity(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
                 .willThrow(new RuntimeException());
