@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import shop.lotfresh.storageservice.domain.orderproduct.api.OrderProductApiController;
 import shop.lotfresh.storageservice.domain.orderproduct.api.request.OrderProductRequest;
+import shop.lotfresh.storageservice.domain.orderproduct.api.request.ProductInfo;
 import shop.lotfresh.storageservice.domain.orderproduct.entity.OrderProduct;
 import shop.lotfresh.storageservice.domain.orderproduct.repository.OrderProductRepository;
 import shop.lotfresh.storageservice.domain.storageproduct.service.StorageProductService;
@@ -30,18 +31,25 @@ public class OrderProductService {
     }
 
     @Transactional
-    public void orderProduct(@RequestBody OrderProductRequest request){
-        List<StorageProductOrder> productOrders = storageProductService.productOrder(request.getProvince(), request.getProductId(), request.getStock());
+    public void orderProduct(@RequestBody OrderProductRequest request) throws Exception {
+        String province = request.getProvince();
+        long orderId = request.getOrderDetailId();
+        List<ProductInfo> productInfos = request.getProductInfos();
+
+        List<StorageProductOrder> productOrders = null;
+        for (ProductInfo infos : productInfos) {
+            productOrders = storageProductService.productOrder(province, infos.getProductId(), infos.getStock());
+        }
+
         for (StorageProductOrder productOrder : productOrders) {
             OrderProduct orderProd = new OrderProduct();
             orderProd.setStorageId(productOrder.getStorageProductId());
             orderProd.setStorageProductId(productOrder.getStorageProductId());
             orderProd.setStock(productOrder.getStock());
             orderProd.setIsDeleted(0);
-            orderProd.setOrderDetailId(request.getOrderDetailId());
+            orderProd.setOrderDetailId(orderId);
 
             orderProductRepository.save(orderProd);
         }
-
     }
 }

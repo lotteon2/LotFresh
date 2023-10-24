@@ -1,6 +1,7 @@
 package shop.lotfresh.storageservice.domain.orderproduct.api;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,11 @@ public class OrderProductApiController {
 
     @PostMapping("/orderproduct")
     public ResponseEntity orderProduct(@RequestBody OrderProductRequest request) {
-        orderProductService.orderProduct(request);
+        try {
+            orderProductService.orderProduct(request);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         return null;
     }
 }
