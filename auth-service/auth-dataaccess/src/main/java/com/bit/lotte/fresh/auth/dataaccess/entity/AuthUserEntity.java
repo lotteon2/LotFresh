@@ -24,9 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class AuthUserEntity {
 
   @Id
-  @GeneratedValue(
-      strategy = GenerationType.TABLE
-  )
   @NotNull
   private Long authId;
   private String email;
