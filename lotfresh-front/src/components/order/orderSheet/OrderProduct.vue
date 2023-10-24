@@ -16,13 +16,7 @@
 </template>
 
 <script lang="ts">
-<<<<<<< HEAD
 export default {};
-=======
-export default {
-  // 이거를 안쓰더라도 넣어주셔야 다른 파일에서 이 컴포넌트를 import 할 수 있습니다.
-};
->>>>>>> 94a5eeeda23d9454f239de8660d870d1b950f9f0
 </script>
 
 <style scoped>

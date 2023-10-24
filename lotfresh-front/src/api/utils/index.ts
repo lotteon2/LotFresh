@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = "http://localhost:8083";
-const ORDER_URL = "http://localhost:80";
+const ORDER_URL = "http://localhost:8084";
 
 // 기본 API 요청 처리
 const axiosApi = (baseURL: string) => {
