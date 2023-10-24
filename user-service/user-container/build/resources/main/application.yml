@@ -14,3 +14,5 @@ spring:
     config:
       import-check:
         enabled: false
+jwt:
+  secret: ${JWT_SECRET}

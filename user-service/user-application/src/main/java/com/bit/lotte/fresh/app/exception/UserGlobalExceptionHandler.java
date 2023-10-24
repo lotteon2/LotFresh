@@ -26,7 +26,7 @@ public class UserGlobalExceptionHandler extends GlobalExceptionHandler {
   public ErrorDTO handleException(UserDomainException exception) {
     log.error(exception.getMessage(), exception);
     return ErrorDTO.builder().code(HttpStatus.BAD_REQUEST.getReasonPhrase())
-        .message(exception.getMessage()).build();
+        .message(exception.getMessage()).status(HttpStatus.valueOf(400)).build();
   }
 
 }

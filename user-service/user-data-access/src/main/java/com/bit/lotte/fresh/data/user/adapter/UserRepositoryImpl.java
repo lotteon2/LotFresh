@@ -35,7 +35,6 @@ public class UserRepositoryImpl implements UserRepository {
     if (userJpaRepository.findById(user.getEntityId().getValue()).isPresent()) {
       return null;
     }
-
     UserEntity userEntity = userJpaRepository.save(userDataAccessMapper.userToUserEntity(user));
     return userDataAccessMapper.userEntityToUser(userEntity);
   }

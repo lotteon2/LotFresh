@@ -27,7 +27,6 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 @Getter
 public class UserEntity {
-
   @Id
   @Column(name = "user_id")
   private Long id;
@@ -37,7 +36,7 @@ public class UserEntity {
   private Gender gender;
   @Column(nullable = false, name = "contact")
   private String contact;
-@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<AddressEntity> addressList = new ArrayList<>();
 
 

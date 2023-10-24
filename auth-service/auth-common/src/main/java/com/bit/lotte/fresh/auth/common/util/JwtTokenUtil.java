@@ -9,11 +9,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.Date;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 
 public class JwtTokenUtil {
@@ -21,7 +17,7 @@ public class JwtTokenUtil {
   public static final String roleKeyName = "role";
   public static final String categoryAdminSubCategoryIdList = "category_admin_description";
   @Value("${jwt.secret}")
-  private String JWT_SECRET;
+  private static String JWT_SECRET;
 
   public static String generateToken(String subject, String customClaimKey, String customClaimValue,
       Date expiration) {
@@ -31,7 +27,7 @@ public class JwtTokenUtil {
         .setIssuedAt(now)
         .setExpiration(expiration)
         .claim(customClaimKey, customClaimValue)
-        .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+        .signWith(SignatureAlgorithm.HS256, JWT_SECRET)
         .compact();
   }
 
@@ -39,7 +35,7 @@ public class JwtTokenUtil {
 
     try {
       Claims claims = Jwts.parser()
-          .setSigningKey(SECRET_KEY)
+          .setSigningKey(JWT_SECRET)
           .parseClaimsJws(token)
           .getBody();
 
@@ -58,7 +54,7 @@ public class JwtTokenUtil {
 
   public static boolean checkCategoryAdminHasSubIdList(String token) {
     Claims claims = Jwts.parser()
-        .setSigningKey(SECRET_KEY)
+        .setSigningKey(JWT_SECRET)
         .parseClaimsJws(token)
         .getBody();
     return claims.containsKey(categoryAdminSubCategoryIdList);
@@ -66,7 +62,7 @@ public class JwtTokenUtil {
 
   public static String parseCategoryAdminCategoryId(String token) {
     Claims claims = Jwts.parser()
-        .setSigningKey(SECRET_KEY)
+        .setSigningKey(JWT_SECRET)
         .parseClaimsJws(token)
         .getBody();
     String role = (String) claims.get(roleKeyName);
@@ -77,7 +73,7 @@ public class JwtTokenUtil {
 
       if (checkCategoryAdminHasSubIdList(token)) {
         Claims claims = Jwts.parser()
-            .setSigningKey(SECRET_KEY)
+            .setSigningKey(JWT_SECRET)
             .parseClaimsJws(token)
             .getBody();
 
@@ -86,7 +82,7 @@ public class JwtTokenUtil {
             .setClaims(claims)
             .setIssuedAt(new Date())
             .setExpiration(new Date(LoginSessionTime.LOGIN_SESSION_SEC))
-            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .signWith(SignatureAlgorithm.HS256, JWT_SECRET)
             .compact();
       } else {
         throw new JwtException("존재하지 않는 토큰 정보입니다.");
@@ -97,7 +93,7 @@ public class JwtTokenUtil {
     try {
 
       Claims claims = Jwts.parser()
-          .setSigningKey(SECRET_KEY)
+          .setSigningKey(JWT_SECRET)
           .parseClaimsJws(token)
           .getBody();
       return claims.get(roleKeyName, String.class);
@@ -110,7 +106,7 @@ public class JwtTokenUtil {
   public static String getSubjectFromToken(String token) {
     try {
       Claims claims = Jwts.parser()
-          .setSigningKey(SECRET_KEY)
+          .setSigningKey(JWT_SECRET)
           .parseClaimsJws(token)
           .getBody();
 
@@ -128,15 +124,13 @@ public class JwtTokenUtil {
     if (token != null) {
       verifyToken(token);
       Claims claims = Jwts.parser()
-          .setSigningKey(SECRET_KEY)
+          .setSigningKey(JWT_SECRET)
           .parseClaimsJws(token)
           .getBody();
       String subject = claims.getSubject();
-      String claimsKey = roleKeyName; // Replace with your custom claim key
+      String claimsKey = roleKeyName;
       String claimsValue = claims.get(claimsKey)
-          .toString(); // Replace with your custom claim value
-
-      // Generate a new token using the extracted claims
+          .toString();
       return generateToken(subject, claimsKey, claimsValue,
           new Date(System.currentTimeMillis() + LoginSessionTime.LOGIN_SESSION_SEC * 1000L));
     }

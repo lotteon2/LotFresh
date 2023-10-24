@@ -53,7 +53,6 @@ public class UserCommandHandler {
   @Transactional
   public List<GetAddressListInfoDomainEvent> getAddressList(UserIdCommand userIdCommand) {
     User user = getUser(userIdCommand.getUserId());
-    userRepository.get(user.getEntityId())
     return userDomainService.getAddressList(user);
   }
 
@@ -96,7 +95,7 @@ public class UserCommandHandler {
     User user = getUser(userId.getUserId());
     Address newAddress = userDataMapper.addAddressCommandToAddress(addAddressCommand);
     AddUserAddressDomainEvent event = userDomainService.addUserAddress(user, newAddress);
-    User updatedUser = userRepository.save(event.getUser());
+    User updatedUser = userRepository.update(event.getUser());
     if (updatedUser == null) {
       throw new UserDomainException("주소록 추가 실패하였습니다.");
     }
