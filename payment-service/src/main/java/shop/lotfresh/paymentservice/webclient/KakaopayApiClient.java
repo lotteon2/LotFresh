@@ -21,7 +21,7 @@ public class KakaopayApiClient {
 
     @Value("${kakaopay.admin_key}")
     private String KAKAOPAY_SERVICE_APP_ADMIN_KEY;
-//    private final String ADMIN_KEY = "KakaoAK " + KAKAOPAY_SERVICE_APP_ADMIN_KEY;
+    //    private final String ADMIN_KEY = "KakaoAK " + KAKAOPAY_SERVICE_APP_ADMIN_KEY;
     private String ADMIN_KEY;
 
     @PostConstruct
@@ -36,20 +36,21 @@ public class KakaopayApiClient {
     public KakaopayReadyResponseVO kakaopayReady(Long orderId, KakaopayReadyVO request) {
         log.warn(orderId.toString());
         log.warn(ADMIN_KEY);
-        log.warn(request.toMultiValueMap().toString());
-
-
-        return webClient.post()
+        log.warn(request.toMultiValueMap(orderId).toString());
+        KakaopayReadyResponseVO res = webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/v1/payment/ready")
-                        .queryParam("orderId", orderId + "%26" + "param2=55")
                         .build())// %26이 &로 디코딩 될 수 있음. 디코딩하고, split으로 내가 쪼개서 가져가면 됨.
                 .header("Authorization", ADMIN_KEY)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .bodyValue(request.toMultiValueMap())
+                .bodyValue(request.toMultiValueMap(orderId))
                 .retrieve()
                 .bodyToMono(KakaopayReadyResponseVO.class)
                 .block();
+
+        log.warn(res.toString());
+
+        return res;
         // bodyValue까지가 HTTP request에 대한 명세작성.
 
         // 실제 네트워크 요청이 발생하고 응답을 받아오는 작업은 retrieve() 메서드가 호출될 때 수행됨.

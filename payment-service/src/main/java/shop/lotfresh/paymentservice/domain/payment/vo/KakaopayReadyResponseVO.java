@@ -1,11 +1,16 @@
 package shop.lotfresh.paymentservice.domain.payment.vo;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
+import lombok.ToString;
 import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
 
 import java.time.LocalDateTime;
 
 @Getter
+@ToString
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class KakaopayReadyResponseVO {
     private String tid;
     private boolean tmsResult;
