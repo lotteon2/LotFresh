@@ -18,7 +18,7 @@ public class AuthUserDataAccessMapper {
   }
 
   public AuthUser authEntityToAuthUser(AuthUserEntity authUser) {
-    return AuthUser.builder().id(new AuthUserId(Long.valueOf(authUser.getAuthId())))
+    return AuthUser.builder().entityId(new AuthUserId(authUser.getAuthId()))
         .authProvider(authUser.getAuthProvider())
         .description(authUser.getDescription()).email(authUser.getEmail())
         .password(authUser.getPassword()).lastLoginTime(authUser.getLastLoginTime())
@@ -26,7 +26,7 @@ public class AuthUserDataAccessMapper {
   }
 
   public AuthUserEntity authUserToAuthEntity(AuthUser authUser) {
-    return  AuthUserEntity.builder().authId(Long.valueOf(authUser.getId().getValue()))
+    return  AuthUserEntity.builder().authId(Long.valueOf(authUser.getEntityId().getValue()))
         .authProvider(authUser.getAuthProvider())
         .description(authUser.getDescription()).email(authUser.getEmail())
         .password(authUser.getPassword()).lastLoginTime(authUser.getLastLoginTime())

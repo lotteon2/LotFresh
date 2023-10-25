@@ -2,6 +2,7 @@ package com.bit.lotte.fresh.auth.service;
 
 import com.bit.lotte.fresh.auth.AuthDomainApplicationService;
 import com.bit.lotte.fresh.auth.AuthDomainApplicationServiceImpl;
+import com.bit.lotte.fresh.auth.event.AdminInfoAuthDomainEvent;
 import com.bit.lotte.fresh.auth.service.dto.command.AuthUserIdCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.CreateAuthDomainCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.LoginAuthDomainCommand;
@@ -14,13 +15,11 @@ import com.bit.lotte.fresh.auth.event.LoginSessionExtendAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
 import com.bit.lotte.fresh.auth.exception.AuthUserDomainException;
-import com.bit.lotte.fresh.auth.service.dto.response.UpdateAuthUserRoleResponse;
 import com.bit.lotte.fresh.auth.service.mapper.AuthUserMapper;
 import com.bit.lotte.fresh.auth.service.repository.AuthUserRepository;
-import com.bit.lotte.fresh.auth.valueobject.AuthRole;
-import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
 import java.time.ZonedDateTime;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +33,12 @@ public class AuthUserCommandHandler {
 
 
   public AuthUser getAuthUser(AuthUserIdCommand idCommand) {
-    return authUserRepository.getAuthUser(idCommand.getAuthUserId());
+    try {
+      return authUserRepository.getAuthUser(idCommand.getAuthUserId());
+    }
+    catch (NullPointerException e){
+      throw new AuthUserDomainException("로그인을 먼저 해주십시오");
+    }
   }
 
   public UpdateUserAuthRoleDomainEvent setCategorySubIdDescription(AuthUserIdCommand idCommand,
@@ -42,7 +46,7 @@ public class AuthUserCommandHandler {
     //Target.updateAdminAuthorization => not change the inner domain logic. just change the input parameter by making new method in commandHandler
     AuthUser targetUser = getAuthUser(idCommand);
     UpdateUserAuthRoleDomainEvent event =authService.updateCategoryAdminSubIdList(targetUser,description);
-    authUserRepository.createAuthUser(targetUser);
+    authUserRepository.updateCategoryAdminDescription(event.getAuthUser());
     return event;
   }
 
@@ -78,7 +82,7 @@ public class AuthUserCommandHandler {
   public LogoutAuthDomainEvent logout(AuthUserIdCommand id) {
     AuthUser authUser = getAuthUser(id);
     authService.logout(authUser);
-    authUserRepository.updateTheLastLogin(id.getAuthUserId(), ZonedDateTime.now());
+    authUserRepository.updateTheLastLogin(authUser);
     return new LogoutAuthDomainEvent(authUser, ZonedDateTime.now());
   }
 
@@ -88,25 +92,27 @@ public class AuthUserCommandHandler {
     AuthUser actorUser = getAuthUser(new AuthUserIdCommand(command.getActorId()));
     AuthUser targetUser = getAuthUser(new AuthUserIdCommand(command.getTargetId()));
 
-    authService.updateCategoryAdmin(actorUser,targetUser,String.valueOf(categoryId));
-
-    targetUser.updateAdminAuthorization(actorUser.getUserRole(), actorUser.getDescription(),
-        targetUser.getUserRole(),
-        String.valueOf(categoryId));
-    authUserRepository.updateRole(targetUser.getId(), command.getTargetRole());
-    return new UpdateUserAuthRoleDomainEvent(targetUser, ZonedDateTime.now());
+    UpdateUserAuthRoleDomainEvent event = authService.updateCategoryAdmin(actorUser,targetUser,command.getTargetRole(),String.valueOf(categoryId));
+    authUserRepository.updateRole(event.getAuthUser().getEntityId(), event.getAuthUser().getUserRole());
+    return new UpdateUserAuthRoleDomainEvent(event.getAuthUser(), ZonedDateTime.now());
   }
 
   public UpdateUserAuthRoleDomainEvent updateRole(UpdateAuthRoleCommand command) {
     AuthUser actorUser = getAuthUser(new AuthUserIdCommand(command.getActorId()));
     AuthUser targetUser = getAuthUser(new AuthUserIdCommand(command.getTargetId()));
 
-    targetUser.updateAdminAuthorization(actorUser.getUserRole(), actorUser.getDescription(),
-        targetUser.getUserRole(),
-        targetUser.getDescription());
-    authUserRepository.updateRole(targetUser.getId(), command.getTargetRole());
-
+      UpdateUserAuthRoleDomainEvent event = authService.updateRole(actorUser,targetUser,command.getTargetRole());
+    authUserRepository.updateRole(event.getAuthUser().getEntityId(), event.getAuthUser().getUserRole());
     return new UpdateUserAuthRoleDomainEvent(targetUser, ZonedDateTime.now());
   }
 
+  public List<AdminInfoAuthDomainEvent> getAllAuthUser() {
+    List<AdminInfoAuthDomainEvent> eventList = new ArrayList<>();
+    List<AuthUser> authUserList =  authUserRepository.getAllAuthUser();
+
+    for(AuthUser authUser: authUserList){
+      eventList.add(new AdminInfoAuthDomainEvent(authUser,ZonedDateTime.now()));
+    }
+    return eventList;
+  }
 }

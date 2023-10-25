@@ -97,10 +97,11 @@ public class UserDataMapper {
       GetUserDefaultAddressProvinceEvent userDefaultAddressProvince) {
     User user= userDefaultAddressProvince.getUser();
     Province province = user.getUserDefaultAddress().getProvince();
+
     return new UserDefaultAddressProvinceResponse(user.getEntityId(),province);
   }
 
-  public UserAddressListResponse AddressListEventToResponse(List<GetAddressListInfoDomainEvent> eventList) {
+  public UserAddressListResponse addressListEventToResponse(List<GetAddressListInfoDomainEvent> eventList) {
     List<Address> addressList = new ArrayList<>();
     UserId userId  = eventList.get(0).getUser().getEntityId();
     for(GetAddressListInfoDomainEvent event : eventList){

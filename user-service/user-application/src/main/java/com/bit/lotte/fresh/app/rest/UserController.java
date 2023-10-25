@@ -58,7 +58,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(value = "/users/addresses/default")
+    @GetMapping(value = "/users/addresses/default/province")
     public ResponseEntity<UserDefaultAddressProvinceResponse> getUserDefaultAddressProvince(
         @Valid @RequestBody UserIdCommand userIdCommand) {
         return ResponseEntity.ok(userApplicationService.getDefaultAddressProvince(userIdCommand));

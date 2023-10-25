@@ -15,14 +15,14 @@ import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
+@SuperBuilder
 @Getter
 @Setter
-@Builder
 public class AuthUser extends AggregateRoot<AuthUserId> {
 
  private final long LOGIN_SESSION_HOUR_TIME = 24;
- private AuthUserId id;
  private String email;
  private String password;
  private AuthRole userRole;
@@ -38,7 +38,7 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
   if (id == null || authProvider == null) {
    throw new AuthUserDomainException("인증 제공자와, 아이디를 입력해야합니다.");
   }
-  return AuthUser.builder().id(id).authProvider(authProvider).userRole(AuthRole.ROLE_USER).build();
+  return AuthUser.builder().entityId(id).authProvider(authProvider).userRole(AuthRole.ROLE_USER).build();
  }
 
 
@@ -54,16 +54,16 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
  }
 
 
- public void updateAdminAuthorization(AuthRole actorRole, String actorDescription, AuthRole target,
-     String targetDescription) {
+ public void updateAdminAuthorization(AuthRole actorRole, String actorDescription, AuthRole myRole,
+     String myDescription) {
   if (actorRole.equals(AuthRole.ROLE_USER)) {
    throw new AuthorizationAuthDomainException("권한이 없습니다.");
   } else if (actorRole.equals(AuthRole.ROLE_CATEGORY_ADMIN)) {
-   checkCategoryAdminAuthorization(actorDescription, targetDescription);
-   userRole = target;
-   description = targetDescription;
+   checkCategoryAdminAuthorization(actorDescription, myDescription);
+   userRole = myRole;
+   description = myDescription;
   } else if (actorRole.equals(AuthRole.ROLE_SYSTEM_ADMIN)) {
-   this.userRole = target;
+   this.userRole = myRole;
   }
  }
 
@@ -76,7 +76,7 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
  }
 
  public void oauthLogin(AuthUserId userId) {
-  if (!id.equals(userId)) {
+  if (!userId.equals(userId)) {
    throw new LoginFailedAuthDomainException("존재하지 않는 소셜 로그인 계정입니다.");
   }
  }
@@ -94,7 +94,7 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
  }
 
  public void extendLoginSession(AuthUserId userId) {
-  if (userId.equals(this.id)) {
+  if (userId.equals(this.getEntityId())) {
    isExpired(ZonedDateTime.now());
    lastLoginTime = ZonedDateTime.now().plusHours(1L);
   } else {
@@ -103,7 +103,7 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
  }
 
  public void logOut(AuthUserId authUserId) {
-  if (!id.equals(authUserId)) {
+  if (!this.getEntityId().equals(authUserId)) {
    throw new AuthenticationDomainException("일치 하지 않는 유저 정보입니다.");
   }
  }

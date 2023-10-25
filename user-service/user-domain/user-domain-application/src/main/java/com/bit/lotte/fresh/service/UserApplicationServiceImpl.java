@@ -39,7 +39,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
   @Override
   public UserAddressListResponse getAddressList(UserIdCommand userId) {
     List<GetAddressListInfoDomainEvent> eventList = userCommandHandler.getAddressList(userId);
-    return userDataMapper.AddressListEventToResponse(eventList);
+    return userDataMapper.addressListEventToResponse(eventList);
 
   }
 

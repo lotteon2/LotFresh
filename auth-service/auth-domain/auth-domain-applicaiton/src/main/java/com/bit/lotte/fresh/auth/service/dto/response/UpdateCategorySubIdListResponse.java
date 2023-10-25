@@ -22,7 +22,7 @@ public class UpdateCategorySubIdListResponse{
       sb.append("의 권한이");
       sb.append(authRole);
       sb.append("과 ");
-      sb.append("sub id list가");
+      sb.append("sub authUserId list가");
       sb.append(description);
       sb.append("로 업데이트 됐습니다.");
       this.message = sb.toString();

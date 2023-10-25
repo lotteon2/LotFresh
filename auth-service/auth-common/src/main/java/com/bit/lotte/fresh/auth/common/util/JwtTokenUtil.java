@@ -10,18 +10,23 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import java.util.Date;
+import javax.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
+@Slf4j
 public class JwtTokenUtil {
 
   public static final String roleKeyName = "role";
   public static final String categoryAdminSubCategoryIdList = "category_admin_description";
-  @Value("${jwt.secret}")
-  private static String JWT_SECRET;
+//  @Value("${jwt.secret}")
+  private static String JWT_SECRET="lotfresh1!lotfresh1!lotfresh1!lotfresh1!lotfresh1!";
+
 
   public static String generateToken(String subject, String customClaimKey, String customClaimValue,
       Date expiration) {
     Date now = new Date();
+    log.info("secret:"+ JWT_SECRET);
     return Jwts.builder()
         .setSubject(subject)
         .setIssuedAt(now)

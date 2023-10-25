@@ -3,16 +3,13 @@ package com.bit.lotte.fresh.auth.dataaccess.adapter;
 import com.bit.lotte.fresh.auth.entity.AuthUser;
 import com.bit.lotte.fresh.auth.valueobject.AuthRole;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @Getter
 @Builder
@@ -41,7 +38,7 @@ public class AuthUserAdaptor implements UserDetails {
 
     @Override
     public String getUsername() {
-      return authUser.getId().toString();
+      return authUser.getEntityId().toString();
     }
 
     @Override

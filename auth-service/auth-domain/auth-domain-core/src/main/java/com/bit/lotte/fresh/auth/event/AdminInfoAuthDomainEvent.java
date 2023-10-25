@@ -5,16 +5,12 @@ import com.bit.lotte.fresh.user.common.event.DomainEvent;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
 import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+
+public class AdminInfoAuthDomainEvent extends AuthDomainEvent {
 
 
-@AllArgsConstructor
-@Getter
-public abstract class AuthDomainEvent implements
-    DomainEvent<AuthUserId> {
-
-  private final AuthUser authUser;
-  private final ZonedDateTime createdTime;
-
-
+  public AdminInfoAuthDomainEvent(AuthUser authUser,
+      ZonedDateTime createdTime) {
+    super(authUser, createdTime);
+  }
 }

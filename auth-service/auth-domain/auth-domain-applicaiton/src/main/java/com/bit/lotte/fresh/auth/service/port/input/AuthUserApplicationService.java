@@ -7,6 +7,7 @@ import com.bit.lotte.fresh.auth.service.dto.command.OauthLoginDomainCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.UpdateAuthRoleCommand;
 import com.bit.lotte.fresh.auth.service.dto.response.CreateAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.DeleteAuthUserResponse;
+import com.bit.lotte.fresh.auth.service.dto.response.GetAdminInfoListResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.LogOutAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.LoginAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.UpdateAuthUserRoleResponse;
@@ -20,5 +21,5 @@ public interface AuthUserApplicationService {
   UpdateAuthUserRoleResponse updateRole(UpdateAuthRoleCommand command);
   UpdateAuthUserRoleResponse updateCategoryAdmin(UpdateAuthRoleCommand command, int categoryAdminId);
   UpdateLoginSessionTimeResponse extendLoginTime(AuthUserIdCommand id);
-
+  GetAdminInfoListResponse getAuthUserList();
 }

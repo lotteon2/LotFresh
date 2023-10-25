@@ -4,6 +4,7 @@ import com.bit.lotte.fresh.auth.app.helper.OauthAuthorizationRequestHelper;
 import com.bit.lotte.fresh.auth.app.helper.OauthUserApiHelper;
 import com.bit.lotte.fresh.auth.common.util.RedisTokenBlacklistUtil;
 import com.bit.lotte.fresh.auth.common.util.TokenParserUtil;
+import com.bit.lotte.fresh.auth.service.dto.response.GetAdminInfoListResponse;
 import com.bit.lotte.fresh.auth.valueobject.Secret;
 import com.bit.lotte.fresh.auth.service.dto.command.AuthUserIdCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.CreateAuthDomainCommand;
@@ -18,9 +19,7 @@ import com.bit.lotte.fresh.auth.service.dto.response.UpdateLoginSessionTimeRespo
 import com.bit.lotte.fresh.auth.service.port.input.AuthUserApplicationService;
 import com.bit.lotte.fresh.auth.valueobject.AuthRole;
 import com.bit.lotte.fresh.auth.valueobject.OauthUserInfo;
-import com.bit.lotte.fresh.auth.common.instant.LoginSessionTime;
 import com.bit.lotte.fresh.auth.common.instant.TokenName;
-import com.bit.lotte.fresh.auth.common.util.CookieUtil;
 import com.bit.lotte.fresh.auth.common.util.JwtTokenUtil;
 import com.bit.lotte.fresh.user.common.valueobject.AuthProvider;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
@@ -30,6 +29,7 @@ import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -88,7 +88,7 @@ public class AuthUserController {
     OauthUserInfo info = oauthUserApiHelper.getUserInfo(provider, accessToken);
     LoginAuthDomainCommand loginCommand = new LoginAuthDomainCommand(new AuthUserId(info.getId()),
         provider);
-    log.info("social id:" + info.getId());
+    log.info("social authUserId:" + info.getId());
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<LoginAuthDomainCommand> requestEntity = new HttpEntity<>(loginCommand, headers);
@@ -132,26 +132,23 @@ public class AuthUserController {
   @PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN') or hasRole('ROLE_CATEGORY_ADMIN')")
   @PutMapping("/auth/admins/target/{targetId}/category/{categoryId}")
   public ResponseEntity<UpdateAuthUserRoleResponse> updateCategoryAdmin(
-      @AuthenticationPrincipal AuthUserId actorId, @PathVariable String targetId,
-      @PathVariable int categoryId) {
+      @AuthenticationPrincipal AuthUserId actorId, @NotNull @PathVariable String targetId,
+      @NotNull @PathVariable int categoryId) {
     //이때도 카테고리 관리자 7번이라고 한다면 그 하위 관리자들의 리스트를 받아와서(feign 리퀘스트해서) description에 업데이트 해야된다. => interceptor로 구현
     return ResponseEntity.ok(
         applicationService.updateCategoryAdmin(new UpdateAuthRoleCommand(actorId,
             new AuthUserId(Long.valueOf(targetId)), AuthRole.ROLE_CATEGORY_ADMIN), categoryId));
   }
 
-  /**
-   * @param actorId
-   * @param targetId
-   * @param authRole "updateCategoryAdmin" API와는 다르게 카테고리 관리자의 아이디를 받을 필요없는 API입니다.
-   */
+
   @PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN') or hasRole('ROLE_CATEGORY_ADMIN')")
   @PutMapping("/auth/admins/target/{targetId}/role/{role}")
   public ResponseEntity<UpdateAuthUserRoleResponse> updateToSystemAdmin(
-      @AuthenticationPrincipal AuthUserId actorId, AuthUserId targetId, AuthRole authRole) {
+      @AuthenticationPrincipal AuthUserId actorId, @PathVariable String targetId,
+      @PathVariable AuthRole role) {
     return ResponseEntity.ok(
         applicationService.updateRole(new UpdateAuthRoleCommand(actorId,
-            targetId, authRole)));
+            new AuthUserId(Long.valueOf(targetId)), role)));
   }
 
   @PostMapping("/auth/login-extend")
@@ -167,9 +164,17 @@ public class AuthUserController {
       log.info("new token:" + newJwtToken);
       response.setHeader(TokenName.AUTHENTICATION_TOKEN_NAME, newJwtToken);
     } catch (JwtException e) {
-      response.sendError(401,e.getMessage());
+      response.sendError(401, e.getMessage());
     }
     return ResponseEntity.ok(applicationService.extendLoginTime(new AuthUserIdCommand(authUserId)));
+  }
+
+  @PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN') or hasRole('ROLE_CATEGORY_ADMIN')")
+  @GetMapping("/auth")
+  public ResponseEntity<GetAdminInfoListResponse> getAdminList()
+      throws AuthenticationException, IOException {
+    return ResponseEntity.ok(applicationService.getAuthUserList());
+
   }
 
 

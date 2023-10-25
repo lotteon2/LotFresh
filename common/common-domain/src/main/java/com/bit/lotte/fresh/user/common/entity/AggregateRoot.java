@@ -1,6 +1,7 @@
 package com.bit.lotte.fresh.user.common.entity;
 
 
+import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder

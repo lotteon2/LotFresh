@@ -7,6 +7,7 @@ import com.bit.lotte.fresh.auth.event.LoginAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginSessionExtendAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
+import com.bit.lotte.fresh.auth.valueobject.AuthRole;
 import com.bit.lotte.fresh.user.common.valueobject.AuthProvider;
 import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class AuthDomainApplicationServiceImpl implements
 
   @Override
   public CreateAuthDomainEvent createOauthUser(AuthUser authUser) {
-    AuthUser createdAuthUser = authUser.oauthUserCreation(authUser.getId(), AuthProvider.KAKAO);
+    AuthUser createdAuthUser = authUser.oauthUserCreation(authUser.getEntityId(), AuthProvider.KAKAO);
     return new CreateAuthDomainEvent(createdAuthUser, ZonedDateTime.now());
   }
 
@@ -35,7 +36,7 @@ public class AuthDomainApplicationServiceImpl implements
 
   @Override
   public LoginAuthDomainEvent login(AuthUser authUser) {
-    authUser.loginProcessor(authUser.getId(), authUser.getEmail(), authUser.getPassword(),
+    authUser.loginProcessor(authUser.getEntityId(), authUser.getEmail(), authUser.getPassword(),
         authUser.getAuthProvider());
     return new LoginAuthDomainEvent(authUser, ZonedDateTime.now());
   }
@@ -43,32 +44,34 @@ public class AuthDomainApplicationServiceImpl implements
 
   @Override
   public LogoutAuthDomainEvent logout(AuthUser authUser) {
-    authUser.logOut(authUser.getId());
+    authUser.logOut(authUser.getEntityId());
     return new LogoutAuthDomainEvent(authUser, ZonedDateTime.now());
   }
 
   @Override
   public UpdateUserAuthRoleDomainEvent updateRole(
-      AuthUser actor, AuthUser target) {
-    actor.updateAdminAuthorization(actor.getUserRole(), actor.getDescription(),
-        target.getUserRole(),
+      AuthUser actor, AuthUser target, AuthRole targetUpdatedRole) {
+    target.updateAdminAuthorization(actor.getUserRole(), actor.getDescription(),
+       targetUpdatedRole,
         target.getDescription());
     return new UpdateUserAuthRoleDomainEvent(target, ZonedDateTime.now());
   }
 
   @Override
   public UpdateUserAuthRoleDomainEvent updateCategoryAdmin(AuthUser actor, AuthUser target,
-      String categoryId) {
+      AuthRole targetUpdatedRole, String categoryId) {
+
     target.setDescription(categoryId);
-    actor.updateAdminAuthorization(actor.getUserRole(), actor.getDescription(),
-        target.getUserRole(),
+    target.updateAdminAuthorization(actor.getUserRole(), actor.getDescription(),
+        targetUpdatedRole,
         target.getDescription());
     return new UpdateUserAuthRoleDomainEvent(target, ZonedDateTime.now());
   }
 
+
   @Override
   public LoginSessionExtendAuthDomainEvent loginExtend(AuthUser actor) {
-    actor.extendLoginSession(actor.getId());
+    actor.extendLoginSession(actor.getEntityId());
     return new LoginSessionExtendAuthDomainEvent(actor, ZonedDateTime.now());
   }
 }

@@ -37,7 +37,7 @@ public class OauthUserAdapter implements OAuth2User {
   }
 
   public String getName() {
-    return authUser.getId().getValue().toString();
+    return authUser.getEntityId().getValue().toString();
   }
 
   public String getEmail() {

@@ -7,6 +7,7 @@ import com.bit.lotte.fresh.auth.event.LoginAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LoginSessionExtendAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
+import com.bit.lotte.fresh.auth.valueobject.AuthRole;
 
 
 public interface AuthDomainApplicationService {
@@ -23,9 +24,11 @@ public interface AuthDomainApplicationService {
 
   LogoutAuthDomainEvent logout(AuthUser authUser);
 
-  UpdateUserAuthRoleDomainEvent updateRole(AuthUser actor, AuthUser target);
+  UpdateUserAuthRoleDomainEvent updateRole(AuthUser actor, AuthUser target,
+      AuthRole targetUpdatedRole);
 
   UpdateUserAuthRoleDomainEvent updateCategoryAdmin(AuthUser actor, AuthUser target,
+      AuthRole targetRole,
       String categoryId);
 
   LoginSessionExtendAuthDomainEvent loginExtend(AuthUser actor);

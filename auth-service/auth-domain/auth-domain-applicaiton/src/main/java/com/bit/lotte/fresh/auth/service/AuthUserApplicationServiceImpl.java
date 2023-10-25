@@ -1,11 +1,14 @@
 package com.bit.lotte.fresh.auth.service;
 
+import com.bit.lotte.fresh.auth.entity.AuthUser;
+import com.bit.lotte.fresh.auth.event.AdminInfoAuthDomainEvent;
 import com.bit.lotte.fresh.auth.service.dto.command.AuthUserIdCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.CreateAuthDomainCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.LoginAuthDomainCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.UpdateAuthRoleCommand;
 import com.bit.lotte.fresh.auth.service.dto.response.CreateAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.DeleteAuthUserResponse;
+import com.bit.lotte.fresh.auth.service.dto.response.GetAdminInfoListResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.LogOutAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.LoginAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.UpdateAuthUserRoleResponse;
@@ -18,6 +21,7 @@ import com.bit.lotte.fresh.auth.event.LogoutAuthDomainEvent;
 import com.bit.lotte.fresh.auth.event.UpdateUserAuthRoleDomainEvent;
 import com.bit.lotte.fresh.auth.service.mapper.AuthUserMapper;
 import com.bit.lotte.fresh.auth.service.port.input.AuthUserApplicationService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -75,5 +79,12 @@ public class AuthUserApplicationServiceImpl implements
   public UpdateLoginSessionTimeResponse extendLoginTime(AuthUserIdCommand id) {
     LoginSessionExtendAuthDomainEvent event = commandHandler.loginSessionExtend(id);
     return mapper.extendAuthUserLoginSessionEventToResponse(event);
+  }
+
+  @Override
+  public GetAdminInfoListResponse getAuthUserList() {
+    List<AdminInfoAuthDomainEvent> eventList = commandHandler.getAllAuthUser();
+    List<AuthUser> returnAuthUserList = mapper.adminInfoEventListToAuthUserList(eventList);
+    return new GetAdminInfoListResponse(returnAuthUserList);
   }
 }

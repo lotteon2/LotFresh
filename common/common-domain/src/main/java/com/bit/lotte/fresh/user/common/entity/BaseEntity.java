@@ -10,21 +10,22 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 
+@AllArgsConstructor
 @SuperBuilder
 public abstract class BaseEntity<ID> {
 
     protected BaseEntity() {
-        this.id = null;
+        this.entityId = null;
     }
 
-    private ID id;
+    private ID entityId;
 
     public ID getEntityId() {
-        return id;
+        return entityId;
     }
 
     public void setEntityId(ID id) {
-        this.id = id;
+        this.entityId = id;
     }
 
     @Override
@@ -32,11 +33,11 @@ public abstract class BaseEntity<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BaseEntity<?> that = (BaseEntity<?>) o;
-        return id.equals(that.id);
+        return entityId.equals(that.entityId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(entityId);
     }
 }
