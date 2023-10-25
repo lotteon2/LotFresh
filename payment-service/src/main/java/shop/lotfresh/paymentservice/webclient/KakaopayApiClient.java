@@ -33,17 +33,17 @@ public class KakaopayApiClient {
         this.webClient = webClientBuilder.baseUrl("https://kapi.kakao.com").build();
     }
 
-    public KakaopayReadyResponseVO kakaopayReady(Long orderId, KakaopayReadyVO request) {
+    public KakaopayReadyResponseVO kakaopayReady(Long orderId, Boolean isFromCart, KakaopayReadyVO request) {
         log.warn(orderId.toString());
         log.warn(ADMIN_KEY);
-        log.warn(request.toMultiValueMap(orderId).toString());
+
         KakaopayReadyResponseVO res = webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/v1/payment/ready")
                         .build())// %26이 &로 디코딩 될 수 있음. 디코딩하고, split으로 내가 쪼개서 가져가면 됨.
                 .header("Authorization", ADMIN_KEY)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .bodyValue(request.toMultiValueMap(orderId))
+                .bodyValue(request.toMultiValueMap(orderId, isFromCart))
                 .retrieve()
                 .bodyToMono(KakaopayReadyResponseVO.class)
                 .block();
