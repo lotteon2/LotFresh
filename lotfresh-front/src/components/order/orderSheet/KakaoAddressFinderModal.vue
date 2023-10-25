@@ -7,10 +7,6 @@
     <div class="post-box" v-on:click.stop>
       <VueDaumPostcode @complete="oncomplete" v-if="isAddressModalOpen" />
     </div>
-    <!-- <div class="form-box">
-      <input disabled v-model="address" />
-      <div v-on:click="search">검색</div>
-    </div> -->
   </section>
 </template>
 
@@ -78,6 +74,9 @@ export default {
 }
 
 .post-box {
+  padding: 1vw 0vw 1vw 0vw;
+  border-radius: 5px;
+  background-color: #e9504b;
   position: fixed;
   top: 50%;
   left: 50%;
