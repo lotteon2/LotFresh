@@ -16,10 +16,12 @@ public class KakaopayReadyRequest {
     @NotNull(message = "orderId cannot be null")
     private Long orderId;
 
+    @NotNull(message = "isFromCart cannot be null")
+    private Boolean isFromCart;
+
     @NotEmpty(message = "orderDetails cannot be empty")
     @Valid
     private List<OrderDetailVO> orderDetails;
-
 
     public KakaopayReadyVO toKakaopayReadyVO(Long userId,
                                              String itemName,
