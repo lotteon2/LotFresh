@@ -7,7 +7,8 @@
             <div class="title"><h1>주문 상품</h1></div>
           </template>
           <div class="item">
-            mounted시점에 redis로 axios통신을 해서 구매상품을 가져온다
+            mounted시점에 redis로 axios통신을 해서 구매상품을 가져온다 {userId:
+            {[상품1,상품2],true}}
           </div>
         </el-collapse-item>
       </el-collapse>
