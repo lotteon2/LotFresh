@@ -31,7 +31,8 @@ public class OrchestratorService {
 
     public String createOrderAndRequestToPayment(OrderCreateRequest orderCreateRequest) {
         OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest);
-        KakaopayReadyRequest kakaopayReadyRequest = makeKakaopayReadRequest(orderCreateResponse);
+        KakaopayReadyRequest kakaopayReadyRequest =
+                makeKakaopayReadyRequest(orderCreateResponse.getOrderId(),orderCreateRequest);
         ResponseEntity<String> result = paymentFeignClient.kakaopayReady(kakaopayReadyRequest);
         return result.getBody();
     }
@@ -84,12 +85,13 @@ public class OrchestratorService {
         return orderService.insertOrder(orderCreateRequest.getProductRequests());
     }
 
-    private KakaopayReadyRequest makeKakaopayReadRequest(OrderCreateResponse orderCreateResponse) {
-        List<OrderDetailVO> orderDetails = orderCreateResponse.getOrderDetailCreateResponses().stream()
+    private KakaopayReadyRequest makeKakaopayReadyRequest(Long orderId, OrderCreateRequest orderCreateRequest) {
+        List<OrderDetailVO> orderDetails = orderCreateRequest.getProductRequests().stream()
                 .map(OrderDetailVO::from)
                 .collect(Collectors.toList());
+
         return KakaopayReadyRequest.builder()
-                .orderId(orderCreateResponse.getOrderId())
+                .orderId(orderId)
                 .orderDetails(orderDetails)
                 .build();
 
@@ -99,6 +101,7 @@ public class OrchestratorService {
         List<ProductInfo> productInfos = orderDetails.stream()
                 .map(ProductInfo::from)
                 .collect(Collectors.toList());
+
         return InventoryRequest.builder()
                 .productInfos(productInfos)
                 .province(userProvince)
@@ -114,6 +117,7 @@ public class OrchestratorService {
         List<Long> productIds = orderDetails.stream()
                 .map(OrderDetail::getProductId)
                 .collect(Collectors.toList());
+
         return CartRequest.builder()
                 .userId(userId)
                 .productIds(productIds)

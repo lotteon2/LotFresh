@@ -11,15 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductInfo {
-    private Long orderDetailId;
     private Long productId;
-    private Long productStock;
+    private Long stock;
 
     public static ProductInfo from(OrderDetail orderDetail) {
         return ProductInfo.builder()
-                .orderDetailId(orderDetail.getId())
                 .productId(orderDetail.getProductId())
-                .productStock(orderDetail.getStock())
+                .stock(orderDetail.getStock())
                 .build();
     }
 

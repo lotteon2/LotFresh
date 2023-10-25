@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name="Inventory",url="localhost:80/inventory")
+@FeignClient(name="Inventory",url="localhost:8086/storageorderproduct")
 public interface InventoryFeignClient {
 
-    @PostMapping("normal/deductQuantity")
+    @PostMapping("/orderproduct")
     ResponseEntity deductNormalStock(@RequestBody InventoryRequest inventoryRequest);
 
     @PostMapping("sales/deductQuantity")

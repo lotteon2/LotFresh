@@ -232,10 +232,11 @@ class OrchestratorServiceTest {
 
     }
 
-    private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
+    private ProductRequest createProductRequest(Long productId, Long price, Long productQuantity){
         return ProductRequest.builder()
                 .productId(productId)
-                .productPrice(productPrice)
+                .originalPrice(price)
+                .discountedPrice(price)
                 .productStock(productQuantity)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")

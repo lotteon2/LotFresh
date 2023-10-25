@@ -135,7 +135,8 @@ class InsertOrderControllerTest {
     private ProductRequest createProductRequest(Long productId, Long productPrice, Long productStock){
         return ProductRequest.builder()
                 .productId(productId)
-                .productPrice(productPrice)
+                .originalPrice(productPrice)
+                .discountedPrice(productPrice)
                 .productStock(productStock)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
