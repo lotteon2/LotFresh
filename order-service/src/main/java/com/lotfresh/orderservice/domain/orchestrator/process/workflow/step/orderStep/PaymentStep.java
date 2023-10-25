@@ -41,7 +41,6 @@ public class PaymentStep implements WorkflowStep {
 
     @Override
     public void revert() {
-        kafkaProducer.send("payment",paymentRequest);
         changeStatus(WorkflowStepStatus.FAILED);
         log.info("PaymentStepRevert : 성공");
     }

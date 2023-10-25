@@ -1,24 +1,20 @@
 package com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep;
 
+import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStepStatus;
-import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.InventoryFeignClient;
-import com.lotfresh.orderservice.domain.orchestrator.feigns.request.InventoryRequest;
 import com.lotfresh.orderservice.exception.SagaException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 public class NormalInventoryStep implements InventoryStep {
     private final String workflowName;
     private final InventoryFeignClient feignClient;
-    private final List<InventoryRequest> inventoryRequests;
+    private final InventoryRequest inventoryRequest;
     private final KafkaProducer kafkaProducer;
 
     public WorkflowStepStatus status = WorkflowStepStatus.PENDING;
@@ -31,7 +27,7 @@ public class NormalInventoryStep implements InventoryStep {
     @Override
     public Object process() {
         try {
-            ResponseEntity result = feignClient.deductNormalQuantity(inventoryRequests);
+            ResponseEntity result = feignClient.deductNormalStock(inventoryRequest);
             changeStatus(WorkflowStepStatus.COMPLETE);
             log.info("NormalInventoryStep : 성공");
             return result;
@@ -43,7 +39,7 @@ public class NormalInventoryStep implements InventoryStep {
 
     @Override
     public void revert() {
-        kafkaProducer.send("inventory",inventoryRequests);
+        kafkaProducer.send("inventory", inventoryRequest);
         changeStatus(WorkflowStepStatus.FAILED);
         log.info("NormalInventoryStepRevert : 성공");
     }

@@ -1,6 +1,7 @@
 package com.lotfresh.orderservice.config;
 
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
+import com.lotfresh.orderservice.domain.order.kafka.RefundSuccessMessage;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,10 +22,10 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.group-id}")
     private String GROUP_ID;
     @Bean
-    public ConsumerFactory<String, OrderDetailStatus> consumerFactory() {
+    public ConsumerFactory<String, RefundSuccessMessage> consumerFactory() {
         Map<String,Object> config = new HashMap<>();
 
-        JsonDeserializer<OrderDetailStatus> deserializer = new JsonDeserializer<>(OrderDetailStatus.class);
+        JsonDeserializer<RefundSuccessMessage> deserializer = new JsonDeserializer<>(RefundSuccessMessage.class);
         deserializer.setRemoveTypeHeaders(false);
         deserializer.addTrustedPackages("*");
         deserializer.setUseTypeMapperForKey(true);
@@ -38,8 +39,8 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String,OrderDetailStatus> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, OrderDetailStatus> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String,RefundSuccessMessage> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, RefundSuccessMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
