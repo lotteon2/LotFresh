@@ -2,6 +2,8 @@ package com.lotfresh.orderservice.domain.order.service;
 
 
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
+import com.lotfresh.orderservice.domain.order.entity.status.DeliveryStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.RefundStatus;
 import com.lotfresh.orderservice.domain.order.service.response.OrderCreateResponse;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import com.lotfresh.orderservice.domain.order.entity.Order;
@@ -67,6 +69,20 @@ public class OrderService {
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
                                             .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
         orderDetail.changeProductOrderStatus(newStatus);
+    }
+
+    @Transactional
+    public void changeRefundStatus(Long orderDetailId, RefundStatus newStatus) {
+        OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
+        orderDetail.changeRefundStatus(newStatus);
+    }
+
+    @Transactional
+    public void changeDeliveryStatus(Long orderDetailId, DeliveryStatus newStatus) {
+        OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
+        orderDetail.changeDeliveryStatus(newStatus);
     }
 
     @Transactional
