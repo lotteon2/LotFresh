@@ -18,7 +18,8 @@ public class ProductPageResponse {
   private Integer totalPage;
   private Long totalElements;
 
-  private ProductPageResponse(List<ProductResponse> products, Integer totalPage, Long totalElements) {
+  private ProductPageResponse(
+      List<ProductResponse> products, Integer totalPage, Long totalElements) {
     this.products = products;
     this.totalPage = totalPage;
     this.totalElements = totalElements;
@@ -34,6 +35,7 @@ public class ProductPageResponse {
                         product,
                         rateGroupByCategory.getOrDefault(product.getCategory().getId(), 0d)))
             .collect(Collectors.toList());
-    return new ProductPageResponse(products, productPage.getTotalPages(), productPage.getTotalElements());
+    return new ProductPageResponse(
+        products, productPage.getTotalPages(), productPage.getTotalElements());
   }
 }

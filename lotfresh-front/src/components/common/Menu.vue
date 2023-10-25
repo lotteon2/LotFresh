@@ -16,7 +16,8 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/25040bd0-5889-4d8c-b863-13f71750a8e6"
-                  /><a href="#">채소</a>
+                  />
+                  <router-link :to="`/categories/${1}`">채소</router-link>
                 </div>
               </li>
 
@@ -25,7 +26,9 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/f68cee74-477c-44da-8c87-62618e9d55e5"
-                  /><a href="#">과일·견과·쌀</a>
+                  /><router-link :to="`/categories/${2}`"
+                    >과일·견과·쌀</router-link
+                  >
                 </div>
               </li>
 
@@ -34,7 +37,9 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/c4256803-f1ec-4ac5-87a5-b68d3d23f6e0"
-                  /><a href="#">수산·해산·건어물</a>
+                  /><router-link to="/categories/3"
+                    >수산·해산·건어물</router-link
+                  >
                 </div>
               </li>
 
@@ -43,7 +48,7 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/34168b18-94ee-4946-8430-0a6239054ad6"
-                  /><a href="#">정육·계란</a>
+                  /><router-link to="/categories/4">정육·계란</router-link>
                 </div>
               </li>
 
@@ -52,7 +57,9 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/3067199c-f080-4205-b7a4-bb1b6eef5d12"
-                  /><a href="#">국·반찬·메인요리</a>
+                  /><router-link to="/categories/5"
+                    >국·반찬·메인요리</router-link
+                  >
                 </div>
               </li>
 
@@ -61,7 +68,7 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/82ae12ba-4876-455d-82e8-c6997613559b"
-                  /><a href="#">샐러드·간편식</a>
+                  /><router-link to="/categories/6">샐러드·간편식</router-link>
                 </div>
               </li>
 
@@ -70,7 +77,7 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/28f2b10d-a0b9-4ecc-bb51-325d01197326"
-                  /><a href="#">면·양념·오일</a>
+                  /><router-link to="/categories/7">면·양념·오일</router-link>
                 </div>
               </li>
 
@@ -79,7 +86,9 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/df435e92-3356-4717-b765-567ed9fb9fc1"
-                  /><a href="#">생수·음료·우유·커피</a>
+                  /><router-link to="/categories/8"
+                    >생수·음료·우유·커피</router-link
+                  >
                 </div>
               </li>
 
@@ -88,7 +97,7 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/15449666-5758-44db-bb71-620d2736664c"
-                  /><a href="#">간식·과자·떡</a>
+                  /><router-link to="/categories/9">간식·과자·떡</router-link>
                 </div>
               </li>
 
@@ -97,7 +106,9 @@
                   <img
                     style="width: 25px; height: 25px"
                     src="https://img-cf.kurly.com/category/icon/pc/d0f84ec7-7391-44e7-ad4d-962ba4b52443"
-                  /><a href="#">베이커리·치즈·델리</a>
+                  /><router-link to="/categories/10"
+                    >베이커리·치즈·델리</router-link
+                  >
                 </div>
               </li>
             </ul>
@@ -120,9 +131,11 @@
         </li>
 
         <li class="menu4">
-          <span class="menu-inner-span"
-            ><span class="txt">마감 임박</span></span
-          >
+          <span class="menu-inner-span">
+            <router-link to="/market-time-sales">
+              <span class="txt">마감 임박</span>
+            </router-link>
+          </span>
         </li>
       </ul>
     </div>
@@ -155,7 +168,7 @@ ul {
 .menubar-box {
   position: relative;
   z-index: 300;
-  min-width: 1050px;
+  /* min-width: 1050px; */
   background-color: #fff;
   letter-spacing: -0.3px;
 }
@@ -177,13 +190,14 @@ ul {
 .txt {
   font-weight: 700;
   border-bottom-style: none;
+  word-wrap: break-word;
 }
 
 .menu-img {
   float: left;
   width: 20px;
   height: 14px;
-  margin: 7px 0 0 0px;
+  margin: 5px 0 0 0px;
   background: url("../../assets/menu.png") no-repeat;
   background-size: 15px;
 }
@@ -200,12 +214,16 @@ ul {
   width: 100px;
 }
 
+.menu-item {
+  display: flex;
+  justify-content: center;
+  gap: 200px;
+}
+
 .menu-item a {
   overflow: hidden;
-  /* float: none; */
   width: 180px;
   height: 55px;
-  /* padding-left: 55px; */
   font-size: 16px;
   color: #333;
   text-align: center;
@@ -217,10 +235,7 @@ ul {
   float: left;
   width: fit-content;
   height: 55px;
-  margin-left: 110px;
-  margin-right: 50px;
-  /* padding-left: 55px; */
-  padding-top: 16px;
+  padding-top: 4px;
   font-size: 16px;
   color: #333;
   text-align: center;
@@ -261,14 +276,16 @@ ul {
 .menu1:focus .items ul {
   display: block;
 }
-
 .category-box {
   display: inline-flex;
   height: 40px;
 }
+.category-box a {
+  padding-top: 4px;
+}
 .item-list {
   margin-top: -5px;
-  margin-left: 107px;
+  margin-left: -15px;
   padding: 0;
 }
 </style>

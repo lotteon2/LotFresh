@@ -119,6 +119,12 @@ public class ProductService {
     return ProductResponse.of(product, 50d, stock);
   }
 
+  public ProductPageResponse getProductsByKeyword(PageRequest pageRequest) {
+    Page<Product> productPage = productRepository.findAllByKeyword(pageRequest);
+    Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
+    return ProductPageResponse.of(productPage, rateGroupByCategory);
+  }
+
   private Map<Long, Product> extractProductMapByBestProductVO(List<BestProductVO> bestProductsVO) {
     List<Long> bestProductIds =
         bestProductsVO.stream().map(best -> best.getProductId()).collect(Collectors.toList());

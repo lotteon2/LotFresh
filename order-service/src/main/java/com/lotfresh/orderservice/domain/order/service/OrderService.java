@@ -114,4 +114,18 @@ public class OrderService {
         return orderDetailRepository.mostSoldProducts(limitCnt);
     }
 
+    public RefundPageResponse getRefundsWithPaging(Long userId, Pageable pageable) {
+        // TODO : header에서 userId 받기
+        userId = 1L;
+        Page<OrderDetail> orderDetailPages = orderDetailRepository.getRefundsWithPaging(userId,pageable);
+        List<RefundResponse> contents = orderDetailPages.getContent().stream()
+                .map(RefundResponse::from)
+                .collect(Collectors.toList());
+
+        return RefundPageResponse.builder()
+                .contents(contents)
+                .totalPage(orderDetailPages.getTotalPages())
+                .build();
+    }
+
 }

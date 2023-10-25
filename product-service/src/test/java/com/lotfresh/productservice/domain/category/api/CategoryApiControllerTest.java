@@ -58,7 +58,7 @@ class CategoryApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
         .perform(
-            put("/categories/{categoryId}", categoryId)
+            patch("/categories/{categoryId}", categoryId)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
         .andDo(print())
@@ -78,7 +78,7 @@ class CategoryApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
         .perform(
-            put("/categories/{categoryId}", categoryId)
+            patch("/categories/{categoryId}", categoryId)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
         .andDo(print())
@@ -116,5 +116,17 @@ class CategoryApiControllerTest extends ControllerTestSupport {
   void getCategories() throws Exception {
     // when // then
     mockMvc.perform(get("/categories")).andDo(print()).andExpect(status().isOk());
+  }
+
+  @DisplayName("입력 받은 카테고리 id로 자식 카테고리 id들을 조회한다.")
+  @Test
+  void getChildrenIdsById() throws Exception {
+    // given
+    Long categoryId = 1L;
+    // when // then
+    mockMvc
+        .perform(get("/categories/{categoryId}/children", categoryId))
+        .andDo(print())
+        .andExpect(status().isOk());
   }
 }

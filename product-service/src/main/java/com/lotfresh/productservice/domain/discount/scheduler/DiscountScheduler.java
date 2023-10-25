@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class DiscountScheduler {
-    private final DiscountRepository discountRepository;
+  private final DiscountRepository discountRepository;
 
-    @Transactional
-    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
-    public void updateExpiredDiscounts() {
-        discountRepository.updateExpiredDiscounts();
-    }
+  @Transactional
+  @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+  public void updateExpiredDiscounts() {
+    discountRepository.updateExpiredDiscounts();
+  }
 }

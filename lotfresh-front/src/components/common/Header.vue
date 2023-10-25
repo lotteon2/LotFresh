@@ -6,8 +6,13 @@
           <img class="logo_img" src="../../assets/logo.png" />
         </router-link>
         <div class="search_wrap">
-          <input class="input_bar" placeholder="검색어를 입력해주세요." />
-          <button id="submit" class="search_btn"></button>
+          <input
+            @keyup.enter="next"
+            v-model.trim="keyword"
+            class="input_bar"
+            placeholder="검색어를 입력해주세요."
+          />
+          <button @click="next" id="submit" class="search_btn"></button>
         </div>
         <div class="header_icon_wrap">
           <div class="header_icon_1"></div>
@@ -21,18 +26,31 @@
 
 <script setup lang="ts">
 import Menu from "./Menu.vue";
+import { ref } from "vue";
+import router from "@/router";
+const keyword = ref();
+
+const next = () => {
+  if (!keyword.value) {
+    alert("검색어를 입력해주세요");
+    return;
+  }
+  router.push({ path: "/search", query: { keyword: keyword.value } });
+};
 </script>
 
 <style scoped>
 .header {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   font-weight: 900;
+  width: 1050px;
+  margin: 0 auto;
 }
 
 .header_wrap {
-  padding-top: 20px;
+  padding-top: 2vh;
   display: flex;
   height: 55px;
   width: 100%;
@@ -40,11 +58,10 @@ import Menu from "./Menu.vue";
 }
 .search_wrap {
   padding-right: 10px;
-  top: 5px;
   display: flex;
   align-items: center;
   position: relative;
-  left: 400px;
+  left: 340px;
   height: 45px;
   border: 1px solid red;
   border-radius: 6px;
@@ -64,8 +81,7 @@ import Menu from "./Menu.vue";
 }
 
 .logo_img {
-  top: 20px;
-  left: 100px;
+  left: 30px;
   width: 150px;
   height: auto;
   position: absolute;
@@ -86,8 +102,8 @@ import Menu from "./Menu.vue";
 }
 
 .header_icon_wrap {
-  top: 10px;
-  left: 590px;
+  top: 5px;
+  left: 550px;
   display: flex;
   align-items: center;
   position: relative;

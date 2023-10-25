@@ -1,0 +1,41 @@
+<template>
+  <div class="container" v-if="products.length != 0">
+    <product-item
+      v-for="(product, index) in products"
+      :key="index"
+      :product="product"
+      :componentHeight="componentHeight"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import ProductItem from "@/components/product/item/ProductItem.vue";
+import { defaultInstance, productInstance } from "@/api/utils";
+import { ref } from "vue";
+
+const products = ref([]);
+const componentHeight = ref("300px");
+
+const callApi = () => {
+  productInstance
+    .get(`/products/sales-products`)
+    .then((response) => {
+      products.value = response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+callApi();
+</script>
+
+<style scoped>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 39px;
+  padding-left: 55px;
+}
+</style>

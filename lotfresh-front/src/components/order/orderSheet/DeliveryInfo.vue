@@ -13,7 +13,9 @@
         <div class="item"></div>
         <div class="item"></div>
         <div class="item"></div>
-        <div class="item text-right gray-text small-text">배송지변경 안내</div>
+        <div class="item text-right gray-text small-text v-center">
+          배송지변경 안내
+        </div>
       </div>
     </div>
     <div class="container">
@@ -54,12 +56,15 @@ export default {};
   font-size: 13px;
 }
 .delivery-info-container {
-  width: 1000px;
   margin-right: auto;
   margin-left: auto;
 }
 .title {
   padding-bottom: 10px;
   border-bottom: 2px solid rgb(0, 0, 0);
+}
+.v-center {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 </style>

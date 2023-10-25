@@ -1,41 +1,41 @@
 @font-face {
-  font-family: 'TheJamsil';
-  src: url('~@/assets/fonts/The_Jamsil_OTF_1_Thin.otf') format('opentype');
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_1_Thin.otf") format("opentype");
   font-weight: 100;
 }
 
 @font-face {
-  font-family: 'TheJamsil';
-  src: url('~@/assets/fonts/The_Jamsil_OTF_2_Lignt.otf') format('opentype');
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_2_Light.otf") format("opentype");
   font-weight: lighter;
 }
 
 @font-face {
-  font-family: 'TheJamsil';
-  src: url('~@/assets/fonts/The_Jamsil_OTF_3_Regular.otf') format('opentype');
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_3_Regular.otf") format("opentype");
   font-weight: normal;
 }
 
 @font-face {
-  font-family: 'TheJamsil';
-  src: url('~@/assets/fonts/The_Jamsil_OTF_4_Medium.otf') format('opentype');
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_4_Medium.otf") format("opentype");
   font-weight: 600;
 }
 
 @font-face {
-  font-family: 'TheJamsil';
-  src: url('~@/assets/fonts/The_Jamsil_OTF_5_Bold.otf') format('opentype');
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_5_Bold.otf") format("opentype");
   font-weight: bold;
 }
 
 @font-face {
-  font-family: 'TheJamsil';
-  src: url('~@/assets/fonts/The_Jamsil_OTF_6_ExtraBold.otf') format('opentype');
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_6_ExtraBold.otf") format("opentype");
   font-weight: bolder;
 }
 
 body {
-  font-family: 'TheJamsil', sans-serif; /* fallback으로 sans-serif 설정 */
+  font-family: "TheJamsil", sans-serif; /* fallback으로 sans-serif 설정 */
 }
 
 /* @import './base.css';

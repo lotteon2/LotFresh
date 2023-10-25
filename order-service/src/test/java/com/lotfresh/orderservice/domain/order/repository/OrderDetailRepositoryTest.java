@@ -3,6 +3,7 @@ package com.lotfresh.orderservice.domain.order.repository;
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
+import com.lotfresh.orderservice.domain.order.entity.status.RefundStatus;
 import com.lotfresh.orderservice.domain.order.service.response.BestProductsResponse;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -42,7 +45,7 @@ class OrderDetailRepositoryTest {
 
         // then
         Assertions.assertThat(orderDetails).hasSize(2)
-                .extracting("productId","price","quantity")
+                .extracting("productId","price","stock")
                 .containsExactlyInAnyOrder(
                         Tuple.tuple(1L,10L,100L),
                         Tuple.tuple(2L,20L,200L)
@@ -98,12 +101,61 @@ class OrderDetailRepositoryTest {
 
     }
 
+    @DisplayName("환불상태가 CREATED가 아닌 주문 상세 내역을 페이징 처리해 반환한다")
+    @Test
+    void getRefundsWithPaging() {
+        // given
+        Long authId = 1L;
+        Order order = createOrder(authId);
+        Order savedOrder = orderRepository.save(order);
+
+        OrderDetail orderDetail1 = createOrderDetail(savedOrder, 1L,1L,1L);
+        OrderDetail orderDetail2 = createOrderDetail(savedOrder, 2L,2L,2L);
+        OrderDetail orderDetail3 = createOrderDetail(savedOrder, 3L,3L,3L);
+        OrderDetail orderDetail4 = createOrderDetail(savedOrder, 4L,4L,4L);
+        OrderDetail orderDetail5 = createOrderDetail(savedOrder, 5L,5L,5L);
+        OrderDetail orderDetail6 = createOrderDetail(savedOrder, 6L,6L,6L);
+        OrderDetail orderDetail7 = createOrderDetail(savedOrder, 7L,7L,7L);
+
+        changeRefundStatus(orderDetail1,RefundStatus.REJECTED);
+        changeRefundStatus(orderDetail2,RefundStatus.REJECTED);
+        changeRefundStatus(orderDetail3,RefundStatus.READY);
+        changeRefundStatus(orderDetail4,RefundStatus.READY);
+        changeRefundStatus(orderDetail5,RefundStatus.APPROVED);
+        changeRefundStatus(orderDetail6,RefundStatus.APPROVED);
+        changeRefundStatus(orderDetail7,RefundStatus.CREATED);
+
+        orderDetailRepository.save(orderDetail1);
+        orderDetailRepository.save(orderDetail2);
+        orderDetailRepository.save(orderDetail3);
+        orderDetailRepository.save(orderDetail4);
+        orderDetailRepository.save(orderDetail5);
+        orderDetailRepository.save(orderDetail6);
+        orderDetailRepository.save(orderDetail7);
+
+        int page = 0;
+        int size = 5;
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        // when
+        Page<OrderDetail> refundsWithPaging = orderDetailRepository.getRefundsWithPaging(authId, pageRequest);
+
+        // then
+        Assertions.assertThat(refundsWithPaging.getTotalPages()).isEqualTo(2);
+        Assertions.assertThat(refundsWithPaging.getTotalElements()).isEqualTo(6);
+
+        Assertions.assertThat(refundsWithPaging.getContent()).hasSize(size);
+
+
+    }
+
+
     private OrderDetail createOrderDetail(Order order, Long productId, Long price, Long quantity) {
         return OrderDetail.builder()
                 .order(order)
                 .productId(productId)
                 .price(price)
-                .quantity(quantity)
+                .stock(quantity)
                 .productName("제품명")
                 .productThumbnail("제품썸네일")
                 .status(OrderDetailStatus.CONFIRMED)
@@ -111,5 +163,14 @@ class OrderDetailRepositoryTest {
 
     }
 
+    private void changeRefundStatus(OrderDetail orderDetail, RefundStatus status){
+        orderDetail.changeRefundStatus(status);
+    }
+
+    private Order createOrder(Long userId) {
+        return Order.builder()
+                .authId(userId)
+                .build();
+    }
 
 }

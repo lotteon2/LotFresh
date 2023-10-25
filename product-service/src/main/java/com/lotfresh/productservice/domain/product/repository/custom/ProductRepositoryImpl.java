@@ -53,6 +53,48 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                     .toArray(OrderSpecifier[]::new))
             .fetch();
 
+    return getProducts(pageRequest, ids);
+  }
+
+  @Override
+  public List<Product> findAllByIds(List<Long> ids) {
+    return query
+        .selectFrom(product)
+        .join(product.category)
+        .fetchJoin()
+        .where(product.id.in(ids), product.isDeleted.isFalse())
+        .fetch();
+  }
+
+  @Override
+  public List<Product> findNewProductsLimit100() {
+    return query
+        .selectFrom(product)
+        .join(product.category)
+        .fetchJoin()
+        .orderBy(product.id.desc())
+        .limit(100)
+        .fetch();
+  }
+
+  @Override
+  public Page<Product> findAllByKeyword(PageRequest pageRequest) {
+    List<Long> ids =
+        query
+            .select(product.id)
+            .from(product)
+            .where(keywordEq(pageRequest.getKeyword()), product.isDeleted.isFalse())
+            .offset(pageRequest.getPageable().getOffset())
+            .limit(pageRequest.getPageable().getPageSize())
+            .orderBy(
+                getOrderCondition(pageRequest.getPageable().getSort()).stream()
+                    .toArray(OrderSpecifier[]::new))
+            .fetch();
+
+    return getProducts(pageRequest, ids);
+  }
+
+  private Page<Product> getProducts(PageRequest pageRequest, List<Long> ids) {
     if (CollectionUtils.isEmpty(ids)) {
       return new PageImpl<>(new ArrayList<>(), pageRequest.getPageable(), 0);
     }
@@ -70,26 +112,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     return PageableExecutionUtils.getPage(
         fetch, pageRequest.getPageable(), () -> getTotalPageCount(pageRequest.getKeyword()));
-  }
-
-  @Override
-  public List<Product> findAllByIds(List<Long> ids) {
-    return query
-        .selectFrom(product)
-        .join(product.category)
-        .fetchJoin()
-        .where(product.id.in(ids), product.isDeleted.isFalse())
-        .fetch();
-  }
-
-  @Override
-  public List<Product> findNewProductsLimit100() {
-    return query.selectFrom(product)
-            .join(product.category)
-            .fetchJoin()
-            .orderBy(product.id.desc())
-            .limit(100)
-            .fetch();
   }
 
   private Long getTotalPageCount(String keyword) {

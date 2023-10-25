@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -75,11 +76,12 @@ public class ProductApiController {
   public ResponseEntity<List<ProductResponse>> getSalesProducts(
       @RequestHeader(value = "userId", required = false) Long userId)
       throws JsonProcessingException {
-    String memberAddressKey = null;
+    String memberAddressKey = "";
     try {
       memberAddressKey = memberApiClient.getMemberAddress(userId);
     } catch (FeignException e) {
       log.error(e.getMessage());
+      return ResponseEntity.ok(Collections.EMPTY_LIST);
     }
     return ResponseEntity.ok(productService.getSalesProducts(memberAddressKey));
   }
@@ -99,5 +101,10 @@ public class ProductApiController {
   @GetMapping("/new-products")
   public ResponseEntity<List<ProductResponse>> getNewProducts() {
     return ResponseEntity.ok(productService.getNewProducts());
+  }
+
+  @GetMapping("")
+  public ResponseEntity<ProductPageResponse> getProductsByKeyword(@ModelAttribute PageRequest pageRequest) {
+    return ResponseEntity.ok(productService.getProductsByKeyword(pageRequest));
   }
 }

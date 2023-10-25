@@ -70,7 +70,7 @@ img {
 }
 
 .SectionTitle {
-  width: 1050px;
+  /* width: 1050px; */
   margin: auto;
   padding-top: 10px;
 }
@@ -96,5 +96,9 @@ img {
 
 .slider .carousel__viewport {
   padding-bottom: 50px;
+}
+
+.carousel__slide {
+  align-items: baseline;
 }
 </style>

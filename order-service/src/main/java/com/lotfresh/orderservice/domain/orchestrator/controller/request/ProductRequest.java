@@ -19,8 +19,8 @@ public class ProductRequest {
     private Long productId;
     @NotNull(message = "productPrice cannot be null")
     private Long productPrice;
-    @NotNull(message = "productQuantity cannot be null")
-    private Long productQuantity;
+    @NotNull(message = "productStock cannot be null")
+    private Long productStock;
     @NotNull(message = "productName cannot be null")
     private String productName;
     @NotNull(message = "producThumbnail cannot be null")
@@ -31,7 +31,7 @@ public class ProductRequest {
                 .order(order)
                 .productId(productId)
                 .price(productPrice)
-                .quantity(productQuantity)
+                .stock(productStock)
                 .status(OrderDetailStatus.CONFIRMED)
                 .productName(productName)
                 .productThumbnail(productThumbnail)

@@ -6,9 +6,13 @@ import OrderListView from "../views/OrderLIstView.vue";
 import OrderSheetView from "../views/OrderSheetView.vue";
 import OrderDetailView from "../views/OrderDetailView.vue";
 import OrdersView from "../views/OrdersView.vue";
-import NewProuductsView from "@/views/NewProductsView.vue";
-import BestProductsView from "@/views/BestProductsView.vue";
-import ProductDetailView from "@/views/ProductDetailView.vue";
+import NewProuductsView from "@/views/product/NewProductsView.vue";
+import BestProductsView from "@/views/product/BestProductsView.vue";
+import SalesProductView from "@/views/product/SalesProductsView.vue";
+import CategoryProductsView from "@/views/product/CategoryProductsView.vue";
+import ProductDetailView from "@/views/product/ProductDetailView.vue";
+import SearchProductsView from "@/views/product/SarchProductsView.vue";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -79,6 +83,21 @@ const router = createRouter({
       path: "/market-best",
       name: "market-best",
       component: BestProductsView,
+    },
+    {
+      path: "/market-time-sales",
+      name: "market-time-sales",
+      component: SalesProductView,
+    },
+    {
+      path: "/categories/:id",
+      name: "category-products",
+      component: CategoryProductsView,
+    },
+    {
+      path: "/search",
+      name: "search-products",
+      component: SearchProductsView,
     },
     {
       path: "/goods/:id",

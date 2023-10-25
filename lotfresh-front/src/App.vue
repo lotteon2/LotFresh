@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class="body_width" />
+    <Header class="header_width" />
     <div v-if="$route.path == '/'" class="banners">
       <banner-slide />
     </div>
@@ -24,8 +24,8 @@ import Footer from "./components/common/Footer.vue";
 body {
   overflow-x: hidden;
 }
-.body_width {
-  width: 65vw;
+.header_width {
+  width: 100vw;
   margin: auto;
 }
 .banner_width {
@@ -33,7 +33,7 @@ body {
 }
 
 .outter_flex_box {
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -41,19 +41,19 @@ body {
 
 .banners {
   width: 100%;
+  padding-top: 0.5vh;
 }
 
 .body_content {
-  width: 50%;
-  height: 100%;
+  width: 65vw;
 }
 
 .left_side {
-  width: 25vw;
+  width: 17.5vw;
 }
 
 .right_side {
-  width: 25vw;
+  width: 17.5vw;
 }
 
 .display_none {

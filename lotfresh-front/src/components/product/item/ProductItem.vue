@@ -16,13 +16,13 @@
       <span class="name">{{ product.name }}</span>
       <span class="cost">
         <span v-if="!product.salesPrice" class="price"
-          >{{ product.price }}
+          >{{ formattedPrice }}원
         </span>
         <span v-else>
           <span style="text-decoration: line-through; color: #999999"
-            >{{ product.price }}
+            >{{ formattedPrice }}
           </span>
-          →{{ product.salesPrice }}
+          →{{ formattedDiscountPrice }}원
         </span>
       </span>
       <!-- <span class="simple-content">{{ product.detail }}</span> -->
@@ -31,10 +31,21 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 const props = defineProps(["product", "index", "componentHeight"]);
+const formattedPrice = computed(() => {
+  return new Intl.NumberFormat("ko-KR").format(props.product.price);
+});
+
+const formattedDiscountPrice = computed(() => {
+  return new Intl.NumberFormat("ko-KR").format(props.product.salesPrice);
+});
 </script>
 
 <style scoped>
+.item {
+  width: 220px;
+}
 img {
   margin: 0;
 }
