@@ -58,9 +58,9 @@ export default {
       return (
         date.getFullYear() +
         "." +
-        date.getMonth() +
+        (date.getMonth() + 1) +
         "." +
-        date.getDay() +
+        date.getDate() +
         " 주문"
       );
     },
@@ -80,6 +80,7 @@ export default {
 .order-info {
   display: grid;
   grid: ". . . . . . . .";
+  font-size: 20px;
 }
 
 .item {

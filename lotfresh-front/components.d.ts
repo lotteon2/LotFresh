@@ -24,6 +24,7 @@ declare module 'vue' {
     ElPagination: typeof import('element-plus/es')['ElPagination']
     Footer: typeof import('./src/components/common/Footer.vue')['default']
     Header: typeof import('./src/components/common/Header.vue')['default']
+    KakaoAddressFinderModal: typeof import('./src/components/order/orderSheet/KakaoAddressFinderModal.vue')['default']
     KakaopayButton: typeof import('./src/components/order/orderSheet/KakaopayButton.vue')['default']
     Menu: typeof import('./src/components/common/Menu.vue')['default']
     NewProductList: typeof import('./src/components/product/NewProductList.vue')['default']

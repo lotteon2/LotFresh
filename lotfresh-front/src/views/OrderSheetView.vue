@@ -79,6 +79,7 @@ export default {
   text-align: center;
   margin-top: 150px;
   margin-bottom: 50px;
+  font-size: 20px;
 }
 .pay-button {
   text-align: center;
