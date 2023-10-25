@@ -5,12 +5,14 @@ import com.bit.lotte.fresh.auth.service.AuthUserCommandHandler;
 import com.bit.lotte.fresh.feign.ProductFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 
 @RequiredArgsConstructor
+@Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
   private final AuthUserCommandHandler commandHandler;
   private final ProductFeignClient productFeignClient;
@@ -19,7 +21,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new CategoryAdminSubIdListInitHandler(productFeignClient,commandHandler))
         .addPathPatterns("/auth/admins/target/{targetId}/category/{categoryId}");
-
   }
 
 }

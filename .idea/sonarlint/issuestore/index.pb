@@ -17,12 +17,6 @@ I
 yauth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/event/UpdateUserAuthRoleDomainEvent.java,5/0/50a5f6b63ac6ededa544d4ff6fae4326c1c68091
 ç
 ]user-service/user-container/src/main/java/com/bit/lotte/fresh/app/UserApplicationService.java,6/5/65297faa03a7b0c31cf4af217b7bfee6800c32f3
-î
-dauth-service/auth-infra/spring-cloud/src/main/java/com/bit/lotte/fresh/feign/ProductFeignClient.java,5/6/56a3671d15e48d028d7e84250591568e9b74766c
-´
-{auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/CategoryAdminSubIdListInitHandler.java,6/d/6da4546fb7e821f8aa6128be4b2a7a5645373151
-¢
-rauth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/config/InterceptorConfig.java,3/c/3c4853be6f20994ec92f77d2f5478695a4ddc4a5
 ≠
 }auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/exception/AuthenticationDomainException.java,c/c/cc7b5b3b322d168870126745133360e59a61e9bd
 I

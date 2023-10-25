@@ -1780,22 +1780,43 @@
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/3/d3b0e4f7e9d67589388225a49753086bfeb45368" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/0/d/0d6c3ae5fe39c6a6e4364d66e49cec7ab7f95e67" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/d/dd3945fa3cb7998f433b2324cd644e45872db7e4" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/2/1/21553f3e203ad0f6c6a497060eb5d4e497670e69" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/0/f0b44d674d2a2e528fdf29b198caaaf477169dec" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/2/8/28f628794ab13f9ee2187ce79f57d119ab0c354d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-application/build/classes/java/main/com/bit/lotte/fresh/auth/app/interceptor/config/InterceptorConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-application/build/classes/java/main/com/bit/lotte/fresh/auth/app/interceptor/config/InterceptorConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-application/build/libs/auth-application-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-application/build/libs/auth-application-1.0-SNAPSHOT-plain.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-application/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-application/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/auth-application/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/cart-message/build/tmp/jar/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/entity/AuthUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-domain/auth-domain-core/src/main/java/com/bit/lotte/fresh/auth/entity/AuthUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/config/InterceptorConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/config/InterceptorConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-container/build/classes/java/main/com/bit/lotte/auth/app/AuthApplicationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-container/build/classes/java/main/com/bit/lotte/auth/app/AuthApplicationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-container/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-container/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/auth-container/src/main/java/com/bit/lotte/auth/app/AuthApplicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-container/src/main/java/com/bit/lotte/auth/app/AuthApplicationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/3/c/3cee417b04347627e63df848bf04c298f51e4fe2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/auth-config/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/3/e/3e6487d999e2c83cedf3023690b3da6967bed3c5" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/classes/java/main/com/bit/lotte/fresh/filter/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/classes/java/main/com/bit/lotte/fresh/filter/JwtAuthenticationFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/libs/filter-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/libs/filter-1.0-SNAPSHOT-plain.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/filter/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/auth-infra/filter/src/main/java/com/bit/lotte/fresh/filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/auth-infra/filter/src/main/java/com/bit/lotte/fresh/filter/JwtAuthenticationFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/7.1/dependencies-accessors/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.gradle/7.1/dependencies-accessors/gc.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/7.1/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.gradle/7.1/gc.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/.gradle/vcs-1/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.gradle/vcs-1/gc.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/common-domain/src/main/java/com/bit/lotte/fresh/user/common/instant/DomainConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/src/main/java/com/bit/lotte/fresh/cart/common/domain/instant/DomainConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-application/build/classes/java/main/com/bit/lotte/fresh/app/rest/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-application/build/classes/java/main/com/bit/lotte/fresh/app/rest/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-application/build/libs/user-application-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-application/build/libs/user-application-1.0-SNAPSHOT-plain.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-application/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-application/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-data-access/build/classes/java/main/com/bit/lotte/fresh/data/user/mapper/UserDataAccessMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-data-access/build/classes/java/main/com/bit/lotte/fresh/data/user/mapper/UserDataAccessMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-data-access/build/libs/user-data-access-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-data-access/build/libs/user-data-access-1.0-SNAPSHOT-plain.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-data-access/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-data-access/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-data-access/src/main/java/com/bit/lotte/fresh/data/user/mapper/UserDataAccessMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-data-access/src/main/java/com/bit/lotte/fresh/data/user/mapper/UserDataAccessMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/classes/java/main/com/bit/lotte/fresh/service/UserApplicationServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/classes/java/main/com/bit/lotte/fresh/service/UserApplicationServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/classes/java/main/com/bit/lotte/fresh/service/dto/response/ChangeDefaultAddressResponse$ChangeDefaultAddressResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/classes/java/main/com/bit/lotte/fresh/service/dto/response/ChangeDefaultAddressResponse$ChangeDefaultAddressResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/classes/java/main/com/bit/lotte/fresh/service/dto/response/ChangeDefaultAddressResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/classes/java/main/com/bit/lotte/fresh/service/dto/response/ChangeDefaultAddressResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/classes/java/main/com/bit/lotte/fresh/service/mapper/UserDataMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/classes/java/main/com/bit/lotte/fresh/service/mapper/UserDataMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/libs/user-domain-application-1.0-SNAPSHOT-plain.jar" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/libs/user-domain-application-1.0-SNAPSHOT-plain.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/src/main/java/com/bit/lotte/fresh/service/dto/response/ChangeDefaultAddressResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/src/main/java/com/bit/lotte/fresh/service/dto/response/ChangeDefaultAddressResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/src/main/java/com/bit/lotte/fresh/service/mapper/UserDataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-domain/user-domain-application/src/main/java/com/bit/lotte/fresh/service/mapper/UserDataMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-domain/user-domain-core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-domain/user-domain-core/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-service/user-infra/spring-cloud/build/resources/main/META-INF/additional-spring-configuration-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/3/e/3ef64994818bf1916a2b71241e66c84d315b0c0a" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-service/user-infra/spring-cloud/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/common/common-application/build/tmp/jar/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-service/user-infra/spring-cloud/src/main/resources/META-INF/additional-spring-configuration-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/.idea/sonarlint/issuestore/4/0/40274c0eec375484159b95089c20d67da9ecb0b4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/user-messaging/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/user-messaging/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-service/user-messaging/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/../cart-service/common/common-domain/build/tmp/jar/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../food-ordering-system-cdc/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../food-ordering-system-cdc/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -2052,7 +2073,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.AuthApplicationService (1)">
+  <component name="RunManager" selected="Spring Boot.UserApplicationService">
     <configuration name="bit-lotte-fresh-user:auth-service [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -2407,18 +2428,8 @@
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/CategoryAdminSubIdListInitHandler.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/config/InterceptorConfig.java</url>
-          <line>19</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/config/InterceptorConfig.java</url>
-          <line>13</line>
+          <line>15</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
@@ -2428,7 +2439,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/auth-service/auth-container/src/main/java/com/bit/lotte/auth/app/AuthApplicationService.java</url>
-          <line>14</line>
+          <line>18</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
@@ -2498,7 +2509,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/rest/AuthUserController.java</url>
-          <line>146</line>
+          <line>145</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
@@ -2511,19 +2522,34 @@
           <line>103</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/auth-service/auth-infra/filter/src/main/java/com/bit/lotte/fresh/filter/JwtAuthenticationFilter.java</url>
           <line>42</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/auth-service/auth-common/src/main/java/com/bit/lotte/fresh/auth/common/util/RedisTokenBlacklistUtil.java</url>
           <line>21</line>
           <option name="timeStamp" value="64" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/CategoryAdminSubIdListInitHandler.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/config/InterceptorConfig.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/CategoryAdminSubIdListInitHandler.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/auth-service/auth-application/src/main/java/com/bit/lotte/fresh/auth/app/interceptor/config/InterceptorConfig.java</url>
-          <line>14</line>
+          <line>16</line>
           <properties field="commandHandler" class="com.bit.lotte.fresh.auth.app.interceptor.config.InterceptorConfig" />
           <option name="timeStamp" value="27" />
         </line-breakpoint>

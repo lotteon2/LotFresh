@@ -2,6 +2,7 @@ package com.bit.lotte.fresh.service.dto.response;
 
 import com.bit.lotte.fresh.domain.entity.Address;
 import com.bit.lotte.fresh.domain.entity.User;
+import com.bit.lotte.fresh.domain.valueobject.Province;
 import com.bit.lotte.fresh.user.common.valueobject.AddressId;
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,8 @@ public class ChangeDefaultAddressResponse {
  private final UserId userId;
   @NotNull
   private AddressId addressId;
+  @NotNull
+  private Province changedProvince;
   @NotNull
   private String message;
 

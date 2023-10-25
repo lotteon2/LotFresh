@@ -134,7 +134,6 @@ public class AuthUserController {
   public ResponseEntity<UpdateAuthUserRoleResponse> updateCategoryAdmin(
       @AuthenticationPrincipal AuthUserId actorId, @NotNull @PathVariable String targetId,
       @NotNull @PathVariable int categoryId) {
-    //이때도 카테고리 관리자 7번이라고 한다면 그 하위 관리자들의 리스트를 받아와서(feign 리퀘스트해서) description에 업데이트 해야된다. => interceptor로 구현
     return ResponseEntity.ok(
         applicationService.updateCategoryAdmin(new UpdateAuthRoleCommand(actorId,
             new AuthUserId(Long.valueOf(targetId)), AuthRole.ROLE_CATEGORY_ADMIN), categoryId));

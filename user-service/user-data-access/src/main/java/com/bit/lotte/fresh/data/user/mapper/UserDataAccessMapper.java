@@ -39,7 +39,7 @@ public class UserDataAccessMapper {
     List<Address> addressList = new ArrayList<>();
     for (AddressEntity addressEntity : list) {
 
-      Address address = Address.builder().id(new AddressId(addressEntity.getId()))
+      Address address = Address.builder().entityId(new AddressId(addressEntity.getId()))
           .province(addressEntity.getProvince())
           .zipCode(addressEntity.getZipCode()).defaultAddress(addressEntity.getDefaultAddress())
           .detailAddress(
