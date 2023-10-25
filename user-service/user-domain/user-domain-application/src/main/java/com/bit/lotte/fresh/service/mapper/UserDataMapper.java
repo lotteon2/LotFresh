@@ -73,7 +73,7 @@ public class UserDataMapper {
   public ChangeDefaultAddressResponse changeDefaultAddressEventToResponse(
       ChangeDefaultUserAddressDomainEvent changeDefaultUserAddressDomainEvent) {
     return new ChangeDefaultAddressResponse(changeDefaultUserAddressDomainEvent.getUser(),
-        changeDefaultUserAddressDomainEvent.getAddress());
+        changeDefaultUserAddressDomainEvent.getAddress(),changeDefaultUserAddressDomainEvent.getAddress().getProvince());
   }
 
   public CreateUserResponse createUserEventToResponse(CreateUserDomainEvent createUserDomainEvent) {

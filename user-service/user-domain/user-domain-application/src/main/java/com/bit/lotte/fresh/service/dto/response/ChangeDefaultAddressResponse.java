@@ -24,18 +24,18 @@ public class ChangeDefaultAddressResponse {
   private String message;
 
 
-    public ChangeDefaultAddressResponse(User user, Address newDefaultAddress) {
+    public ChangeDefaultAddressResponse(User user, Address newDefaultAddress, Province province) {
     this.userId = user.getEntityId();
     addressId = newDefaultAddress.getEntityId();
+    changedProvince = province;
     getMessage(newDefaultAddress);
   }
 
   private void getMessage(Address address){
       StringBuilder sb = new StringBuilder();
       sb.append("새로운 기본 주소는: ");
-      sb.append("\n");
-      sb.append("권역: ").append(address.getProvince()).append("\n");
-      sb.append("도로명 주소: ").append(address.getRoadAddress()).append("\n");
+      sb.append("권역: ").append(address.getProvince());
+      sb.append("도로명 주소: ").append(address.getRoadAddress());
       sb.append("상세 주소: ").append(address.getDetailAddress());
       sb.append("입니다.");
       this.message =sb.toString();

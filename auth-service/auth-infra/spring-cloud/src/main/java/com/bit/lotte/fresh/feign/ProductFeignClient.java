@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "provider", url = "http://localhost:8083/product/category/sub/id")
+@FeignClient(value = "provider", url = "${PRODUCT_FEIGN}")
 public interface ProductFeignClient {
-  @GetMapping("/auth/category/{categoryId}")
+  @GetMapping("/category-service/categories/{categoryId}/children")
   ResponseEntity<SubCategoryAdminIdListDto> requestSubAdminIdList(@PathVariable Long categoryId);
 }
