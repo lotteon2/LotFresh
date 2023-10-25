@@ -13,9 +13,9 @@
           {{ orderDetailData.productThumbnail }}
         </div>
         <div class="product-name">{{ orderDetailData.productName }}</div>
-        <div class="product-price">
+        <div class="product-price small-text">
           {{ orderDetailData.price }}원
-          <span class="gray-text small-text">|</span>
+          <span class="gray-text mid-bar">|</span>
           {{ orderDetailData.stock }}개
         </div>
         <div class="cart-button"><button>장바구니 담기</button></div>
@@ -27,8 +27,7 @@
         v-if="statusClassification(orderDetailData.status) == 'RefundStatus'"
       >
         <div class="right-section-buttons">
-          <div class="right-inner-button"><button>환불</button></div>
-          <div class="right-inner-button"><button>환불환불</button></div>
+          <div class="right-inner-button"><button>환불 조회</button></div>
         </div>
       </div>
       <div
@@ -37,8 +36,7 @@
         "
       >
         <div class="right-section-buttons">
-          <div class="right-inner-button"><button>결제</button></div>
-          <div class="right-inner-button"><button>결제결제</button></div>
+          <div class="right-inner-button"><button>결제 조회</button></div>
         </div>
       </div>
       <div
@@ -109,7 +107,7 @@ export default {
   border: 2px solid rgb(204, 194, 194);
   border-radius: 20px;
   width: 93%;
-  height: 200px;
+  height: 270px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 15px;
@@ -122,15 +120,16 @@ export default {
   border-right: 2px solid rgb(204, 194, 194);
 }
 .left-inner-status {
-  height: 50px;
+  height: 80px;
   position: relative;
+  font-size: 18px;
 }
 .left-inner-contents {
-  height: 100px;
+  height: 170px;
   position: relative;
 }
 .left-inner-empty {
-  height: 50px;
+  height: 20px;
 }
 .product-status {
   position: absolute;
@@ -138,28 +137,28 @@ export default {
   top: 20px;
 }
 .product-thumbnail {
-  width: 77px;
-  height: 90px;
+  width: 120px;
+  height: 130px;
   position: absolute;
   background-color: green;
   left: 30px;
-  top: 25px;
+  top: 5px;
 }
 .product-name {
   position: absolute;
-  left: 130px;
-  bottom: 35px;
-  font-size: 30px;
+  left: 180px;
+  bottom: 75px;
+  font-size: 45px;
 }
 .product-price {
   position: absolute;
-  left: 130px;
-  bottom: 5px;
+  left: 180px;
+  bottom: 40px;
 }
 .cart-button {
   position: absolute;
   right: 30px;
-  bottom: 5px;
+  bottom: 40px;
 }
 
 .right-section {
@@ -181,7 +180,10 @@ export default {
   color: gray;
 }
 .small-text {
-  font-size: 13px;
+  font-size: 15px;
+}
+.mid-bar {
+  font-size: 10px;
 }
 
 .bold-text {
@@ -192,5 +194,10 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+button {
+  width: 150px;
+  height: 30px;
 }
 </style>

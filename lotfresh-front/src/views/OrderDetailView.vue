@@ -40,12 +40,12 @@ export default {
       orderInstance
         .get("/order/" + this.$route.params.orderId)
         .then((res) => {
-          console.log("전체 주문 가져오기 성공");
+          console.log("주문상세 가져오기 성공");
           console.log(res.data);
           this.order = res.data;
         })
         .catch((res) => {
-          console.log("전체 주문 가져오기 실패");
+          console.log("주문상세 가져오기 실패");
           console.log(res);
         });
     },
@@ -65,5 +65,6 @@ export default {
   margin-left: auto;
   margin-right: auto;
   border-bottom: 2px solid rgb(245, 199, 199);
+  font-size: 20px;
 }
 </style>
