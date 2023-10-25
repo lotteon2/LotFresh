@@ -1,12 +1,11 @@
-<template v-if="products.length != 0">
-  <div class="container">
-    <div v-for="(product, index) in products" :key="index">
-      <product-item
-        :key="index"
-        :product="product"
-        :componentHeight="componentHeight"
-      />
-    </div>
+<template>
+  <div class="container" v-if="products.length != 0">
+    <product-item
+      v-for="(product, index) in products"
+      :key="index"
+      :product="product"
+      :componentHeight="componentHeight"
+    />
   </div>
   <div class="pagination">
     <el-pagination
@@ -32,7 +31,7 @@ const totalPage = ref();
 const totalElements = ref();
 
 const pageReq = ref({
-  keyword: "",
+  keyword: route.query.keyword,
   page: 1,
 });
 
@@ -44,14 +43,15 @@ watch(
 );
 
 watch(
-  () => route.params.id,
+  () => route.query.keyword,
   () => {
+    pageReq.value.keyword = route.query.keyword;
     callApi();
   }
 );
 const callApi = () => {
   productInstance
-    .get(`/products/categories/${route.params.id}`, {
+    .get(`/products`, {
       params: {
         page: pageReq.value.page,
         keyword: pageReq.value.keyword,
@@ -71,12 +71,6 @@ callApi();
 </script>
 
 <style scoped>
-/* .content {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 39px;
-} */
-
 .container {
   display: flex;
   flex-wrap: wrap;

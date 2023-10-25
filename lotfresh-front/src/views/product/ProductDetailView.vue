@@ -14,14 +14,14 @@
 import ProductThumbnail from "@/components/product/item/ProductThumbnail.vue";
 import ProductDetail from "@/components/product/item/ProductDetail.vue";
 import ProductDetailImage from "@/components/product/item/ProductDetailImage.vue";
-import { defaultInstance } from "@/api/utils";
+import { defaultInstance, productInstance } from "@/api/utils";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
 const product = ref();
 const callApi = () => {
-  defaultInstance
+  productInstance
     .get(`/products/${route.params.id}`)
     .then((response) => {
       product.value = response.data;

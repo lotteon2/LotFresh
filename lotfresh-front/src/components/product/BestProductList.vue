@@ -11,14 +11,14 @@
 
 <script setup lang="ts">
 import ProductItem from "@/components/product/item/ProductItem.vue";
-import { defaultInstance } from "@/api/utils";
+import { defaultInstance, productInstance } from "@/api/utils";
 import { ref } from "vue";
 
 const products = ref([]);
 const componentHeight = ref("250px");
 
 const callApi = () => {
-  defaultInstance
+  productInstance
     .get(`/products/best-products`)
     .then((response) => {
       products.value = response.data;
@@ -36,5 +36,6 @@ callApi();
   display: flex;
   flex-wrap: wrap;
   gap: 39px;
+  padding-left: 55px;
 }
 </style>

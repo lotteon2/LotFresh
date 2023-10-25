@@ -53,8 +53,7 @@ export default {
   },
   computed: {
     formattedData() {
-      let date: Date = new Date(this.orderData.orderCreatedTime);
-      console.log(date);
+      let date: Date = new Date(this.orderData?.orderCreatedTime);
 
       return (
         date.getFullYear() +

@@ -25,7 +25,7 @@ body {
   overflow-x: hidden;
 }
 .header_width {
-  width: 65vw;
+  width: 100vw;
   margin: auto;
 }
 .banner_width {

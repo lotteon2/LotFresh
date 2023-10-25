@@ -1,6 +1,6 @@
 <template>
   <div v-if="products.length != 0">
-    <carousel :items-to-show="4" :items-to-scroll="2">
+    <carousel :items-to-show="4" :items-to-scroll="4">
       <slide v-for="(product, index) in products" :key="index">
         <product-item
           :key="index"
@@ -20,14 +20,14 @@
 import ProductItem from "@/components/product/item/ProductItem.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { defaultInstance } from "@/api/utils";
+import { defaultInstance, productInstance } from "@/api/utils";
 import { ref } from "vue";
 
 const products = ref([]);
 const componentHeight = ref("300px");
 
 const callApi = () => {
-  defaultInstance
+  productInstance
     .get(`/products/best-products`)
     .then((response) => {
       products.value = response.data;
