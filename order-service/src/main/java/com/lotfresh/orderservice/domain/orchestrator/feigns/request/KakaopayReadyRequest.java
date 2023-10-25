@@ -13,5 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class KakaopayReadyRequest {
     private Long orderId;
+    private Boolean isFromCart;
     private List<OrderDetailVO> orderDetails;
 }

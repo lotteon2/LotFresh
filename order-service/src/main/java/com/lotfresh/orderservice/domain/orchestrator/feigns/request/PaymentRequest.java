@@ -9,4 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 public class PaymentRequest {
+    private Long orderId;
+    private String pgToken;
 }

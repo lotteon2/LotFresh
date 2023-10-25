@@ -52,8 +52,8 @@ class KafkaProducerTest {
         // given
         String topic = "testTopic";
         List<ProductInfo> productInfos = List.of(
-                new ProductInfo(1L,1L,10L),
-                new ProductInfo(2L,2L,10L)
+                new ProductInfo(1L,10L),
+                new ProductInfo(2L,10L)
         );
         Object value = productInfos;
 
@@ -72,10 +72,10 @@ class KafkaProducerTest {
                     .map(o -> mapper.convertValue(o, ProductInfo.class))
                     .collect(Collectors.toList());
             Assertions.assertThat(results)
-                    .extracting("orderDetailId","productId","productStock")
+                    .extracting("productId","stock")
                     .containsExactlyInAnyOrder(
-                            tuple(1L,1L,10L),
-                            tuple(2L,2L,10L)
+                            tuple(1L,10L),
+                            tuple(2L,10L)
                     );
         }
 

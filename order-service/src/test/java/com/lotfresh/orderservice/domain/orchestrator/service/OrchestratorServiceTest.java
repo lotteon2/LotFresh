@@ -118,7 +118,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(1L,"SEOUL", order.getId(),false);
+        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(1L,"SEOUL","pgToken", order.getId(),false);
 
         // then
         for (WorkflowStep step : orchestrator.getWorkflow().getSteps()) {
@@ -142,7 +142,7 @@ class OrchestratorServiceTest {
         orderRepository.save(order);
 
         // when
-        orchestratorService.orderNormalTransaction(1L,"SEOUL", order.getId(),true);
+        orchestratorService.orderNormalTransaction(1L,"SEOUL", "pgToken", order.getId(),true);
 
         // then
         BDDMockito.verify(cartFeignClient).removeItems(BDDMockito.any());
@@ -172,7 +172,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,"SEOUL",order.getId(),true))
+        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,"SEOUL", "pgToken", order.getId(),true))
                 .isInstanceOf(SagaException.class);
 
 
@@ -214,7 +214,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,"SEOUL",order.getId(),true))
+        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,"SEOUL", "pgToken", order.getId(),true))
                 .isInstanceOf(SagaException.class);
 
         em.flush();
@@ -232,10 +232,11 @@ class OrchestratorServiceTest {
 
     }
 
-    private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
+    private ProductRequest createProductRequest(Long productId, Long price, Long productQuantity){
         return ProductRequest.builder()
                 .productId(productId)
-                .productPrice(productPrice)
+                .originalPrice(price)
+                .discountedPrice(price)
                 .productStock(productQuantity)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
