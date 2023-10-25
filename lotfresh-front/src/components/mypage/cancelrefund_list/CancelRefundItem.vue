@@ -134,27 +134,6 @@ export default {};
 .item_name {
 }
 
-.to_cart_button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  border: 2px solid #c8c8c8;
-  padding: 10px 5px 10px 5px;
-  width: 6vw;
-  align-self: end;
-  margin-right: 0.5vw;
-}
-
-.to_cart_button:hover {
-  background-color: #f5f5f5; /* 마우스 오버시 배경색 변경 */
-  cursor: pointer;
-}
-
-.to_cart_button:active {
-  background-color: #e0e0e0; /* 클릭시 배경색 변경 */
-}
-
 .stock {
   font-size: 1.1rem;
   margin-bottom: 1vh;
@@ -173,6 +152,27 @@ export default {};
 
 .align-items-center {
   align-items: center;
+}
+
+.to_cart_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 2px solid #c8c8c8;
+  padding: 10px 5px 10px 5px;
+  width: 7vw;
+  align-self: end;
+  margin-right: 0.5vw;
+}
+
+.to_cart_button:hover {
+  background-color: #f5f5f5; /* 마우스 오버시 배경색 변경 */
+  cursor: pointer;
+}
+
+.to_cart_button:active {
+  background-color: #e0e0e0; /* 클릭시 배경색 변경 */
 }
 
 .refund_detail_button {
