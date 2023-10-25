@@ -14,7 +14,7 @@
         >
       </div>
     </div>
-    <div v-for="orderDetail in orderData.orderDetailResponses">
+    <div v-for="orderDetail in orderData?.orderDetailResponses">
       <order-detail :orderDetailData="orderDetail" />
     </div>
   </div>
@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     formattedData() {
-      let date: Date = new Date(this.orderData.orderCreatedTime);
+      let date: Date = new Date(this.orderData?.orderCreatedTime);
 
       return (
         date.getFullYear() +
