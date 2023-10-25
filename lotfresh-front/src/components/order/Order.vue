@@ -14,14 +14,10 @@
         >
       </div>
     </div>
-<<<<<<< HEAD
-    <div v-for="orderDetail in orderData?.orderDetailResponses">
-=======
     <div
       v-for="orderDetail in orderData.orderDetailResponses"
       :key="orderDetail.orderDetailId"
     >
->>>>>>> 18f256f704acacdd70204c871a5db1ad5fa175a0
       <order-detail :orderDetailData="orderDetail" />
     </div>
     <div class="empty-bottom"></div>

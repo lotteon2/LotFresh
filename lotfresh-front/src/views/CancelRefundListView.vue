@@ -4,7 +4,7 @@
     <div class="body_wrapper">
       <CancelRefundItemList></CancelRefundItemList>
     </div>
-    <KakaopayButton @kakaopay_button_click="handlePayment"></KakaopayButton>
+    <!-- <KakaopayButton @kakaopay_button_click="handlePayment"></KakaopayButton> -->
   </div>
 </template>
 
