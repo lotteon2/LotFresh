@@ -37,7 +37,7 @@ public class OrchestratorService {
         return result.getBody();
     }
 
-    public Orchestrator orderTransaction(Long userId, String userProvince, Long orderId, boolean isFromCart,
+    public Orchestrator orderTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart,
                                          BiFunction<InventoryRequest,PaymentRequest,Workflow> workflowGenerator) {
         List<OrderDetail> orderDetails = orderService.getOrderDetails(orderId);
         List<Long> orderDetailIds = orderDetails.stream()
@@ -45,7 +45,7 @@ public class OrchestratorService {
                 .collect(Collectors.toList());
 
         InventoryRequest inventoryRequest = makeInventoryRequest(orderDetails,userProvince,orderId);
-        PaymentRequest paymentRequest = makePaymentRequest();
+        PaymentRequest paymentRequest = makePaymentRequest(orderId,pgToken);
 
         Workflow orderWorkflow = workflowGenerator.apply(inventoryRequest,paymentRequest);
 
@@ -71,13 +71,13 @@ public class OrchestratorService {
         return orderOrchestrator;
     }
 
-    public Orchestrator orderNormalTransaction(Long userId, String userProvince, Long orderId, boolean isFromCart) {
-        return orderTransaction(userId, userProvince, orderId, isFromCart,
+    public Orchestrator orderNormalTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart) {
+        return orderTransaction(userId, userProvince, pgToken, orderId, isFromCart,
                 orderWorkflowGenerator::generateNormalOrderWorkflow);
     }
 
-    public Orchestrator orderSalesTransaction(Long userId, String userProvince, Long orderId, boolean isFromCart) {
-        return orderTransaction(userId, userProvince, orderId, isFromCart,
+    public Orchestrator orderSalesTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart) {
+        return orderTransaction(userId, userProvince, pgToken, orderId, isFromCart,
                 orderWorkflowGenerator::generateSalesOrderWorkflow);
     }
 
@@ -92,6 +92,7 @@ public class OrchestratorService {
 
         return KakaopayReadyRequest.builder()
                 .orderId(orderId)
+                .isFromCart(orderCreateRequest.getIsFromCart())
                 .orderDetails(orderDetails)
                 .build();
 
@@ -108,8 +109,10 @@ public class OrchestratorService {
                 .orderId(orderId)
                 .build();
     }
-    private PaymentRequest makePaymentRequest() {
+    private PaymentRequest makePaymentRequest(Long orderId, String pgToken) {
         return PaymentRequest.builder()
+                .orderId(orderId)
+                .pgToken(pgToken)
                 .build();
     }
 

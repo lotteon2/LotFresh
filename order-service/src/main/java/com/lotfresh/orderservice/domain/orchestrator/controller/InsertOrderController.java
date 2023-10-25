@@ -28,28 +28,30 @@ public class InsertOrderController {
         return ResponseEntity.ok().body(orchestratorService.createOrderAndRequestToPayment(orderCreateRequest));
     }
 
-    @GetMapping("/normal")
+    @GetMapping("/payments/kakaopay/approve/{orderId}/{isFromCart}")
     public ResponseEntity insertNormalOrder(@RequestHeader(value = "userId", required = false) Long userId,
-            @RequestParam Long orderId, @RequestParam Boolean isFromCart) {
+            @PathVariable(name = "orderId") Long orderId, @PathVariable(name="isFromCart") Boolean isFromCart,
+            @RequestParam String pg_token) {
         String userProvince = userFeignClient.getProvince(userId);
-        orchestratorService.orderNormalTransaction(userId, userProvince, orderId, isFromCart);
+        orchestratorService.orderNormalTransaction(userId, userProvince, pg_token, orderId, isFromCart);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/sales")
     public ResponseEntity insertSalesOrder(@RequestHeader(value = "userId", required = false) Long userId,
-                                           @RequestParam Long orderId, @RequestParam Boolean isFromCart) {
+           @PathVariable(name = "orderId") Long orderId, @PathVariable(name="isFromCart") Boolean isFromCart,
+           @RequestParam String pg_token) {
         String userProvince = userFeignClient.getProvince(userId);
-        orchestratorService.orderSalesTransaction(userId, userProvince, orderId, isFromCart);
+        orchestratorService.orderSalesTransaction(userId, userProvince, pg_token, orderId, isFromCart);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/failed")
+    @GetMapping("/payments/kakaopay/fail")
     public void kakaoFailed(@RequestParam Long orderId) {
         kafkaProducer.send("payment-abort",orderId, PaymentStatus.FAILED);
     }
 
-    @GetMapping("/canceled")
+    @GetMapping("/payments/kakaopay/cancel")
     public void kakaoCanceled(@RequestParam Long orderId) {
         kafkaProducer.send("payment-abort",orderId,PaymentStatus.CANCELED);
     }

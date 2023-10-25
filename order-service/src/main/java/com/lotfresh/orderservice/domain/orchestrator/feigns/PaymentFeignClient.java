@@ -6,12 +6,11 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@FeignClient(name="Payment",url="localhost:80/payments")
+@FeignClient(name="Payment",url="localhost:8085/payments")
 public interface PaymentFeignClient {
     @PostMapping("/kakaopay/ready")
     ResponseEntity<String> kakaopayReady(KakaopayReadyRequest kakaopayReadyRequest);
-    @PostMapping("/kakaopay/request")
+    @PostMapping("/kakaopay/approve")
     ResponseEntity requestPayment(PaymentRequest paymentRequest);
-    @PostMapping("/kakaopay/revertRequest")
-    ResponseEntity revertRequestPayment();
+
 }
