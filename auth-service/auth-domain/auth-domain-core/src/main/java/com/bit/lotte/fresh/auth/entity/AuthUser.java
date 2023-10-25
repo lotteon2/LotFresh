@@ -56,8 +56,12 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
 
  public void updateAdminAuthorization(AuthRole actorRole, String actorDescription, AuthRole myRole,
      String myDescription) {
+
+  if(actorRole.equals(AuthRole.ROLE_SYSTEM_ADMIN) && myRole.equals(AuthRole.ROLE_SYSTEM_ADMIN)){
+   throw new AuthUserDomainException("시스템 관리자는 시스템 관리자를 업데이트할 수 없습니다.");
+  }
   if (actorRole.equals(AuthRole.ROLE_USER)) {
-   throw new AuthorizationAuthDomainException("권한이 없습니다.");
+   throw new AuthUserDomainException("권한이 없습니다.");
   } else if (actorRole.equals(AuthRole.ROLE_CATEGORY_ADMIN)) {
    checkCategoryAdminAuthorization(actorDescription, myDescription);
    userRole = myRole;
@@ -70,19 +74,19 @@ public class AuthUser extends AggregateRoot<AuthUserId> {
  public void loginProcessor(AuthUserId id, String email, String password,
      AuthProvider authProvider) {
   if (authProvider.equals(AuthProvider.NONE)) {
-    systemLogin(id, email, password);
+    systemLogin(email, password);
   }
    oauthLogin(id);
  }
 
  public void oauthLogin(AuthUserId userId) {
-  if (!userId.equals(userId)) {
+  if (!userId.equals(this.getEntityId())) {
    throw new LoginFailedAuthDomainException("존재하지 않는 소셜 로그인 계정입니다.");
   }
  }
 
- public void systemLogin(AuthUserId authUserId, String email, String password) {
-  if (!email.equals(this.email) && password.equals(password)) {
+ public void systemLogin(String email, String password) {
+  if (!email.equals(this.email) && password.equals(this.password)) {
    throw new LoginFailedAuthDomainException("존재하지 시스템 로그인 계정입니다.");
   }
  }

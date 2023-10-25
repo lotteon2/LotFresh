@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           throw new BadCredentialsException("로그아웃이 처리된 토큰은 사용할 수 없습니다.");
         }
       }
-    } catch (SignatureException | MalformedJwtException exception) {
+  } catch (SignatureException | MalformedJwtException |BadCredentialsException exception) {
       response.setStatus(401);
       throw new JwtException(exception.getMessage());
     }
