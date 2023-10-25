@@ -53,14 +53,14 @@ export default {
   },
   computed: {
     formattedData() {
-      let date: Date = new Date(this.orderData.orderCreatedTime);
+      let date: Date = new Date(this.orderData?.orderCreatedTime);
 
       return (
         date.getFullYear() +
         "." +
-        date.getMonth() +
+        (date.getMonth() + 1) +
         "." +
-        date.getDay() +
+        date.getDate() +
         " 주문"
       );
     },
@@ -80,6 +80,7 @@ export default {
 .order-info {
   display: grid;
   grid: ". . . . . . . .";
+  font-size: 20px;
 }
 
 .item {

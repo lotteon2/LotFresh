@@ -84,6 +84,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
   border-bottom: 2px solid rgb(245, 199, 199);
+  font-size: 20px;
 }
 
 .paging-box {

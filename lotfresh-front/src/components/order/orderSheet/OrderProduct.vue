@@ -4,10 +4,11 @@
       <el-collapse>
         <el-collapse-item name="1">
           <template #title>
-            <div class="title"><h2>주문 상품</h2></div>
+            <div class="title"><h1>주문 상품</h1></div>
           </template>
           <div class="item">
-            mounted시점에 redis로 axios통신을 해서 구매상품을 가져온다
+            mounted시점에 redis로 axios통신을 해서 구매상품을 가져온다 {userId:
+            {[상품1,상품2],true}}
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -16,9 +17,7 @@
 </template>
 
 <script lang="ts">
-export default {
-  // 이거를 안쓰더라도 넣어주셔야 다른 파일에서 이 컴포넌트를 import 할 수 있습니다.
-};
+export default {};
 </script>
 
 <style scoped>
@@ -28,5 +27,11 @@ export default {
 .order-product-container {
   margin-right: auto;
   margin-left: auto;
+}
+.title {
+  font-size: 12.6px;
+}
+.item {
+  font-size: 20px;
 }
 </style>
