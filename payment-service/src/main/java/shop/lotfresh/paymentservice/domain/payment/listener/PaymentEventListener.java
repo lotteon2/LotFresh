@@ -17,17 +17,17 @@ public class PaymentEventListener {
 
 
     @KafkaListener(topics = "payment-abort", groupId = "${spring.kafka.consumer.group-id}")
-    public void listenPaymentEvent(ConsumerRecord<Long, PaymentAbortMessage> record) {
+    public void listenPaymentEvent(ConsumerRecord<Long, Object> record) {
         log.warn("Received message: " + record.toString());
         Long orderId = record.key();
-        PaymentAbortMessage message = record.value();
+        String message = (String)record.value();
 
         try {
-            PaymentStatus status = PaymentStatus.valueOf(message.getStatus());
+            PaymentStatus status = PaymentStatus.valueOf(message);
             paymentService.abortPayment(orderId, status);
 
         } catch (IllegalArgumentException e) {
-            log.error("Invalid payment status: " + message.getStatus(), e);
+            log.error("Invalid payment status: " + message, e);
         }
 
     }
