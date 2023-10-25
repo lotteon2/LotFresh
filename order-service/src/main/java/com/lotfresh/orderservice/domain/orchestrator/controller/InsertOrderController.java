@@ -30,7 +30,7 @@ public class InsertOrderController {
     }
 
     @GetMapping("/payments/kakaopay/approve/{orderId}/{isFromCart}")
-    public ResponseEntity insertNormalOrder(@RequestHeader(value = "userId", required = false) Long userId,
+    public ResponseEntity insertNormalOrder(@RequestHeader(value = "UserId", required = false) Long userId,
             @PathVariable(name = "orderId") Long orderId, @PathVariable(name="isFromCart") Boolean isFromCart,
             @RequestParam String pg_token) {
         String userProvince = userFeignClient.getProvince(userId);
@@ -39,7 +39,7 @@ public class InsertOrderController {
     }
 
     @GetMapping("/sales")
-    public ResponseEntity insertSalesOrder(@RequestHeader(value = "userId", required = false) Long userId,
+    public ResponseEntity insertSalesOrder(@RequestHeader(value = "UserId", required = false) Long userId,
            @PathVariable(name = "orderId") Long orderId, @PathVariable(name="isFromCart") Boolean isFromCart,
            @RequestParam String pg_token) {
         String userProvince = userFeignClient.getProvince(userId);
