@@ -1,7 +1,7 @@
 <template>
-  <div v-if="products.length != 0">
+  <div v-if="bestProducts.length != 0">
     <carousel :items-to-show="4" :items-to-scroll="4">
-      <slide v-for="(product, index) in products" :key="index">
+      <slide v-for="(product, index) in bestProducts" :key="index">
         <product-item
           :key="index"
           :product="product"
@@ -20,24 +20,16 @@
 import ProductItem from "@/components/product/item/ProductItem.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { defaultInstance, productInstance } from "@/api/utils";
+import { getBestProducts } from "@/api/product/product";
 import { ref } from "vue";
+import type { ProductResponse } from "@/interface/productInterface";
 
-const products = ref([]);
+const bestProducts = ref<ProductResponse[]>([]);
+
+getBestProducts().then((data) => {
+  bestProducts.value = data;
+});
 const componentHeight = ref("300px");
-
-const callApi = () => {
-  productInstance
-    .get(`/products/best-products`)
-    .then((response) => {
-      products.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-callApi();
 </script>
 
 <style scoped></style>
