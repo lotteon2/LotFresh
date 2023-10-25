@@ -4,4 +4,8 @@ declare module "*.vue" {
   export default component;
 }
 
-declare const daum: any;
+declare module "vue-daum-postcode" {
+  import { DefineComponent } from "vue";
+  const VueDaumPostcode: DefineComponent;
+  export { VueDaumPostcode };
+}

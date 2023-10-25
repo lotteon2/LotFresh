@@ -5,10 +5,13 @@
         <h2>주문서</h2>
       </div>
     </div>
+    <KakaoAddressFinderModal
+      :isAddressModalOpen="isAddressModalOpen"
+    ></KakaoAddressFinderModal>
 
     <order-product />
     <orderer-info />
-    <delivery-info />
+    <delivery-info @openAddressModal="openAddressModal" />
     <payment-bill />
     <KakaopayButton @kakaopay_button_click="handlePayment"></KakaopayButton>
   </div>
@@ -20,6 +23,7 @@ import OrdererInfo from "../components/order/orderSheet/OrdererInfo.vue";
 import OrderProduct from "../components/order/orderSheet/OrderProduct.vue";
 import PaymentBill from "../components/order/orderSheet/PaymentBill.vue";
 import KakaopayButton from "../components/order/orderSheet/KakaopayButton.vue";
+import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddressFinderModal.vue";
 import type { OrderCreateRequest } from "../api/order/order";
 import { startKakaopay } from "../api/order/order";
 
@@ -30,6 +34,21 @@ export default {
     OrderProduct,
     PaymentBill,
     KakaopayButton,
+    KakaoAddressFinderModal,
+  },
+
+  data() {
+    return {
+      isAddressModalOpen: false,
+    };
+  },
+
+  methods: {
+    openAddressModal: function (): void {
+      console.log("openModal on OrderSheet" + this.isAddressModalOpen);
+      this.isAddressModalOpen = true;
+      console.log("openModal on OrderSheet" + this.isAddressModalOpen);
+    },
   },
 
   setup() {

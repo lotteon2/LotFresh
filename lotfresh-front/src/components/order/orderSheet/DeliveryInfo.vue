@@ -21,7 +21,12 @@
           <div>2층 서22 김성중</div>
         </div>
       </div>
-      <div class="to_right_end">주소 변경 버튼</div>
+      <div
+        class="to_right_end address_button"
+        @click="$emit('openAddressModal')"
+      >
+        주소 변경
+      </div>
     </div>
   </div>
 
@@ -96,6 +101,27 @@ export default {};
 
 .to_right_end {
   margin-left: auto;
+}
+
+.address_button {
+  color: #ef2a23;
+  border-radius: 5px;
+  border: 1px solid #ef2a23;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.address_button:hover {
+  background-color: #ef2a23;
+  color: white;
+}
+
+/* 마우스를 클릭 했을 때의 효과 */
+.address_button:active {
+  background-color: #b81c16;
+  color: white;
 }
 
 .title {

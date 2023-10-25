@@ -19,8 +19,6 @@ declare module 'vue' {
     CancelRefundItemList: typeof import('./src/components/mypage/cancelrefund_list/CancelRefundItemList.vue')['default']
     CategoryProductList: typeof import('./src/components/product/CategoryProductList.vue')['default']
     DeliveryInfo: typeof import('./src/components/order/orderSheet/DeliveryInfo.vue')['default']
-    ElCollapse: typeof import('element-plus/es')['ElCollapse']
-    ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     Footer: typeof import('./src/components/common/Footer.vue')['default']
     Header: typeof import('./src/components/common/Header.vue')['default']
