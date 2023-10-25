@@ -14,24 +14,16 @@
 import ProductThumbnail from "@/components/product/item/ProductThumbnail.vue";
 import ProductDetail from "@/components/product/item/ProductDetail.vue";
 import ProductDetailImage from "@/components/product/item/ProductDetailImage.vue";
-import { defaultInstance, productInstance } from "@/api/utils";
+import { getProductDetail } from "@/api/product/product";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
-
+import type { ProductResponse } from "@/interface/productInterface";
 const route = useRoute();
-const product = ref();
-const callApi = () => {
-  productInstance
-    .get(`/products/${route.params.id}`)
-    .then((response) => {
-      product.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+const product = ref<ProductResponse>();
 
-callApi();
+getProductDetail(route.params.id).then((data) => {
+  product.value = data;
+});
 </script>
 
 <style scoped>

@@ -1,6 +1,6 @@
-<template v-if="products.length != 0">
+<template v-if="categoryProducts.length != 0">
   <div class="container">
-    <div v-for="(product, index) in products" :key="index">
+    <div v-for="(product, index) in categoryProducts" :key="index">
       <product-item
         :key="index"
         :product="product"
@@ -14,60 +14,41 @@
       :pager-count="11"
       layout="prev, pager, next"
       :total="totalPage * totalElements"
-      v-model:currentPage="pageReq.page"
+      v-model:currentPage="page"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import ProductItem from "@/components/product/item/ProductItem.vue";
-import { defaultInstance, productInstance } from "@/api/utils";
-import { watch, ref } from "vue";
+import { getCategoryProducts } from "@/api/product/product";
+import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
+import type {
+  ProductPageResponse,
+  ProductResponse,
+} from "@/interface/productInterface";
 
-const route = useRoute();
-const products = ref([]);
-const componentHeight = ref("300px");
+const categoryProducts = ref<ProductResponse[]>([]);
 const totalPage = ref();
 const totalElements = ref();
+const page = ref(1);
+const route = useRoute();
+const componentHeight = ref("300px");
 
-const pageReq = ref({
-  keyword: "",
-  page: 1,
-});
-
-watch(
-  () => pageReq.value.page,
-  () => {
-    callApi();
-  }
-);
-
-watch(
-  () => route.params.id,
-  () => {
-    callApi();
-  }
-);
-const callApi = () => {
-  productInstance
-    .get(`/products/categories/${route.params.id}`, {
-      params: {
-        page: pageReq.value.page,
-        keyword: pageReq.value.keyword,
-      },
-    })
-    .then((response) => {
-      products.value = response.data.products;
-      totalPage.value = response.data.totalPage;
-      totalElements.value = response.data.totalElements;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+const callApi = (categoryId: any, page: number) => {
+  getCategoryProducts(categoryId, page).then((data) => {
+    categoryProducts.value = data.products;
+    totalPage.value = data.totalPage;
+    totalElements.value = data.totalElements;
+  });
 };
 
-callApi();
+callApi(route.params.id, page.value);
+
+watchEffect(() => {
+  callApi(route.params.id, page.value), page.value, route.params.id;
+});
 </script>
 
 <style scoped>

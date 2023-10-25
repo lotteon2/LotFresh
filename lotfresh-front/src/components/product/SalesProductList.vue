@@ -1,7 +1,7 @@
 <template>
-  <div class="container" v-if="products.length != 0">
+  <div class="container" v-if="salesProducts.length != 0">
     <product-item
-      v-for="(product, index) in products"
+      v-for="(product, index) in salesProducts"
       :key="index"
       :product="product"
       :componentHeight="componentHeight"
@@ -11,24 +11,17 @@
 
 <script setup lang="ts">
 import ProductItem from "@/components/product/item/ProductItem.vue";
-import { defaultInstance, productInstance } from "@/api/utils";
 import { ref } from "vue";
+import { getSalesProducts } from "@/api/product/product";
+import type { ProductResponse } from "@/interface/productInterface";
 
-const products = ref([]);
+const salesProducts = ref<ProductResponse[]>([]);
+
+getSalesProducts().then((data) => {
+  salesProducts.value = data;
+});
+
 const componentHeight = ref("300px");
-
-const callApi = () => {
-  productInstance
-    .get(`/products/sales-products`)
-    .then((response) => {
-      products.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-callApi();
 </script>
 
 <style scoped>

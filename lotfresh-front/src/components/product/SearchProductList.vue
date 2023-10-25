@@ -13,61 +13,41 @@
       :pager-count="11"
       layout="prev, pager, next"
       :total="totalPage * totalElements"
-      v-model:currentPage="pageReq.page"
+      v-model:currentPage="page"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import ProductItem from "@/components/product/item/ProductItem.vue";
-import { defaultInstance, productInstance } from "@/api/utils";
-import { watch, ref } from "vue";
+import { ref, watchEffect, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
+import { getProductsBySearch } from "@/api/product/product";
+import type {
+  ProductPageResponse,
+  ProductResponse,
+} from "@/interface/productInterface";
 
+const products = ref<ProductResponse[]>([]);
+const page = ref(1);
 const route = useRoute();
-const products = ref([]);
 const componentHeight = ref("300px");
 const totalPage = ref();
 const totalElements = ref();
 
-const pageReq = ref({
-  keyword: route.query.keyword,
-  page: 1,
-});
-
-watch(
-  () => pageReq.value.page,
-  () => {
-    callApi();
-  }
-);
-
-watch(
-  () => route.query.keyword,
-  () => {
-    pageReq.value.keyword = route.query.keyword;
-    callApi();
-  }
-);
-const callApi = () => {
-  productInstance
-    .get(`/products`, {
-      params: {
-        page: pageReq.value.page,
-        keyword: pageReq.value.keyword,
-      },
-    })
-    .then((response) => {
-      products.value = response.data.products;
-      totalPage.value = response.data.totalPage;
-      totalElements.value = response.data.totalElements;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+const callApi = (page: number, keyword: any) => {
+  getProductsBySearch(page, keyword).then((data) => {
+    products.value = data.products;
+    totalPage.value = data.totalPage;
+    totalElements.value = data.totalElements;
+  });
 };
 
-callApi();
+callApi(page.value, route.query.keyword);
+
+watchEffect(() => {
+  callApi(page.value, route.query.keyword), page.value, route.query.keyword;
+});
 </script>
 
 <style scoped>

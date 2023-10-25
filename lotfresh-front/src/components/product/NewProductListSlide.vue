@@ -20,24 +20,16 @@
 import ProductItem from "@/components/product/item/ProductItem.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { defaultInstance, productInstance } from "@/api/utils";
+import { getNewProducts } from "@/api/product/product";
 import { ref } from "vue";
+import type { ProductResponse } from "@/interface/productInterface";
 
-const products = ref([]);
+const products = ref<ProductResponse[]>([]);
+
+getNewProducts().then((data) => {
+  products.value = data;
+});
 const componentHeight = ref("300px");
-
-const callApi = () => {
-  productInstance
-    .get(`/products/new-products`)
-    .then((response) => {
-      products.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-callApi();
 </script>
 
 <style scoped></style>
