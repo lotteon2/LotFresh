@@ -467,7 +467,7 @@ pipeline {
 										if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${ORDER_SERVICE_IMAGE_TAG}; then
 											ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${ORDER_SERVICE_IMAGE_TAG}
 										fi
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file /home/ubuntu/env.list ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8084:8084 --name ${ORDER_SERVICE_IMAGE_TAG} --network lot-fresh -d --env-file /home/ubuntu/env.list ${DOCKER_REGISTRY}:${ORDER_SERVICE_IMAGE_TAG}
 									"""
 								
             				}
