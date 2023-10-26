@@ -5,15 +5,14 @@
         <h2>주문서</h2>
       </div>
     </div>
-    <KakaoAddressFinderModal
-      :isAddressModalOpen="isAddressModalOpen"
-    ></KakaoAddressFinderModal>
-
     <order-product />
     <orderer-info />
     <delivery-info @openAddressModal="openAddressModal" />
     <payment-bill />
     <KakaopayButton @kakaopay_button_click="handlePayment"></KakaopayButton>
+    <KakaoAddressFinderModal
+      v-model:isAddressModalOpen="isAddressModalOpen"
+    ></KakaoAddressFinderModal>
   </div>
 </template>
 

@@ -53,7 +53,9 @@ export default {
         this.address = result.jibunAddress;
       }
       // this.isAddressModalOpen = false;
+      this.closeModal();
     },
+
     closeModal: function (): void {
       console.log("closed!!");
       this.$emit("update:isAddressModalOpen", false);
