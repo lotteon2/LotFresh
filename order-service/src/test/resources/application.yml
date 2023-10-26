@@ -18,12 +18,12 @@ spring:
 
   kafka:
     producer:
-      bootstrap-servers: localhost:7777
+      bootstrap-servers: localhost:9092
     consumer:
       auto-offset-reset: earliest
-      bootstrap-servers: localhost:7777
+      bootstrap-servers: localhost:9092
     group-id: order-detail-status
-    server-config: localhost:7777
+    server-config: localhost:9092
 
   redis:
     host: localhost
