@@ -33,7 +33,11 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { useProductStore } from "@/stores/product";
+
+const productStore = useProductStore();
 const props = defineProps(["product", "index", "componentHeight"]);
+
 const formattedPrice = computed(() => {
   return new Intl.NumberFormat("ko-KR").format(props.product.price);
 });
@@ -43,39 +47,35 @@ const formattedDiscountPrice = computed(() => {
 });
 
 const store = () => {
-  let recentProducts = JSON.parse(
-    <any>localStorage.getItem("recentProducts") || "[]"
-  );
+  productStore.setRecentProducts(props.product.id, props.product.thumbnail);
+  // let recentProducts = JSON.parse(
+  //   <any>localStorage.getItem("recentProducts") || "[]"
+  // );
 
-  if (recentProducts.length == 50) {
-    recentProducts.shift();
-    recentProducts.push({
-      id: props.product.id,
-      imgurl: props.product.thumbnail,
-    });
-    return;
-  }
-
-  recentProducts.push({
-    id: props.product.id,
-    imgurl: props.product.thumbnail,
-  });
-
-  const newRecentProducts = recentProducts.filter((item, i) => {
-    return (
-      recentProducts.findIndex((item2, j) => {
-        return item.id === item2.id;
-      }) === i
-    );
-  });
-  console.log(newRecentProducts);
+  // if (recentProducts.length == 50) {
+  //   recentProducts.shift();
+  //   recentProducts.push({
+  //     id: props.product.id,
+  //     imgurl: props.product.thumbnail,
+  //   });
+  //   return;
+  // }
 
   // recentProducts.push({
   //   id: props.product.id,
   //   imgurl: props.product.thumbnail,
   // });
-  // console.log(newRecentProducts);
-  localStorage.setItem("recentProducts", JSON.stringify(newRecentProducts));
+
+  // const newRecentProducts = recentProducts.filter((item, i) => {
+  //   return (
+  //     recentProducts.findIndex((item2, j) => {
+  //       return item.id === item2.id;
+  //     }) === i
+  //   );
+  // });
+  // localStorage.setItem("recentProducts", JSON.stringify(newRecentProducts));
+
+  // emit("add-recentProducts", newRecentProducts);
 };
 </script>
 
