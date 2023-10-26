@@ -145,14 +145,6 @@ const moveSlide = (direction: any) => {
 const isPositive = (direction: any) => {
   return direction >= 0;
 };
-
-// const call = () => {
-//   recentProducts.value = JSON.parse(
-//     localStorage.getItem("recentProducts") || "[]"
-//   );
-// };
-
-// call();
 </script>
 
 <style scoped>
