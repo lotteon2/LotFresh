@@ -58,7 +58,10 @@ pipeline {
 
 						string(credentialsId: 'JWT_SECRET', variable: 'JWT_SECRET'),
 						string(credentialsId: 'JWT_ACCESS_EXPIRE', variable: 'JWT_ACCESS_EXPIRE'),
-						string(credentialsId: 'JWT_REFRESH_EXPIRE', variable: 'JWT_REFRESH_EXPIRE')
+						string(credentialsId: 'JWT_REFRESH_EXPIRE', variable: 'JWT_REFRESH_EXPIRE'),
+
+						string(credentialsId: 'PRODUCT_FEIGN', variable: 'PRODUCT_FEIGN'),
+						
 
 					]) {
 						sshagent(credentials: ['ssh']) {
@@ -88,6 +91,8 @@ pipeline {
 								echo "JWT_SECRET=$JWT_SECRET" >> env.list
 								echo "JWT_ACCESS_EXPIRE=$JWT_ACCESS_EXPIRE" >> env.list
 								echo "JWT_REFRESH_EXPIRE=$JWT_REFRESH_EXPIRE" >> env.list
+
+								echo "PRODUCT_FEIGN=$PRODUCT_FEIGN" >> env.list
 
 								scp -o StrictHostKeyChecking=no env.list ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com:~/env.list
 							"""
