@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.30/b5a4b6d16ab13e34a88fae84c35cd5d68cac922c/slf4j-api-1.7.30.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.30/f195ee86e6c896ea47a1d39defbe20eb59cd149d/lombok-1.18.30.jar" />
+        </processorPath>
+        <module name="bit-lotte-fresh-user.auth.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-domain.auth-domain-core.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-domain.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-data-access.main" />
+        <module name="bit-lotte-fresh-user.common.common-application.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-application.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-domain.main" />
+        <module name="bit-lotte-fresh-user.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-container.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-common.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-container.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-infra.main" />
+        <module name="bit-lotte-fresh-user.common.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-infra.spring-cloud.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-domain-core.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-dataaccess.main" />
+        <module name="bit-lotte-fresh-user.common-application.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-domain.user-domain-application.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-infra.auth-config.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-data-access.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-domain.user-domain-core.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-infra.spring-cloud.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-domain.auth-domain-applicaiton.main" />
+        <module name="bit-lotte-fresh-user.common.common-domain.main" />
+        <module name="bit-lotte-fresh-user.auth-messaging.main" />
+        <module name="bit-lotte-fresh-user.auth-service.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-infra.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-application.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-infra.filter.main" />
+        <module name="bit-lotte-fresh-user.user-service.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-messaging.main" />
+        <module name="bit-lotte-fresh-user.user-service.user-messaging.main" />
+        <module name="bit-lotte-fresh-user.auth-service.auth-message.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="11" />
+  </component>
+</project>

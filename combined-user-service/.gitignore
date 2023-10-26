@@ -23,8 +23,8 @@ gradle-app.setting
 
 # application.yml, application properteis for deployment
 
-**/application.properties
-**/application.yml
+# **/application.properties
+# **/application.yml
 
 # From https://github.com/github/gitignore/blob/master/Java.gitignore
 *.class
