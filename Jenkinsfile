@@ -56,6 +56,8 @@ pipeline {
 						string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
 						string(credentialsId: 'REDIS_PORT', variable: 'REDIS_PORT'),
 
+						string(credentialsId: 'KAFKA_IP', variable: 'KAFKA_IP'),
+
 						string(credentialsId: 'JWT_SECRET', variable: 'JWT_SECRET'),
 						string(credentialsId: 'JWT_ACCESS_EXPIRE', variable: 'JWT_ACCESS_EXPIRE'),
 						string(credentialsId: 'JWT_REFRESH_EXPIRE', variable: 'JWT_REFRESH_EXPIRE'),
@@ -87,6 +89,8 @@ pipeline {
 								echo "DB_USERNAME=$DB_USERNAME" >> env.list
 								echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
 								echo "REDIS_PORT=$REDIS_PORT" >> env.list
+
+								echo "KAFKA_IP=$KAFKA_IP" >> env.list
 
 								echo "JWT_SECRET=$JWT_SECRET" >> env.list
 								echo "JWT_ACCESS_EXPIRE=$JWT_ACCESS_EXPIRE" >> env.list
