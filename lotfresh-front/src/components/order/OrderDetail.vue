@@ -18,7 +18,6 @@
           <span class="gray-text mid-bar">|</span>
           {{ orderDetailData.stock }}개
         </div>
-        <div class="cart-button"><button>장바구니 담기</button></div>
       </div>
       <div class="left-inner-empty"></div>
     </div>
@@ -27,7 +26,9 @@
         v-if="statusClassification(orderDetailData.status) == 'RefundStatus'"
       >
         <div class="right-section-buttons">
-          <div class="right-inner-button"><button>환불 조회</button></div>
+          <div class="right-inner-button">
+            <button class="white-button">환불 조회</button>
+          </div>
         </div>
       </div>
       <div
@@ -36,7 +37,9 @@
         "
       >
         <div class="right-section-buttons">
-          <div class="right-inner-button"><button>결제 조회</button></div>
+          <div class="right-inner-button">
+            <button class="white-button">결제 조회</button>
+          </div>
         </div>
       </div>
       <div
@@ -45,8 +48,12 @@
         "
       >
         <div class="right-section-buttons">
-          <div class="right-inner-button"><button>배송 조회</button></div>
-          <div class="right-inner-button"><button>주문취소/환불</button></div>
+          <div class="right-inner-button">
+            <button class="red-button">배송 조회</button>
+          </div>
+          <div class="right-inner-button">
+            <button class="white-button">주문취소/환불</button>
+          </div>
         </div>
       </div>
     </div>
@@ -196,8 +203,33 @@ export default {
   object-fit: cover;
 }
 
-button {
-  width: 150px;
-  height: 30px;
+.white-button {
+  /* float: right; */
+  width: 170px;
+  height: 60px;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  color: #ef2a23;
+  background-color: #fff;
+  border: 1px solid #ef2a23;
+
+  cursor: pointer;
+}
+
+.red-button {
+  width: 170px;
+  height: 60px;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  color: #fff;
+  background-color: #ef2a23;
+  border: 1px solid #ef2a23;
+  cursor: pointer;
 }
 </style>

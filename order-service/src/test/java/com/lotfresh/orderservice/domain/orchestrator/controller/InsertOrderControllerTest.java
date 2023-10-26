@@ -3,10 +3,12 @@ package com.lotfresh.orderservice.domain.orchestrator.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.OrderCreateRequest;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
+import com.lotfresh.orderservice.domain.orchestrator.feigns.UserFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.service.OrchestratorService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,6 +30,9 @@ class InsertOrderControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private UserFeignClient userFeignClient;
 
     @MockBean
     private OrchestratorService orchestratorService;
@@ -98,7 +103,7 @@ class InsertOrderControllerTest {
                 .andExpect(jsonPath("$.validation.productRequests").value("productRequests cannot be empty"));
     }
 
-    @DisplayName("ProductRequest의 productId, productPrice, productQuantity는 null일 수 없다")
+    @DisplayName("ProductRequest의 productId, productPrice, productStock은 null일 수 없다")
     @Test
     void paramsInProductRequestCannotBeNull() throws Exception {
         // given
@@ -127,11 +132,12 @@ class InsertOrderControllerTest {
     }
 
 
-    private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
+    private ProductRequest createProductRequest(Long productId, Long productPrice, Long productStock){
         return ProductRequest.builder()
                 .productId(productId)
-                .productPrice(productPrice)
-                .productStock(productQuantity)
+                .originalPrice(productPrice)
+                .discountedPrice(productPrice)
+                .productStock(productStock)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
                 .build();

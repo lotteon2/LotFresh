@@ -1,25 +1,34 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { getBestProducts } from "@/api/product/product";
+import type { RecentProducts } from "@/interface/productInterface";
 
-interface ProductResponse {
-  id: number;
-  name: string;
-  thumbnail: string;
-  detail: string;
-  price: number;
-  salesPrice: number | null;
-  productCode: string;
-  categoryId: number;
-  categoryName: string;
-  parentId: number | null;
-  parentName: string | null;
-  stock: number | null;
-}
-export const useProductStore = defineStore("product", () => {
-  const getBestProductsAction = async () => {
-    return await getBestProducts();
-  };
-
-  return { getBestProductsAction };
+export const useProductStore = defineStore("product", {
+  id: "product",
+  state: () => ({
+    recentProducts: [] as RecentProducts[],
+  }),
+  actions: {
+    setRecentProducts(id: string, thumbnail: string) {
+      if (this.recentProducts.length === 50) {
+        this.recentProducts.shift();
+        this.recentProducts.push({ id, thumbnail });
+      } else {
+        this.recentProducts.push({ id, thumbnail });
+        this.recentProducts = this.recentProducts.filter(
+          (item, index, self) =>
+            index === self.findIndex((t) => t.id === item.id)
+        );
+      }
+    },
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        name: "localStorage",
+        storage: window.localStorage,
+        sync: ["recentProducts"],
+      },
+    ],
+  },
 });

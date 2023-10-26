@@ -51,6 +51,7 @@ export default {
   watch: {
     page(newPage) {
       this.callAPI(this.page);
+      window.scrollTo(0, 0);
     },
   },
   methods: {

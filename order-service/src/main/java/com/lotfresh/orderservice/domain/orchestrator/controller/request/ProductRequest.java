@@ -17,8 +17,10 @@ import javax.validation.constraints.NotNull;
 public class ProductRequest {
     @NotNull(message = "productId cannot be null")
     private Long productId;
-    @NotNull(message = "productPrice cannot be null")
-    private Long productPrice;
+    @NotNull(message = "originalPrice cannot be null")
+    private Long originalPrice;
+    @NotNull(message = "discountedPrice cannot be null")
+    private Long discountedPrice;
     @NotNull(message = "productStock cannot be null")
     private Long productStock;
     @NotNull(message = "productName cannot be null")
@@ -30,7 +32,7 @@ public class ProductRequest {
         return OrderDetail.builder()
                 .order(order)
                 .productId(productId)
-                .price(productPrice)
+                .price(discountedPrice)
                 .stock(productStock)
                 .status(OrderDetailStatus.CONFIRMED)
                 .productName(productName)

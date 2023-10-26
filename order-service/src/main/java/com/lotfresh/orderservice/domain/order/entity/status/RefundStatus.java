@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.domain.order.entity.status;
 
+import com.lotfresh.orderservice.domain.order.kafka.RefundSuccessMessage;
 import lombok.Getter;
 
 @Getter

@@ -21,18 +21,18 @@ public class OrderWorkflowGenerator {
     private final PaymentFeignClient paymentFeignClient;
     private final KafkaProducer kafkaProducer;
 
-    public OrderWorkflow generateNormalOrderWorkflow(List<InventoryRequest> inventoryRequests, PaymentRequest paymentRequest){
+    public OrderWorkflow generateNormalOrderWorkflow(InventoryRequest inventoryRequest, PaymentRequest paymentRequest){
         List<WorkflowStep> workflowSteps = List.of(
-                new NormalInventoryStep("InventoryStep",inventoryFeignClient,inventoryRequests,kafkaProducer),
+                new NormalInventoryStep("InventoryStep",inventoryFeignClient,inventoryRequest,kafkaProducer),
                 new PaymentStep("PaymentStep",paymentFeignClient,paymentRequest,kafkaProducer));
 
         return OrderWorkflow.builder()
                 .workflowSteps(workflowSteps)
                 .build();
     }
-    public OrderWorkflow generateSalesOrderWorkflow(List<InventoryRequest> inventoryRequests, PaymentRequest paymentRequest){
+    public OrderWorkflow generateSalesOrderWorkflow(InventoryRequest inventoryRequest, PaymentRequest paymentRequest){
         List<WorkflowStep> workflowSteps = List.of(
-                new SalesInventoryStep("InventoryStep",inventoryFeignClient,inventoryRequests,kafkaProducer),
+                new SalesInventoryStep("InventoryStep",inventoryFeignClient,inventoryRequest,kafkaProducer),
                 new PaymentStep("PaymentStep",paymentFeignClient,paymentRequest,kafkaProducer));
 
         return OrderWorkflow.builder()

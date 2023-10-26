@@ -7,7 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BanneRight: typeof import('./src/components/banner/BanneRight.vue')['default']
     BannerItem: typeof import('./src/components/banner/BannerItem.vue')['default']
+    BannerRight: typeof import('./src/components/banner/BannerRight.vue')['default']
     BannerSlide: typeof import('./src/components/banner/BannerSlide.vue')['default']
     BestProductList: typeof import('./src/components/product/BestProductList.vue')['default']
     BestProductListSlide: typeof import('./src/components/product/BestProductListSlide.vue')['default']

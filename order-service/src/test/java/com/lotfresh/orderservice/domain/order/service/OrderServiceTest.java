@@ -445,7 +445,8 @@ class OrderServiceTest {
     private ProductRequest createProductRequest(Long productId, Long productPrice, Long productQuantity){
         return ProductRequest.builder()
                 .productId(productId)
-                .productPrice(productPrice)
+                .originalPrice(productPrice)
+                .discountedPrice(productPrice)
                 .productStock(productQuantity)
                 .productName("제품이름")
                 .productThumbnail("제품썸네일")
