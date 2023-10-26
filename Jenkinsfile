@@ -145,7 +145,7 @@ pipeline {
 						}
 					}
 					steps {
-						dir('auth-service') {
+						dir('combined-user-service/auth-service') {
 							// sh 'chmod +x ./gradlew'
 							// sh './gradlew clean build'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${AUTH_SERVICE_IMAGE_TAG} .'
@@ -172,7 +172,7 @@ pipeline {
 						}
 					}
 					steps {
-						dir('user-service') {
+						dir('combined-user-service/user-service') {
 							// sh 'chmod +x ./gradlew'
 							// sh './gradlew clean build'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${USER_SERVICE_IMAGE_TAG} .'
