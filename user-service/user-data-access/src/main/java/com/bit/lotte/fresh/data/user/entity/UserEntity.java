@@ -32,8 +32,6 @@ public class UserEntity {
   private Long id;
   @Column(nullable = false, name = "name")
   private String name;
-  @Column(nullable = false, name = "gender")
-  private Gender gender;
   @Column(nullable = false, name = "contact")
   private String contact;
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

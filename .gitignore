@@ -87,8 +87,7 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-
-*.DS_Store
+.DS_Store
 .AppleDouble
 .LSOverride
 
@@ -116,8 +115,7 @@ Temporary Items
 .apdisk
 
 ##
-.idea
-hooks
+**/.idea/workspace.xml **/.idea/tasks.xmlhooks
 info
 objects
 refs

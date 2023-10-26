@@ -38,7 +38,7 @@ public class UserDataMapper {
 
   public User createCommandUserToUser(CreateUserCommand createUserCommand) {
     return User.builder().contact(createUserCommand.getContact()).entityId(createUserCommand.getUserId())
-        .gender(createUserCommand.getGender()).name(
+      .name(
             createUserCommand.getName()).addressList(List.of(createUserCommand.getDefaultAddress()))
         .build();
   }
@@ -46,7 +46,7 @@ public class UserDataMapper {
   public User updateUserCommandToUser(UpdateUserCommand updateUserCommand,
       List<Address> addressList) {
     return User.builder().addressList(addressList).name(updateUserCommand.getName())
-        .gender(updateUserCommand.getGender()).contact(
+       .contact(
             updateUserCommand.getContact()).entityId(updateUserCommand.getUserId()).build();
   }
 

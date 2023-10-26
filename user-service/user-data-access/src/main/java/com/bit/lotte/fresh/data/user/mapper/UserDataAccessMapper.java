@@ -18,7 +18,7 @@ public class UserDataAccessMapper {
 
     User user = User.builder()
         .addressList(addressEntityListToAddressList(userEntity.getAddressList()))
-        .name(userEntity.getName()).gender(userEntity.getGender()).contact(
+        .name(userEntity.getName()).contact(
             userEntity.getContact()).build();
     user.setEntityId(new UserId(userEntity.getId()));
     return user;
@@ -28,7 +28,7 @@ public class UserDataAccessMapper {
 
         UserEntity userEntity = UserEntity.builder().id(user.getEntityId().getValue())
         .addressList(addressListToAddressEntityList(user.getAddressList()))
-        .name(user.getName()).gender(user.getGender()).contact(
+        .name(user.getName()).contact(
             user.getContact()).build();
     userEntity.getAddressList()
         .forEach(addressEntity -> addressEntity.setUser(userEntity));

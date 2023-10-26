@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 public class User extends AggregateRoot<UserId> {
 
   private final int MINIMUM_ADDRESS_NUMBER = 1;
-  private Gender gender;
   private String name;
   private String contact;
   private List<Address> addressList;
@@ -46,7 +45,6 @@ public class User extends AggregateRoot<UserId> {
 
   public void validateRegex(User user) {
     validateContact(user);
-    validateGender(user);
     validateName(user);
   }
 
@@ -84,15 +82,6 @@ public class User extends AggregateRoot<UserId> {
     }
   }
 
-  public void validateGender(User user) {
-    Gender gender = user.getGender();
-    if (gender == null) {
-      throw new RegexValidationException("성별은 공백일 수 없습니다.");
-    }
-    if (!(gender == Gender.MALE || gender == Gender.FEMALE)) {
-      throw new RegexValidationException("성별은 남성 혹은 여성이여야합니다.");
-    }
-  }
 
   public void addAddress(Address address) {
     validateAddressRegex(address);

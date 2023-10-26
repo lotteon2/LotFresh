@@ -26,7 +26,6 @@ public class UserDataResponse {
     this.userId = user.getEntityId();
     this.name = user.getName();
     this.contact = user.getContact();
-    this.gender = user.getGender();
   }
 
 
