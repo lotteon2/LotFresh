@@ -63,4 +63,15 @@ export default {};
 .text-left {
   text-align: left;
 }
+
+.popup-view {
+  opacity: 0;
+  display: none;
+  visibility: hidden;
+}
+.active {
+  opacity: 1;
+  display: block;
+  visibility: visible;
+}
 </style>
