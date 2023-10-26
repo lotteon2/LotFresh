@@ -18,7 +18,11 @@ export default {
   name: "test",
   data() {
     return {
-      address: null,
+      address: {
+        zipCode: "",
+        roadAddress: "",
+        detailAddress: "",
+      },
       // postOpen: false,
       // isAddressModalOpen: false,
     };
@@ -35,29 +39,30 @@ export default {
   mounted() {
     watch(
       () => this.isAddressModalOpen,
-      (newValue, oldValue) => {
-        console.log(`postOpen changed from ${oldValue} to ${newValue}`);
-      }
+      (newValue, oldValue) => {}
     );
   },
 
   methods: {
     oncomplete: function (result: any): void {
       if (result.userSelectedType === "R") {
-        console.log(result);
         // 도로명 주소 선택
         this.address = result.roadAddress;
       } else {
         // 지번 주소 선택
-        console.log(result);
+        console.log("여기확인", result);
         this.address = result.jibunAddress;
       }
-      // this.isAddressModalOpen = false;
-      this.closeModal();
+      this.closeModal(result);
     },
 
-    closeModal: function (): void {
-      console.log("closed!!");
+    closeModal: function (result: any): void {
+      this.address = {
+        zipCode: result.zonecode,
+        roadAddress: result.roadAddress,
+        detailAddress: "",
+      };
+      this.$emit("closeModal", this.address);
       this.$emit("update:isAddressModalOpen", false);
     },
   },
