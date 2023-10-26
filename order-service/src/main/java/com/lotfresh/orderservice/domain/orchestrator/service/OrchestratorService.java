@@ -11,6 +11,7 @@ import com.lotfresh.orderservice.domain.orchestrator.process.workflow.Workflow;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.service.OrderService;
 import com.lotfresh.orderservice.domain.order.service.response.OrderCreateResponse;
+import com.lotfresh.orderservice.domain.order.service.response.OrderDetailCreateResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,15 @@ public class OrchestratorService {
         OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest);
         KakaopayReadyRequest kakaopayReadyRequest =
                 makeKakaopayReadyRequest(orderCreateResponse.getOrderId(),orderCreateRequest);
-        ResponseEntity<String> result = paymentFeignClient.kakaopayReady(kakaopayReadyRequest);
-        return result.getBody();
+        try{
+            ResponseEntity<String> result = paymentFeignClient.kakaopayReady(kakaopayReadyRequest);
+            log.info("Payment서버에 QR코드 요청 성공");
+            return result.getBody();
+        }catch (Exception e) {
+            log.error("Payment서버에 QR코드 요청 실패");
+            revertOrder(orderCreateResponse);
+            throw e;
+        }
     }
 
     public Orchestrator orderTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart,
@@ -83,6 +91,13 @@ public class OrchestratorService {
 
     private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest) {
         return orderService.insertOrder(orderCreateRequest.getProductRequests());
+    }
+
+    private void revertOrder(OrderCreateResponse orderCreateResponse) {
+        List<Long> orderDetailIds = orderCreateResponse.getOrderDetailCreateResponses().stream()
+                .map(OrderDetailCreateResponse::getId)
+                .collect(Collectors.toList());
+        orderService.revertInsertOrder(orderCreateResponse.getOrderId(),orderDetailIds);
     }
 
     private KakaopayReadyRequest makeKakaopayReadyRequest(Long orderId, OrderCreateRequest orderCreateRequest) {
