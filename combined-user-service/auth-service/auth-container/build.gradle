@@ -1,0 +1,29 @@
+plugins {
+
+}
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(libs.spring.feign)
+    implementation(libs.sl4j)
+    implementation(libs.jpa)
+    implementation(libs.java.validation)
+    implementation(libs.mysql)
+    implementation(libs.jpa)
+    implementation project(':auth-service:auth-infra:auth-config')
+    implementation project(':auth-service:auth-domain:auth-domain-core')
+    implementation project(':auth-service:auth-domain:auth-domain-applicaiton')
+    implementation project(':auth-service:auth-application')
+    implementation project(':auth-service:auth-dataaccess')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
