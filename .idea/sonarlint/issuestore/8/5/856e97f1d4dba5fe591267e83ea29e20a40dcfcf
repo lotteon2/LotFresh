@@ -1,9 +1,0 @@
-
-s
-java:S1104"]Make REQUEST_ID_HEADER a static final constant or non-public and provide accessors if needed.(Ò’Â¡
-M
-java:S1444"7Make this "public static REQUEST_ID_HEADER" field final(Ò’Â¡
-r
-java:S3008"\Rename this field "REQUEST_ID_HEADER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ò’Â¡
-O
-java:S1118":Add a private constructor to hide the implicit public one.(…ñúD

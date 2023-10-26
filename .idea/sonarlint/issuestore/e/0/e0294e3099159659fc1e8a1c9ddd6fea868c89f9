@@ -1,5 +1,0 @@
-
-q
-java:S1450	"VRemove the "message" field and declare it as a local variable in the relevant methods.(ù„è¿ûÿÿÿÿ
-F
-java:S1068	"+Remove this unused "message" private field.(ù„è¿ûÿÿÿÿ
