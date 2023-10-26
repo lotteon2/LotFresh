@@ -29,17 +29,16 @@ public class InsertOrderController {
         return ResponseEntity.ok().body(orchestratorService.createOrderAndRequestToPayment(orderCreateRequest));
     }
 
-    @GetMapping("/payments/kakaopay/approve/{orderId}/{isFromCart}")
-    public ResponseEntity insertNormalOrder(@RequestHeader(value = "userId", required = false) Long userId,
+    @GetMapping("/payments/kakaopay/approve/{orderId}/{isFromCart}/{province}")
+    public ResponseEntity insertNormalOrder(@RequestHeader(value = "UserId", required = false) Long userId,
             @PathVariable(name = "orderId") Long orderId, @PathVariable(name="isFromCart") Boolean isFromCart,
-            @RequestParam String pg_token) {
-        String userProvince = userFeignClient.getProvince(userId);
-        orchestratorService.orderNormalTransaction(userId, userProvince, pg_token, orderId, isFromCart);
+            @PathVariable(name ="province") String province, @RequestParam String pg_token) {
+        orchestratorService.orderNormalTransaction(userId, province, pg_token, orderId, isFromCart);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/sales")
-    public ResponseEntity insertSalesOrder(@RequestHeader(value = "userId", required = false) Long userId,
+    public ResponseEntity insertSalesOrder(@RequestHeader(value = "UserId", required = false) Long userId,
            @PathVariable(name = "orderId") Long orderId, @PathVariable(name="isFromCart") Boolean isFromCart,
            @RequestParam String pg_token) {
         String userProvince = userFeignClient.getProvince(userId);
