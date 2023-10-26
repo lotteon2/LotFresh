@@ -26,6 +26,19 @@ public class OrderProductService {
     }
 
 
+    @Transactional
+    public void inventory(Long orderId) {
+        List<OrderProduct> inventoryList = orderProductRepository.inventory(orderId);
+
+        if (inventoryList.isEmpty()) {
+            throw new IllegalArgumentException("Invalid order ID: " + orderId);
+        }
+
+        for (OrderProduct lists : inventoryList){
+            storageProductService.addStock(lists.getStorageProductId(), lists.getStock());
+        };
+    }
+
     public OrderProduct save(OrderProduct orderProduct) {
         return orderProductRepository.save(orderProduct);
     }
@@ -33,7 +46,7 @@ public class OrderProductService {
     @Transactional
     public void orderProduct(@RequestBody OrderProductRequest request) throws Exception {
         String province = request.getProvince();
-        long orderId = request.getOrderDetailId();
+        long orderId = request.getOrderId();
         List<ProductInfo> productInfos = request.getProductInfos();
 
         List<StorageProductOrder> productOrders = null;
@@ -47,7 +60,7 @@ public class OrderProductService {
             orderProd.setStorageProductId(productOrder.getStorageProductId());
             orderProd.setStock(productOrder.getStock());
             orderProd.setIsDeleted(0);
-            orderProd.setOrderDetailId(orderId);
+            orderProd.setOrderId(orderId);
 
             orderProductRepository.save(orderProd);
         }

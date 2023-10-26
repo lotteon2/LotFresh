@@ -20,7 +20,7 @@ public class OrderProduct {
 
     private long storageProductId;
 
-    private long orderDetailId;
+    private long orderId;
 
     private long stock;
 

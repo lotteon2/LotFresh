@@ -18,6 +18,8 @@ public class StorageProductApiController {
         this.storageProductService = storageProductService;
     }
 
+
+
     @GetMapping("/search/{province}")
     public ResponseEntity<List<StorageProduct>> search(@PathVariable String province) {
         return ResponseEntity.ok(storageProductService.findProductsByStorageId(province));
@@ -37,6 +39,7 @@ public class StorageProductApiController {
     public ResponseEntity<List<StorageProduct>> test(@PathVariable Long storageId, @PathVariable Long productId) {
         return ResponseEntity.ok(storageProductService.getProductOrderList(storageId, productId));
     }*/
+
     @PostMapping("/order/{province}/{productId}/{stock}")
     public ResponseEntity<List<StorageProductOrder>> order(@PathVariable String province, @PathVariable Long productId, @PathVariable Long stock) {
         return ResponseEntity.ok(storageProductService.productOrder(province,
