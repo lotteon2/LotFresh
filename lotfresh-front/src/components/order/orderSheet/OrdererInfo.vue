@@ -59,6 +59,7 @@ export default {};
   margin-right: auto;
   margin-left: auto;
   font-size: 20px;
+  margin-bottom: 10vh;
 }
 
 .item {

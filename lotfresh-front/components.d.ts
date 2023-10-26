@@ -7,7 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BanneRight: typeof import('./src/components/banner/BanneRight.vue')['default']
     BannerItem: typeof import('./src/components/banner/BannerItem.vue')['default']
+    BannerRight: typeof import('./src/components/banner/BannerRight.vue')['default']
     BannerSlide: typeof import('./src/components/banner/BannerSlide.vue')['default']
     BestProductList: typeof import('./src/components/product/BestProductList.vue')['default']
     BestProductListSlide: typeof import('./src/components/product/BestProductListSlide.vue')['default']
@@ -19,11 +21,10 @@ declare module 'vue' {
     CancelRefundItemList: typeof import('./src/components/mypage/cancelrefund_list/CancelRefundItemList.vue')['default']
     CategoryProductList: typeof import('./src/components/product/CategoryProductList.vue')['default']
     DeliveryInfo: typeof import('./src/components/order/orderSheet/DeliveryInfo.vue')['default']
-    ElCollapse: typeof import('element-plus/es')['ElCollapse']
-    ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     Footer: typeof import('./src/components/common/Footer.vue')['default']
     Header: typeof import('./src/components/common/Header.vue')['default']
+    KakaoAddressFinderModal: typeof import('./src/components/order/orderSheet/KakaoAddressFinderModal.vue')['default']
     KakaopayButton: typeof import('./src/components/order/orderSheet/KakaopayButton.vue')['default']
     Menu: typeof import('./src/components/common/Menu.vue')['default']
     NewProductList: typeof import('./src/components/product/NewProductList.vue')['default']

@@ -7,7 +7,8 @@
     <div class="outter_flex_box">
       <div class="left_side">나는 왼쪽 광고야</div>
       <RouterView class="body_content" />
-      <div class="right_side">나는 오른쪽 최근본상품이야</div>
+      <banner-right class="right_side" />
+      <!-- <div class="right_side">나는 오른쪽 최근본상품이야</div> -->
     </div>
     <Footer class="body_width" />
   </div>
@@ -18,6 +19,7 @@ import { RouterLink, RouterView } from "vue-router";
 import Header from "./components/common/Header.vue";
 import BannerSlide from "@/components/banner/BannerSlide.vue";
 import Footer from "./components/common/Footer.vue";
+import BannerRight from "./components/banner/BannerRight.vue";
 </script>
 
 <style scored>

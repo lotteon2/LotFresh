@@ -1,4 +1,35 @@
 <template>
+  <div>
+    <div class="sub_title_wrapper">
+      <div>배송 정보</div>
+      <div>배송지변경 안내</div>
+    </div>
+
+    <div class="flex_row align-item-center">
+      <div class="width10vw align-self-start">배송지</div>
+      <div>
+        <div class="flex_row">
+          <div class="width7vw">우편번호:</div>
+          <div>55999</div>
+        </div>
+        <div class="flex_row">
+          <div class="width7vw">도로명 주소:</div>
+          <div>서울특별시 서초구 도로명주소는 이것입니다.</div>
+        </div>
+        <div class="flex_row">
+          <div class="width7vw">상세주소:</div>
+          <div>2층 서22 김성중</div>
+        </div>
+      </div>
+      <div
+        class="to_right_end address_button"
+        @click="$emit('openAddressModal')"
+      >
+        주소 변경
+      </div>
+    </div>
+  </div>
+
   <div class="delivery-info-container">
     <div>
       <div class="title">
@@ -36,6 +67,63 @@ export default {};
 </script>
 
 <style scoped>
+.sub_title_wrapper {
+  border-bottom: 2px solid black;
+  margin-bottom: 5vh;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1.5rem;
+}
+
+.flex_row {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.3rem;
+}
+
+.align-item-center {
+  align-items: center;
+}
+
+.align-self-start {
+  align-self: flex-start;
+}
+
+.width10vw {
+  width: 10vw;
+}
+
+.width7vw {
+  width: 7vw;
+}
+
+.to_right_end {
+  margin-left: auto;
+}
+
+.address_button {
+  color: #ef2a23;
+  border-radius: 5px;
+  border: 1px solid #ef2a23;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.address_button:hover {
+  background-color: #ef2a23;
+  color: white;
+}
+
+/* 마우스를 클릭 했을 때의 효과 */
+.address_button:active {
+  background-color: #b81c16;
+  color: white;
+}
+
 .title {
   display: grid;
   grid: ". . . . . . . . . . . .";
