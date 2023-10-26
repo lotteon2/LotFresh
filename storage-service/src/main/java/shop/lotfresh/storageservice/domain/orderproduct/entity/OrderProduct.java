@@ -16,8 +16,6 @@ public class OrderProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
 
-    private long storageId;
-
     private long storageProductId;
 
     private long orderId;

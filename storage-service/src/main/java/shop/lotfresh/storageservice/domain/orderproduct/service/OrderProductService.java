@@ -13,6 +13,7 @@ import shop.lotfresh.storageservice.domain.storageproduct.service.StorageProduct
 import shop.lotfresh.storageservice.domain.storageproduct.vo.StorageProductOrder;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class OrderProductService {
@@ -49,20 +50,24 @@ public class OrderProductService {
         long orderId = request.getOrderId();
         List<ProductInfo> productInfos = request.getProductInfos();
 
-        List<StorageProductOrder> productOrders = null;
+        List<StorageProductOrder> productOrders = new ArrayList<>();
         for (ProductInfo infos : productInfos) {
-            productOrders = storageProductService.productOrder(province, infos.getProductId(), infos.getStock());
+            List<StorageProductOrder> orders = storageProductService.productOrder(province, infos.getProductId(), infos.getStock());
+            productOrders.addAll(orders);
         }
 
         for (StorageProductOrder productOrder : productOrders) {
             OrderProduct orderProd = new OrderProduct();
-            orderProd.setStorageId(productOrder.getStorageProductId());
             orderProd.setStorageProductId(productOrder.getStorageProductId());
             orderProd.setStock(productOrder.getStock());
             orderProd.setIsDeleted(0);
             orderProd.setOrderId(orderId);
 
             orderProductRepository.save(orderProd);
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(productOrder.toString());
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
+
 }

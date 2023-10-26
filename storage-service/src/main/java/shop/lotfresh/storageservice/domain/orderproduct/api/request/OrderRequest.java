@@ -18,7 +18,7 @@ public class OrderRequest {
 
     private long productId;
 
-    private long orderDetailId;
+    private long orderId;
 
     private long stock;
 

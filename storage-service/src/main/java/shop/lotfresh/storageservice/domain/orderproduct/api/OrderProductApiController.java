@@ -35,9 +35,9 @@ public class OrderProductApiController {
     }
 
     //테스트 완료
-/*    @PostMapping("/test/{orderId}")
+    @PostMapping("/test/{orderId}")
     public void inventory(@PathVariable Long orderId){
         orderProductService.inventory(orderId);
-    }*/
+    }
 }
 

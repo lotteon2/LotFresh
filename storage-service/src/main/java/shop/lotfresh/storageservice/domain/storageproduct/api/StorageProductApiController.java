@@ -18,8 +18,6 @@ public class StorageProductApiController {
         this.storageProductService = storageProductService;
     }
 
-
-
     @GetMapping("/search/{province}")
     public ResponseEntity<List<StorageProduct>> search(@PathVariable String province) {
         return ResponseEntity.ok(storageProductService.findProductsByStorageId(province));
@@ -40,6 +38,7 @@ public class StorageProductApiController {
         return ResponseEntity.ok(storageProductService.getProductOrderList(storageId, productId));
     }*/
 
+    // test 완료
     @PostMapping("/order/{province}/{productId}/{stock}")
     public ResponseEntity<List<StorageProductOrder>> order(@PathVariable String province, @PathVariable Long productId, @PathVariable Long stock) {
         return ResponseEntity.ok(storageProductService.productOrder(province,
