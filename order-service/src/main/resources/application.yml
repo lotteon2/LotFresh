@@ -4,6 +4,9 @@ spring:
   jpa:
     properties:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+    hibernate:
+      ddl-auto: update
+
   datasource:
     url: jdbc:mysql://${DB_IP}:${ORDER_DB_PORT}/${ORDER_DB_SCHEMA}?serverTimeZone=UTC
     username: ${DB_USERNAME}

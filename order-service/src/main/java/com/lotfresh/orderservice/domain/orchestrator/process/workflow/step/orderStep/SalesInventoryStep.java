@@ -39,7 +39,7 @@ public class SalesInventoryStep implements InventoryStep{
 
     @Override
     public void revert() {
-        kafkaProducer.send("inventory", inventoryRequest);
+        kafkaProducer.send("Inventory", inventoryRequest);
         changeStatus(WorkflowStepStatus.FAILED);
         log.info("SalesInventoryStepRevert : 성공");
     }

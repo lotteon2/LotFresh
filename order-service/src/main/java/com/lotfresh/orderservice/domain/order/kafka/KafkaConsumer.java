@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class KafkaConsumer {
     private final OrderService orderService;
 
-    @KafkaListener(topics = "refund-success", groupId = "${spring.kafka.group-id}")
+    @KafkaListener(topics = "refund-success", groupId = "${spring.kafka.consumer.group-id}")
     public void listenRefundStatus(ConsumerRecord<String, RefundSuccessMessage> record) {
         Long orderDetailId = Long.parseLong(record.key());
         orderService.changeRefundStatus(orderDetailId,RefundStatus.APPROVED);
