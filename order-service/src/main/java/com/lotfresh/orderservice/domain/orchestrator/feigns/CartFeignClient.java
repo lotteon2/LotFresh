@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name="Cart",url="localhost:80/cart")
+@FeignClient(name="Cart",url="cart-service:8082/cart")
 public interface CartFeignClient {
     @PostMapping("/removeItems")
     ResponseEntity removeItems(@RequestBody CartRequest cartRequest);

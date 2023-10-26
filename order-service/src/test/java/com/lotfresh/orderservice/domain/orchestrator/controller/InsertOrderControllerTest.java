@@ -103,7 +103,7 @@ class InsertOrderControllerTest {
                 .andExpect(jsonPath("$.validation.productRequests").value("productRequests cannot be empty"));
     }
 
-    @DisplayName("ProductRequest의 productId, productPrice, productStock은 null일 수 없다")
+    @DisplayName("ProductRequest의 productId, originalPrice, discountedPrice, productStock은 null일 수 없다")
     @Test
     void paramsInProductRequestCannotBeNull() throws Exception {
         // given
@@ -127,7 +127,8 @@ class InsertOrderControllerTest {
                 .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
                 .andExpect(jsonPath("$.message").value("잘못된 요청입니다"))
                 .andExpect(jsonPath("$.validation.productId").value("productId cannot be null"))
-                .andExpect(jsonPath("$.validation.productPrice").value("productPrice cannot be null"))
+                .andExpect(jsonPath("$.validation.originalPrice").value("originalPrice cannot be null"))
+                .andExpect(jsonPath("$.validation.discountedPrice").value("discountedPrice cannot be null"))
                 .andExpect(jsonPath("$.validation.productStock").value("productStock cannot be null"));
     }
 
