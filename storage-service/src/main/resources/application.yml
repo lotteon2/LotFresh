@@ -1,22 +1,59 @@
-# database 연동 설정
+server:
+  port: 8086
+
 spring:
+  application:
+    name: storage-service
+  datasource:
+    url: jdbc:mysql://${DB_IP}:${STORAGE_DB_PORT}/${STORAGE_DB_SCHEMA}?serverTimeZone=UTC
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   batch:
     job:
       names: ${job.name:NONE}
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/lotfresh?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: 123456
-  thymeleaf:
-    cache: false
-  redis:
-    host: localhost
-    port: 6379
-  # spring data jpa 설정
+
+
   jpa:
-    database-platform: org.hibernate.dialect.MySQL57Dialect
-    open-in-view: false
-    show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+
+  redis:
+    host: ${DB_IP}
+    port: ${REDIS_PORT}
+    password: ${DB_PASSWORD}
+
+  kafka:
+    producer:
+      bootstrap-servers: 3.38.228.196:9092
+      acks: all
+    consumer:
+      bootstrap-servers: 3.38.228.196:9092
+      group-id: storage-service-group
+    listener:
+      type: SINGLE
+
+
+  profiles:
+    active:
+      - develop
+    group:
+      develop: "env"
+
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    org:
+      springframework: INFO
