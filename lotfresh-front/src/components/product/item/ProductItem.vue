@@ -6,6 +6,7 @@
           class="product-img"
           :style="{ height: componentHeight }"
           :src="product.thumbnail"
+          @click="store"
         />
       </router-link>
       <div class="group-btn">
@@ -40,6 +41,42 @@ const formattedPrice = computed(() => {
 const formattedDiscountPrice = computed(() => {
   return new Intl.NumberFormat("ko-KR").format(props.product.salesPrice);
 });
+
+const store = () => {
+  let recentProducts = JSON.parse(
+    <any>localStorage.getItem("recentProducts") || "[]"
+  );
+
+  if (recentProducts.length == 50) {
+    recentProducts.shift();
+    recentProducts.push({
+      id: props.product.id,
+      imgurl: props.product.thumbnail,
+    });
+    return;
+  }
+
+  recentProducts.push({
+    id: props.product.id,
+    imgurl: props.product.thumbnail,
+  });
+
+  const newRecentProducts = recentProducts.filter((item, i) => {
+    return (
+      recentProducts.findIndex((item2, j) => {
+        return item.id === item2.id;
+      }) === i
+    );
+  });
+  console.log(newRecentProducts);
+
+  // recentProducts.push({
+  //   id: props.product.id,
+  //   imgurl: props.product.thumbnail,
+  // });
+  // console.log(newRecentProducts);
+  localStorage.setItem("recentProducts", JSON.stringify(newRecentProducts));
+};
 </script>
 
 <style scoped>
