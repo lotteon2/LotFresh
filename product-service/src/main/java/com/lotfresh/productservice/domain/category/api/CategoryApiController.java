@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class CategoryApiController {
     return ResponseEntity.status(HttpStatus.CREATED).body(categoryId);
   }
 
-  @PatchMapping("/{categoryId}")
+  @PutMapping("/{categoryId}")
   public ResponseEntity<Void> modifyCategory(
       @Valid @RequestBody CategoryModifyRequest request,
       @PathVariable("categoryId") Long categoryId) {
@@ -33,7 +32,7 @@ public class CategoryApiController {
     return ResponseEntity.ok().build();
   }
 
-  @DeleteMapping("/{categoryId}")
+  @PatchMapping("/{categoryId}")
   public ResponseEntity<Void> softDeleteCategory(@PathVariable("categoryId") Long categoryId) {
     categoryService.softDeleteCategory(categoryId);
     return ResponseEntity.ok().build();
@@ -47,10 +46,5 @@ public class CategoryApiController {
   @GetMapping("")
   public ResponseEntity<List<CategoryResponse>> getCategories() {
     return ResponseEntity.ok(categoryService.getCategories());
-  }
-
-  @GetMapping("/{categoryId}/children")
-  public ResponseEntity<Set<Long>> getChildrenIdsById(@PathVariable("categoryId") Long categoryId) {
-    return ResponseEntity.ok(categoryService.getChildrenIdsById(categoryId));
   }
 }

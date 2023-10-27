@@ -1,20 +1,22 @@
 package com.lotfresh.productservice.domain.discount.service.response;
 
 import com.lotfresh.productservice.domain.discount.entity.Discount;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.io.Serializable;
+import java.time.LocalDate;
 
 @Setter
 @Getter
 @ToString
-@NoArgsConstructor
-public class DiscountResponse implements Serializable {
+public class DiscountResponse {
   private Long id;
   private Double rate;
   private String imgurl;
-  private String startDate;
-  private String endDate;
+  private LocalDate startDate;
+  private LocalDate endDate;
   private Long categoryId;
   private String categoryName;
 
@@ -23,8 +25,8 @@ public class DiscountResponse implements Serializable {
       Long id,
       Double rate,
       String imgurl,
-      String startDate,
-      String endDate,
+      LocalDate startDate,
+      LocalDate endDate,
       Long categoryId,
       String categoryName) {
     this.id = id;
@@ -36,13 +38,13 @@ public class DiscountResponse implements Serializable {
     this.categoryName = categoryName;
   }
 
-  public static DiscountResponse from(Discount discount) {
+  public static DiscountResponse of(Discount discount) {
     return DiscountResponse.builder()
         .id(discount.getId())
         .rate(discount.getRate())
         .imgurl(discount.getImgurl())
-        .startDate(discount.getStartDate().toString())
-        .endDate(discount.getEndDate().toString())
+        .startDate(discount.getStartDate())
+        .endDate(discount.getEndDate())
         .categoryId(discount.getCategory().getId())
         .categoryName(discount.getCategory().getName())
         .build();

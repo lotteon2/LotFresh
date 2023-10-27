@@ -1,27 +1,5 @@
 version: '3.7'
 services:
-  mysql-user:
-    image: mysql:latest
-    build:
-      context: ./mysql-user
-      args:
-        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        - MYSQL_DATABASE1=${MYSQL_DATABASE1}
-        - MYSQL_DATABASE2=${MYSQL_DATABASE2}
-        - MYSQL_DATABASE3=${MYSQL_DATABASE3}
-    env_file:
-      - .env
-    environment:
-      MYSQL_CHARSET: utf8mb4
-      MYSQL_COLLATION: utf8mb4_unicode_ci
-      TZ: "Asia/Seoul"
-    volumes:
-      - product-data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    networks:
-      - lot-fresh
-  
   mysql-product:
     image: mysql:latest
     env_file:
@@ -34,9 +12,13 @@ services:
     volumes:
       - product-data:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - "3306:3306"
     networks:
       - lot-fresh
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 200M
 
   mysql-order:
     image: mysql:latest
@@ -50,9 +32,13 @@ services:
     volumes:
       - order-data:/var/lib/mysql
     ports:
-      - "3308:3306"
+      - "3307:3306"
     networks:
       - lot-fresh
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 200M
 
   mysql-payment:
     image: mysql:latest
@@ -66,9 +52,13 @@ services:
     volumes:
       - payment-data:/var/lib/mysql
     ports:
-      - "3309:3306"
+      - "3308:3306"
     networks:
       - lot-fresh
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 300M
 
   mysql-storage:
     image: mysql:latest
@@ -82,9 +72,13 @@ services:
     volumes:
       - storage-data:/var/lib/mysql
     ports:
-      - "3310:3306"
+      - "3309:3306"
     networks:
       - lot-fresh
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 300M
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -93,6 +87,10 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     networks:
       - lot-fresh
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 300M
 
   kafka1:
     image: confluentinc/cp-kafka:latest
@@ -102,7 +100,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
     ports:
       - "9092:9092"
     networks:

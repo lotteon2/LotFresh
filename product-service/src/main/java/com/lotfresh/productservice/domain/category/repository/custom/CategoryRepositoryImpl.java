@@ -28,6 +28,6 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
 
   @Override
   public List<Category> findAllQuery() {
-    return query.selectFrom(category).where(category.parent.isNull().and(category.isDeleted.isFalse())).fetch();
+    return query.selectFrom(category).where(category.parent.isNull()).fetch();
   }
 }

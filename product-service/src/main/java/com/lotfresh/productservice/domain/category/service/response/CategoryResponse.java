@@ -24,14 +24,12 @@ public class CategoryResponse {
     this.children = children;
   }
 
-  public static CategoryResponse from(Category category) {
+  public static CategoryResponse of(Category category) {
     return CategoryResponse.builder()
         .id(category.getId())
         .name(category.getName())
         .children(
-            category.getChildren().stream()
-                .map(CategoryResponse::from)
-                .collect(Collectors.toList()))
+            category.getChildren().stream().map(CategoryResponse::of).collect(Collectors.toList()))
         .build();
   }
 }
