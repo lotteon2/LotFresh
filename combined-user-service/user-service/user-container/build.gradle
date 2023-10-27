@@ -19,6 +19,7 @@ dependencies {
     implementation project(':user-service:user-messaging')
     implementation project(':user-service:user-application')
     implementation project(':user-service:user-data-access')
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
 
 test {

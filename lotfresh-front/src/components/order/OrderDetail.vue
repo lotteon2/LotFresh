@@ -27,7 +27,7 @@
       >
         <div class="right-section-buttons">
           <div class="right-inner-button">
-            <button class="white-button">환불 조회</button>
+            <button class="white-button" @click="refundModal">환불 조회</button>
           </div>
         </div>
       </div>
@@ -38,7 +38,9 @@
       >
         <div class="right-section-buttons">
           <div class="right-inner-button">
-            <button class="white-button">결제 조회</button>
+            <button class="white-button" @click="paymentModal">
+              결제 조회
+            </button>
           </div>
         </div>
       </div>
@@ -49,10 +51,12 @@
       >
         <div class="right-section-buttons">
           <div class="right-inner-button">
-            <button class="red-button">배송 조회</button>
+            <button class="red-button" @click="deliveryModal">배송 조회</button>
           </div>
           <div class="right-inner-button">
-            <button class="white-button">주문취소/환불</button>
+            <button class="white-button" @click="cancelModal">
+              주문취소/환불
+            </button>
           </div>
         </div>
       </div>
@@ -61,6 +65,8 @@
 </template>
 
 <script lang="ts">
+import { ElMessageBox } from "element-plus";
+
 interface OrderDetail {
   orderDetailId: number;
   price: number;
@@ -105,6 +111,21 @@ export default {
         return "DeliveryStatus";
       }
     },
+    refundModal() {
+      ElMessageBox.alert("환불모달", "Title");
+    },
+    paymentModal() {
+      ElMessageBox.alert("결제모달", "Title");
+    },
+    deliveryModal() {
+      ElMessageBox.alert("배송모달", "Title");
+    },
+    cancelModal() {
+      ElMessageBox.alert("취소모달", "Title");
+    },
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   },
 };
 </script>
@@ -187,7 +208,7 @@ export default {
   color: gray;
 }
 .small-text {
-  font-size: 15px;
+  font-size: 20px;
 }
 .mid-bar {
   font-size: 10px;

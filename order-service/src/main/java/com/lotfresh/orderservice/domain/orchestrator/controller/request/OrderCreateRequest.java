@@ -21,4 +21,5 @@ public class OrderCreateRequest {
     private List<ProductRequest> productRequests;
 
     private Boolean isFromCart;
+    private String province;
 }

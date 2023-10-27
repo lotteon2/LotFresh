@@ -167,7 +167,7 @@ ul {
 /*#menubar*/
 .menubar-box {
   position: relative;
-  z-index: 300;
+  z-index: 15;
   /* min-width: 1050px; */
   background-color: #fff;
   letter-spacing: -0.3px;
@@ -234,7 +234,6 @@ ul {
   overflow: hidden;
   float: left;
   width: fit-content;
-  height: 55px;
   padding-top: 4px;
   font-size: 16px;
   color: #333;
@@ -261,6 +260,7 @@ ul {
   width: 200px;
   padding-left: 10px;
   background-color: #fff;
+  z-index: 100;
 }
 
 .items li a {
@@ -284,7 +284,7 @@ ul {
   padding-top: 4px;
 }
 .item-list {
-  margin-top: -5px;
+  margin-top: -20px;
   margin-left: -15px;
   padding: 0;
 }

@@ -14,7 +14,7 @@ import java.util.*;
 
 @Configuration
 public class KafkaProducerConfig {
-    @Value("${spring.kafka.server-config}")
+    @Value("${spring.kafka.producer.bootstrap-servers}")
     private String SERVER_CONFIG;
 
     @Bean
