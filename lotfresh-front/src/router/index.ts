@@ -12,6 +12,7 @@ import SalesProductView from "@/views/product/SalesProductsView.vue";
 import CategoryProductsView from "@/views/product/CategoryProductsView.vue";
 import ProductDetailView from "@/views/product/ProductDetailView.vue";
 import SearchProductsView from "@/views/product/SarchProductsView.vue";
+import CartView from "../views/CartView.vue";
 import KakaopaySuccessPopUpView from "@/views/payment/KakaopaySuccessPopUpView.vue";
 
 const router = createRouter({
@@ -105,7 +106,10 @@ const router = createRouter({
       name: "goods",
       component: ProductDetailView,
     },
-
+    {
+      path: "/cart",
+      name: "cart",
+      component: CartView,
     {
       path: "/payment-result",
       redirect: "/notfound",
