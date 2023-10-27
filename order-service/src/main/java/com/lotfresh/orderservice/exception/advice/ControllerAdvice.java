@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.exception.advice;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lotfresh.orderservice.exception.CustomException;
 import com.lotfresh.orderservice.exception.ErrorResponse;
 import com.lotfresh.orderservice.exception.SagaException;
@@ -51,6 +52,16 @@ public class ControllerAdvice {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                 "서버에 문제가 발생해 요청이 실패했습니다");
         log.error("SagaTransactionError : {}에서 트랜잭션이 실패했습니다. 에러 메시지: {}",e.getProcessName(), e.getMessage());
+        return ResponseEntity
+                .badRequest()
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(JsonProcessingException.class)
+    public ResponseEntity<ErrorResponse> jsonProcessingException(JsonProcessingException e) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                "서버에 문제가 발생해 요청이 실패했습니다");
+        log.error("JsonProcessingException");
         return ResponseEntity
                 .badRequest()
                 .body(errorResponse);
