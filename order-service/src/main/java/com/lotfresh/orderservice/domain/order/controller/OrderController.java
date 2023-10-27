@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.domain.order.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import com.lotfresh.orderservice.domain.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +31,13 @@ public class OrderController {
     }
 
     @GetMapping("/myOrders")
-    public ResponseEntity myOrders(@RequestHeader(value = "UserId", required = false) Long userId,
+    public ResponseEntity myOrders(@RequestHeader(value = "userId", required = false) Long userId,
                                    @PageableDefault(size = 5) Pageable pageable) {
         return ResponseEntity.ok().body(orderService.getOrdersWithPaging(userId,pageable));
     }
 
     @GetMapping("/refunds/me")
-    public ResponseEntity refunds(@RequestHeader(value = "UserId", required = false) Long userId,
+    public ResponseEntity refunds(@RequestHeader(value = "userId", required = false) Long userId,
                                   @PageableDefault(size = 5) Pageable pageable) {
         return ResponseEntity.ok().body(orderService.getRefundsWithPaging(userId,pageable));
     }
@@ -44,6 +45,12 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity orderDetail(@PathVariable Long orderId) {
         return ResponseEntity.ok().body(orderService.getOrderResponse(orderId));
+    }
+
+    @GetMapping("ordersheet/{orderId}/")
+    public ResponseEntity orderProducts(@RequestHeader(value = "userId" , required = false) Long userId)
+            throws JsonProcessingException {
+        return ResponseEntity.ok().body(orderService.getOrderSheetResponse(userId));
     }
 
 }
