@@ -27,6 +27,7 @@ allprojects {
     }
 
     dependencies {
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         implementation(libs.json)
         annotationProcessor(libs.sl4j)
         compileOnly(libs.sl4j)
