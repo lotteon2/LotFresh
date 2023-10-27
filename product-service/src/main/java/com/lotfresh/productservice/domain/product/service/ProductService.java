@@ -90,6 +90,10 @@ public class ProductService {
     }
 
     Map<Long, Product> productMap = extractProductMapByBestProductVO(bestProductsVO);
+
+    if(productMap.isEmpty()) {
+      return Collections.EMPTY_LIST;
+    }
     Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
 
     return ProductResponse.createBestProductResponses(
@@ -99,11 +103,16 @@ public class ProductService {
   public List<ProductResponse> getSalesProducts(String memberAddressKey)
       throws JsonProcessingException {
     List<SalesProductVO> salesProductsVO = redisRepository.getSalesProductsVO(memberAddressKey);
+
     if (salesProductsVO.isEmpty()) {
       return Collections.EMPTY_LIST;
     }
 
     Map<Long, Product> productMap = extractProductMapBySalesProductVO(salesProductsVO);
+
+    if(productMap.isEmpty()) {
+      return Collections.EMPTY_LIST;
+    }
 
     return ProductResponse.createSalesProductResponses(salesProductsVO, productMap);
   }
@@ -128,7 +137,8 @@ public class ProductService {
   private Map<Long, Product> extractProductMapByBestProductVO(List<BestProductVO> bestProductsVO) {
     List<Long> bestProductIds =
         bestProductsVO.stream().map(best -> best.getProductId()).collect(Collectors.toList());
-    return extractProductMapByIds(bestProductIds);
+
+    return bestProductIds.isEmpty()? Collections.EMPTY_MAP : extractProductMapByIds(bestProductIds);
   }
 
   private Map<Long, Product> extractProductMapBySalesProductVO(

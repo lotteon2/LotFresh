@@ -7,7 +7,10 @@
     </div>
     <order-product />
     <orderer-info />
-    <delivery-info @openAddressModal="openAddressModal" />
+    <delivery-info
+      @openAddressModal="openAddressModal"
+      :addressInfo="addressInfo"
+    />
     <payment-bill />
     <div class="pay_button_wrapper">
       <KakaopayButton @kakaopay_button_click="handlePayment"></KakaopayButton>
@@ -15,6 +18,7 @@
 
     <KakaoAddressFinderModal
       v-model:isAddressModalOpen="isAddressModalOpen"
+      @closeModal="(address) => updateAddressInfo(address)"
     ></KakaoAddressFinderModal>
   </div>
 </template>
@@ -44,14 +48,23 @@ export default {
   data() {
     return {
       isAddressModalOpen: false,
+      addressInfo: {
+        zipCode: "초기 우편번호",
+        roadAddress: "초기 도로명 주소",
+        detailAddress: "나는 상세 주소",
+      },
     };
   },
 
   methods: {
     openAddressModal: function (): void {
-      console.log("openModal on OrderSheet" + this.isAddressModalOpen);
       this.isAddressModalOpen = true;
-      console.log("openModal on OrderSheet" + this.isAddressModalOpen);
+    },
+
+    updateAddressInfo: function (address: any): void {
+      this.addressInfo.zipCode = address.zipCode;
+      this.addressInfo.roadAddress = address.roadAddress;
+      this.addressInfo.detailAddress = "";
     },
   },
 

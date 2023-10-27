@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="props.addressInfo">
     <div class="sub_title_wrapper">
       <div>배송 정보</div>
       <div>배송지변경 안내</div>
@@ -10,27 +10,34 @@
       <div>
         <div class="flex_row">
           <div class="width7vw">우편번호:</div>
-          <div>55999</div>
+          <div>{{ props.addressInfo.zipCode }}</div>
         </div>
         <div class="flex_row">
           <div class="width7vw">도로명 주소:</div>
-          <div>서울특별시 서초구 도로명주소는 이것입니다.</div>
+          <div>{{ props.addressInfo.roadAddress }}</div>
         </div>
         <div class="flex_row">
           <div class="width7vw">상세주소:</div>
-          <div>2층 서22 김성중</div>
+          <div>
+            <input
+              type="text"
+              v-model="props.addressInfo.detailAddress"
+              @input="props.addressInfo.detailAddress"
+              placeholder="상세 주소를 입력 해주세요."
+            />
+          </div>
         </div>
       </div>
       <div
         class="to_right_end address_button"
-        @click="$emit('openAddressModal')"
+        @click="emit('openAddressModal')"
       >
         주소 변경
       </div>
     </div>
   </div>
 
-  <div class="delivery-info-container">
+  <!-- <div class="delivery-info-container">
     <div>
       <div class="title">
         <div class="item"><h3>배송 정보</h3></div>
@@ -59,11 +66,12 @@
       <div class="item"></div>
       <div class="item text-right"><button>주소 변경</button></div>
     </div>
-  </div>
+  </div> -->
 </template>
 
-<script lang="ts">
-export default {};
+<script setup lang="ts">
+const emit = defineEmits(["openAddressModal"]);
+const props = defineProps(["addressInfo"]);
 </script>
 
 <style scoped>
@@ -81,6 +89,7 @@ export default {};
   display: flex;
   flex-direction: row;
   font-size: 1.3rem;
+  padding-bottom: 1.3vh;
 }
 
 .align-item-center {
