@@ -12,6 +12,7 @@ import SalesProductView from "@/views/product/SalesProductsView.vue";
 import CategoryProductsView from "@/views/product/CategoryProductsView.vue";
 import ProductDetailView from "@/views/product/ProductDetailView.vue";
 import SearchProductsView from "@/views/product/SarchProductsView.vue";
+import KakaopaySuccessPopUpView from "@/views/payment/KakaopaySuccessPopUpView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -103,6 +104,24 @@ const router = createRouter({
       path: "/goods/:id",
       name: "goods",
       component: ProductDetailView,
+    },
+
+    {
+      path: "/payment-result",
+      redirect: "/notfound",
+      children: [
+        {
+          path: "success",
+          redirect: "/notfound",
+          children: [
+            {
+              path: ":orderId",
+              name: "paymentResult",
+              component: KakaopaySuccessPopUpView,
+            },
+          ],
+        },
+      ],
     },
   ],
 });
