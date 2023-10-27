@@ -28,6 +28,7 @@ allprojects {
         compileOnly(libs.lombok)
         annotationProcessor(libs.lombok)
         implementation(libs.spring.web)
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     }

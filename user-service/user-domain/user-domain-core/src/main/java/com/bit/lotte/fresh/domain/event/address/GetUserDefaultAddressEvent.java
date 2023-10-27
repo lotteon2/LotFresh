@@ -9,9 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public class GetUserDefaultAddressProvinceEvent extends UserAddressDomainEvent {
+public class GetUserDefaultAddressEvent extends UserAddressDomainEvent {
 
-  public GetUserDefaultAddressProvinceEvent(User user,
+  public GetUserDefaultAddressEvent(User user,
       Address address, ZonedDateTime createdTime) {
     super(user, address, createdTime);
   }

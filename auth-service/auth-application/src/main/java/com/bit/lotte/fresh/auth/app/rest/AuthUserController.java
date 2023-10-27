@@ -84,7 +84,7 @@ public class AuthUserController {
       @RequestParam String code, HttpServletRequest request) {
     AuthProvider provider = getAuthProviderFromUri(request);
     String accessToken = oauthAuthorizationRequestHelper.callAccessToken(provider, code,
-        Secret.KAKAO_REST_KEY, Secret.KAKAO_REDIRECT + provider.name().toLowerCase() + "/login");
+        Secret.KAKAO_REST_KEY, Secret.KAKAO_REDIRECT);
     OauthUserInfo info = oauthUserApiHelper.getUserInfo(provider, accessToken);
     LoginAuthDomainCommand loginCommand = new LoginAuthDomainCommand(new AuthUserId(info.getId()),
         provider);

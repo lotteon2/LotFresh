@@ -15,6 +15,7 @@ import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserAddressListResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressProvinceResponse;
+import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressResponse;
 
 public interface UserApplicationService {
 
@@ -36,4 +37,5 @@ public interface UserApplicationService {
 
   UserDefaultAddressProvinceResponse getDefaultAddressProvince(UserIdCommand userIdCommand);
 
+  UserDefaultAddressResponse getDefaultAddress(UserIdCommand userIdCommand);
 }

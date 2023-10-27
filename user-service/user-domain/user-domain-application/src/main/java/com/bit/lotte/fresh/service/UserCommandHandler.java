@@ -7,7 +7,7 @@ import com.bit.lotte.fresh.domain.entity.User;
 import com.bit.lotte.fresh.domain.event.address.AddUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.ChangeDefaultUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.DeleteUserAddressDomainEvent;
-import com.bit.lotte.fresh.domain.event.address.GetUserDefaultAddressProvinceEvent;
+import com.bit.lotte.fresh.domain.event.address.GetUserDefaultAddressEvent;
 import com.bit.lotte.fresh.domain.event.user.CreateUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.DeleteUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.GetAddressListInfoDomainEvent;
@@ -131,10 +131,12 @@ public class UserCommandHandler {
   }
 
   @Transactional
-  public GetUserDefaultAddressProvinceEvent getUserDefaultAddressProvince(
+  public GetUserDefaultAddressEvent getUserDefaultAddress(
       UserIdCommand userIdCommand) {
     User user = getUser(userIdCommand.getUserId());
     return userDomainService.getDefaultAddressProvince(user);
   }
+
+
 }
 

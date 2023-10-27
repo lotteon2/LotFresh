@@ -23,6 +23,7 @@ import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserAddressListResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressProvinceResponse;
+import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressResponse;
 import com.bit.lotte.fresh.service.mapper.UserDataMapper;
 import com.bit.lotte.fresh.service.port.input.UserApplicationService;
 import java.util.List;
@@ -92,7 +93,12 @@ public class UserApplicationServiceImpl implements UserApplicationService {
 
   @Override
   public UserDefaultAddressProvinceResponse getDefaultAddressProvince(UserIdCommand userIdCommand) {
-    return userDataMapper.defaultAddressEventToResponse(userCommandHandler.getUserDefaultAddressProvince(userIdCommand));
+    return userDataMapper.defaultAddressEventToOnlyProvinceResponse(userCommandHandler.getUserDefaultAddress(userIdCommand));
+  }
+
+  @Override
+  public UserDefaultAddressResponse getDefaultAddress(UserIdCommand userIdCommand) {
+    return userDataMapper.defaultAddressEventToUserDefaultResponse(userCommandHandler.getUserDefaultAddress(userIdCommand));
   }
 
 }

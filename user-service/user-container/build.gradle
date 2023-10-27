@@ -20,7 +20,11 @@ dependencies {
     implementation project(':user-service:user-application')
     implementation project(':user-service:user-data-access')
 }
-
+jar {
+    manifest {
+        attributes 'Main-class': 'com.bit.lotte.fresh.app'
+    }
+}
 test {
     useJUnitPlatform()
 }

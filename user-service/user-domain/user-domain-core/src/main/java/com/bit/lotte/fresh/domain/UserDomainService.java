@@ -11,7 +11,7 @@ import com.bit.lotte.fresh.domain.event.address.AddUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.ChangeDefaultUserAddressDomainEvent;
 
 import com.bit.lotte.fresh.domain.event.address.DeleteUserAddressDomainEvent;
-import com.bit.lotte.fresh.domain.event.address.GetUserDefaultAddressProvinceEvent;
+import com.bit.lotte.fresh.domain.event.address.GetUserDefaultAddressEvent;
 import com.bit.lotte.fresh.domain.event.user.CreateUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.DeleteUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.GetAddressListInfoDomainEvent;
@@ -23,7 +23,7 @@ import java.util.List;
 
 public interface UserDomainService {
 
-    GetUserDefaultAddressProvinceEvent getDefaultAddressProvince(User user);
+    GetUserDefaultAddressEvent getDefaultAddressProvince(User user);
 
     GetUserInfoDomainEvent getUser(User user);
 

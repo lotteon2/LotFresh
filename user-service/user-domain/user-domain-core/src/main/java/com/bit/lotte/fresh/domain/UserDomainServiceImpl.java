@@ -7,7 +7,7 @@ import com.bit.lotte.fresh.domain.entity.User;
 import com.bit.lotte.fresh.domain.event.address.AddUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.ChangeDefaultUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.DeleteUserAddressDomainEvent;
-import com.bit.lotte.fresh.domain.event.address.GetUserDefaultAddressProvinceEvent;
+import com.bit.lotte.fresh.domain.event.address.GetUserDefaultAddressEvent;
 import com.bit.lotte.fresh.domain.event.user.CreateUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.DeleteUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.GetAddressListInfoDomainEvent;
@@ -26,8 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserDomainServiceImpl implements UserDomainService {
 
     @Override
-    public GetUserDefaultAddressProvinceEvent getDefaultAddressProvince(User user) {
-        return new GetUserDefaultAddressProvinceEvent(user, user.getUserDefaultAddress(),
+    public GetUserDefaultAddressEvent getDefaultAddressProvince(User user) {
+        return new GetUserDefaultAddressEvent(user, user.getUserDefaultAddress(),
             ZonedDateTime.now());
     }
 

@@ -6,7 +6,7 @@ import com.bit.lotte.fresh.domain.entity.User;
 import com.bit.lotte.fresh.domain.event.address.AddUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.ChangeDefaultUserAddressDomainEvent;
 import com.bit.lotte.fresh.domain.event.address.DeleteUserAddressDomainEvent;
-import com.bit.lotte.fresh.domain.event.address.GetUserDefaultAddressProvinceEvent;
+import com.bit.lotte.fresh.domain.event.address.GetUserDefaultAddressEvent;
 import com.bit.lotte.fresh.domain.event.user.CreateUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.DeleteUserDomainEvent;
 import com.bit.lotte.fresh.domain.event.user.GetAddressListInfoDomainEvent;
@@ -25,10 +25,12 @@ import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserAddressListResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressProvinceResponse;
+import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressResponse;
 import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -88,26 +90,35 @@ public class UserDataMapper {
     return new DeleteUserResponse(deleteUserDomainEvent.getUser());
   }
 
-  public UserDataResponse getUserInfoEventToResponse(GetUserInfoDomainEvent getUserInfoDomainEvent) {
+  public UserDataResponse getUserInfoEventToResponse(
+      GetUserInfoDomainEvent getUserInfoDomainEvent) {
 
     return new UserDataResponse(getUserInfoDomainEvent.getUser());
   }
 
-  public UserDefaultAddressProvinceResponse defaultAddressEventToResponse(
-      GetUserDefaultAddressProvinceEvent userDefaultAddressProvince) {
-    User user= userDefaultAddressProvince.getUser();
+  public UserDefaultAddressProvinceResponse defaultAddressEventToOnlyProvinceResponse(
+      GetUserDefaultAddressEvent userDefaultAddressEvent) {
+    User user = userDefaultAddressEvent.getUser();
     Province province = user.getUserDefaultAddress().getProvince();
 
-    return new UserDefaultAddressProvinceResponse(user.getEntityId(),province);
+    return new UserDefaultAddressProvinceResponse(user.getEntityId(), province);
   }
 
-  public UserAddressListResponse addressListEventToResponse(List<GetAddressListInfoDomainEvent> eventList) {
+  public UserDefaultAddressResponse defaultAddressEventToUserDefaultResponse(
+      GetUserDefaultAddressEvent userDefaultAddressEvent) {
+    Address address = userDefaultAddressEvent.getAddress();
+
+    return new UserDefaultAddressResponse (address);
+  }
+
+  public UserAddressListResponse addressListEventToResponse(
+      List<GetAddressListInfoDomainEvent> eventList) {
     List<Address> addressList = new ArrayList<>();
-    UserId userId  = eventList.get(0).getUser().getEntityId();
-    for(GetAddressListInfoDomainEvent event : eventList){
+    UserId userId = eventList.get(0).getUser().getEntityId();
+    for (GetAddressListInfoDomainEvent event : eventList) {
       addressList.add(event.getAddress());
     }
 
-    return new UserAddressListResponse(userId,addressList);
+    return new UserAddressListResponse(userId, addressList);
   }
 }

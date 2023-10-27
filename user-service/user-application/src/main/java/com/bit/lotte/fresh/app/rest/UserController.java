@@ -1,6 +1,5 @@
 package com.bit.lotte.fresh.app.rest;
 
-import com.bit.lotte.fresh.data.user.mapper.UserDataAccessMapper;
 import com.bit.lotte.fresh.domain.event.user.CreateUserDomainEvent;
 import com.bit.lotte.fresh.service.dto.command.AddAddressCommand;
 import com.bit.lotte.fresh.service.dto.command.AddressIdCommand;
@@ -16,6 +15,7 @@ import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserAddressListResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressProvinceResponse;
+import com.bit.lotte.fresh.service.dto.response.UserDefaultAddressResponse;
 import com.bit.lotte.fresh.service.mapper.UserDataMapper;
 import com.bit.lotte.fresh.service.port.input.UserApplicationService;
 import com.bit.lotte.fresh.service.port.output.CreateUserEventPublisher;
@@ -26,7 +26,6 @@ import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,6 +55,12 @@ public class UserController {
                     ZonedDateTime.now()), createUserCommand.getAuthProvider());
         }
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(value = "/users/addresses/default")
+    public ResponseEntity<UserDefaultAddressResponse> getUserDefaultAddress(
+        @Valid @RequestBody UserIdCommand userIdCommand) {
+        return ResponseEntity.ok(userApplicationService.getDefaultAddress(userIdCommand));
     }
 
     @GetMapping(value = "/users/addresses/default/province")
