@@ -24,6 +24,7 @@
               v-model="selectedCartItems"
               :value="cartItemResponse"
               checked
+              class="check-box"
             />
             <div>
               <img
@@ -88,6 +89,14 @@ import PaymentSide from "../components/cart/PaymentSide.vue";
 import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddressFinderModal.vue";
 import { watch } from "vue";
 
+interface CartItemResponse {
+  thumbnail: String;
+  name: String;
+  quantity: number;
+  originalPrice: number;
+  discountedPrice: number;
+}
+
 export default defineComponent({
   components: {
     DeliverySide,
@@ -120,7 +129,7 @@ export default defineComponent({
           discountedPrice: 900,
         },
       ],
-      selectedCartItems: [],
+      selectedCartItems: [] as CartItemResponse[],
       isAddressModalOpen: false,
       addressInfo: {
         zipCode: "초기 우편번호",
@@ -152,26 +161,24 @@ export default defineComponent({
       this.addressInfo.detailAddress = address.detailAddress;
     },
   },
-  created() {
-    watch(
-      [() => this.selectedCartItems, () => this.cartItemResponses],
-      (
-        [newSelectedCartItems, newCartItemResponses],
-        [oldSelectedCartItems, oldCartItemResponses]
-      ) => {
+  watch: {
+    selectedCartItems: {
+      handler(newSelectedCartItems, oldSelectedCartItems) {
         let total = 0;
         let discount = 0;
-        for (const cartItem of newSelectedCartItems) {
-          total += cartItem.originalPrice * cartItem.quantity;
-          discount +=
-            (cartItem.originalPrice - cartItem.discountedPrice) *
-            cartItem.quantity;
+        if (newSelectedCartItems) {
+          for (const cartItem of newSelectedCartItems) {
+            total += cartItem.originalPrice * cartItem.quantity;
+            discount +=
+              (cartItem.originalPrice - cartItem.discountedPrice) *
+              cartItem.quantity;
+          }
+          this.totalPrice = total;
+          this.discountPrice = discount;
         }
-        this.totalPrice = total;
-        this.discountPrice = discount;
       },
-      { deep: true }
-    );
+      deep: true,
+    },
   },
 });
 </script>
@@ -281,6 +288,23 @@ export default defineComponent({
 
 .item-name {
   font-size: 40px;
+}
+
+input[type="checkbox"] {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid #999;
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+input[type="checkbox"]:checked {
+  /* background: red; */
+  border: none;
+  background-image: url("https://as2.ftcdn.net/v2/jpg/02/59/69/81/1000_F_259698116_LCxGTz8PujushBCnkAXO18UQCMpbpDO0.jpg");
+  background-size: cover;
 }
 
 #result {

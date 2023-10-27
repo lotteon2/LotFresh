@@ -23,8 +23,14 @@
 <script lang="ts">
 export default {
   props: {
-    totalPrice: Number,
-    discountPrice: Number,
+    totalPrice: {
+      type: Number,
+      default: 0,
+    },
+    discountPrice: {
+      type: Number,
+      default: 0,
+    },
     items: Object,
   },
 };
