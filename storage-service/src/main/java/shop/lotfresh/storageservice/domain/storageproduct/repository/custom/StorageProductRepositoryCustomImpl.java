@@ -43,18 +43,18 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
     }
 
     @Override
-    public List<StorageProduct> findNearExpiryProductsByStorageId(String province) {
+    public List<StorageProduct> findNearExpiryProductsByStorageId(Long storageId) {
         return queryFactory
                 .selectFrom(storageProduct)
-                .join(storage).on(storageProduct.storageId.eq(storage.id))
-                .where(storage.province.eq(province)
+                .where(storageProduct.storageId.eq(storageId)
                         .and(storageProduct.expirationDateEnd.goe(nearExpiry)))
                 .fetch();
     }
 
+
     //특정 창고의 물품의 재고 반환(마감임박 제외)
     @Override
-    public Long getProductStock(String province, Long productId) {
+    public Integer getProductStock(String province, Long productId) {
         return queryFactory.select(storageProduct.stock.sum())
                 .from(storageProduct)
                 .join(storage).on(storageProduct.storageId.eq(storage.id))
@@ -77,7 +77,7 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
 
 
     @Override
-    public List<StorageProduct> productOrder(String province, Long productId, Long stock) {
+    public List<StorageProduct> productOrder(String province, Long productId, Integer stock) {
         return null;
     }
 
@@ -94,7 +94,7 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
     }
 
     @Override
-    public Long getSalesProductStock(String province, Long productId) {
+    public Integer getSalesProductStock(String province, Long productId) {
         return queryFactory.select(storageProduct.stock.sum())
                 .from(storageProduct)
                 .join(storage).on(storageProduct.storageId.eq(storage.id))
@@ -115,7 +115,7 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
     }
 
     @Override
-    public List<StorageProduct> salesProductOrder(String province, Long productId, Long stock) {
+    public List<StorageProduct> salesProductOrder(String province, Long productId, Integer stock) {
         return null;
     }
 

@@ -20,7 +20,7 @@ public class OrderRequest {
 
     private long orderId;
 
-    private long stock;
+    private Integer stock;
 
     private int isDeleted;
 

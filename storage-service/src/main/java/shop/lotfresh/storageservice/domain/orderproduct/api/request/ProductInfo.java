@@ -9,7 +9,7 @@ public class ProductInfo {
 
     private long productId;
 
-    private long stock;
+    private Integer stock;
 
     private int isDeleted;
 }

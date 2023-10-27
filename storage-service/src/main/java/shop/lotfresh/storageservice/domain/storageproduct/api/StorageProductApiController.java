@@ -23,13 +23,13 @@ public class StorageProductApiController {
         return ResponseEntity.ok(storageProductService.findProductsByStorageId(province));
     }
 
-    @GetMapping("/search/near/{province}")
-    public ResponseEntity<List<StorageProduct>> nearSearch(@PathVariable String province) {
-        return ResponseEntity.ok(storageProductService.findNearExpiryProductsByStorageId(province));
+
+    public void nearSearch() {
+        storageProductService.findNearExpiryProductsByStorageId();
     }
 
     @GetMapping("/stock/{province}/{productId}")
-    public ResponseEntity <Long> stock (@PathVariable String province, @PathVariable Long productId){
+    public ResponseEntity <Integer> stock (@PathVariable String province, @PathVariable Long productId){
         return ResponseEntity.ok(storageProductService.getProductStock(province, productId));
     }
     //order에서 주문테이블 생성 및 재고 차감을 위해 해당 물품 객체 리스트 반환
@@ -40,7 +40,7 @@ public class StorageProductApiController {
 
     // test 완료
     @PostMapping("/order/{province}/{productId}/{stock}")
-    public ResponseEntity<List<StorageProductOrder>> order(@PathVariable String province, @PathVariable Long productId, @PathVariable Long stock) {
+    public ResponseEntity<List<StorageProductOrder>> order(@PathVariable String province, @PathVariable Long productId, @PathVariable Integer stock) {
         return ResponseEntity.ok(storageProductService.productOrder(province,
                 productId,
                 stock));

@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.lotfresh.storageservice.domain.orderproduct.api.request.OrderProductRequest;
 import shop.lotfresh.storageservice.domain.orderproduct.service.OrderProductService;
-import shop.lotfresh.storageservice.domain.storageproduct.service.StorageProductService;
 
 
 
@@ -15,13 +14,12 @@ import shop.lotfresh.storageservice.domain.storageproduct.service.StorageProduct
 public class OrderProductApiController {
 
     private final OrderProductService orderProductService;
-    private final StorageProductService storageProductService;
 
 
 
-    public OrderProductApiController(OrderProductService orderProductService, StorageProductService storageProductService) {
+
+    public OrderProductApiController(OrderProductService orderProductService) {
         this.orderProductService = orderProductService;
-        this.storageProductService = storageProductService;
     }
 
     @PostMapping("/orderproduct")

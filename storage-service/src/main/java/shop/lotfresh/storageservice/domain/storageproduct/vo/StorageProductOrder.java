@@ -9,11 +9,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StorageProductOrder {
     private Long storageProductId;
-    private Long stock;
+    private Integer stock;
 
     // getters and setters
 
-    public StorageProductOrder(Long storageProductId, Long quantity) {
+    public StorageProductOrder(Long storageProductId, Integer quantity) {
         this.storageProductId = storageProductId;
         this.stock = quantity;
     }

@@ -18,9 +18,9 @@ public class OrderProduct {
 
     private long storageProductId;
 
-    private long orderId;
+    private Long orderId;
 
-    private long stock;
+    private Integer stock;
 
     private int isDeleted;
 }

@@ -21,10 +21,11 @@ public class StorageProduct {
 
     private Long storageId;
 
-    private Long stock;
+    private Integer stock;
 
     private Date expirationDateStart;
 
     private Date expirationDateEnd;
+
 
 }

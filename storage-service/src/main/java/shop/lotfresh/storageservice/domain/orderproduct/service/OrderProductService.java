@@ -64,9 +64,6 @@ public class OrderProductService {
             orderProd.setOrderId(orderId);
 
             orderProductRepository.save(orderProd);
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(productOrder.toString());
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
 

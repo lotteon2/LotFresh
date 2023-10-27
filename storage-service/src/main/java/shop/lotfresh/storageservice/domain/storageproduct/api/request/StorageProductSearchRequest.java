@@ -11,7 +11,7 @@ public class StorageProductSearchRequest {
 
     private String province;
 
-    private Long stock;
+    private Integer stock;
 
     private Date expiration_date_start;
 
