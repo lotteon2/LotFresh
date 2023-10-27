@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/discounts")
-@CrossOrigin(origins = "*")
 public class DiscountApiController {
   private final DiscountService discountService;
 
@@ -24,7 +23,7 @@ public class DiscountApiController {
     return ResponseEntity.status(HttpStatus.CREATED).body(discountService.createDiscount(request));
   }
 
-  @PatchMapping("/{discountId}")
+  @PutMapping("/{discountId}")
   public ResponseEntity<Void> modifyDiscount(
       @Valid @RequestBody DiscountModifyRequest request,
       @PathVariable("discountId") Long discountId) {

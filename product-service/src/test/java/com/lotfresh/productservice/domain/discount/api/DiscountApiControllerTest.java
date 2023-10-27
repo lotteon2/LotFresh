@@ -141,7 +141,7 @@ class DiscountApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be blank"));
+        .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be empty"));
   }
 
   @DisplayName("카테고리 할인 정보를 변경한다.")
@@ -152,7 +152,7 @@ class DiscountApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
             .perform(
-                    patch("/discounts/{discountID}", 1L)
+                    put("/discounts/{discountID}", 1L)
                             .content(objectMapper.writeValueAsString(request))
                             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
@@ -167,7 +167,7 @@ class DiscountApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
             .perform(
-                    patch("/discounts/{discountID}", 1L)
+                    put("/discounts/{discountID}", 1L)
                             .content(objectMapper.writeValueAsString(request))
                             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
@@ -184,13 +184,13 @@ class DiscountApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
             .perform(
-                    patch("/discounts/{discountID}", 1L)
+                    put("/discounts/{discountID}", 1L)
                             .content(objectMapper.writeValueAsString(request))
                             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-            .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be blank"));
+            .andExpect(jsonPath("$.validation.imgurl").value("imgurl can not be empty"));
   }
 
   @DisplayName("카테고리 할인 상세 정보를 조회 한다.")

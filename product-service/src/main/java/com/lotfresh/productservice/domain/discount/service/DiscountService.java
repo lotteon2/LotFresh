@@ -10,8 +10,6 @@ import com.lotfresh.productservice.domain.discount.exception.DiscountNotFound;
 import com.lotfresh.productservice.domain.discount.repository.DiscountRepository;
 import com.lotfresh.productservice.domain.discount.service.response.DiscountResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,28 +27,27 @@ public class DiscountService {
   public Long createDiscount(DiscountCreateRequest request) {
     Long categoryId = request.getCategoryId();
     Category getCategory =
-        categoryRepository.findById(categoryId).orElseThrow(CategoryNotFound::new);
+        categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFound());
     Discount discount = request.toEntity(getCategory);
     Discount savedDiscount = discountRepository.save(discount);
     return savedDiscount.getId();
   }
 
   @Transactional
-  @CacheEvict(value = "discountCache", allEntries = true)
   public void modifyDiscount(DiscountModifyRequest request, Long id) {
-    Discount discount = discountRepository.findById(id).orElseThrow(DiscountNotFound::new);
+    Discount discount = discountRepository.findById(id).orElseThrow(() -> new DiscountNotFound());
     discount.changeDiscount(request.getRate(), request.getImgurl());
   }
 
   public DiscountResponse getDiscount(Long id) {
-    Discount discount = discountRepository.findByIdFetch(id).orElseThrow(DiscountNotFound::new);
-    DiscountResponse discountResponse = DiscountResponse.from(discount);
+    Discount discount =
+        discountRepository.findByIdFetch(id).orElseThrow(() -> new DiscountNotFound());
+    DiscountResponse discountResponse = DiscountResponse.of(discount);
     return discountResponse;
   }
 
-  @Cacheable(key = "'all'", value = "discountCache", unless = "#result == null")
   public List<DiscountResponse> getDiscounts() {
     List<Discount> discountList = discountRepository.findAllFetch();
-    return discountList.stream().map(DiscountResponse::from).collect(Collectors.toList());
+    return discountList.stream().map(DiscountResponse::of).collect(Collectors.toList());
   }
 }

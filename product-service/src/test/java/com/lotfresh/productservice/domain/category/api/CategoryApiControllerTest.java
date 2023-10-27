@@ -43,7 +43,7 @@ class CategoryApiControllerTest extends ControllerTestSupport {
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.name").value("name cannot be blank"));
+        .andExpect(jsonPath("$.validation.name").value("name cannot be null"));
   }
 
   @DisplayName("카테고리를 수정 한다.")
@@ -58,7 +58,7 @@ class CategoryApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
         .perform(
-            patch("/categories/{categoryId}", categoryId)
+            put("/categories/{categoryId}", categoryId)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
         .andDo(print())
@@ -78,13 +78,13 @@ class CategoryApiControllerTest extends ControllerTestSupport {
     // when // then
     mockMvc
         .perform(
-            patch("/categories/{categoryId}", categoryId)
+            put("/categories/{categoryId}", categoryId)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-        .andExpect(jsonPath("$.validation.name").value("name cannot be blank"));
+        .andExpect(jsonPath("$.validation.name").value("name cannot be null"));
   }
 
   @DisplayName("카테고리를 논리삭제 한다.")
@@ -94,7 +94,7 @@ class CategoryApiControllerTest extends ControllerTestSupport {
     Long categoryId = 1L;
     // when // then
     mockMvc
-        .perform(delete("/categories/{categoryId}", categoryId))
+        .perform(patch("/categories/{categoryId}", categoryId))
         .andDo(print())
         .andExpect(status().isOk());
   }
@@ -116,17 +116,5 @@ class CategoryApiControllerTest extends ControllerTestSupport {
   void getCategories() throws Exception {
     // when // then
     mockMvc.perform(get("/categories")).andDo(print()).andExpect(status().isOk());
-  }
-
-  @DisplayName("입력 받은 카테고리 id로 자식 카테고리 id들을 조회한다.")
-  @Test
-  void getChildrenIdsById() throws Exception {
-    // given
-    Long categoryId = 1L;
-    // when // then
-    mockMvc
-        .perform(get("/categories/{categoryId}/children", categoryId))
-        .andDo(print())
-        .andExpect(status().isOk());
   }
 }

@@ -1,35 +1,26 @@
+server:
+  port: 80
+
 spring:
   application:
     name: order-service
   jpa:
-    properties:
-      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
     hibernate:
       ddl-auto: update
-
-  datasource:
-    url: jdbc:mysql://${DB_IP}:${ORDER_DB_PORT}/${ORDER_DB_SCHEMA}?serverTimeZone=UTC
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  redis:
-    host: ${DB_IP}
-    port: ${REDIS_PORT}
-    password: ${DB_PASSWORD}
-
-  kafka:
-    producer:
-      bootstrap-servers: ${KAFKA_IP}:9092
-      acks: all
-    consumer:
-      bootstrap-servers: ${KAFKA_IP}:9092
-      group-id: order-detail-status
-    listener:
-      type: SINGLE
+    properties:
+      hibernate:
+        format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+  profiles:
+    active:
+      - develop
+    group:
+      develop: "env"
 
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka-service:8761/eureka
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    org:
+      springframework: INFO
