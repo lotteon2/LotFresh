@@ -6,21 +6,21 @@
     <div class="payment-container">
       <div class="item">
         <div class="item-title bold-text">결제 수단</div>
-        <div class="item-content">내용</div>
+        <div class="item-content">-</div>
       </div>
       <div class="item">
         <div class="item-title bold-text">총 상품가격</div>
-        <div class="item-content">내용</div>
+        <div class="item-content">-</div>
       </div>
       <div class="item"></div>
       <div class="item">
         <div class="item-title bold-text">할인금액</div>
-        <div class="item-content">내용</div>
+        <div class="item-content">-</div>
       </div>
       <div class="item"></div>
       <div class="item">
         <div class="item-title bold-text">총 결제금액</div>
-        <div class="item-content">내용</div>
+        <div class="item-content">-</div>
       </div>
     </div>
   </div>
@@ -36,19 +36,28 @@ export default {};
   grid: ". .";
   margin-left: auto;
   margin-right: auto;
+  border: 4px solid #c8c8c8;
+  border-radius: 5px;
+  padding: 2vh 1vw 0vh 1vw;
+  /* box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15vh;
 }
 .outer {
   margin-right: auto;
   margin-left: auto;
-  font-size: 25px;
+  font-size: 1.3rem;
 }
 
 .item {
-  margin-bottom: 15px;
+  margin-bottom: 5vh;
+  display: flex;
+  flex-direction: row;
 }
 .item-title {
   text-align: left;
   margin-bottom: 5px;
+  width: 10vw;
 }
 .bold-text {
   font-weight: bold;
