@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8087
 spring:
   datasource:
     url: jdbc:mysql://${DB_IP}:${AUTH_DB_PORT}/${AUTH_DB_SCHEMA}?serverTimeZone=UTC

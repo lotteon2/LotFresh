@@ -1,7 +1,9 @@
 package com.bit.lotte.fresh.auth.app.rest;
 
+
 import com.bit.lotte.fresh.auth.app.helper.OauthAuthorizationRequestHelper;
 import com.bit.lotte.fresh.auth.app.helper.OauthUserApiHelper;
+import com.bit.lotte.fresh.auth.common.instant.TokenName;
 import com.bit.lotte.fresh.auth.common.util.RedisTokenBlacklistUtil;
 import com.bit.lotte.fresh.auth.common.util.TokenParserUtil;
 import com.bit.lotte.fresh.auth.service.dto.response.GetAdminInfoListResponse;
@@ -19,7 +21,6 @@ import com.bit.lotte.fresh.auth.service.dto.response.UpdateLoginSessionTimeRespo
 import com.bit.lotte.fresh.auth.service.port.input.AuthUserApplicationService;
 import com.bit.lotte.fresh.auth.valueobject.AuthRole;
 import com.bit.lotte.fresh.auth.valueobject.OauthUserInfo;
-import com.bit.lotte.fresh.auth.common.instant.TokenName;
 import com.bit.lotte.fresh.auth.common.util.JwtTokenUtil;
 import com.bit.lotte.fresh.user.common.valueobject.AuthProvider;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
@@ -44,6 +45,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -85,6 +87,7 @@ public class AuthUserController {
     AuthProvider provider = getAuthProviderFromUri(request);
     String accessToken = oauthAuthorizationRequestHelper.callAccessToken(provider, code,
         Secret.KAKAO_REST_KEY, Secret.KAKAO_REDIRECT);
+    log.info("accessToken:"+ accessToken);
     OauthUserInfo info = oauthUserApiHelper.getUserInfo(provider, accessToken);
     LoginAuthDomainCommand loginCommand = new LoginAuthDomainCommand(new AuthUserId(info.getId()),
         provider);
@@ -95,7 +98,7 @@ public class AuthUserController {
 
     RestTemplate restTemplate = new RestTemplate();
     ResponseEntity<LoginAuthUserResponse> responseEntity = restTemplate.postForEntity(
-        "http://localhost:8082/auth/login",
+        Secret.LOGIN_REQUEST_URI,
         requestEntity,
         LoginAuthUserResponse.class
     );

@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -89,16 +90,16 @@ public class UserController {
         return ResponseEntity.ok(userApplicationService.getUser(userIdCommand));
     }
 
-    @PostMapping("/users/{userId}/addresses")
-    public ResponseEntity<AddUserAddressResponse> addAddress(@PathVariable Long userId,
-        @Valid @RequestBody AddAddressCommand addAddressCommand) {
+    @PostMapping("/users/addresses")
+    public ResponseEntity<AddUserAddressResponse> addAddress(
+        @Valid @RequestBody AddAddressCommand addAddressCommand, @RequestHeader Long userId) {
         return ResponseEntity.ok(
             userApplicationService.addAddress(new UserIdCommand(new UserId(userId)),
                 addAddressCommand));
     }
 
-    @DeleteMapping("/users/{userId}/addresses/{addressId}")
-    public ResponseEntity<DeleteAddressResponse> deleteAddress(@PathVariable Long userId,
+    @DeleteMapping("/users/addresses/{addressId}")
+    public ResponseEntity<DeleteAddressResponse> deleteAddress(@RequestHeader Long userId,
         @PathVariable Long addressId) {
         return ResponseEntity.ok(
             userApplicationService.deleteAddress(new UserIdCommand(new UserId(userId)),
@@ -106,17 +107,18 @@ public class UserController {
 
     }
 
-    @PutMapping("/users/{userId}/addresses/{addressId}")
+    @PutMapping("/users/addresses/{addressId}")
     public ResponseEntity<ChangeDefaultAddressResponse> changeDefaultAddress(
-        @PathVariable Long userId,
+        @RequestHeader Long userId,
         @Valid @PathVariable Long addressId) {
         return ResponseEntity.ok(
             userApplicationService.updateDefaultAddress(new UserIdCommand(new UserId(userId)),
                 new AddressIdCommand(new AddressId(addressId))));
     }
-     @GetMapping(value = "/users/{userId}/addresses")
+     @GetMapping(value = "/users/addresses")
     public ResponseEntity<UserAddressListResponse> getAddressList(
-        @PathVariable Long userId) {
+        @RequestHeader Long userId) {
+
         return ResponseEntity.ok(
             userApplicationService.getAddressList(new UserIdCommand(new UserId(userId))));
     }

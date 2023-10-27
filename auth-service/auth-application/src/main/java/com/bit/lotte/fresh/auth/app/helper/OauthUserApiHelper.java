@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class OauthUserApiHelper {
+public class OauthUserApiHelper{
 
   public OauthUserInfo getUserInfo(AuthProvider provider, String token) {
     if (provider.equals(AuthProvider.KAKAO)) {
