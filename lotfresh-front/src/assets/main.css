@@ -1,0 +1,77 @@
+/* @import "./base.css"; 안쓸것.*/
+
+@font-face {
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_1_Thin.otf") format("opentype");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_2_Light.otf") format("opentype");
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_3_Regular.otf") format("opentype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_4_Medium.otf") format("opentype");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_5_Bold.otf") format("opentype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "TheJamsil";
+  src: url("./fonts/The_Jamsil_OTF_6_ExtraBold.otf") format("opentype");
+  font-weight: bolder;
+}
+
+body {
+  font-family: "TheJamsil", sans-serif; /* fallback으로 sans-serif 설정 */
+}
+
+/* @import './base.css';
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+} */

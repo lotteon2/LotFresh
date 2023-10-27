@@ -1,0 +1,44 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.16' apply false
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+allprojects {
+    plugins.apply('org.springframework.boot')
+    plugins.apply('io.spring.dependency-management')
+    plugins.apply('java')
+
+    ext {
+        set('springCloudVersion', "2021.0.3")
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        implementation(libs.json)
+        annotationProcessor(libs.sl4j)
+        compileOnly(libs.sl4j)
+        compileOnly(libs.lombok)
+        annotationProcessor(libs.lombok)
+        implementation(libs.spring.web)
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    }
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+}
