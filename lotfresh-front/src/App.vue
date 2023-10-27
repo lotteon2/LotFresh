@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class="header_width" />
+    <Header @openModal="() => (isOpenModal = true)" class="header_width" />
     <div v-if="$route.path == '/'" class="banners">
       <banner-slide />
     </div>
@@ -8,18 +8,25 @@
       <div class="left_side">나는 왼쪽 광고야</div>
       <RouterView class="body_content" />
       <banner-right class="right_side" />
-      <!-- <div class="right_side">나는 오른쪽 최근본상품이야</div> -->
     </div>
+    <modal-frame
+      @closeModal="() => (isOpenModal = false)"
+      v-if="isOpenModal"
+      v-model:isOpenModal="isOpenModal"
+    />
     <Footer class="body_width" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
+import { ref } from "vue";
 import Header from "./components/common/Header.vue";
 import BannerSlide from "@/components/banner/BannerSlide.vue";
 import Footer from "./components/common/Footer.vue";
 import BannerRight from "./components/banner/BannerRight.vue";
+
+const isOpenModal = ref(false);
 </script>
 
 <style scored>
@@ -43,7 +50,6 @@ body {
 
 .banners {
   width: 100%;
-  padding-top: 0.5vh;
 }
 
 .body_content {
