@@ -25,6 +25,7 @@ declare module 'vue' {
     Footer: typeof import('./src/components/common/Footer.vue')['default']
     Header: typeof import('./src/components/common/Header.vue')['default']
     KakaopayButton: typeof import('./src/components/order/orderSheet/KakaopayButton.vue')['default']
+    LoginModal: typeof import('./src/components/common/modal/LoginModal.vue')['default']
     Menu: typeof import('./src/components/common/Menu.vue')['default']
     NewProductList: typeof import('./src/components/product/NewProductList.vue')['default']
     NewProductListSlide: typeof import('./src/components/product/NewProductListSlide.vue')['default']
