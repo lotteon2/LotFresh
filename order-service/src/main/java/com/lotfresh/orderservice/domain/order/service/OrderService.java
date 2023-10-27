@@ -1,11 +1,14 @@
 package com.lotfresh.orderservice.domain.order.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
 import com.lotfresh.orderservice.domain.order.entity.status.DeliveryStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.RefundStatus;
+import com.lotfresh.orderservice.domain.order.redis.RedisRepository;
+import com.lotfresh.orderservice.domain.order.redis.response.OrderSheetResponse;
 import com.lotfresh.orderservice.domain.order.service.response.OrderCreateResponse;
-import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
@@ -29,6 +32,8 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final RedisRepository redisRepository;
+    private final ObjectMapper objectMapper;
     @Transactional
     public OrderCreateResponse insertOrder(List<ProductRequest> productRequests) {
         // TODO : auth-service로부터 header로 userId 받기
@@ -142,6 +147,15 @@ public class OrderService {
                 .contents(contents)
                 .totalPage(orderDetailPages.getTotalPages())
                 .build();
+    }
+
+    public OrderSheetResponse getOrderSheetResponse(Long userId) throws JsonProcessingException {
+        String result = redisRepository.getValues(makeRedisKey(userId));
+        return objectMapper.readValue(result,OrderSheetResponse.class);
+    }
+
+    private String makeRedisKey(Long userId) {
+        return userId.toString();
     }
 
 }
