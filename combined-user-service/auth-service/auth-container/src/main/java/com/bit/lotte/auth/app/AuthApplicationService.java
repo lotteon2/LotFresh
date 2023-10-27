@@ -24,7 +24,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan("com.bit.lotte.fresh.auth.service")
 @EnableDiscoveryClient
 public class AuthApplicationService {
-
+// 
   public static void main(String[] args) {
     SpringApplication.run(AuthApplicationService.class, args);
 

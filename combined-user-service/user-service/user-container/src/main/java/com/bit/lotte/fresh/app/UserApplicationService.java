@@ -19,7 +19,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "com.bit.lotte.fresh.message.publish")
 @EnableDiscoveryClient
 public class UserApplicationService {
-
+// 
   public static void main(String[] args) {
     SpringApplication.run(UserApplicationService.class, args);
 
