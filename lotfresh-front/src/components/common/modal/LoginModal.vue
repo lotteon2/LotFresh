@@ -29,7 +29,7 @@
 const emits = defineEmits(["closeModal"]);
 
 const kakaoLogin = () => {
-  window.location.href = "https://www.lot-fresh.shop/auth/oauth/kakao/login";
+  window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=5dca3ee52a5c5e81b0415473b05366f0&redirect_uri=https://www.lot-fresh-shop/auth/oauth/kakao/login&response_type=code";
 };
 </script>
 
