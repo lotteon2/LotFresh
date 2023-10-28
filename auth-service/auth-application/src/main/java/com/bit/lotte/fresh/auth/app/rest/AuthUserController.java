@@ -33,6 +33,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -49,6 +50,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -84,6 +86,7 @@ public class AuthUserController {
   @GetMapping("/auth/oauth/kakao/login")
   public ResponseEntity<LoginAuthUserResponse> oauthLogin(
       @RequestParam String code, HttpServletRequest request) {
+    log.info("code:" + code);
     AuthProvider provider = getAuthProviderFromUri(request);
     String accessToken = oauthAuthorizationRequestHelper.callAccessToken(provider, code,
         Secret.KAKAO_REST_KEY, Secret.KAKAO_REDIRECT);

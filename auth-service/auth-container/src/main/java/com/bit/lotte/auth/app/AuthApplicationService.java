@@ -11,7 +11,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-
 @EnableDiscoveryClient
 @EnableFeignClients({"com.bit.lotte.fresh.feign"})
 @EnableJpaRepositories(basePackages = {"com.bit.lotte.fresh.auth.dataaccess.repository"})
