@@ -106,10 +106,13 @@ const router = createRouter({
       name: "goods",
       component: ProductDetailView,
     },
+
     {
       path: "/cart",
       name: "cart",
       component: CartView,
+    },
+
     {
       path: "/payment-result",
       redirect: "/notfound",
