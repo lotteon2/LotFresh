@@ -3,24 +3,34 @@
   <div>
     <div class="section">
       <div class="item">상품금액</div>
-      <div class="item text-right">{{ totalPrice }}</div>
+      <div class="item text-right">{{ formattedNumber(totalPrice) }}원</div>
     </div>
     <div class="section">
       <div class="item">상품할인금액</div>
-      <div class="item text-right">{{ discountPrice }}</div>
+      <div class="item text-right">{{ formattedNumber(discountPrice) }}원</div>
     </div>
   </div>
   <div class="emptySpace"></div>
 
   <div class="section">
     <div class="item grid-col">결제예정금액</div>
-    <div class="item text-right">{{ totalPrice - discountPrice }}</div>
+    <div class="item text-right">
+      {{ formattedNumber(totalPrice - discountPrice) }}원
+    </div>
   </div>
 
-  <div class="order_button">주문하기</div>
+  <div class="order_button" @click="order">주문하기</div>
 </template>
 
 <script lang="ts">
+interface CartItemResponse {
+  thumbnail: String;
+  name: String;
+  quantity: number;
+  originalPrice: number;
+  discountedPrice: number;
+}
+
 export default {
   props: {
     totalPrice: {
@@ -31,7 +41,22 @@ export default {
       type: Number,
       default: 0,
     },
-    items: Object,
+    items: {
+      type: Array as () => CartItemResponse[],
+      default: () => [],
+    },
+  },
+  computed: {
+    formattedNumber() {
+      return (num: number) => {
+        return new Intl.NumberFormat("ko-KR").format(num);
+      };
+    },
+  },
+  methods: {
+    order() {
+      alert(JSON.stringify(this.items));
+    },
   },
 };
 </script>
