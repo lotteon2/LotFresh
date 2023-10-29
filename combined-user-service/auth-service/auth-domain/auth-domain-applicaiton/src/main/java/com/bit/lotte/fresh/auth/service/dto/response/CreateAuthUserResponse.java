@@ -2,21 +2,28 @@ package com.bit.lotte.fresh.auth.service.dto.response;
 
 import com.bit.lotte.fresh.user.common.valueobject.AuthProvider;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class CreateAuthUserResponse {
 
-  private final AuthUserId authUserId;
-  private final AuthProvider authProvider;
+  private  AuthUserId authUserId;
+  private  AuthProvider authProvider;
   private String message;
 
-  public CreateAuthUserResponse(AuthUserId authUserId,
-      AuthProvider authProvider, String message) {
+  @JsonCreator
+  public CreateAuthUserResponse(
+      @JsonProperty("authUserId") AuthUserId authUserId,
+      @JsonProperty("authProvider") AuthProvider authProvider) {
     this.authUserId = authUserId;
     this.authProvider = authProvider;
     this.getMessage();
@@ -27,7 +34,7 @@ public class CreateAuthUserResponse {
     sb.append(authUserId);
     sb.append("님의 ");
     sb.append(authProvider);
-    sb.append("의 초기 기본 아이디가 생성되었습니다. 향후 회원가입을 완료시 정상적인 서비스 이용이 됩니다.");
+    sb.append("의 회원가입이 완료되었습니다.");
     this.message = sb.toString();
   }
 }

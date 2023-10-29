@@ -12,14 +12,15 @@ import com.bit.lotte.fresh.auth.service.dto.response.LogOutAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.LoginAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.UpdateAuthUserRoleResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.UpdateLoginSessionTimeResponse;
+import java.util.List;
 
 public interface AuthUserApplicationService {
-  LoginAuthUserResponse oauthLoginAuthUser(LoginAuthDomainCommand command);
+  LoginAuthUserResponse loginAuthUser(LoginAuthDomainCommand command);
   CreateAuthUserResponse createAuthUser(CreateAuthDomainCommand command);
   DeleteAuthUserResponse deleteAuthUser(AuthUserIdCommand id);
   LogOutAuthUserResponse logOutAuthUser(AuthUserIdCommand id);
   UpdateAuthUserRoleResponse updateRole(UpdateAuthRoleCommand command);
   UpdateAuthUserRoleResponse updateCategoryAdmin(UpdateAuthRoleCommand command, int categoryAdminId);
   UpdateLoginSessionTimeResponse extendLoginTime(AuthUserIdCommand id);
-  GetAdminInfoListResponse getAuthUserList();
+  List<GetAdminInfoListResponse> getAuthUserList();
 }

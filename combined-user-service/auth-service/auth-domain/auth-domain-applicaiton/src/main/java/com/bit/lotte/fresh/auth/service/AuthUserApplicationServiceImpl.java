@@ -34,7 +34,7 @@ public class AuthUserApplicationServiceImpl implements
   private final AuthUserMapper mapper;
 
   @Override
-  public LoginAuthUserResponse oauthLoginAuthUser(LoginAuthDomainCommand command) {
+  public LoginAuthUserResponse loginAuthUser(LoginAuthDomainCommand command) {
     LoginAuthDomainEvent event = commandHandler.login(command);
     return mapper.loginEventToResponse(event);
   }
@@ -82,9 +82,9 @@ public class AuthUserApplicationServiceImpl implements
   }
 
   @Override
-  public GetAdminInfoListResponse getAuthUserList() {
+  public List<GetAdminInfoListResponse> getAuthUserList() {
     List<AdminInfoAuthDomainEvent> eventList = commandHandler.getAllAuthUser();
     List<AuthUser> returnAuthUserList = mapper.adminInfoEventListToAuthUserList(eventList);
-    return new GetAdminInfoListResponse(returnAuthUserList);
+    return  mapper.domainToGetAdminInfoListResponse(returnAuthUserList);
   }
 }
