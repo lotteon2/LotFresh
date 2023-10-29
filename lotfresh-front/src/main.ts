@@ -31,6 +31,7 @@ declare module "@vue/runtime-core" {
 
 declare global {
   interface Window {
-    Kakao=any; 
+    Kakao:any; 
   }
+}
 

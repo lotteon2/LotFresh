@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="user-container">
     <h3 class="title">추가 정보 입력</h3>
@@ -75,6 +73,7 @@
 
 
 <script>
+import main from "@/main.ts"
 
 export default {
 

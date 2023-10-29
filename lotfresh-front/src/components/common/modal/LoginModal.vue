@@ -29,11 +29,18 @@
 import { defineEmits } from "vue";
 const emits = defineEmits(["closeModal"]);
 
-const kakaoLogin = () => {
+const kakaoLogin = async () => {
   window.Kakao.init('5dca3ee52a5c5e81b0415473b05366f0');
-  window.Kakao.Auth.authorize({
+  await window.Kakao.Auth.authorize({
     redirectUri: 'https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/token',
   });
+
+  let data = await window.Kakao.API.request({
+    url: '/v2/user/me',
+  });
+
+  console.log('카카오 계정 정보', data);
+  return data;
 };
 </script>
 
