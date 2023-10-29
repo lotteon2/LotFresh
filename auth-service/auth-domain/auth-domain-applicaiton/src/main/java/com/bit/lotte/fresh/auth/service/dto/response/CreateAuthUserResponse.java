@@ -2,6 +2,8 @@ package com.bit.lotte.fresh.auth.service.dto.response;
 
 import com.bit.lotte.fresh.user.common.valueobject.AuthProvider;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +17,10 @@ public class CreateAuthUserResponse {
   private final AuthProvider authProvider;
   private String message;
 
-  public CreateAuthUserResponse(AuthUserId authUserId,
-      AuthProvider authProvider, String message) {
+  @JsonCreator
+  public CreateAuthUserResponse(
+      @JsonProperty("authUserId") AuthUserId authUserId,
+      @JsonProperty("authProvider") AuthProvider authProvider) {
     this.authUserId = authUserId;
     this.authProvider = authProvider;
     this.getMessage();

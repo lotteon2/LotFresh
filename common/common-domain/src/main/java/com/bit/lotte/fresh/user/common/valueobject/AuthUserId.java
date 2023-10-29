@@ -3,6 +3,7 @@ package com.bit.lotte.fresh.user.common.valueobject;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 
 public class AuthUserId extends BaseId<Long> {
 

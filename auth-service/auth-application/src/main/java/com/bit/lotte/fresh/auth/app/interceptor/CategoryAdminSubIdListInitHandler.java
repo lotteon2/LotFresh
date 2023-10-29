@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.net.AbstractEndpoint.Handler;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +24,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 @Slf4j
 @RequiredArgsConstructor
-public class CategoryAdminSubIdListInitHandler implements HandlerInterceptor {
+public class CategoryAdminSubIdListInitHandler implements HandlerInterceptor
+{
 
     private final ProductFeignClient productFeignClient;
     private final AuthUserCommandHandler commandHandler;

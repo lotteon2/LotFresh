@@ -30,7 +30,6 @@ import com.bit.lotte.fresh.user.common.valueobject.UserId;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -55,8 +54,7 @@ public class UserDataMapper {
   public Address addAddressCommandToAddress(AddAddressCommand addAddressCommand) {
     return Address.builder().defaultAddress(addAddressCommand.isDefaultAddress())
         .detailAddress(addAddressCommand.getDetailAddress())
-        .province(addAddressCommand.getProvince()).roadAddress(
-            addAddressCommand.getRoadAddress()).zipCode(addAddressCommand.getZipCode())
+        .province(addAddressCommand.getProvince()).zipCode(addAddressCommand.getZipCode())
         .build();
   }
 

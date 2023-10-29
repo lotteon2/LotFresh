@@ -7,7 +7,6 @@ import com.bit.lotte.fresh.auth.common.instant.TokenName;
 import com.bit.lotte.fresh.auth.common.util.RedisTokenBlacklistUtil;
 import com.bit.lotte.fresh.auth.common.util.TokenParserUtil;
 import com.bit.lotte.fresh.auth.service.dto.response.GetAdminInfoListResponse;
-import com.bit.lotte.fresh.auth.valueobject.Secret;
 import com.bit.lotte.fresh.auth.service.dto.command.AuthUserIdCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.CreateAuthDomainCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.LoginAuthDomainCommand;
@@ -26,6 +25,7 @@ import com.bit.lotte.fresh.user.common.valueobject.AuthProvider;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
 import io.jsonwebtoken.JwtException;
 import java.io.IOException;
+import java.util.List;
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,10 +33,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,10 +42,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 
 @Slf4j
@@ -62,14 +56,6 @@ public class AuthUserController {
   private final OauthUserApiHelper oauthUserApiHelper;
   private final RedisTokenBlacklistUtil redisTokenBlacklistUtil;
 
-
-  private AuthProvider getAuthProviderFromUri(HttpServletRequest request) {
-    if (request.getRequestURI().contains("kakao")) {
-      return AuthProvider.KAKAO;
-    }
-    return AuthProvider.NONE;
-  }
-
   @PostMapping("/auth")
   public ResponseEntity<CreateAuthUserResponse> createAuthUser(
       @Valid @RequestBody CreateAuthDomainCommand command) {
@@ -80,34 +66,22 @@ public class AuthUserController {
   @PostMapping("/auth/login")
   public ResponseEntity<LoginAuthUserResponse> login(
       @RequestBody LoginAuthDomainCommand command) {
-    return ResponseEntity.ok(applicationService.oauthLoginAuthUser(command));
+    return ResponseEntity.ok(applicationService.loginAuthUser(command));
   }
 
-  @GetMapping("/auth/oauth/kakao/login")
+  @PostMapping("/auth/oauth/provider/{provider}/{id}")
   public ResponseEntity<LoginAuthUserResponse> oauthLogin(
-      @RequestParam String code, HttpServletRequest request) {
-    log.info("code:" + code);
-    AuthProvider provider = getAuthProviderFromUri(request);
-    String accessToken = oauthAuthorizationRequestHelper.callAccessToken(provider, code,
-        Secret.KAKAO_REST_KEY, Secret.KAKAO_REDIRECT);
-    log.info("accessToken:"+ accessToken);
-    OauthUserInfo info = oauthUserApiHelper.getUserInfo(provider, accessToken);
-    LoginAuthDomainCommand loginCommand = new LoginAuthDomainCommand(new AuthUserId(info.getId()),
-        provider);
-    log.info("social authUserId:" + info.getId());
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    HttpEntity<LoginAuthDomainCommand> requestEntity = new HttpEntity<>(loginCommand, headers);
+      @PathVariable AuthProvider provider,
+      @RequestParam Long id, HttpServletRequest request) {
 
-    RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<LoginAuthUserResponse> responseEntity = restTemplate.postForEntity(
-        Secret.LOGIN_REQUEST_URI,
-        requestEntity,
-        LoginAuthUserResponse.class
-    );
-    return responseEntity.hasBody() ? responseEntity : null;
+    log.info("userId:{} " + id);
+
+    request.setAttribute("id", id);
+    request.setAttribute("provider", provider);
+
+    return ResponseEntity.ok(
+        applicationService.loginAuthUser(new LoginAuthDomainCommand(new AuthUserId(id), provider)));
   }
-
 
   @DeleteMapping("/auth")
   public ResponseEntity<DeleteAuthUserResponse> deleteAuthUser(
@@ -176,11 +150,9 @@ public class AuthUserController {
 
   @PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN') or hasRole('ROLE_CATEGORY_ADMIN')")
   @GetMapping("/auth")
-  public ResponseEntity<GetAdminInfoListResponse> getAdminList()
-      throws AuthenticationException, IOException {
+  public ResponseEntity<List<GetAdminInfoListResponse>> getAdminList()
+       {
     return ResponseEntity.ok(applicationService.getAuthUserList());
 
   }
-
-
 }

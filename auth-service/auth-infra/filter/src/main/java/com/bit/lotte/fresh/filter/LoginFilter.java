@@ -77,6 +77,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     }
 
+
+    /**
+     * @param response 회원가입을 위해서 userId를 response에 전달
+     */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request,
         HttpServletResponse response,

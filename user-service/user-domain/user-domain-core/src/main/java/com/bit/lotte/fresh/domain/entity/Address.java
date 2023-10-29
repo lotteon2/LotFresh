@@ -16,7 +16,6 @@ import lombok.experimental.SuperBuilder;
 public class Address extends BaseEntity<AddressId> {
 
   private Province province;
-  private String roadAddress;
   private String detailAddress;
   private String zipCode;
   private boolean defaultAddress;

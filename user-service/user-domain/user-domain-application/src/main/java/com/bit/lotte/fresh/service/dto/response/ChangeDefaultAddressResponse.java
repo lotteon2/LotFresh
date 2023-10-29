@@ -35,7 +35,7 @@ public class ChangeDefaultAddressResponse {
       StringBuilder sb = new StringBuilder();
       sb.append("새로운 기본 주소는: ");
       sb.append("권역: ").append(address.getProvince());
-      sb.append("도로명 주소: ").append(address.getRoadAddress());
+      sb.append("도로명 주소: ");
       sb.append("상세 주소: ").append(address.getDetailAddress());
       sb.append("입니다.");
       this.message =sb.toString();

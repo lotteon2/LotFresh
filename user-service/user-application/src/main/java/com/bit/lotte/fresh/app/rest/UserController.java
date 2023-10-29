@@ -11,6 +11,7 @@ import com.bit.lotte.fresh.service.dto.response.ChangeDefaultAddressResponse;
 import com.bit.lotte.fresh.service.dto.response.CreateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteAddressResponse;
 import com.bit.lotte.fresh.service.dto.response.DeleteUserResponse;
+import com.bit.lotte.fresh.service.dto.response.GetAllUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UpdateUserResponse;
 import com.bit.lotte.fresh.service.dto.response.UserAddressListResponse;
 import com.bit.lotte.fresh.service.dto.response.UserDataResponse;
@@ -48,7 +49,7 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<CreateUserResponse> createUser(
         @Valid @RequestBody CreateUserCommand createUserCommand) {
-        log.info("userId: " + createUserCommand.getUserId());
+        log.info("userId: " +createUserCommand.getUserId());
         CreateUserResponse response = userApplicationService.createUser(createUserCommand);
         if (response != null) {
             publisher.publish(
@@ -58,39 +59,40 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(value = "/users/addresses/default")
+    @GetMapping(value = "/users/me/addresses/default")
     public ResponseEntity<UserDefaultAddressResponse> getUserDefaultAddress(
-        @Valid @RequestBody UserIdCommand userIdCommand) {
+        @RequestHeader Long userIdCommand) {
         return ResponseEntity.ok(userApplicationService.getDefaultAddress(userIdCommand));
     }
 
-    @GetMapping(value = "/users/addresses/default/province")
+    @GetMapping(value = "/users/me/addresses/default/province")
     public ResponseEntity<UserDefaultAddressProvinceResponse> getUserDefaultAddressProvince(
-        @Valid @RequestBody UserIdCommand userIdCommand) {
-        return ResponseEntity.ok(userApplicationService.getDefaultAddressProvince(userIdCommand));
+        @RequestHeader Long userId) {
+        log.info("userId: "+ userId);
+        return ResponseEntity.ok(userApplicationService.getDefaultAddressProvince(new UserIdCommand(new UserId(userId))));
     }
 
-    @DeleteMapping("/users")
+    @DeleteMapping("/users/me")
     public ResponseEntity<DeleteUserResponse> deleteUser(
-        @Valid @RequestBody UserIdCommand userIdCommand) {
-        log.info("userId:" + userIdCommand.getUserId());
+        @RequestHeader Long userId) {
+        log.info("userId:" + userId);
         return ResponseEntity.ok(
-            userApplicationService.deleteUser(userIdCommand));
+            userApplicationService.deleteUser(new UserIdCommand(new UserId(userId))));
     }
 
-    @PutMapping("/users")
+    @PutMapping("/users/me")
     public ResponseEntity<UpdateUserResponse> updateUser(
-        @Valid @RequestBody UpdateUserCommand updateUserCommand) {
-        return ResponseEntity.ok(userApplicationService.updateUser(updateUserCommand));
+         @RequestHeader Long userId) {
+        return ResponseEntity.ok(userApplicationService.updateUser(new UserIdCommand(new UserId(userId))));
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = "/users/me")
     public ResponseEntity<UserDataResponse> getUser(
-        @Valid @RequestBody UserIdCommand userIdCommand) {
-        return ResponseEntity.ok(userApplicationService.getUser(userIdCommand));
+       @RequestHeader Long userId) {
+        return ResponseEntity.ok(userApplicationService.getUser(new UserIdCommand(new UserId(userId)));
     }
 
-    @PostMapping("/users/addresses")
+    @PostMapping("/users/me/addresses")
     public ResponseEntity<AddUserAddressResponse> addAddress(
         @Valid @RequestBody AddAddressCommand addAddressCommand, @RequestHeader Long userId) {
         return ResponseEntity.ok(
@@ -98,7 +100,7 @@ public class UserController {
                 addAddressCommand));
     }
 
-    @DeleteMapping("/users/addresses/{addressId}")
+    @DeleteMapping("/users/me/addresses/{addressId}")
     public ResponseEntity<DeleteAddressResponse> deleteAddress(@RequestHeader Long userId,
         @PathVariable Long addressId) {
         return ResponseEntity.ok(
@@ -107,7 +109,7 @@ public class UserController {
 
     }
 
-    @PutMapping("/users/addresses/{addressId}")
+    @PutMapping("/users/me/addresses/{addressId}")
     public ResponseEntity<ChangeDefaultAddressResponse> changeDefaultAddress(
         @RequestHeader Long userId,
         @Valid @PathVariable Long addressId) {
@@ -115,7 +117,7 @@ public class UserController {
             userApplicationService.updateDefaultAddress(new UserIdCommand(new UserId(userId)),
                 new AddressIdCommand(new AddressId(addressId))));
     }
-     @GetMapping(value = "/users/addresses")
+     @GetMapping(value = "/users/me/addresses")
     public ResponseEntity<UserAddressListResponse> getAddressList(
         @RequestHeader Long userId) {
 

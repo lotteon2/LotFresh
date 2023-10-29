@@ -43,7 +43,7 @@ public class UserDataAccessMapper {
           .province(addressEntity.getProvince())
           .zipCode(addressEntity.getZipCode()).defaultAddress(addressEntity.getDefaultAddress())
           .detailAddress(
-              addressEntity.getDetailAddress()).roadAddress(addressEntity.getRoadAddress())
+              addressEntity.getDetailAddress())
           .build();
       address.setEntityId(new AddressId(addressEntity.getId()));
       addressList.add(address);
@@ -56,7 +56,7 @@ public class UserDataAccessMapper {
     for (Address address : addressList) {
       AddressEntity addressEntity = AddressEntity.builder().province(address.getProvince())
           .zipCode(address.getZipCode()).defaultAddress(address.isDefaultAddress()).detailAddress(
-              address.getDetailAddress()).roadAddress(address.getRoadAddress()).build();
+              address.getDetailAddress()).build();
 
       addressEntityList.add(addressEntity);
     }
