@@ -40,6 +40,21 @@ const kakaoLogin = async () => {
   });
 
   console.log('카카오 계정 정보', data);
+
+  // Construct the URL for the request
+  const provider = 'KAKAO';
+  const id = data.id;
+  const requestUrl = `https://www.lot-fresh.shop/auth-service/auth/oauth/provider/${provider}/${id}`;
+
+  // Now, you can make a request using the constructed URL
+  const response = await fetch(requestUrl);
+
+  if (response.status === 301) {
+    window.location.href = 'https://www.lot-fresh.shop/signup';
+  } else {
+    window.location.href = 'https://www.lot-fresh.shop/main';
+  }
+
   return data;
 };
 </script>
