@@ -2,7 +2,12 @@
   <div class="mb-2vh">
     <div class="sub_title_toggle_wrapper" @click="toggleOrderItems">
       <div>주문 상품</div>
-      <div>toggle button</div>
+      <div
+        :class="{
+          on_toggle: isOrderItemsVisible,
+          off_toggle: !isOrderItemsVisible,
+        }"
+      ></div>
     </div>
 
     <transition name="slide">
@@ -170,5 +175,19 @@ export default defineComponent({
 .slide-leave-to {
   max-height: 0;
   overflow: hidden;
+}
+
+.on_toggle {
+  width: 2rem;
+  height: 2rem;
+  background-image: url("https://www.svgrepo.com/show/521469/arrow-down.svg");
+  background-size: cover;
+}
+
+.off_toggle {
+  width: 2rem;
+  height: 2rem;
+  background-image: url("https://www.svgrepo.com/show/521479/arrow-next-small.svg");
+  background-size: cover;
 }
 </style>

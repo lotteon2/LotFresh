@@ -8,7 +8,12 @@
       <div>
         <div class="sub_title_toggle_wrapper" @click="toggleOrderItems">
           <div>주문 상품</div>
-          <div>toggle button</div>
+          <div
+            :class="{
+              on_toggle: isOrderItemsVisible,
+              off_toggle: !isOrderItemsVisible,
+            }"
+          ></div>
         </div>
       </div>
 
@@ -32,8 +37,8 @@
                 class="item_img"
               />
             </div>
-            <div class="item-name">{{ cartItemResponse.name }}</div>
-            <div>
+            <div class="item_name">{{ cartItemResponse.name }}</div>
+            <div class="item_quantity">
               <div class="option">
                 <button
                   type="button"
@@ -50,7 +55,7 @@
                 ></button>
               </div>
             </div>
-            <div>
+            <div class="item_price">
               <div class="original-price">
                 {{ cartItemResponse.originalPrice }}원
               </div>
@@ -217,14 +222,6 @@ export default defineComponent({
   cursor: pointer;
 }
 
-.item_img {
-  width: 8vw;
-  height: 8vw;
-  object-fit: cover;
-  margin-right: 2vw;
-  border-radius: 10px;
-}
-
 .item_info_wrapper {
   display: flex;
   flex-direction: row;
@@ -236,9 +233,35 @@ export default defineComponent({
 .item {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   margin-bottom: 20px;
+}
+
+.check-box {
+  margin-right: 35px;
+}
+
+.item_img {
+  width: 8vw;
+  height: 8vw;
+  object-fit: cover;
+  margin-right: 2vw;
+  border-radius: 10px;
+}
+
+.item_name {
+  font-size: 20px;
+  width: 40%;
+}
+
+.item_quantity {
+  width: 10%;
+  margin-right: 10%;
+}
+
+.item_price {
+  width: 10%;
 }
 
 .btn {
@@ -286,13 +309,9 @@ export default defineComponent({
   color: #999999;
 }
 
-.item-name {
-  font-size: 40px;
-}
-
 input[type="checkbox"] {
-  width: 2rem;
-  height: 2rem;
+  width: 1.6rem;
+  height: 1.6rem;
   border-radius: 50%;
   border: 1px solid #999;
   appearance: none;
@@ -304,6 +323,20 @@ input[type="checkbox"]:checked {
   /* background: red; */
   border: none;
   background-image: url("https://as2.ftcdn.net/v2/jpg/02/59/69/81/1000_F_259698116_LCxGTz8PujushBCnkAXO18UQCMpbpDO0.jpg");
+  background-size: cover;
+}
+
+.on_toggle {
+  width: 2rem;
+  height: 2rem;
+  background-image: url("https://www.svgrepo.com/show/521469/arrow-down.svg");
+  background-size: cover;
+}
+
+.off_toggle {
+  width: 2rem;
+  height: 2rem;
+  background-image: url("https://www.svgrepo.com/show/521479/arrow-next-small.svg");
   background-size: cover;
 }
 
