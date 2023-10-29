@@ -85,6 +85,7 @@ export default {
 
   data() {
     return {
+      id:"",
       name: "",
       contactNumber: "",
       localAddress: "",
@@ -95,6 +96,14 @@ export default {
       addressValidMessage: "",
     };
   },
+
+  beforeRouteEnter(to, from, next) {
+    const id = to.params.id; 
+    next((vm) => {
+      vm.id = id;
+    });
+  },
+
   computed: {
     address() {
       return address
