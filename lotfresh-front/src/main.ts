@@ -28,5 +28,9 @@ declare module "@vue/runtime-core" {
     $goto: any;
   }
 }
-window.Kakao.init('5dca3ee52a5c5e81b0415473b05366f0'); 
+
+declare global {
+  interface Window {
+    Kakao=any; 
+  }
 
