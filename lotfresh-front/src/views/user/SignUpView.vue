@@ -167,6 +167,7 @@ export default {
 
         if (response.status === 200) {
           this.$emit('show-modal', '회원가입이 완료되었습니다');
+          router.push({ name: 'main' });
         } else {
           
           this.$emit('show-modal', '회원가입을 실패했습니다');
