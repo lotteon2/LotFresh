@@ -21,8 +21,12 @@ app.use(router);
 app.use(ElementPlus);
 app.mount("#app");
 
+
+
 declare module "@vue/runtime-core" {
   export interface ComponentCustomProperties {
     $goto: any;
   }
 }
+
+window.Kakao.init("5dca3ee52a5c5e81b0415473b05366f0")
