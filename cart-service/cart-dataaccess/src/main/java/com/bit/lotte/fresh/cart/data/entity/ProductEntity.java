@@ -33,6 +33,8 @@ public class ProductEntity {
   @NotNull
   private long price;
   @NotNull
+  private long discountedPrice;
+  @NotNull
   private String description;
   @NotNull
   private long stock;

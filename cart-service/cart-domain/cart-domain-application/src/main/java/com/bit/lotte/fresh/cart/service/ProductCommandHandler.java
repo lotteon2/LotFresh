@@ -15,8 +15,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductCommandHandler {
 
+
   private final ProductRepository productRepository;
   private final ProductService productService = new ProductServiceImpl();
+
+
+
+
+
   @Transactional
   public ProductStockUpdatedDomainEvent updateCartProductStock(
       UpdateCartProductStockCommand command) {

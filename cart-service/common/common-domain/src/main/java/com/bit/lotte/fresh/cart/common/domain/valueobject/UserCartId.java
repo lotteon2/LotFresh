@@ -1,9 +1,14 @@
 package com.bit.lotte.fresh.cart.common.domain.valueobject;
 
 
-public class UserCartId extends BaseId<Long>{
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-  public UserCartId(Long value) {
+public class UserCartId extends BaseId<Long>{
+  @JsonCreator
+  public UserCartId(@JsonProperty("userId") Long value) {
     super(value);
   }
+
+
 }

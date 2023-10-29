@@ -14,6 +14,7 @@ import com.bit.lotte.fresh.cart.service.dto.response.GetMyAllCartItemListRespons
 import com.bit.lotte.fresh.cart.service.dto.response.RemoveCartProductResponse;
 import com.bit.lotte.fresh.cart.service.dto.response.UpdateCartProductSelectedQuantityResponse;
 import com.bit.lotte.fresh.cart.service.port.input.CartApplicationService;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -31,48 +33,48 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CartRestController {
 
-
   private final CartApplicationService applicationService;
 
-  @GetMapping("/carts/{cartId}")
-  public ResponseEntity<GetMyAllCartItemListResponse> getMyAllCartItemList(
-      @PathVariable Long cartId) {
-    GetMyAllCartItemListResponse response = applicationService.getCartItemList(
-        new GetMyAllCartItemCommand(new UserCartId(cartId)));
+  @GetMapping("/carts")
+  public ResponseEntity<List<GetMyAllCartItemListResponse>> getMyAllCartItemList(
+      @RequestHeader Long userId) {
+    List<GetMyAllCartItemListResponse> response = applicationService.getCartItemList(
+        new GetMyAllCartItemCommand(new UserCartId(userId)));
     return ResponseEntity.ok(response);
   }
 
   @PostMapping("/carts")
   public ResponseEntity<AddProductInCartResponse> addItemIntoCart(
-      @Valid @RequestBody AddProductInCartCommand command) {
-    log.info("compKey:" + command.getCartItem().getEntityId());
-    AddProductInCartResponse response = applicationService.addProductInCart(command);
+      @Valid @RequestBody AddProductInCartCommand command,@RequestHeader Long userId) {
+    log.info("userId:" + userId);
+    log.info("product name:" + command.getProductName());
+    AddProductInCartResponse response = applicationService.addProductInCart(new UserCartId(userId),command);
     return ResponseEntity.ok(response);
   }
 
-  @DeleteMapping("/carts/{cartId}/province/{province}/products/{productId}")
+  @DeleteMapping("/carts/province/{province}/products/{productId}")
   public ResponseEntity<RemoveCartProductResponse> removeCartItem(
       @PathVariable Province province,
-      @PathVariable Long cartId, @PathVariable Long productId) {
+      @RequestHeader Long userId, @PathVariable Long productId) {
     return ResponseEntity.ok(
         applicationService.removeCartProduct(
-            new CartItemIdCommand(new UserCartId(cartId), new ProductId(productId), province)));
+            new CartItemIdCommand(new UserCartId(userId), new ProductId(productId), province)));
   }
 
-  @PutMapping("/carts/{cartId}/province/{province}/products/{productId}/stock/{selectedQuantity}")
+  @PutMapping("/carts/province/{province}/products/{productId}/stock/{selectedQuantity}")
   public ResponseEntity<UpdateCartProductSelectedQuantityResponse> updateSelectedQuantity(
-      @PathVariable Long cartId, @PathVariable Long productId,
+      @RequestHeader Long userId, @PathVariable Long productId,
       @PathVariable Province province,@PathVariable Integer selectedQuantity) {
     return ResponseEntity.ok(applicationService.updateCartProductSelectedQuantity(
-        new UpdateCartSelectedQuantityCommand(new CartItemIdCommand(new UserCartId(cartId),new ProductId(productId),province),selectedQuantity)));
+        new UpdateCartSelectedQuantityCommand(new CartItemIdCommand(new UserCartId(userId),new ProductId(productId),province),selectedQuantity)));
   }
 
-  @PostMapping("/carts/{cartId}/province/{province}/product/{productId}")
+  @PostMapping("/carts/province/{province}/product/{productId}")
   public ResponseEntity<BuyProductInCartResponse> buyProductInCart(
-      @PathVariable Long cartId, @PathVariable Province province,
+      @RequestHeader Long userId, @PathVariable Province province,
       @PathVariable Long productId) {
     return ResponseEntity.ok(applicationService.buyProductListInCart(
-        new CartItemIdCommand(new UserCartId(cartId), new ProductId(productId), province)));
+        new CartItemIdCommand(new UserCartId(userId), new ProductId(productId), province)));
   }
 
 

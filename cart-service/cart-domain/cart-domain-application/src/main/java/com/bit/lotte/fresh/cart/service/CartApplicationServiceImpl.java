@@ -1,5 +1,6 @@
 package com.bit.lotte.fresh.cart.service;
 
+import com.bit.lotte.fresh.cart.common.domain.valueobject.UserCartId;
 import com.bit.lotte.fresh.cart.domain.entity.CartItem;
 import com.bit.lotte.fresh.cart.domain.event.cart.AddCarItemCartDomainEvent;
 import com.bit.lotte.fresh.cart.domain.event.cart.BuyCartItemDomainEvent;
@@ -20,8 +21,10 @@ import com.bit.lotte.fresh.cart.service.port.input.CartApplicationService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CartApplicationServiceImpl implements
@@ -31,26 +34,27 @@ public class CartApplicationServiceImpl implements
   private final CartMapper cartMapper;
 
   @Override
-  public GetMyAllCartItemListResponse getCartItemList(GetMyAllCartItemCommand command) {
-   List<GetMyCartItemEvent> eventList=  commandHandler.getMyAllCartItem(command);
-   List<CartItem> cartItems = new ArrayList<>();
+  public List<GetMyAllCartItemListResponse> getCartItemList(GetMyAllCartItemCommand command) {
+    List<GetMyCartItemEvent> eventList = commandHandler.getMyAllCartItem(command);
+    List<CartItem> cartItems = new ArrayList<>();
 
-   for(GetMyCartItemEvent event : eventList){
-     cartItems.add(event.getCartItem());
-   }
-   return new GetMyAllCartItemListResponse(cartItems);
+    for (GetMyCartItemEvent event : eventList) {
+      cartItems.add(event.getCartItem());
+    }
+    return cartMapper.cartItemListToMyCartResponse(cartItems);
 
   }
 
   @Override
-  public AddProductInCartResponse addProductInCart(AddProductInCartCommand command) {
-    AddCarItemCartDomainEvent event = commandHandler.addCartItem(command);
+  public AddProductInCartResponse addProductInCart(UserCartId userCartId,AddProductInCartCommand command) {
+    AddCarItemCartDomainEvent event = commandHandler.addCartItem(userCartId,command);
     return cartMapper.AddCartToResponse(event);
   }
 
   @Override
   public BuyProductInCartResponse buyProductListInCart(CartItemIdCommand command) {
     BuyCartItemDomainEvent eventList = commandHandler.buyProduct(command);
+
     return cartMapper.buyCartProductEventToResponse(eventList);
   }
 

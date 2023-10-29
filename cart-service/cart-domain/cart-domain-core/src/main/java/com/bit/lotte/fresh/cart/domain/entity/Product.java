@@ -4,29 +4,37 @@ import com.bit.lotte.fresh.cart.common.domain.entity.AggregateRoot;
 import com.bit.lotte.fresh.cart.common.domain.valueobject.ProductId;
 import com.bit.lotte.fresh.cart.domain.excepton.CartDomainException;
 import com.bit.lotte.fresh.cart.domain.valueobject.Province;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 
+@ToString
 @Setter
 @Getter
+@AllArgsConstructor
 @SuperBuilder
 public class Product extends AggregateRoot<ProductId> {
+
 
   public Product() {
     super();
   }
 
+  long discountedPrice;
   Province province;
   long productStock;
   long price;
   String name;
   String description;
+
 
   public Product(
       AggregateRootBuilder<ProductId, ?, ?> b) {
@@ -81,7 +89,17 @@ public class Product extends AggregateRoot<ProductId> {
     }
   }
 
-
+  @Override
+  public String toString() {
+    return "Product{" +
+        "id=" + this.getEntityId().getValue() +
+        ", originalPrice=" + productStock +
+        ", discountedPrice=" + discountedPrice +
+        ", productName='" + name + '\'' +
+        ", productStock='" + productStock + '\'' +
+        ", productThumbnail='" + description + '\'' +
+        '}';
+  }
 
 
 }

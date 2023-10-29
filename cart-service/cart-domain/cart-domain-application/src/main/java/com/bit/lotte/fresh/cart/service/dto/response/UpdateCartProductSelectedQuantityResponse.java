@@ -1,5 +1,6 @@
 package com.bit.lotte.fresh.cart.service.dto.response;
 
+import com.bit.lotte.fresh.cart.domain.valueobject.Province;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,20 +11,24 @@ import lombok.NoArgsConstructor;
 public class UpdateCartProductSelectedQuantityResponse
 {
 
-  private CartItemInfoResponse cartItemInfoResponse;
+  private Province province;
+  private String productName;
   private int updatedSelectedQuantityNumber;
   private String message;
 
   public UpdateCartProductSelectedQuantityResponse(
-      CartItemInfoResponse cartItemInfoResponse, int updatedSelectedQuantityNumber) {
-    this.cartItemInfoResponse = cartItemInfoResponse;
+      Province province, String productName, int updatedSelectedQuantityNumber) {
+    this.province = province;
+    this.productName = productName;
     this.updatedSelectedQuantityNumber = updatedSelectedQuantityNumber;
     setInitMessage();
   }
 
   private void setInitMessage() {
     StringBuilder sb = new StringBuilder();
-    sb.append(cartItemInfoResponse);
+    sb.append(province);
+    sb.append("의 ");
+    sb.append(productName);
     sb.append("가 ");
     sb.append(updatedSelectedQuantityNumber);
     sb.append("로 업데이트 됩니다.");

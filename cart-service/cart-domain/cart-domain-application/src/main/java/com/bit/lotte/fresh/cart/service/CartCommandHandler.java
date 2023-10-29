@@ -6,6 +6,7 @@ import com.bit.lotte.fresh.cart.domain.CartDomainService;
 import com.bit.lotte.fresh.cart.domain.CartDomainServiceImpl;
 import com.bit.lotte.fresh.cart.domain.entity.Cart;
 import com.bit.lotte.fresh.cart.domain.entity.CartItem;
+import com.bit.lotte.fresh.cart.domain.entity.Product;
 import com.bit.lotte.fresh.cart.domain.event.cart.AddCarItemCartDomainEvent;
 import com.bit.lotte.fresh.cart.domain.event.cart.BuyCartItemDomainEvent;
 import com.bit.lotte.fresh.cart.domain.event.cart.GetMyCartItemEvent;
@@ -15,7 +16,9 @@ import com.bit.lotte.fresh.cart.domain.excepton.CartDomainException;
 import com.bit.lotte.fresh.cart.service.dto.command.AddProductInCartCommand;
 import com.bit.lotte.fresh.cart.service.dto.command.CartItemIdCommand;
 import com.bit.lotte.fresh.cart.service.dto.command.GetMyAllCartItemCommand;
+import com.bit.lotte.fresh.cart.service.mapper.CartMapper;
 import com.bit.lotte.fresh.cart.service.repository.CartRepository;
+import com.bit.lotte.fresh.cart.service.util.RedisProductUtil;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +30,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class CartCommandHandler {
 
+
+  private final RedisProductUtil redisProductUtil;
   private final CartDomainService cartDomainService = new CartDomainServiceImpl();
   private final CartRepository cartRepository;
+  private final CartMapper cartMapper;
 
   private Cart findCart(UserCartId cartId) {
     return cartRepository.findCart(cartId);
@@ -40,10 +46,10 @@ public class CartCommandHandler {
         command.getProvince());
   }
 
-  private Cart cartInitHelper(AddProductInCartCommand command) {
-    Cart foundCart =  findCart(command.getUserCartId());
-    if (foundCart==null) {
-      return Cart.builder().id(command.getUserCartId()).cartItemList(null).build();
+  private Cart cartInitHelper(UserCartId userCartId) {
+    Cart foundCart = findCart(userCartId);
+    if (foundCart == null) {
+      return Cart.builder().id(userCartId).cartItemList(null).build();
     }
     return foundCart;
   }
@@ -51,20 +57,20 @@ public class CartCommandHandler {
   private void cartItemExistChecker(CartItemIdCommand command) {
     CartItem foundCartItem = findCartItem(command);
 
-    if (foundCartItem==null) {
+    if (foundCartItem == null) {
       throw new CartDomainException("존재하지 않는 카트 상품입니다.");
     }
   }
 
 
   @Transactional
-  public AddCarItemCartDomainEvent addCartItem(AddProductInCartCommand command) {
-    Cart initCart = cartInitHelper(command);
-    CartItem cartItem = command.getCartItem();
-
+  public AddCarItemCartDomainEvent addCartItem(UserCartId userCartId,
+      AddProductInCartCommand command) {
+    Cart initCart = cartInitHelper(userCartId);
+    CartItem cartItem = cartMapper.getCartItemFromAddProductInCartCommand(userCartId,command);
     AddCarItemCartDomainEvent event = cartDomainService.addProductInCart(initCart, cartItem);
-
-    CartItem savedCartItem = cartRepository.addCartItem(event.getCart().getEntityId(),event.getCartItem());
+    CartItem savedCartItem = cartRepository.addCartItem(event.getCart().getEntityId(),
+        event.getCartItem());
     if (savedCartItem != null) {
       return event;
     }
@@ -78,10 +84,9 @@ public class CartCommandHandler {
     Cart cart = findCart(command.getUserCartId());
     CartItem cartItem = findCartItem(command);
 
+
     BuyCartItemDomainEvent event = cartDomainService.buyCartItem(cart, cartItem);
-
-    cartRepository.removeCartItem(cartItem);
-
+    redisProductUtil.saveProduct(cartItem.getProduct());
     return event;
   }
 
@@ -127,19 +132,20 @@ public class CartCommandHandler {
     }
 
   }
-    public List<GetMyCartItemEvent> getMyAllCartItem(GetMyAllCartItemCommand command){
 
-      Cart cart = findCart(command.getUserCartId());
-      if (cart == null) {
-        return null;
-      } else {
-        List<GetMyCartItemEvent> eventList = new ArrayList<>();
-        for(CartItem cartItem: cart.getCartItemList()){
-          eventList.add(new GetMyCartItemEvent(cart,cartItem,ZonedDateTime.now()));
-        }
-        return eventList;
+  public List<GetMyCartItemEvent> getMyAllCartItem(GetMyAllCartItemCommand command) {
+
+    Cart cart = findCart(command.getUserCartId());
+    if (cart == null) {
+      return null;
+    } else {
+      List<GetMyCartItemEvent> eventList = new ArrayList<>();
+      for (CartItem cartItem : cart.getCartItemList()) {
+        eventList.add(new GetMyCartItemEvent(cart, cartItem, ZonedDateTime.now()));
       }
-
-
+      return eventList;
     }
+
+
   }
+}

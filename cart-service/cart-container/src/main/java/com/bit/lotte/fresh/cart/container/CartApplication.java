@@ -5,11 +5,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EnableDiscoveryClient
+
 @EnableJpaRepositories(basePackages = {"com.bit.lotte.fresh.cart.data.repository"})
 @EntityScan(basePackages = {"com.bit.lotte.fresh.cart.data.entity"})
 @ComponentScan("com.bit.lotte.fresh.cart.service")
+@ComponentScan("com.bit.lotte.fresh.cart.service.config")
+@ComponentScan("com.bit.lotte.fresh.cart.service.util")
 @ComponentScan("com.bit.lotte.fresh.cart.data")
 @ComponentScan("com.bit.lotte.fresh.cart.message")
 @SpringBootApplication(scanBasePackages = "com.bit.lotte.fresh.cart.app")

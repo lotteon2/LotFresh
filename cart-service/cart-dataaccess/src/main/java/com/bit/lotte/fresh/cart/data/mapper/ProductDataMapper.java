@@ -20,7 +20,7 @@ public class ProductDataMapper {
 
   public ProductEntity productToProductEntity(Product product) {
     return ProductEntity.builder().description(product.getDescription()).name(
-            product.getName()).stock(product.getProductStock()).province(product.getProvince())
+            product.getName()).stock(product.getProductStock()).province(product.getProvince()).discountedPrice(product.getDiscountedPrice())
         .price(product.getPrice()).productId(product.getId().getValue())
 
         .build();
@@ -28,8 +28,8 @@ public class ProductDataMapper {
 
   public Product productEntityToProduct(ProductEntity productEntity) {
     return Product.builder().description(productEntity.getDescription()).name(
-            productEntity.getName()).productStock(productEntity.getStock()).province(productEntity.getProvince())
-        .price(productEntity.getPrice()).id(new ProductId(productEntity.getProductId()))
+            productEntity.getName()).productStock(productEntity.getStock())
+        .price(productEntity.getPrice()).id(new ProductId(productEntity.getProductId())).discountedPrice(productEntity.getDiscountedPrice())
         .build();
   }
 
