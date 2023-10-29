@@ -55,6 +55,7 @@ const kakaoLogin = async () => {
     localStorage.setItem('token', token);
     router.push({ name: 'main' });
   }
+}
 </script>
 
 <style scoped>

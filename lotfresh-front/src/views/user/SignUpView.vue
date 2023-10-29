@@ -152,10 +152,27 @@ export default {
         this.contactValidMessage = "000-0000-0000 형식으로 입력하세요.";
       }
     },
-    signup() {
-      if (this.isNameValid && this.isContactValid) {
+    async signup() {
+      const userData = {
+        id: this.id,
+        name: this.name,
+        contactNumber: this.contactNumber,
+        localAddress: this.localAddress,
+        province: this.province,
+        zoncode: this.zoncode,
+      };
 
-          // window. 에러메시지 전송
+      try {
+        const response = await axios.post('https://lot-fresh.shop/user-service/users', userData);
+
+        if (response.status === 200) {
+          this.$emit('show-modal', '회원가입이 완료되었습니다');
+        } else {
+          
+          this.$emit('show-modal', '회원가입을 실패했습니다');
+        }
+      } catch (error) {
+        this.$emit('show-modal', '회원가입을 실패했습니다');
       }
     },
   },
