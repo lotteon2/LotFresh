@@ -44,7 +44,7 @@ const kakaoLogin = async () => {
 
   const provider = 'KAKAO';
   const id = data.id;
-  const requestUrl = `https://www.lot-fresh.shop/auth-service/auth/oauth/provider/${provider}/${id}`;
+  const requestUrl = `https://www.lot-fresh.shop/auth-service/auth/oauth/provider/${provider}/users/${id}`;
 
   const response = await fetch(requestUrl);
 
