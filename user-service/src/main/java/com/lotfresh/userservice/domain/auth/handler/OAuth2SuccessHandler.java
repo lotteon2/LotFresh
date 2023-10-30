@@ -23,6 +23,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
   private final TokenManager tokenManager;
   private final MemberRepository memberRepository;
   private final AddressRepository addressRepository;
+
   @Value("${LOGIN_SUCCESS_URL}")
   private String loginSuccessUrl;
 
@@ -48,7 +49,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     String accessToken = tokenManager.generateToken(member.getId(), "USER");
 
     // 여기 리프레시 토큰 나중에 넣을듯?
-
 
     // 성공하면 리다이렉트로 돌리고, query 에서 accessToken 가져와서 셋팅할거임
     response.sendRedirect(loginSuccessUrl + accessToken);

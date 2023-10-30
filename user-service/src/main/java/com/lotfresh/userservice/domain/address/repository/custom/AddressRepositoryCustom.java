@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface AddressRepositoryCustom {
 
-    Optional<Address> findDefaultAddressByMemberId(Long memeberId);
+  Optional<Address> findDefaultAddressByMemberId(Long memeberId);
 }

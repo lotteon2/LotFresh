@@ -22,8 +22,7 @@ public class Member extends BaseEntity {
   @Column(nullable = false, unique = true)
   private String email;
 
-  @Column
-  private String nickname;
+  @Column private String nickname;
 
   @Column(nullable = false, columnDefinition = "boolean default false")
   private Boolean isActive;
