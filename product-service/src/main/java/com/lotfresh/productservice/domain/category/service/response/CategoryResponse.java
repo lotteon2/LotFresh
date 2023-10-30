@@ -1,17 +1,13 @@
 package com.lotfresh.productservice.domain.category.service.response;
 
 import com.lotfresh.productservice.domain.category.entity.Category;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Setter
 @Getter
-@ToString
+@NoArgsConstructor
 public class CategoryResponse {
   private Long id;
   private String name;

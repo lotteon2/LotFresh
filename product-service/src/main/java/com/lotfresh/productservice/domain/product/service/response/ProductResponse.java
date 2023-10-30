@@ -6,6 +6,7 @@ import com.lotfresh.productservice.domain.product.vo.BestProductVO;
 import com.lotfresh.productservice.domain.product.vo.SalesProductVO;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Comparator;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
-@ToString
+@NoArgsConstructor
 public class ProductResponse {
   private Long id;
   private String name;
