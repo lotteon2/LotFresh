@@ -28,7 +28,7 @@
 <script setup>
 import { defineEmits } from "vue";
 const emits = defineEmits(["closeModal"]);
-
+window.Kakao.init('5dca3ee52a5c5e81b0415473b05366f0');
 const kakaoLogin = async () => {
   await window.Kakao.Auth.authorize({
     redirectUri: 'https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/token',
