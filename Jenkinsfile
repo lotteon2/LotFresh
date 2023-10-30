@@ -144,6 +144,34 @@ pipeline {
 					}
         		}
 
+				stage('admin build') {
+					when {
+						allOf {
+							expression {
+								currentBuild.result == null || currentBuild.result == 'SUCCESS'
+							}
+							changeset "lotfresh-admin/**"
+						}
+					}
+					steps {
+						dir('lotfresh-admin') {
+							sh 'npm install'
+							
+							sh 'CI=false npm run build'
+							sh 'docker build -t ${DOCKER_REGISTRY}:${ADMIN_CLIENT_IMAGE_TAG} .'
+							sh 'docker push ${DOCKER_REGISTRY}:${ADMIN_CLIENT_IMAGE_TAG}'
+						}
+					}
+					post {
+						success {
+							echo 'admin-client build succeeded'
+						}
+						failure {
+							echo 'admin-client build failed'
+						}
+					}
+        		}
+
 				stage('auth-service build') {
 					when {
 						allOf {
@@ -360,6 +388,31 @@ pipeline {
         				}
 		           	}
                 }
+
+				stage('replace admin container') {
+                    when {
+                    	allOf {
+                      		expression {
+                        		currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                      		}
+                      		changeset "lotfresh-admin/**"
+                    	}
+                  	}
+                    steps {
+                        script {
+            				sshagent(credentials: ['ssh']) {
+								sh """
+									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${ADMIN_CLIENT_IMAGE_TAG}; then
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${ADMIN_CLIENT_IMAGE_TAG}
+									fi
+									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 3000:80 --name ${ADMIN_CLIENT_IMAGE_TAG} --network lot-fresh -d --rm ${DOCKER_REGISTRY}:${ADMIN_CLIENT_IMAGE_TAG}
+								"""
+            				}
+        				}
+		           	}
+                }
+
+
 
                 stage('replace auth-service container') {
                     when {
