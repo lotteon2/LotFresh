@@ -8,7 +8,12 @@
       <div>
         <div class="sub_title_toggle_wrapper" @click="toggleOrderItems">
           <div>주문 상품</div>
-          <div>toggle button</div>
+          <div
+            :class="{
+              on_toggle: isOrderItemsVisible,
+              off_toggle: !isOrderItemsVisible,
+            }"
+          ></div>
         </div>
       </div>
 
@@ -32,8 +37,8 @@
                 class="item_img"
               />
             </div>
-            <div class="item-name">{{ cartItemResponse.name }}</div>
-            <div>
+            <div class="item_name">{{ cartItemResponse.productName }}</div>
+            <div class="item_quantity">
               <div class="option">
                 <button
                   type="button"
@@ -41,7 +46,7 @@
                   @click="minus(index)"
                   value="-"
                 ></button>
-                <div id="result">{{ cartItemResponse.quantity }}</div>
+                <div id="result">{{ cartItemResponse.productStock }}</div>
                 <button
                   type="button"
                   class="btn up on"
@@ -50,7 +55,7 @@
                 ></button>
               </div>
             </div>
-            <div>
+            <div class="item_price">
               <div class="original-price">
                 {{ cartItemResponse.originalPrice }}원
               </div>
@@ -87,15 +92,8 @@ import { defineComponent } from "vue";
 import DeliverySide from "../components/cart/DeliverySide.vue";
 import PaymentSide from "../components/cart/PaymentSide.vue";
 import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddressFinderModal.vue";
+import type { OrderSheetInfo } from "@/interface/cartInterface";
 import { watch } from "vue";
-
-interface CartItemResponse {
-  thumbnail: String;
-  name: String;
-  quantity: number;
-  originalPrice: number;
-  discountedPrice: number;
-}
 
 export default defineComponent({
   components: {
@@ -108,28 +106,31 @@ export default defineComponent({
       isOrderItemsVisible: true,
       cartItemResponses: [
         {
-          thumb: "aaa",
-          name: "aaa",
-          quantity: 1,
+          productId: 1,
           originalPrice: 1000,
           discountedPrice: 900,
+          productStock: 1,
+          productName: "productName1",
+          productThumbnail: "thumbnailValue",
         },
         {
-          thumb: "aaa",
-          name: "bbb",
-          quantity: 1,
+          productId: 1,
           originalPrice: 1000,
           discountedPrice: 900,
+          productStock: 1,
+          productName: "productName2",
+          productThumbnail: "thumbnailValue",
         },
         {
-          thumb: "aaa",
-          name: "ccc",
-          quantity: 1,
+          productId: 1,
           originalPrice: 1000,
           discountedPrice: 900,
+          productStock: 1,
+          productName: "productName3",
+          productThumbnail: "thumbnailValue",
         },
       ],
-      selectedCartItems: [] as CartItemResponse[],
+      selectedCartItems: [] as OrderSheetInfo[],
       isAddressModalOpen: false,
       addressInfo: {
         zipCode: "초기 우편번호",
@@ -145,12 +146,12 @@ export default defineComponent({
       this.isOrderItemsVisible = !this.isOrderItemsVisible;
     },
     minus(index: number) {
-      if (this.cartItemResponses[index].quantity > 1) {
-        this.cartItemResponses[index].quantity--;
+      if (this.cartItemResponses[index].productStock > 1) {
+        this.cartItemResponses[index].productStock--;
       }
     },
     plus(index: number) {
-      this.cartItemResponses[index].quantity++;
+      this.cartItemResponses[index].productStock++;
     },
     openAddressModal: function (): void {
       this.isAddressModalOpen = true;
@@ -168,10 +169,10 @@ export default defineComponent({
         let discount = 0;
         if (newSelectedCartItems) {
           for (const cartItem of newSelectedCartItems) {
-            total += cartItem.originalPrice * cartItem.quantity;
+            total += cartItem.originalPrice * cartItem.productStock;
             discount +=
               (cartItem.originalPrice - cartItem.discountedPrice) *
-              cartItem.quantity;
+              cartItem.productStock;
           }
           this.totalPrice = total;
           this.discountPrice = discount;
@@ -217,14 +218,6 @@ export default defineComponent({
   cursor: pointer;
 }
 
-.item_img {
-  width: 8vw;
-  height: 8vw;
-  object-fit: cover;
-  margin-right: 2vw;
-  border-radius: 10px;
-}
-
 .item_info_wrapper {
   display: flex;
   flex-direction: row;
@@ -236,9 +229,35 @@ export default defineComponent({
 .item {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   margin-bottom: 20px;
+}
+
+.check-box {
+  margin-right: 35px;
+}
+
+.item_img {
+  width: 8vw;
+  height: 8vw;
+  object-fit: cover;
+  margin-right: 2vw;
+  border-radius: 10px;
+}
+
+.item_name {
+  font-size: 20px;
+  width: 40%;
+}
+
+.item_quantity {
+  width: 10%;
+  margin-right: 10%;
+}
+
+.item_price {
+  width: 10%;
 }
 
 .btn {
@@ -286,13 +305,9 @@ export default defineComponent({
   color: #999999;
 }
 
-.item-name {
-  font-size: 40px;
-}
-
 input[type="checkbox"] {
-  width: 2rem;
-  height: 2rem;
+  width: 1.6rem;
+  height: 1.6rem;
   border-radius: 50%;
   border: 1px solid #999;
   appearance: none;
@@ -304,6 +319,20 @@ input[type="checkbox"]:checked {
   /* background: red; */
   border: none;
   background-image: url("https://as2.ftcdn.net/v2/jpg/02/59/69/81/1000_F_259698116_LCxGTz8PujushBCnkAXO18UQCMpbpDO0.jpg");
+  background-size: cover;
+}
+
+.on_toggle {
+  width: 2rem;
+  height: 2rem;
+  background-image: url("https://www.svgrepo.com/show/521469/arrow-down.svg");
+  background-size: cover;
+}
+
+.off_toggle {
+  width: 2rem;
+  height: 2rem;
+  background-image: url("https://www.svgrepo.com/show/521479/arrow-next-small.svg");
   background-size: cover;
 }
 

@@ -10,12 +10,17 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class LoginAuthDomainCommand {
- @JsonProperty("authUserId")
  @NotNull
  private AuthUserId authUserId;
  @NotNull
  private AuthProvider authProvider;
 
+ public LoginAuthDomainCommand(
+     @JsonProperty("authUserId") AuthUserId authUserId,
+     @JsonProperty("authProvider") AuthProvider authProvider) {
+  this.authUserId = authUserId;
+  this.authProvider = authProvider;
+ }
 }

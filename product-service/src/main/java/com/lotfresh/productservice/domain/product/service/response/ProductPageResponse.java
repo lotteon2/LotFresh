@@ -2,6 +2,7 @@ package com.lotfresh.productservice.domain.product.service.response;
 
 import com.lotfresh.productservice.domain.product.entity.Product;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.domain.Page;
@@ -11,8 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
-@Setter
-@ToString
+@NoArgsConstructor
 public class ProductPageResponse {
   private List<ProductResponse> products;
   private Integer totalPage;

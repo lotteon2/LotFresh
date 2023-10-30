@@ -4,7 +4,7 @@ import type { RecentProducts } from "@/interface/productInterface";
 
 export const useProductStore = defineStore("product", () => {
   const recentProducts = ref<RecentProducts[]>([]);
-  const setRecentProducts = (id: string, thumbnail: string) => {
+  const setRecentProducts = (id: number, thumbnail: string) => {
     if (recentProducts.value.length === 50) {
       recentProducts.value.shift();
       recentProducts.value.push({ id, thumbnail });

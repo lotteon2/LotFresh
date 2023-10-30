@@ -1,21 +1,12 @@
 <template>
   <div>
-    <div class="pageTitle">
+    <div>
       <div class="title">
         <h2>주문 상세정보</h2>
       </div>
-      <order :orderData="order" />
-
-      <br />
-      <br />
-      <br />
+      <!-- <OrderDetailInfo :orderData="order" /> -->
 
       <delivery />
-
-      <br />
-      <br />
-      <br />
-
       <payment />
     </div>
   </div>
@@ -23,11 +14,11 @@
 
 <script lang="ts">
 import { orderInstance } from "@/api/utils";
-import Order from "../components/order/Order.vue";
+import OrderDetailInfo from "../components/order/orderDetail/OrderDetailInfo.vue";
 import Delivery from "../components/order/orderDetail/ProductDeliveryInfo.vue";
 import Payment from "../components/order/orderDetail/PaymentInfo.vue";
 export default {
-  components: { Order, Delivery, Payment },
+  components: { OrderDetailInfo, Delivery, Payment },
   data() {
     return {
       order: Object,
@@ -59,12 +50,12 @@ export default {
 <style scoped>
 .title {
   text-align: center;
-  margin-top: 150px;
-  margin-bottom: 30px;
-  padding-bottom: 30px;
+  margin-top: 15vh;
+  margin-bottom: 3vh;
+  padding-bottom: 3vh;
   margin-left: auto;
   margin-right: auto;
-  border-bottom: 2px solid rgb(245, 199, 199);
-  font-size: 20px;
+  border-bottom: 2px solid #ef2a23;
+  font-size: 1.3rem;
 }
 </style>

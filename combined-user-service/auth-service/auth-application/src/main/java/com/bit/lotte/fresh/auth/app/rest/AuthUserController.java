@@ -1,11 +1,11 @@
 package com.bit.lotte.fresh.auth.app.rest;
 
-import com.bit.lotte.fresh.auth.app.helper.OauthAuthorizationRequestHelper;
-import com.bit.lotte.fresh.auth.app.helper.OauthUserApiHelper;
+
+
+import com.bit.lotte.fresh.auth.common.instant.TokenName;
 import com.bit.lotte.fresh.auth.common.util.RedisTokenBlacklistUtil;
 import com.bit.lotte.fresh.auth.common.util.TokenParserUtil;
 import com.bit.lotte.fresh.auth.service.dto.response.GetAdminInfoListResponse;
-import com.bit.lotte.fresh.auth.valueobject.Secret;
 import com.bit.lotte.fresh.auth.service.dto.command.AuthUserIdCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.CreateAuthDomainCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.LoginAuthDomainCommand;
@@ -18,23 +18,18 @@ import com.bit.lotte.fresh.auth.service.dto.response.UpdateAuthUserRoleResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.UpdateLoginSessionTimeResponse;
 import com.bit.lotte.fresh.auth.service.port.input.AuthUserApplicationService;
 import com.bit.lotte.fresh.auth.valueobject.AuthRole;
-import com.bit.lotte.fresh.auth.valueobject.OauthUserInfo;
-import com.bit.lotte.fresh.auth.common.instant.TokenName;
 import com.bit.lotte.fresh.auth.common.util.JwtTokenUtil;
 import com.bit.lotte.fresh.user.common.valueobject.AuthProvider;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
 import io.jsonwebtoken.JwtException;
 import java.io.IOException;
-import javax.naming.AuthenticationException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,7 +41,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -54,17 +49,7 @@ import org.springframework.web.client.RestTemplate;
 public class AuthUserController {
 
   private final AuthUserApplicationService applicationService;
-  private final OauthAuthorizationRequestHelper oauthAuthorizationRequestHelper;
-  private final OauthUserApiHelper oauthUserApiHelper;
   private final RedisTokenBlacklistUtil redisTokenBlacklistUtil;
-
-
-  private AuthProvider getAuthProviderFromUri(HttpServletRequest request) {
-    if (request.getRequestURI().contains("kakao")) {
-      return AuthProvider.KAKAO;
-    }
-    return AuthProvider.NONE;
-  }
 
   @PostMapping("/auth")
   public ResponseEntity<CreateAuthUserResponse> createAuthUser(
@@ -76,32 +61,22 @@ public class AuthUserController {
   @PostMapping("/auth/login")
   public ResponseEntity<LoginAuthUserResponse> login(
       @RequestBody LoginAuthDomainCommand command) {
-    return ResponseEntity.ok(applicationService.oauthLoginAuthUser(command));
+    return ResponseEntity.ok(applicationService.loginAuthUser(command));
   }
 
-  @GetMapping("/auth/oauth/kakao/login")
+  @PostMapping("/auth/oauth/provider/{provider}/users/{id}")
   public ResponseEntity<LoginAuthUserResponse> oauthLogin(
-      @RequestParam String code, HttpServletRequest request) {
-    AuthProvider provider = getAuthProviderFromUri(request);
-    String accessToken = oauthAuthorizationRequestHelper.callAccessToken(provider, code,
-        Secret.KAKAO_REST_KEY, Secret.KAKAO_REDIRECT + provider.name().toLowerCase() + "/login");
-    OauthUserInfo info = oauthUserApiHelper.getUserInfo(provider, accessToken);
-    LoginAuthDomainCommand loginCommand = new LoginAuthDomainCommand(new AuthUserId(info.getId()),
-        provider);
-    log.info("social authUserId:" + info.getId());
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    HttpEntity<LoginAuthDomainCommand> requestEntity = new HttpEntity<>(loginCommand, headers);
+      @PathVariable AuthProvider provider,
+      @RequestParam Long id, HttpServletRequest request) {
 
-    RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<LoginAuthUserResponse> responseEntity = restTemplate.postForEntity(
-        "http://localhost:8082/auth/login",
-        requestEntity,
-        LoginAuthUserResponse.class
-    );
-    return responseEntity.hasBody() ? responseEntity : null;
+    log.info("userId:{} " + id);
+
+    request.setAttribute("id", id);
+    request.setAttribute("provider", provider);
+
+    return ResponseEntity.ok(
+        applicationService.loginAuthUser(new LoginAuthDomainCommand(new AuthUserId(id), provider)));
   }
-
 
   @DeleteMapping("/auth")
   public ResponseEntity<DeleteAuthUserResponse> deleteAuthUser(
@@ -120,9 +95,11 @@ public class AuthUserController {
     return ResponseEntity.ok(applicationService.logOutAuthUser(new AuthUserIdCommand(authUserId)));
   }
 
+
+
+
+
   /**
-   * @param actorId
-   * @param targetId
    * @param categoryId 해당 기능은 유저에서 카테고리 관리자를 업데이트 하는 기능입니다. 일반적인 권한을 업데이트하는 것과 다르게 카테고리 관리자는 관리자는 하위
    *                   카테고리자를 관리할 수 있는지를 확인해야하므로 PathVariable이 하나 추가됩니다.
    */
@@ -153,7 +130,7 @@ public class AuthUserController {
   @PostMapping("/auth/login-extend")
   public ResponseEntity<UpdateLoginSessionTimeResponse> extendLoginSessionTime(
       HttpServletRequest request, HttpServletResponse response,
-      @AuthenticationPrincipal AuthUserId authUserId) throws AuthenticationException, IOException {
+      @AuthenticationPrincipal AuthUserId authUserId) throws  IOException {
     String ordinalToken = request.getHeader(TokenName.AUTHENTICATION_TOKEN_NAME);
     log.info("ordinal token: " + ordinalToken);
     redisTokenBlacklistUtil.blacklistToken(ordinalToken);
@@ -170,11 +147,9 @@ public class AuthUserController {
 
   @PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN') or hasRole('ROLE_CATEGORY_ADMIN')")
   @GetMapping("/auth")
-  public ResponseEntity<GetAdminInfoListResponse> getAdminList()
-      throws AuthenticationException, IOException {
+  public ResponseEntity<List<GetAdminInfoListResponse>> getAdminList()
+       {
     return ResponseEntity.ok(applicationService.getAuthUserList());
 
   }
-
-
 }

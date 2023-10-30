@@ -48,7 +48,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           SecurityContextHolder.getContext().setAuthentication(
               new UsernamePasswordAuthenticationToken(new AuthUserId(Long.valueOf(id)), null,
                   List.of(new SimpleGrantedAuthority(roleString))));
-          response.addHeader(AuthHeaderName.REQUEST_ID_HEADER, id);
         } else {
           throw new BadCredentialsException("로그아웃이 처리된 토큰은 사용할 수 없습니다.");
         }

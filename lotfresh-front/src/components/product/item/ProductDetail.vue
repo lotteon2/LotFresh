@@ -73,8 +73,12 @@
           <div class="cart-footer off">
             <div class="functions"></div>
             <div class="button-wrap">
-              <button class="cart-button">장바구니 담기</button>
-              <button class="base-button">바로 구매하기</button>
+              <button class="cart-button" @click="addCart">
+                장바구니 담기
+              </button>
+              <button class="base-button" @click="addOrderSheet">
+                바로 구매하기
+              </button>
             </div>
           </div>
         </div>
@@ -85,7 +89,36 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { createCart, addOrderheetInfos } from "@/api/cart/cart";
+import type { CartCreateDto, OrderSheetInfo } from "@/interface/cartInterface";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+
+const { province } = storeToRefs(useMemberStore());
+
 const props = defineProps(["product"]);
+
+const quantity = ref(1);
+
+const orderSheetInfo = ref<OrderSheetInfo>({
+  productId: props.product.id,
+  originalPrice: props.product.price,
+  discountedPrice: props.product.salesPrice,
+  productStock: props.product.stock,
+  productName: props.product.name,
+  productThumbnail: props.product.thumbnail,
+});
+
+const cartCreateDto = ref<CartCreateDto>({
+  productId: props.product.id,
+  discountedPrice: props.product.salesPrice,
+  province: province.value,
+  productStock: props.product.stock,
+  price: props.product.price,
+  productName: props.product.name,
+  productImageUrl: props.product.thumbnail,
+  selectedQuantity: quantity.value,
+});
 
 const formattedPrice = computed(() => {
   return new Intl.NumberFormat("ko-KR").format(props.product.price);
@@ -106,10 +139,22 @@ const totalPrice = computed(() => {
   );
 });
 
-// 여기서 버튼 클릭 발생시 내가 dto만들어서 장바구니 서버에 요청하면 장바구니는 해당데이터를 redis에만 저장한다. (유저 id를 키로)
-// axios 성공 후 then으로 route 주소 ordersheet 로 push 한다.
+const addCart = () => {
+  createCart(cartCreateDto.value)
+    .then((response) => {
+      console.log("성공", response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
-const quantity = ref(1);
+const orderSheetInfos = ref<OrderSheetInfo[]>([]);
+
+const addOrderSheet = () => {
+  orderSheetInfos.value.push(orderSheetInfo.value);
+  addOrderheetInfos(orderSheetInfos.value, province.value, props.product.id);
+};
 
 const minus = () => {
   if (quantity.value > 1) {

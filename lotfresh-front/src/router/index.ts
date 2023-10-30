@@ -35,7 +35,7 @@ const router = createRouter({
             {
               path: "list",
               name: "orderlist", // 프로그래밍방식( router.push("orderlist")할때 쓰는 용도)
-              component: OrderListView,
+              component: OrdersView,
             },
             {
               path: "detail",
@@ -137,7 +137,7 @@ const router = createRouter({
       name:"signup",
       component: SignUpView,
     },
-  ]
+  ],
 });
 
 export default router;

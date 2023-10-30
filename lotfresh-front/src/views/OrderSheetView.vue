@@ -103,7 +103,7 @@ export default {
           // "https://engineerinsight.tistory.com/73",
           "http://localhost:5173/payment-result/success/" + 3, // "qr url"로 수정 필요 😃
           "Lot-Fresh 카카오페이 QR 결제화면",
-          "top=0, left=0, width=500, height=600, menubar=no, toolbar=no, resizable=no, status=no"
+          "top=0, left=0, width=500, height=600, menubar=no, toolbar=no, resizable=no, status=no, scrollbars=no"
         );
       }
     };
@@ -116,7 +116,12 @@ export default {
       // )
       //   return;
       const { routeName, params } = event.data;
-      router.push({ name: routeName, params: params });
+      // window.scrollTo(0, 0);
+      console.log("반복적호출이되고있나?" + params);
+      if (params && params.orderId) {
+        window.scrollTo(0, 0);
+        router.push({ name: routeName, params: params });
+      }
     };
 
     onMounted(() => {

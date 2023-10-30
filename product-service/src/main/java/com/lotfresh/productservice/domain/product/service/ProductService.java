@@ -17,6 +17,7 @@ import com.lotfresh.productservice.domain.product.service.response.ProductRespon
 import com.lotfresh.productservice.domain.product.vo.BestProductVO;
 import com.lotfresh.productservice.domain.product.vo.SalesProductVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -117,6 +118,7 @@ public class ProductService {
     return ProductResponse.createSalesProductResponses(salesProductsVO, productMap);
   }
 
+  @Cacheable(key = "'all'", value = "newProductsCache")
   public List<ProductResponse> getNewProducts() {
     List<Product> newProducts = productRepository.findNewProductsLimit100();
     Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();

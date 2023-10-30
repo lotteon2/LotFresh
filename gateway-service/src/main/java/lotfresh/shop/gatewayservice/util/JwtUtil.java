@@ -40,7 +40,8 @@ public class JwtUtil {
     public void addJwtPayloadHeaders(ServerHttpRequest request, Claims claims) {
         request.mutate()
                 .header("Content-Type", "application/json;charset=UTF-8")
-                .header("userId", String.valueOf(getUserId(claims)))
+                .header("userId", String.valueOf(1L))
+//                .header("userId", String.valueOf(getUserId(claims)))
                 .build();
     }
 
@@ -48,7 +49,8 @@ public class JwtUtil {
         Long userId = (claims != null) ? getUserId(claims) : null;
         request.mutate()
                 .header("Content-Type", "application/json;charset=UTF-8")
-                .header("userId", userId == null ? null: String.valueOf(userId))
+                .header("userId", String.valueOf(1L))
+                // .header("userId", userId == null ? null: String.valueOf(userId))
                 .build();
     }
 }

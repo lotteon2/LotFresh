@@ -341,7 +341,7 @@ class ProductServiceTest {
     String order = "";
     String keyword = null;
     Integer page = 1;
-    PageRequest pageRequest = new PageRequest(order, keyword, page);
+    PageRequest pageRequest = new PageRequest(order, keyword, page, null);
     //     when
     ProductPageResponse productPageResponse =
         productService.getProductsByCategory(category1.getId(), pageRequest);
@@ -375,7 +375,7 @@ class ProductServiceTest {
     String order = "";
     String keyword = "바나나";
     Integer page = 1;
-    PageRequest pageRequest = new PageRequest(order, keyword, page);
+    PageRequest pageRequest = new PageRequest(order, keyword, page, null);
 
     //     when
     ProductPageResponse productPageResponse =
