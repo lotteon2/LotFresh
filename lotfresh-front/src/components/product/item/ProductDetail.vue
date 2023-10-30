@@ -96,7 +96,7 @@ const quantity = ref(1);
 const cartCreateDto = ref<CartCreateDto>({
   productId: props.product.id,
   discountedPrice: props.product.salesPrice,
-  province: "test",
+  province: "Seoul",
   productStock: props.product.stock,
   price: props.product.price,
   productName: props.product.name,

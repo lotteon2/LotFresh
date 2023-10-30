@@ -7,6 +7,6 @@ import type {
 export const createCart = async (
   cartCreateDto: CartCreateDto
 ): Promise<any> => {
-  const response = await cartInstance.post("/carts");
+  const response = await cartInstance.post("/carts", cartCreateDto);
   return response;
 };
