@@ -18,3 +18,8 @@ export interface ProductPageResponse {
   totalPage: number;
   totalElements: number;
 }
+
+export interface RecentProducts {
+  id: string;
+  thumbnail: string;
+}

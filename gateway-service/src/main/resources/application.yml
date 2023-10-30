@@ -56,7 +56,7 @@ spring:
             - Path=/product-service/**
           filters:
             - RewritePath=/product-service/(?<segment>.*), /$\{segment}
-#            - AuthenticationFilter
+            - ProductServiceFilter
 
         - id: order-service
           uri: lb://ORDER-SERVICE

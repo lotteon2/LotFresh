@@ -1,9 +1,15 @@
+server:
+  port: 8083
+
 spring:
   application:
     name: order-service
   jpa:
     properties:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+    hibernate:
+      ddl-auto: update
+
   datasource:
     url: jdbc:mysql://${DB_IP}:${ORDER_DB_PORT}/${ORDER_DB_SCHEMA}?serverTimeZone=UTC
     username: ${DB_USERNAME}
@@ -14,6 +20,16 @@ spring:
     host: ${DB_IP}
     port: ${REDIS_PORT}
     password: ${DB_PASSWORD}
+
+  kafka:
+    producer:
+      bootstrap-servers: ${KAFKA_IP}:9092
+      acks: all
+    consumer:
+      bootstrap-servers: ${KAFKA_IP}:9092
+      group-id: order-detail-status
+    listener:
+      type: SINGLE
 
 eureka:
   client:

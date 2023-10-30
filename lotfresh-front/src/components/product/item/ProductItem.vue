@@ -6,6 +6,7 @@
           class="product-img"
           :style="{ height: componentHeight }"
           :src="product.thumbnail"
+          @click="store"
         />
       </router-link>
       <div class="group-btn">
@@ -32,7 +33,11 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { useProductStore } from "@/stores/product";
+
+const productStore = useProductStore();
 const props = defineProps(["product", "index", "componentHeight"]);
+
 const formattedPrice = computed(() => {
   return new Intl.NumberFormat("ko-KR").format(props.product.price);
 });
@@ -40,6 +45,10 @@ const formattedPrice = computed(() => {
 const formattedDiscountPrice = computed(() => {
   return new Intl.NumberFormat("ko-KR").format(props.product.salesPrice);
 });
+
+const store = () => {
+  productStore.setRecentProducts(props.product.id, props.product.thumbnail);
+};
 </script>
 
 <style scoped>

@@ -34,13 +34,21 @@ public class JwtUtil {
     }
 
     private Long getUserId(Claims claims) {
-        return claims.get("UserId", Long.class);
+        return claims.get("userId", Long.class);
     }
 
     public void addJwtPayloadHeaders(ServerHttpRequest request, Claims claims) {
         request.mutate()
                 .header("Content-Type", "application/json;charset=UTF-8")
-                .header("UserId", String.valueOf(getUserId(claims)))
+                .header("userId", String.valueOf(getUserId(claims)))
+                .build();
+    }
+
+    public void addJwtPayloadHeadersForProductService(ServerHttpRequest request, Claims claims) {
+        Long userId = (claims != null) ? getUserId(claims) : null;
+        request.mutate()
+                .header("Content-Type", "application/json;charset=UTF-8")
+                .header("userId", userId == null ? null: String.valueOf(userId))
                 .build();
     }
 }

@@ -14,5 +14,6 @@ import java.util.List;
 public class KakaopayReadyRequest {
     private Long orderId;
     private Boolean isFromCart;
+    private String province;
     private List<OrderDetailVO> orderDetails;
 }

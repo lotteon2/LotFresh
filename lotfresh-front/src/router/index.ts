@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainView from "../views/MainView.vue";
+import SignUpView from "@/views/user/SignUpView.vue";
 import CancelRefundDetailView from "../views/CancelRefundDetailView.vue";
 import CancelRefundListView from "../views/CancelRefundListView.vue";
 import OrderListView from "../views/OrderLIstView.vue";
@@ -12,6 +13,8 @@ import SalesProductView from "@/views/product/SalesProductsView.vue";
 import CategoryProductsView from "@/views/product/CategoryProductsView.vue";
 import ProductDetailView from "@/views/product/ProductDetailView.vue";
 import SearchProductsView from "@/views/product/SarchProductsView.vue";
+import CartView from "../views/CartView.vue";
+import KakaopaySuccessPopUpView from "@/views/payment/KakaopaySuccessPopUpView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -104,7 +107,37 @@ const router = createRouter({
       name: "goods",
       component: ProductDetailView,
     },
-  ],
+
+    {
+      path: "/cart",
+      name: "cart",
+      component: CartView,
+    },
+
+    {
+      path: "/payment-result",
+      redirect: "/notfound",
+      children: [
+        {
+          path: "success",
+          redirect: "/notfound",
+          children: [
+            {
+              path: ":orderId",
+              name: "paymentResult",
+              component: KakaopaySuccessPopUpView,
+            },
+          ],
+        },
+      ],
+    },
+
+    {
+      path:"/signup",
+      name:"signup",
+      component: SignUpView,
+    },
+  ]
 });
 
 export default router;

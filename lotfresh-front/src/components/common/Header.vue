@@ -21,6 +21,13 @@
       </div>
     </div>
     <Menu />
+    <div class="header_login">
+      <div class="login_wrap">
+        <span class="right">
+          <a class="b" @click="emits('openModal')">로그인</a>
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,6 +35,9 @@
 import Menu from "./Menu.vue";
 import { ref } from "vue";
 import router from "@/router";
+
+const emits = defineEmits(["openModal"]);
+
 const keyword = ref();
 
 const next = () => {
@@ -125,5 +135,26 @@ const next = () => {
   cursor: pointer;
 }
 
-/* 시작 */
+/* 로그인 시작 */
+.header_login {
+  /* width: 1050px; */
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.login_wrap {
+  width: 1050px;
+  display: flex;
+  justify-content: end;
+  padding-right: 200px;
+}
+
+.b {
+  text-decoration: none;
+}
+
+.b:hover {
+  cursor: pointer;
+}
 </style>
