@@ -20,15 +20,12 @@ public class Member extends BaseEntity {
   @Column(nullable = false, unique = true)
   private String email;
 
-  @Column(nullable = false)
+  @Column
   private String name;
 
-  private String gender;
-
   @Builder
-  private Member(String email, String name, String gender) {
+  private Member(String email, String name) {
     this.email = email;
     this.name = name;
-    this.gender = gender;
   }
 }
