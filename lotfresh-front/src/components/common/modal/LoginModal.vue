@@ -25,27 +25,50 @@
   </div>
 </template>
 
-<script>
-import axios from 'axios'; // Import Axios for HTTP requests
+<script setup>
 import { defineEmits } from 'vue';
 
-export default {
-  setup() {
-    const emits = defineEmits(['closeModal']);
+const emits = defineEmits(['closeModal']);
+Kakao.init('186f2e1e76badfa97bcc72139441dd15'); 
+console.log(Kakao.isInitialized());
 
-    async function kakaoLogin() {
-      getCode()
+function kakaoLogin() {
+  Kakao.Auth.login({
+    success: function(auth) {
+      Kakao.API.request({
+        url: '/v2/user/me',
+        success: function(response) {
+          var userId = response.id; // Assuming that 'id' is the user's ID
+          console.log(userId);
+          console.log(response);
+
+          var url = "https://lot-fresh.shop/auth/oauth/provider/KAKAO/users/" + userId;
+
+          // You can use an AJAX request to send the request to the new URL
+          $.ajax({
+            type: "POST", // Change the HTTP method if needed
+            url: url,
+            success: function(newUserResponse) {
+              // Handle the response from the new request
+              console.log(newUserResponse);
+            },
+            error: function(error) {
+              // Handle errors
+              console.error("Error sending the new request:", error);
+            }
+          });
+        },
+        fail: function(error) {
+          $('alert-kakao-login').removeClass("d-none").text("카카오 로그인 처리 중 오류가 발생했습니다.");
+        }
+      });
+    },
+    fail: function(error) {
+      $('alert-kakao-login').removeClass("d-none").text("카카오 로그인 처리 중 오류가 발생했습니다.");
     }
-
-     function getCode() {
-  const clientId = '5dca3ee52a5c5e81b0415473b05366f0';
-  const redirectUri = 'https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO';
-  const authorizationUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
-  window.open(authorizationUrl, '_blank');
-    }
-
-  }}
-
+  });
+}
+  
 </script>
 <style scoped>
 #login-modal {
