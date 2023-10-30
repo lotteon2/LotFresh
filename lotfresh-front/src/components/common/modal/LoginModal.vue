@@ -25,27 +25,46 @@
   </div>
 </template>
 
-<script>
-import axios from 'axios'; // Import Axios for HTTP requests
+<script setup>
 import { defineEmits } from 'vue';
 
-export default {
-  setup() {
-    const emits = defineEmits(['closeModal']);
+const emits = defineEmits(['closeModal']);
+console.log(Kakao.isInitialized());
 
-    async function kakaoLogin() {
-      getCode()
+function kakaoLogin() {
+  Kakao.Auth.login({
+    success: function(auth) {
+      Kakao.API.request({
+        url: '/v2/user/me',
+        success: function(response) {
+          var userId = response.id; 
+          console.log(userId);
+          console.log(response);
+
+          var url = "https://lot-fresh.shop/auth/oauth/provider/KAKAO/users/" + userId;
+
+          $.ajax({
+            type: "POST", 
+            url: url,
+            success: function(newUserResponse) {
+              console.log(newUserResponse);
+            },
+            error: function(error) {
+              console.error("Error sending the new request:", error);
+            }
+          });
+        },
+        fail: function(error) {
+          console.log("카카오 로그인 에러")
+        }
+      });
+    },
+    fail: function(error) {
+      console.log("카카오 로그인 에러")
     }
-
-     function getCode() {
-  const clientId = '5dca3ee52a5c5e81b0415473b05366f0';
-  const redirectUri = 'https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO';
-  const authorizationUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
-  window.open(authorizationUrl, '_blank');
-    }
-
-  }}
-
+  });
+}
+  
 </script>
 <style scoped>
 #login-modal {
