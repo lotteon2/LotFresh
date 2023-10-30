@@ -30,9 +30,8 @@ import { defineEmits } from "vue";
 const emits = defineEmits(["closeModal"]);
 
 const kakaoLogin = async () => {
-  window.Kakao.init('5dca3ee52a5c5e81b0415473b05366f0');
   await window.Kakao.Auth.authorize({
-    redirectUri: 'https://www.lot-fresh.shop/auth/oauth/provider/KAKAO/token',
+    redirectUri: 'https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/token',
   });
 
   const urlParams = new URLSearchParams(window.location.search);
