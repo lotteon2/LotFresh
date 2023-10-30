@@ -1,4 +1,4 @@
-import { defaultInstance } from "../utils";
+import { defaultInstance, orderInstance } from "../utils";
 
 export interface ProductRequest {
   productId: number;
@@ -21,13 +21,18 @@ export const startKakaopay = async (
   orderData: OrderCreateRequest
 ): Promise<string> => {
   const jwtToken = localStorage.getItem("jwt");
-  const { data } = await defaultInstance.post(
-    `/order-service/order`,
-    orderData,
-    {
-      headers: { Authorization: `Bearer ${jwtToken}` },
-    }
-  );
+
+  const { data } = await orderInstance.post(`/order`, orderData, {
+    headers: { Authorization: `Bearer ${jwtToken}` },
+  });
+
+  // const { data } = await defaultInstance.post(
+  //   `/order-service/order`,
+  //   orderData,
+  //   {
+  //     headers: { Authorization: `Bearer ${jwtToken}` },
+  //   }
+  // );
   console.log(jwtToken);
   console.log(data);
   console.log(data.qrcodeUrl);
