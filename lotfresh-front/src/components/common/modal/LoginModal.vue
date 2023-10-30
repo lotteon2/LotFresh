@@ -26,15 +26,16 @@
 </template>
 
 <script setup>
+
 import { defineEmits } from "vue";
 const emits = defineEmits(["closeModal"]);
-Kakao.init('186f2e1e76badfa97bcc72139441dd15');
-console.log()
+console.log("is initialized:" +Kakao.isInitialized());
 function kakaoLogin() {
+  Kakao.init('186f2e1e76badfa97bcc72139441dd15');
   Kakao.Auth.login({
     scope: "profile_nickname, account_email",
     success: (authObj) => {
-      window.Kakao.API.request({
+      Kakao.API.request({
         url: "/v2/user/me",
         success: async (res) => {
           console.log(res);
