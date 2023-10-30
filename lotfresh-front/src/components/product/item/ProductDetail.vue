@@ -94,13 +94,13 @@ const props = defineProps(["product"]);
 const quantity = ref(1);
 
 const cartCreateDto = ref<CartCreateDto>({
-  productId: props.product.value.id,
-  discountedPrice: props.product.value.salesPrice,
+  productId: props.product.id,
+  discountedPrice: props.product.salesPrice,
   province: "test",
-  productStock: props.product.value.stock,
-  price: props.product.value.price,
-  productName: props.product.value.name,
-  productImageUrl: props.product.value.thumbnail,
+  productStock: props.product.stock,
+  price: props.product.price,
+  productName: props.product.name,
+  productImageUrl: props.product.thumbnail,
   selectedQuantity: quantity.value,
 });
 
@@ -123,13 +123,14 @@ const totalPrice = computed(() => {
   );
 });
 
-// 여기서 버튼 클릭 발생시 내가 dto만들어서 장바구니 서버에 요청하면 장바구니는 해당데이터를 redis에만 저장한다. (유저 id를 키로)
-// axios 성공 후 then으로 route 주소 ordersheet 로 push 한다.
-
 const addCart = () => {
-  createCart(cartCreateDto.value).then((response) => {
-    console.log("성공", response);
-  });
+  createCart(cartCreateDto.value)
+    .then((response) => {
+      console.log("성공", response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 const minus = () => {
