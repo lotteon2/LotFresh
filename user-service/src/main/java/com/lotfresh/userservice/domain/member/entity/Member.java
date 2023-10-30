@@ -5,12 +5,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@DynamicInsert
 public class Member extends BaseEntity {
 
   @Id
@@ -21,11 +23,14 @@ public class Member extends BaseEntity {
   private String email;
 
   @Column
-  private String name;
+  private String nickname;
+
+  @Column(nullable = false, columnDefinition = "boolean default false")
+  private Boolean isActive;
 
   @Builder
-  private Member(String email, String name) {
+  private Member(String email, String nickname) {
     this.email = email;
-    this.name = name;
+    this.nickname = nickname;
   }
 }
