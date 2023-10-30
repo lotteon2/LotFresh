@@ -32,10 +32,20 @@ public class OrderProductApiController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PostMapping("/ordersalesproduct")
+    public ResponseEntity orderSalesProduct(@RequestBody OrderProductRequest request) {
+        try {
+            orderProductService.orderSalesProduct(request);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     //테스트 완료
-    @PostMapping("/test/{orderId}")
+   /* @PostMapping("/test/{orderId}")
     public void inventory(@PathVariable Long orderId){
         orderProductService.inventory(orderId);
-    }
+    }*/
 }
 

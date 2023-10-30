@@ -74,11 +74,6 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
     }
 
 
-    @Override
-    public List<StorageProduct> productOrder(String province, Long productId, Integer stock) {
-        return null;
-    }
-
     /////////////////////////////마감 임박 상품
 
     @Override
@@ -94,7 +89,7 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
                 .from(storageProduct)
                 .join(storage).on(storage.id.eq(storageProduct.storageId))
                 .where(storage.id.eq(storageId)
-                        .and(storageProduct.expirationDateEnd.goe(nearExpiry)))
+                        .and(storageProduct.expirationDateEnd.lt(nearExpiry)))
                 .fetch();
     }
 
@@ -107,7 +102,7 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
                 .join(storage).on(storageProduct.storageId.eq(storage.id))
                 .where(storage.province.eq(province)
                         .and(storageProduct.productId.eq(productId))
-                        .and(storageProduct.expirationDateEnd.goe(nearExpiry)))
+                        .and(storageProduct.expirationDateEnd.lt(nearExpiry)))
                 .fetchOne();
     }
 
@@ -119,7 +114,7 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
                 .join(storage).on(storageProduct.storageId.eq(storage.id))
                 .where(storage.province.eq(province)
                         .and(storageProduct.productId.eq(productId))
-                        .and(storageProduct.expirationDateEnd.goe(nearExpiry)))
+                        .and(storageProduct.expirationDateEnd.lt(nearExpiry)))
                 .fetch();
     }
 
@@ -127,7 +122,6 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
     public List<StorageProduct> salesProductOrder(String province, Long productId, Integer stock) {
         return null;
     }
-
 
 
 }
