@@ -32,14 +32,14 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
-            if(!containsAuthorization(request)) {
-                return onError(response, HttpStatus.UNAUTHORIZED);
-            }
+            // if(!containsAuthorization(request)) {
+            //     return onError(response, HttpStatus.UNAUTHORIZED);
+            // }
 
-            Claims claims = jwtUtil.parse(getJwt(request));
-            if(isExpired(claims)) {
-                return onError(response, HttpStatus.UNAUTHORIZED);
-            }
+            // Claims claims = jwtUtil.parse(getJwt(request));
+            // if(isExpired(claims)) {
+            //     return onError(response, HttpStatus.UNAUTHORIZED);
+            // }
 
             jwtUtil.addJwtPayloadHeaders(request, claims);
 
