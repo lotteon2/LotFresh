@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fullscreen">
     <div>결제 성공하셨습니다.</div>
     <div>{{ countdown }}초 뒤 영수증 페이지로 이동합니다.</div>
   </div>
@@ -28,6 +28,7 @@ export default {
           },
           "http://localhost:5173" // "https://www.lot-fresh.shop"로 수정 필요 😃
         );
+        // clearInterval(intervalId);
       }, 3000);
 
       // 1초마다 카운트다운
@@ -47,4 +48,26 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.fullscreen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  width: 500px;
+  height: 600px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  gap: 25px;
+  font-size: 1.5rem;
+}
+
+.text_center {
+}
+</style>

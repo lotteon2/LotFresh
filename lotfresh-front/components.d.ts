@@ -33,6 +33,7 @@ declare module 'vue' {
     NewProductListSlide: typeof import('./src/components/product/NewProductListSlide.vue')['default']
     Order: typeof import('./src/components/order/Order.vue')['default']
     OrderDetail: typeof import('./src/components/order/OrderDetail.vue')['default']
+    OrderDetailInfo: typeof import('./src/components/order/orderDetail/OrderDetailInfo.vue')['default']
     OrdererInfo: typeof import('./src/components/order/orderSheet/OrdererInfo.vue')['default']
     OrderProduct: typeof import('./src/components/order/orderSheet/OrderProduct.vue')['default']
     PaymentBill: typeof import('./src/components/order/orderSheet/PaymentBill.vue')['default']
