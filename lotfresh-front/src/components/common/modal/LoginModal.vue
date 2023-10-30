@@ -38,8 +38,15 @@ const kakaoLogin = async () => {
   const code = urlParams.get('code');
   Kakao.Auth.setAccessToken(code);
   console.log(code);
-  let data = await window.Kakao.API.request({
-    url: '/v2/user/me',
+  
+  Kakao.API.request({
+  url: '/v2/user/me',
+})
+  .then(function(response) {
+    console.log(response);
+  })
+  .catch(function(error) {
+    console.log(error);
   });
 
   console.log('카카오 계정 정보', data);
