@@ -16,6 +16,7 @@ spring:
               - "https://lot-fresh.shop"
               - "https://admin.lot-fresh.shop"
               - "http://localhost:5173"
+              - "http://localhost:3000"
             allow-credentials: true
             allowedHeaders: "*"
             allowedMethods:
