@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainView from "../views/MainView.vue";
+import SignUpView from "@/views/user/SignUpView.vue";
 import CancelRefundDetailView from "../views/CancelRefundDetailView.vue";
 import CancelRefundListView from "../views/CancelRefundListView.vue";
 import OrderListView from "../views/OrderLIstView.vue";
@@ -130,7 +131,13 @@ const router = createRouter({
         },
       ],
     },
-  ],
+
+    {
+      path:"/signup",
+      name:"signup",
+      component: SignUpView,
+    },
+  ]
 });
 
 export default router;

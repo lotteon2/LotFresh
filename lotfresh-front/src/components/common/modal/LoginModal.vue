@@ -25,12 +25,37 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
+import { defineEmits } from "vue";
 const emits = defineEmits(["closeModal"]);
 
-const kakaoLogin = () => {
-  window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=5dca3ee52a5c5e81b0415473b05366f0&redirect_uri=https://www.lot-fresh.shop/auth-service/auth/oauth/kakao/login&response_type=code"
-};
+const kakaoLogin = async () => {
+  window.Kakao.init('5dca3ee52a5c5e81b0415473b05366f0');
+  await window.Kakao.Auth.authorize({
+    redirectUri: 'https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/token',
+  });
+
+  let data = await window.Kakao.API.request({
+    url: '/v2/user/me',
+  });
+
+  console.log('카카오 계정 정보', data);
+
+
+  const provider = 'KAKAO';
+  const id = data.id;
+  const requestUrl = `https://www.lot-fresh.shop/auth-service/auth/oauth/provider/${provider}/users/${id}`;
+
+  const response = await fetch(requestUrl);
+
+  if (response.status === 301) {
+    router.push({ name: 'signup', params: { id: data.id } });
+  } else {
+    const token = response.headers.get('Authorization');
+    localStorage.setItem('token', token);
+    router.push({ name: 'main' });
+  }
+}
 </script>
 
 <style scoped>

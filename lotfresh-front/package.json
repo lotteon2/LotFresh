@@ -10,6 +10,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
+    "@types/kakao-js-sdk": "^1.39.3",
     "axios": "^1.6.0",
     "element-plus": "^2.4.1",
     "normalize.css": "^8.0.1",
@@ -19,6 +20,7 @@
     "swiper": "^10.3.1",
     "vue": "^3.3.4",
     "vue-daum-postcode": "^1.2.1",
+    "vue-kakao-sdk": "^0.2.5",
     "vue-router": "^4.2.4",
     "vue-slick-carousel": "^1.0.6",
     "vue-slick-ts": "^1.1.0",
