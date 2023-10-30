@@ -33,9 +33,10 @@ const kakaoLogin = async () => {
   await window.Kakao.Auth.authorize({
     redirectUri: 'https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/token',
   });
-
+}
+  console.log("here");
   const urlParams = new URLSearchParams(window.location.search);
-  console.log(urlParams);
+  console.log("urlsParams:" + urlParams);
   const code = urlParams.get('code');
   console.log(code);
   Kakao.Auth.setAccessToken(code);
