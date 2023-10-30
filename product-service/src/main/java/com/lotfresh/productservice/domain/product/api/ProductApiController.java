@@ -48,13 +48,14 @@ public class ProductApiController {
     return ResponseEntity.ok().build();
   }
 
-  @GetMapping("/{productId}")
+  @GetMapping("/{productId}/{province}")
   public ResponseEntity<ProductResponse> getProductDetail(
       @RequestHeader(value = "userId", required = false) Long userId,
+      @PathVariable("province") String province,
       @PathVariable("productId") Long productId) {
     Integer stock = null;
     try {
-      stock = storageApiClient.getStock(userId, productId);
+      stock = storageApiClient.getStock(userId, province, productId);
     } catch (FeignException e) {
       log.error(e.getMessage());
     }
@@ -72,7 +73,7 @@ public class ProductApiController {
     return ResponseEntity.ok(productService.getBestProducts());
   }
 
-  @GetMapping("/sales-products")
+  @GetMapping("/sales-products/{province}")
   public ResponseEntity<List<ProductResponse>> getSalesProducts(
       @RequestHeader(value = "userId", required = false) Long userId)
       throws JsonProcessingException {
