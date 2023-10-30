@@ -8,6 +8,7 @@ spring:
     gateway:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+        - LoggingGlobalFilter
       globalcors:
         cors-configurations:
           "[/**]":
@@ -32,7 +33,7 @@ spring:
             - Path=/auth-service/**
           filters:
             - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
-#            - AuthenticationFilter
+        #            - AuthenticationFilter
 
         - id: user-service
           uri: lb://USER-SERVICE
@@ -91,7 +92,6 @@ jwt:
   secret: ${JWT_SECRET}
   access-expire: ${JWT_ACCESS_EXPIRE}
   refresh-expire: ${JWT_REFRESH_EXPIRE}
-
 
 logging:
   level:
