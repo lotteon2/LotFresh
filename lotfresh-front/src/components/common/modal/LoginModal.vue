@@ -29,45 +29,50 @@
 import { defineEmits } from "vue";
 const emits = defineEmits(["closeModal"]);
 window.Kakao.init('5dca3ee52a5c5e81b0415473b05366f0');
-const kakaoLogin = async () => {
-  await window.Kakao.Auth.authorize({
-    redirectUri: 'https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/token',
+
+function kakaoLogin() {
+  window.Kakao.Auth.login({
+    scope: "profile_nickname, account_email",
+    success: (authObj) => {
+      window.Kakao.API.request({
+        url: "/v2/user/me",
+        success: async (res) => {
+          console.log(res);
+
+          const email = res.kakao_account.email;
+          const nickname = res.properties.nickname;
+
+          // Make a POST request to your server for KAKAO login
+          $.post("member-rest.bit?cmd=kakaoLogin", {
+            email: email,
+            nickname: nickname
+          }, async function () {
+            // After successful login, fetch user data and handle redirection
+            const provider = 'KAKAO';
+            const id = res.id;
+            const requestUrl = `https://www.lot-fresh.shop/auth-service/auth/oauth/provider/${provider}/users/${id}`;
+
+            const response = await fetch(requestUrl);
+
+            if (response.status === 301) {
+              router.push({ name: 'signup', params: { id: id } });
+            } else {
+              const token = response.headers.get('Authorization');
+              localStorage.setItem('token', token);
+              router.push({ name: 'main' });
+            }
+          }).fail(function (err) {
+            console.log(err);
+          });
+        },
+        fail: (res) => {
+          console.log(res);
+        },
+      });
+    },
   });
-
-  const urlParams = new URLSearchParams(window.location.search);
-  console.log(urlParams);
-  const code = urlParams.get('code');
-  console.log(code);
-  Kakao.Auth.setAccessToken(code);
-  
-  
-  Kakao.API.request({
-  url: '/v2/user/me',
-})
-  .then(function(response) {
-    console.log(response);
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
-
-  console.log('카카오 계정 정보', data);
-
-
-  const provider = 'KAKAO';
-  const id = data.id;
-  const requestUrl = `https://www.lot-fresh.shop/auth-service/auth/oauth/provider/${provider}/users/${id}`;
-
-  const response = await fetch(requestUrl);
-
-  if (response.status === 301) {
-    router.push({ name: 'signup', params: { id: data.id } });
-  } else {
-    const token = response.headers.get('Authorization');
-    localStorage.setItem('token', token);
-    router.push({ name: 'main' });
-  }
 }
+
 </script>
 
 <style scoped>
