@@ -31,6 +31,7 @@ const emits = defineEmits(["closeModal"]);
 window.Kakao.init('5dca3ee52a5c5e81b0415473b05366f0');
 
 function kakaoLogin() {
+
   window.Kakao.Auth.login({
     scope: "profile_nickname, account_email",
     success: (authObj) => {
@@ -38,7 +39,6 @@ function kakaoLogin() {
         url: "/v2/user/me",
         success: async (res) => {
           console.log(res);
-
           const email = res.kakao_account.email;
           const nickname = res.properties.nickname;
 
