@@ -42,15 +42,21 @@ function kakaoLogin() {
           console.log(userId);
           console.log(response);
 
-          // Send a new request to "https://lot-fresh.shop/auth/oauth/provider/KAKAO/users/{id}"
-          
-          var url = "https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/users/" + userId
+          var url = "https://lot-fresh.shop/auth/oauth/provider/KAKAO/users/" + userId;
 
           // Use Axios to send the request
           axios
             .post(url, {})
             .then(function(response) {
               console.log(response.data);
+
+              // Check the status code for redirection
+              if (response.status === 301) {
+                console.log("redirect to sign-up page")
+                router.push({ name: 'signup', params: { userId } });
+              } else {
+                router.push({ name: 'main' });
+              }
             })
             .catch(function(error) {
               console.error("Error sending the new request:", error);
