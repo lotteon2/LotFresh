@@ -5,6 +5,7 @@ import com.lotfresh.userservice.domain.auth.utils.TokenManager;
 import com.lotfresh.userservice.domain.member.entity.Member;
 import com.lotfresh.userservice.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
@@ -35,8 +37,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
     var attributes = oAuth2User.getAttributes();
 
-    Member member = memberRepository.findByEmail((String) attributes.get("email")).get();
-
+    Member member = memberRepository.findByEmail((String) attributes.get("email")).orElse(null);
+    log.info("email : {}", attributes.get("email"));
+    log.info("nickname : {}", attributes.get("nickname"));
     if (member == null) {
       member =
           Member.builder()
