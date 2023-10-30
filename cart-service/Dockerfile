@@ -5,3 +5,4 @@ WORKDIR /usr/src/app
 # COPY ${JAR_FILE} app.jar
 COPY cart-container-1.0-SNAPSHOT.jar app.jar
 CMD ["java","-jar","app.jar"]
+# 
