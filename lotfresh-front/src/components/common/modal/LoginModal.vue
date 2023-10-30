@@ -28,6 +28,7 @@
 <script setup>
 import { defineEmits } from 'vue';
 import axios from 'axios';
+import router from '@/router/index.ts'
 
 const emits = defineEmits(['closeModal']);
 console.log(Kakao.isInitialized());
