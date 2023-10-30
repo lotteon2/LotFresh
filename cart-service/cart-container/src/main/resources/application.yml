@@ -2,7 +2,7 @@ server:
   port: 8082
 spring:
   application:
-    name: storage-service
+    name: cart-service
   redis:
     host: ${DB_IP}
     port: ${REDIS_PORT}
@@ -36,4 +36,3 @@ logging:
     org.hibernate.type: trace
     org:
       springframework: INFO
-#
