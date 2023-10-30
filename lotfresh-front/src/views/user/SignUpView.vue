@@ -157,7 +157,7 @@ export default {
         name: this.name,
         contactNumber: this.contactNumber,
         localAddress: this.localAddress,
-        province: this.province,
+        province: this.province.replace(/-do$/, ''), 
         zipcode: this.zoncode,
       };
 
@@ -167,7 +167,8 @@ export default {
         if (response.status === 200) {
           this.$emit('show-modal', '회원가입이 완료되었습니다');
           router.push({ name: 'main' });
-        } else {
+        } 
+        else{
           
           this.$emit('show-modal', '회원가입을 실패했습니다');
         }

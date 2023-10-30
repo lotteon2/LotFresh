@@ -52,10 +52,9 @@ function kakaoLogin() {
 
               // Check the status code for redirection
               if (response.status === 301) {
-                // Redirect to the signup route using the route name
-                router.push({ name: 'signup' });
+                console.log("redirect to sign-up page")
+                router.push({ name: 'signup', params: { userId } });
               } else {
-                // Redirect to the main route using the route name
                 router.push({ name: 'main' });
               }
             })
