@@ -14,8 +14,6 @@ public interface StorageProductRepositoryCustom {
 
     List<StorageProduct> getProductOrderList(String province, Long productId);
 
-    List<StorageProduct> productOrder(String province, Long productId, Integer stock);
-
     List<StorageProductSearchRequest> findSalesProductsByStorageId(Long storageId);
 
     Integer getSalesProductStock(String province, Long productId);

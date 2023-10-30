@@ -32,6 +32,11 @@ public class StorageProductApiController {
     public ResponseEntity <Integer> stock (@PathVariable String province, @PathVariable Long productId){
         return ResponseEntity.ok(storageProductService.getProductStock(province, productId));
     }
+
+    @GetMapping("/salesstock/{province}/{productId}")
+    public ResponseEntity <Integer> salesstock (@PathVariable String province, @PathVariable Long productId){
+        return ResponseEntity.ok(storageProductService.getSalesProductStock(province, productId));
+    }
     //order에서 주문테이블 생성 및 재고 차감을 위해 해당 물품 객체 리스트 반환
 /*    @GetMapping("/test/{storageId}/{productId}")
     public ResponseEntity<List<StorageProduct>> test(@PathVariable Long storageId, @PathVariable Long productId) {
@@ -42,6 +47,13 @@ public class StorageProductApiController {
     @PostMapping("/order/{province}/{productId}/{stock}")
     public ResponseEntity<List<StorageProductOrder>> order(@PathVariable String province, @PathVariable Long productId, @PathVariable Integer stock) {
         return ResponseEntity.ok(storageProductService.productOrder(province,
+                productId,
+                stock));
+    }
+
+    @PostMapping("/salesorder/{province}/{productId}/{stock}")
+    public ResponseEntity<List<StorageProductOrder>> saelsorder(@PathVariable String province, @PathVariable Long productId, @PathVariable Integer stock) {
+        return ResponseEntity.ok(storageProductService.productsalesOrder(province,
                 productId,
                 stock));
     }

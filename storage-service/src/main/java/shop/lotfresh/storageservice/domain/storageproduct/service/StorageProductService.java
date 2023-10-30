@@ -45,21 +45,6 @@ public class StorageProductService {
         findNearExpiryProductsByStorageId();
     }
 
-   /* @Transactional
-    public void findNearExpiryProductsByStorageId() {
-
-        for(long i=1; i<=14; i++ ) {
-            try {
-                List<StorageProduct> storageProducts = storageProductRepository.findNearExpiryProductsByStorageId(i);
-                for (StorageProduct storageProduct : storageProducts) {
-                    SalesStorageProductRedis redisData = convertToRedisData(storageProduct);
-                    salesStorageProductRedisRepository.save(i, redisData);
-                }
-            } finally {
-
-            }
-        }
-    }*/
    @Transactional
    public void findNearExpiryProductsByStorageId() {
        for (long i = 1; i <= 14; i++) {
@@ -96,36 +81,10 @@ public class StorageProductService {
     public Integer getProductStock(String province, Long productId) {
         return storageProductRepository.getProductStock(province, productId);
     }
-    @Transactional
-    public List<StorageProduct> getProductOrderList(String province, Long productId) {
-        return storageProductRepository.getProductOrderList(province, productId);
+
+    public Integer getSalesProductStock(String province, Long productId) {
+        return storageProductRepository.getSalesProductStock(province, productId);
     }
-
-    //TODO 음수, 0, 이상한값 들어오는거 처리해야함/ 예외처리랑 같이 작업하기
-    //TODO 상품주문에 넘겨주는 로직 짜기 << 단순히 리턴값으로 재고 차단한 객체 ID 전달보다 좋은 방법 있는지?
-  /*  @Transactional
-    public List<StorageProduct> productOrder(Long storageId, Long productId, Integer stock) {
-        List<StorageProduct> products = storageProductRepository.getProductOrderList(storageId, productId);
-
-        long totalStock = storageProductRepository.getProductStock(storageId, productId);
-
-        if (totalStock < stock) {
-            throw new IllegalArgumentException("주문을 위한 재고가 부족합니다..");
-        }
-
-        for (StorageProduct product : products) {
-            if (product.getStock() >= stock) {
-                product.setStock(product.getStock() - stock);
-                break;
-            } else {
-                stock -= product.getStock();
-                product.setStock(0L);
-            }
-        }
-
-        return products;
-    }*/
-
     @Transactional
     public List<StorageProductOrder> productOrder(String province, Long productId, Integer stock) {
         List<StorageProduct> products = storageProductRepository.getProductOrderList(province, productId);
@@ -153,4 +112,29 @@ public class StorageProductService {
         return subtractedProducts;
     }
 
+    public List<StorageProductOrder> productsalesOrder(String province, Long productId, Integer stock) {
+        List<StorageProduct> products = storageProductRepository.getSalesProductOrderList(province, productId);
+
+        long totalStock = storageProductRepository.getSalesProductStock(province, productId);
+
+        if (totalStock < stock) {
+            throw new IllegalArgumentException("주문을 위한 재고가 부족합니다..");
+        }
+
+        List<StorageProductOrder> subtractedProducts = new ArrayList<>();
+
+        for (StorageProduct product : products) {
+            if (product.getStock() >= stock) {
+                subtractedProducts.add(new StorageProductOrder(product.getId(), stock));
+                product.setStock(product.getStock() - stock);
+                break;
+            } else {
+                subtractedProducts.add(new StorageProductOrder(product.getId(), product.getStock()));
+                stock -= product.getStock();
+                product.setStock(0);
+            }
+        }
+
+        return subtractedProducts;
+    }
 }

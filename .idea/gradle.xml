@@ -4,9 +4,7 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/order-service" />
-        <option name="gradleHome" value="/usr/local/Cellar/gradle/7.5.1_1/libexec" />
         <option name="gradleJvm" value="16" />
         <option name="modules">
           <set>
@@ -15,9 +13,7 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/payment-service" />
-        <option name="gradleHome" value="/usr/local/Cellar/gradle/7.5.1_1/libexec" />
         <option name="gradleJvm" value="16" />
         <option name="modules">
           <set>
@@ -26,9 +22,7 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/product-service" />
-        <option name="gradleHome" value="/usr/local/Cellar/gradle/7.5.1_1/libexec" />
         <option name="gradleJvm" value="16" />
         <option name="modules">
           <set>
@@ -37,10 +31,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/storage-service" />
-        <option name="gradleHome" value="/usr/local/Cellar/gradle/7.5.1_1/libexec" />
-        <option name="gradleJvm" value="16" />
+        <option name="gradleJvm" value="11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/storage-service" />

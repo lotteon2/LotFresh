@@ -67,4 +67,26 @@ public class OrderProductService {
         }
     }
 
+    public void orderSalesProduct(@RequestBody OrderProductRequest request) throws Exception {
+        String province = request.getProvince();
+        long orderId = request.getOrderId();
+        List<ProductInfo> productInfos = request.getProductInfos();
+
+        List<StorageProductOrder> productOrders = new ArrayList<>();
+        for (ProductInfo infos : productInfos) {
+            List<StorageProductOrder> orders = storageProductService.productsalesOrder(province, infos.getProductId(), infos.getStock());
+            productOrders.addAll(orders);
+        }
+
+        for (StorageProductOrder productOrder : productOrders) {
+            OrderProduct orderProd = new OrderProduct();
+            orderProd.setStorageProductId(productOrder.getStorageProductId());
+            orderProd.setStock(productOrder.getStock());
+            orderProd.setIsDeleted(0);
+            orderProd.setOrderId(orderId);
+
+            orderProductRepository.save(orderProd);
+        }
+    }
+
 }
