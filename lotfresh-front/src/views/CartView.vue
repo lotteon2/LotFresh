@@ -37,7 +37,7 @@
                 class="item_img"
               />
             </div>
-            <div class="item_name">{{ cartItemResponse.name }}</div>
+            <div class="item_name">{{ cartItemResponse.productName }}</div>
             <div class="item_quantity">
               <div class="option">
                 <button
@@ -46,7 +46,7 @@
                   @click="minus(index)"
                   value="-"
                 ></button>
-                <div id="result">{{ cartItemResponse.quantity }}</div>
+                <div id="result">{{ cartItemResponse.productStock }}</div>
                 <button
                   type="button"
                   class="btn up on"
@@ -92,15 +92,8 @@ import { defineComponent } from "vue";
 import DeliverySide from "../components/cart/DeliverySide.vue";
 import PaymentSide from "../components/cart/PaymentSide.vue";
 import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddressFinderModal.vue";
+import type { OrderSheetInfo } from "@/interface/cartInterface";
 import { watch } from "vue";
-
-interface CartItemResponse {
-  thumbnail: String;
-  name: String;
-  quantity: number;
-  originalPrice: number;
-  discountedPrice: number;
-}
 
 export default defineComponent({
   components: {
@@ -113,28 +106,31 @@ export default defineComponent({
       isOrderItemsVisible: true,
       cartItemResponses: [
         {
-          thumb: "aaa",
-          name: "aaa",
-          quantity: 1,
+          productId: 1,
           originalPrice: 1000,
           discountedPrice: 900,
+          productStock: 1,
+          productName: "productName1",
+          productThumbnail: "thumbnailValue",
         },
         {
-          thumb: "aaa",
-          name: "bbb",
-          quantity: 1,
+          productId: 1,
           originalPrice: 1000,
           discountedPrice: 900,
+          productStock: 1,
+          productName: "productName2",
+          productThumbnail: "thumbnailValue",
         },
         {
-          thumb: "aaa",
-          name: "ccc",
-          quantity: 1,
+          productId: 1,
           originalPrice: 1000,
           discountedPrice: 900,
+          productStock: 1,
+          productName: "productName3",
+          productThumbnail: "thumbnailValue",
         },
       ],
-      selectedCartItems: [] as CartItemResponse[],
+      selectedCartItems: [] as OrderSheetInfo[],
       isAddressModalOpen: false,
       addressInfo: {
         zipCode: "초기 우편번호",
@@ -150,12 +146,12 @@ export default defineComponent({
       this.isOrderItemsVisible = !this.isOrderItemsVisible;
     },
     minus(index: number) {
-      if (this.cartItemResponses[index].quantity > 1) {
-        this.cartItemResponses[index].quantity--;
+      if (this.cartItemResponses[index].productStock > 1) {
+        this.cartItemResponses[index].productStock--;
       }
     },
     plus(index: number) {
-      this.cartItemResponses[index].quantity++;
+      this.cartItemResponses[index].productStock++;
     },
     openAddressModal: function (): void {
       this.isAddressModalOpen = true;
@@ -173,10 +169,10 @@ export default defineComponent({
         let discount = 0;
         if (newSelectedCartItems) {
           for (const cartItem of newSelectedCartItems) {
-            total += cartItem.originalPrice * cartItem.quantity;
+            total += cartItem.originalPrice * cartItem.productStock;
             discount +=
               (cartItem.originalPrice - cartItem.discountedPrice) *
-              cartItem.quantity;
+              cartItem.productStock;
           }
           this.totalPrice = total;
           this.discountPrice = discount;
