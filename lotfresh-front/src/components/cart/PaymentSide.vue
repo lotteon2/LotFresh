@@ -23,13 +23,7 @@
 </template>
 
 <script lang="ts">
-interface CartItemResponse {
-  thumbnail: String;
-  name: String;
-  quantity: number;
-  originalPrice: number;
-  discountedPrice: number;
-}
+import type { OrderSheetInfo } from "@/interface/cartInterface";
 
 export default {
   props: {
@@ -42,7 +36,7 @@ export default {
       default: 0,
     },
     items: {
-      type: Array as () => CartItemResponse[],
+      type: Array as () => OrderSheetInfo[],
       default: () => [],
     },
   },
