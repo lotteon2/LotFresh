@@ -1,8 +1,11 @@
 package shop.lotfresh.storageservice.domain.storageproduct.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import shop.lotfresh.storageservice.domain.redis.SalesStorageProductRedis;
 import shop.lotfresh.storageservice.domain.redis.SalesStorageProductRedisRepository;
+import shop.lotfresh.storageservice.domain.storageproduct.api.request.StorageProductSearchRequest;
 import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
 import shop.lotfresh.storageservice.domain.storageproduct.repository.StorageProductRepository;
 import shop.lotfresh.storageservice.domain.storageproduct.vo.StorageProductOrder;
@@ -14,6 +17,7 @@ import java.util.List;
 
 @Service
 public class StorageProductService {
+    private static final Logger log = LoggerFactory.getLogger(StorageProductService.class);
     private final StorageProductRepository storageProductRepository;
     private final SalesStorageProductRedisRepository salesStorageProductRedisRepository;
 
@@ -60,24 +64,23 @@ public class StorageProductService {
    public void findNearExpiryProductsByStorageId() {
        for (long i = 1; i <= 14; i++) {
            try {
-               List<StorageProduct> storageProducts = storageProductRepository.findNearExpiryProductsByStorageId(i);
+               List<StorageProductSearchRequest> storageProducts = storageProductRepository.findSalesProductsByStorageId(i);
 
                List<SalesStorageProductRedis> redisDataList = new ArrayList<>();
-               for (StorageProduct storageProduct : storageProducts) {
-                   Long productId = storageProduct.getProductId();
-                   int stock = storageProduct.getStock();
+               for (StorageProductSearchRequest storageProduct : storageProducts) {
+                   Long productId = storageProduct.getStorageProduct().getProductId();
+                   int stock = storageProduct.getStorageProduct().getStock();
 
                    SalesStorageProductRedis redisData = new SalesStorageProductRedis();
                    redisData.setProductId(productId);
                    redisData.setStock(stock);
 
                    redisDataList.add(redisData);
+                   log.info("Processing storage ID: {}", i);
                }
-
-               // Redis에 리스트 객체로 저장
-               salesStorageProductRedisRepository.saveList(i, redisDataList);
+               salesStorageProductRedisRepository.saveList(storageProducts.get(0).getProvince(), redisDataList);
            } catch (Exception e) {
-               // 예외 처리 로직 추가
+               log.error("An error occurred while processing storage ID: {}", i, e);
            }
        }
    }

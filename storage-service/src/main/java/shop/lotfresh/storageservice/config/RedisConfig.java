@@ -7,9 +7,7 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import shop.lotfresh.storageservice.domain.redis.SalesStorageProductRedis;
 
 @Configuration
 @EnableRedisRepositories
@@ -35,15 +33,11 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, SalesStorageProductRedis> redisTemplate() {
-        RedisTemplate<String, SalesStorageProductRedis> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String,String> redisTemplate() {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-
-        Jackson2JsonRedisSerializer<SalesStorageProductRedis> valueSerializer = new Jackson2JsonRedisSerializer<>(SalesStorageProductRedis.class);
-        redisTemplate.setValueSerializer(valueSerializer);
-        redisTemplate.setHashKeySerializer(valueSerializer);
-        redisTemplate.setHashValueSerializer(valueSerializer);
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
 
         return redisTemplate;
     }

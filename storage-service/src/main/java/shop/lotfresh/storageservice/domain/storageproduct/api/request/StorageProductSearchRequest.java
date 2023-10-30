@@ -1,20 +1,17 @@
 package shop.lotfresh.storageservice.domain.storageproduct.api.request;
 
 import lombok.Getter;
-
-import java.util.Date;
+import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
 
 @Getter
 public class StorageProductSearchRequest {
 
-    private Long product_id;
+    private final StorageProduct storageProduct;
+    private final String province;
 
-    private String province;
-
-    private Integer stock;
-
-    private Date expiration_date_start;
-
-    private Date expiration_date_end;
+    public StorageProductSearchRequest(StorageProduct storageProduct, String province) {
+        this.storageProduct = storageProduct;
+        this.province = province;
+    }
 
 }
