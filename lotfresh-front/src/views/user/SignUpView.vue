@@ -158,7 +158,7 @@ export default {
         contactNumber: this.contactNumber,
         localAddress: this.localAddress,
         province: this.province,
-        zoncode: this.zoncode,
+        zipcode: this.zoncode,
       };
 
       try {
