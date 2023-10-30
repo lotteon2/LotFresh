@@ -38,7 +38,6 @@ function kakaoLogin() {
         url: "/v2/user/me",
         success: async (res) => {
           console.log(res);
-
           const email = res.kakao_account.email;
           const nickname = res.properties.nickname;
 
