@@ -28,7 +28,7 @@
 <script setup>
 import { defineEmits } from "vue";
 const emits = defineEmits(["closeModal"]);
-Kakao.init('5dca3ee52a5c5e81b0415473b05366f0');
+Kakao.init('186f2e1e76badfa97bcc72139441dd15');
 console.log()
 function kakaoLogin() {
   Kakao.Auth.login({
