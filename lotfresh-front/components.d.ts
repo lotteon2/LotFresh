@@ -29,6 +29,7 @@ declare module 'vue' {
     LoginModal: typeof import('./src/components/common/modal/LoginModal.vue')['default']
     Menu: typeof import('./src/components/common/Menu.vue')['default']
     ModalFrame: typeof import('./src/components/common/modal/ModalFrame.vue')['default']
+    MypageSideBar: typeof import('./src/components/mypage/MypageSideBar.vue')['default']
     NewProductList: typeof import('./src/components/product/NewProductList.vue')['default']
     NewProductListSlide: typeof import('./src/components/product/NewProductListSlide.vue')['default']
     Order: typeof import('./src/components/order/Order.vue')['default']
