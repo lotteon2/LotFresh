@@ -36,12 +36,13 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             //     return onError(response, HttpStatus.UNAUTHORIZED);
             // }
 
-            // Claims claims = jwtUtil.parse(getJwt(request));
-            // if(isExpired(claims)) {
-            //     return onError(response, HttpStatus.UNAUTHORIZED);
-            // }
+//             Claims claims = jwtUtil.parse(getJwt(request));
+//             if(isExpired(claims)) {
+//                 return onError(response, HttpStatus.UNAUTHORIZED);
+//             }
 
-            jwtUtil.addJwtPayloadHeaders(request, claims);
+//            jwtUtil.addJwtPayloadHeaders(request, claims);
+            jwtUtil.addJwtPayloadHeaders(request, null);
 
             return chain.filter(exchange);
         });

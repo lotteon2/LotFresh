@@ -40,7 +40,8 @@ public class JwtUtil {
     public void addJwtPayloadHeaders(ServerHttpRequest request, Claims claims) {
         request.mutate()
                 .header("Content-Type", "application/json;charset=UTF-8")
-                .header("userId", String.valueOf(getUserId(claims)))
+                .header("userId", String.valueOf(1L))
+//                .header("userId", String.valueOf(getUserId(claims)))
                 .build();
     }
 
