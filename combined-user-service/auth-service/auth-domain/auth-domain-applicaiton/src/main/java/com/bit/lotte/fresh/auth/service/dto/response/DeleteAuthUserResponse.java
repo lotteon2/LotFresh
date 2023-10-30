@@ -2,6 +2,8 @@ package com.bit.lotte.fresh.auth.service.dto.response;
 
 import com.bit.lotte.fresh.user.common.valueobject.AuthProvider;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +14,15 @@ import lombok.RequiredArgsConstructor;
 public class DeleteAuthUserResponse {
 
   @NotNull
-  private  AuthUserId authUserId;
+  private AuthUserId authUserId;
   @NotNull
-  private  AuthProvider authProvider;
+  private AuthProvider authProvider;
   private String message;
 
-  public DeleteAuthUserResponse(AuthUserId authUserId,
-      AuthProvider authProvider) {
+  @JsonCreator
+  public DeleteAuthUserResponse(
+      @JsonProperty("authUserId") AuthUserId authUserId,
+      @JsonProperty("authProvider") AuthProvider authProvider) {
     this.authUserId = authUserId;
     this.authProvider = authProvider;
     this.getMessage();

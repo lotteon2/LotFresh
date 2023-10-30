@@ -25,14 +25,28 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const emits = defineEmits(["closeModal"]);
+<script>
+import axios from 'axios'; // Import Axios for HTTP requests
+import { defineEmits } from 'vue';
 
-const kakaoLogin = () => {
-  window.location.href = "https://www.lot-fresh.shop/auth/oauth/kakao/login";
-};
+export default {
+  setup() {
+    const emits = defineEmits(['closeModal']);
+
+    async function kakaoLogin() {
+      getCode()
+    }
+
+     function getCode() {
+  const clientId = '5dca3ee52a5c5e81b0415473b05366f0';
+  const redirectUri = 'https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO';
+  const authorizationUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+  window.open(authorizationUrl, '_blank');
+    }
+
+  }}
+
 </script>
-
 <style scoped>
 #login-modal {
   background-color: white;

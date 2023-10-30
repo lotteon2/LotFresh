@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 spring:
   application:
     name: order-service
@@ -27,7 +30,6 @@ spring:
       group-id: order-detail-status
     listener:
       type: SINGLE
-
 
 eureka:
   client:

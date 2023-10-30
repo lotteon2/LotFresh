@@ -16,4 +16,8 @@ public class RedisRepository {
         stringValueOperations.set(key,value,duration);
     }
 
+    public String getValues(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
 }
