@@ -59,10 +59,17 @@
             <span class="check-span">*</span>
           </td>
           <td>
-            <input class="zoncode-input" v-model="zoncode" placeholder="우편번호" readonly />
+            <input
+              class="zoncode-input"
+              v-model="zoncode"
+              placeholder="우편번호"
+              readonly
+            />
           </td>
           <td>
-            <button class="addAddressButton" @click="execDaumPostcode">주소 추가</button>
+            <button class="addAddressButton" @click="execDaumPostcode">
+              주소 추가
+            </button>
           </td>
         </tr>
       </tbody>
@@ -71,20 +78,16 @@
   </div>
 </template>
 
-
 <script>
-
 export default {
-
   props: {
     showModal: Boolean,
-    modalMessage: "추가 정보를 입력해야합니다."
+    modalMessage: "추가 정보를 입력해야합니다.",
   },
-
 
   data() {
     return {
-      id:"",
+      id: "",
       name: "",
       contactNumber: "",
       localAddress: "",
@@ -97,7 +100,7 @@ export default {
   },
 
   beforeRouteEnter(to, from, next) {
-    const id = to.params.id; 
+    const id = to.params.id;
     next((vm) => {
       vm.id = id;
     });
@@ -105,24 +108,24 @@ export default {
 
   computed: {
     address() {
-      return address
+      return address;
     },
     Address() {
-      return Address
+      return Address;
     },
     nameValidStyle() {
-      return {color: this.nameValidMessage ? "red" : ""};
+      return { color: this.nameValidMessage ? "red" : "" };
     },
     contactValidStyle() {
-      return {color: this.contactValidMessage ? "red" : ""};
+      return { color: this.contactValidMessage ? "red" : "" };
     },
     addressValidStyle() {
-      return {color: this.addressValidMessage ? "red" : ""};
+      return { color: this.addressValidMessage ? "red" : "" };
     },
   },
   methods: {
     closeModal() {
-      this.$emit('close-modal');
+      this.$emit("close-modal");
     },
 
     execDaumPostcode() {
@@ -132,8 +135,9 @@ export default {
           that.province = data.sidoEnglish;
           that.localAddress = data.roadAddressEnglish;
           that.zoncode = data.zonecode;
-        }
-      }).open()},
+        },
+      }).open();
+    },
 
     signUpName() {
       if (this.name.length >= 2 && this.name.length < 5) {
@@ -162,17 +166,19 @@ export default {
       };
 
       try {
-        const response = await axios.post('https://lot-fresh.shop/user-service/users', userData);
+        const response = await axios.post(
+          "https://lot-fresh.shop/user-service/users",
+          userData
+        );
 
         if (response.status === 200) {
-          this.$emit('show-modal', '회원가입이 완료되었습니다');
-          router.push({ name: 'main' });
+          this.$emit("show-modal", "회원가입이 완료되었습니다");
+          router.push({ name: "main" });
         } else {
-          
-          this.$emit('show-modal', '회원가입을 실패했습니다');
+          this.$emit("show-modal", "회원가입을 실패했습니다");
         }
       } catch (error) {
-        this.$emit('show-modal', '회원가입을 실패했습니다');
+        this.$emit("show-modal", "회원가입을 실패했습니다");
       }
     },
   },
@@ -188,7 +194,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   padding: 5px 0px 120px 0px;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .title {
@@ -266,16 +272,16 @@ export default {
   font-size: 16px; /* Adjust the font size as needed */
 }
 
- .user-container {
-   width: 640px;
-   display: flex;
-   align-items: center;
-   margin: 0 auto;
-   justify-content: center;
-   flex-direction: column;
-   padding: 5px 0px 120px 0px;
-   font-family: 'Noto Sans KR', sans-serif;
- }
+.user-container {
+  width: 640px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  justify-content: center;
+  flex-direction: column;
+  padding: 5px 0px 120px 0px;
+  font-family: "Noto Sans KR", sans-serif;
+}
 
 .title {
   font-size: 28px;
@@ -325,8 +331,6 @@ export default {
   vertical-align: top;
 }
 
-
-
 .signup-button {
   width: 240px;
   height: 56px;
@@ -353,7 +357,6 @@ input {
 
 /* Style the error message */
 .info-ul {
-
   font-size: 12px;
   color: #ff0000; /* Set the color to red for error messages */
   font-weight: 400;

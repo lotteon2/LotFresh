@@ -25,48 +25,14 @@
   </div>
 </template>
 
-<script setup>
-import { defineEmits } from 'vue';
-import axios from 'axios';
+<script setup lang="ts">
+import { defineEmits } from "vue";
+import axios from "axios";
 
-const emits = defineEmits(['closeModal']);
-console.log(Kakao.isInitialized());
-
-function kakaoLogin() {
-  Kakao.Auth.login({
-    success: function(auth) {
-      Kakao.API.request({
-        url: '/v2/user/me',
-        success: function(response) {
-          var userId = response.id; // Assuming that 'id' is the user's ID
-          console.log(userId);
-          console.log(response);
-
-          // Send a new request to "https://lot-fresh.shop/auth/oauth/provider/KAKAO/users/{id}"
-          
-          var url = "https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/users/" + userId
-
-          // Use Axios to send the request
-          axios
-            .post(url, {})
-            .then(function(response) {
-              console.log(response.data);
-            })
-            .catch(function(error) {
-              console.error("Error sending the new request:", error);
-            });
-        },
-        fail: function(error) {
-          console.error("Error sending the new request:", error);
-        }
-      });
-    },
-    fail: function(error) {
-      console.error("Error sending the new request:", error);
-    }
-  });
-}
-  
+const emits = defineEmits(["closeModal"]);
+const kakaoLogin = () => {
+  window.location.replace("http://localhost:8081/oauth2/authorization/kakao");
+};
 </script>
 <style scoped>
 #login-modal {

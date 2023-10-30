@@ -27,6 +27,7 @@ declare module 'vue' {
     KakaoAddressFinderModal: typeof import('./src/components/order/orderSheet/KakaoAddressFinderModal.vue')['default']
     KakaopayButton: typeof import('./src/components/order/orderSheet/KakaopayButton.vue')['default']
     LoginModal: typeof import('./src/components/common/modal/LoginModal.vue')['default']
+    LoginSuccess: typeof import('./src/components/common/LoginSuccess.vue')['default']
     Menu: typeof import('./src/components/common/Menu.vue')['default']
     ModalFrame: typeof import('./src/components/common/modal/ModalFrame.vue')['default']
     MypageSideBar: typeof import('./src/components/mypage/MypageSideBar.vue')['default']
