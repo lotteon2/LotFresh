@@ -5,9 +5,7 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@Setter
 @Getter
-@ToString
 @NoArgsConstructor
 public class DiscountResponse implements Serializable {
   private Long id;
