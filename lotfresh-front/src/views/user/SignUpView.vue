@@ -73,7 +73,6 @@
 
 
 <script>
-import main from "@/main.ts"
 
 export default {
 
