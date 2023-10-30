@@ -5,6 +5,7 @@ import com.bit.lotte.fresh.auth.service.dto.command.CreateAuthDomainCommand;
 import com.bit.lotte.fresh.auth.service.dto.command.LoginAuthDomainCommand;
 import com.bit.lotte.fresh.auth.service.dto.response.CreateAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.DeleteAuthUserResponse;
+import com.bit.lotte.fresh.auth.service.dto.response.GetAdminInfoListResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.LogOutAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.LoginAuthUserResponse;
 import com.bit.lotte.fresh.auth.service.dto.response.UpdateAuthUserRoleResponse;
@@ -79,9 +80,19 @@ public class AuthUserMapper {
 
   public List<AuthUser> adminInfoEventListToAuthUserList(List<AdminInfoAuthDomainEvent> eventList) {
     List<AuthUser> authUserList = new ArrayList<>();
-    for(AdminInfoAuthDomainEvent event : eventList){
+    for (AdminInfoAuthDomainEvent event : eventList) {
       authUserList.add(event.getAuthUser());
     }
     return authUserList;
+  }
+
+  public List<GetAdminInfoListResponse> domainToGetAdminInfoListResponse(
+      List<AuthUser> returnAuthUserList) {
+    List<GetAdminInfoListResponse> responseList = new ArrayList<>();
+    for (AuthUser authUser : returnAuthUserList) {
+      responseList.add(new GetAdminInfoListResponse(authUser.getEntityId(), authUser.getUserRole(),
+          authUser.getDescription(), authUser.getAuthProvider(), authUser.getLastLoginTime()));
+    }
+    return responseList;
   }
 }

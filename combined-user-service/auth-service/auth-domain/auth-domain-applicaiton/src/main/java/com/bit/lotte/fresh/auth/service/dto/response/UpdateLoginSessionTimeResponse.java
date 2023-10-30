@@ -2,6 +2,8 @@ package com.bit.lotte.fresh.auth.service.dto.response;
 
 import com.bit.lotte.fresh.user.common.valueobject.AuthProvider;
 import com.bit.lotte.fresh.user.common.valueobject.AuthUserId;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.ZonedDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +19,11 @@ public class UpdateLoginSessionTimeResponse {
   private final ZonedDateTime zonedDateTime;
   private String message;
 
+  @JsonCreator
   public UpdateLoginSessionTimeResponse(
-      AuthUserId authUserId, AuthProvider authProvider, ZonedDateTime zonedDateTime,
+      @JsonProperty("authUserId") AuthUserId authUserId,
+      @JsonProperty("autProvider")AuthProvider authProvider,
+      ZonedDateTime zonedDateTime,
       String message) {
     this.authUserId = authUserId;
     this.authProvider = authProvider;

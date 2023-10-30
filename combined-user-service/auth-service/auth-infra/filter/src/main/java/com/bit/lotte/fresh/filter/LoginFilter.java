@@ -1,7 +1,7 @@
 package com.bit.lotte.fresh.filter;
 
-import com.bit.lotte.fresh.auth.service.dto.command.OauthLoginDomainCommand;
 import com.bit.lotte.fresh.auth.common.instant.LoginSessionTime;
+import com.bit.lotte.fresh.auth.service.dto.command.OauthLoginDomainCommand;
 import com.bit.lotte.fresh.auth.common.instant.RedirectInfo;
 import com.bit.lotte.fresh.auth.common.instant.TokenName;
 import com.bit.lotte.fresh.auth.common.util.JwtTokenUtil;
@@ -63,20 +63,29 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         FilterChain chain, Authentication authResult)
         throws ServletException, IOException {
         AuthUserId id = (AuthUserId) authResult.getPrincipal();
+        response.setHeader("userId", id.getValue().toString());
+
         String roleClaimsKey = JwtTokenUtil.roleKeyName;
         String roleClaimsValue = authResult.getAuthorities().stream().findFirst().get()
             .getAuthority();
+
         String token = JwtTokenUtil.generateToken(id.getValue().toString(), roleClaimsKey, roleClaimsValue,
-            new Date(System.currentTimeMillis()+LoginSessionTime.LOGIN_SESSION_SEC* 1000L));
+            new Date(System.currentTimeMillis()+ LoginSessionTime.LOGIN_SESSION_SEC* 1000L));
+
         response.setHeader(TokenName.AUTHENTICATION_TOKEN_NAME, TokenName.AUTHENTICATION_TOKEN_PREFIX + token);
         log.info("header is set: " + response.getHeader(TokenName.AUTHENTICATION_TOKEN_NAME) + " " + token);
 
     }
 
+
+    /**
+     * @param response 회원가입을 위해서 userId를 response에 전달
+     */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request,
         HttpServletResponse response,
         AuthenticationException failed) throws IOException {
+        log.info("response header: " + response.getHeader("userId"));
         response.setStatus(RedirectInfo.REDIRECT_STATUS);
         response.encodeRedirectURL(RedirectInfo.DOMAIN + RedirectInfo.SIGN_UP_URI);
 
