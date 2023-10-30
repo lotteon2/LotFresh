@@ -38,8 +38,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     var attributes = oAuth2User.getAttributes();
 
     Member member = memberRepository.findByEmail((String) attributes.get("email")).orElse(null);
-    log.info("email : {}", attributes.get("email"));
-    log.info("nickname : {}", attributes.get("nickname"));
     if (member == null) {
       member =
           Member.builder()
@@ -51,7 +49,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     String accessToken = tokenManager.generateToken(member.getId(), "USER");
 
-    // 여기 리프레시 토큰 나중에 넣을듯?
+    // 여기에 리프레시 발급해야 하지만...
 
     // 성공하면 리다이렉트로 돌리고, query 에서 accessToken 가져와서 셋팅할거임
     response.sendRedirect(loginSuccessUrl + accessToken);
