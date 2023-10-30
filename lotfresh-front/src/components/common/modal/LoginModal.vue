@@ -47,8 +47,6 @@ function kakaoLogin() {
           axios
             .post(url, {})
             .then(function(response) {
-              console.log(response.data);
-
               // Check the status code for redirection
               if (response.status === 301) {
                 console.log("redirect to sign-up page")
