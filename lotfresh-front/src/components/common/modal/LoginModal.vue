@@ -42,9 +42,8 @@ function kakaoLogin() {
           console.log(userId);
           console.log(response);
 
-          var url = "https://www.lot-fresh.shop/auth/oauth/provider/KAKAO/users/" + userId;
+          var url = "https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/users/" + userId;
 
-          // Use Axios to send the request
           axios
             .post(url, {})
             .then(function(response) {
