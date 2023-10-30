@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
     configuration = StorageFeignConfig.class) // 임시 url
 public interface StorageApiClient {
 
-  @GetMapping("/storages/products/{productId}/stock")
+  @GetMapping("/storageproduct/stock/{province}/{productId}")
   Integer getStock(
       @RequestHeader(value = "userId", required = false) Long userId,
+      @PathVariable("province") String province,
       @PathVariable("productId") Long productId);
 
   @GetMapping("/storages/sales-products/{productId}/stock")
