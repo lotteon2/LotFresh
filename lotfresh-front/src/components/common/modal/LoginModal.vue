@@ -31,7 +31,6 @@ const emits = defineEmits(["closeModal"]);
 window.Kakao.init('5dca3ee52a5c5e81b0415473b05366f0');
 
 function kakaoLogin() {
-
   window.Kakao.Auth.login({
     scope: "profile_nickname, account_email",
     success: (authObj) => {
