@@ -8,7 +8,7 @@ spring:
     port: ${REDIS_PORT}
     password: ${DB_PASSWORD}
   datasource:
-    url: jdbc:mysql://${DB_IP}:${CART_DB_PORT}/${CART_DB_SCHEMA}?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://${DB_IP}:${STORAGE_DB_PORT}/${STORAGE_DB_SCHEMA}?useSSL=false&serverTimezone=UTC
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -36,3 +36,4 @@ logging:
     org.hibernate.type: trace
     org:
       springframework: INFO
+#
