@@ -29,7 +29,6 @@
 import { defineEmits } from 'vue';
 
 const emits = defineEmits(['closeModal']);
-Kakao.init('186f2e1e76badfa97bcc72139441dd15'); 
 console.log(Kakao.isInitialized());
 
 function kakaoLogin() {
@@ -38,33 +37,30 @@ function kakaoLogin() {
       Kakao.API.request({
         url: '/v2/user/me',
         success: function(response) {
-          var userId = response.id; // Assuming that 'id' is the user's ID
+          var userId = response.id; 
           console.log(userId);
           console.log(response);
 
           var url = "https://lot-fresh.shop/auth/oauth/provider/KAKAO/users/" + userId;
 
-          // You can use an AJAX request to send the request to the new URL
           $.ajax({
-            type: "POST", // Change the HTTP method if needed
+            type: "POST", 
             url: url,
             success: function(newUserResponse) {
-              // Handle the response from the new request
               console.log(newUserResponse);
             },
             error: function(error) {
-              // Handle errors
               console.error("Error sending the new request:", error);
             }
           });
         },
         fail: function(error) {
-          $('alert-kakao-login').removeClass("d-none").text("카카오 로그인 처리 중 오류가 발생했습니다.");
+          console.log("카카오 로그인 에러")
         }
       });
     },
     fail: function(error) {
-      $('alert-kakao-login').removeClass("d-none").text("카카오 로그인 처리 중 오류가 발생했습니다.");
+      console.log("카카오 로그인 에러")
     }
   });
 }
