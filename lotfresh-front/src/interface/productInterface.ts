@@ -20,6 +20,6 @@ export interface ProductPageResponse {
 }
 
 export interface RecentProducts {
-  id: string;
+  id: number;
   thumbnail: string;
 }

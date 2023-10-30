@@ -73,7 +73,9 @@
           <div class="cart-footer off">
             <div class="functions"></div>
             <div class="button-wrap">
-              <button class="cart-button">장바구니 담기</button>
+              <button class="cart-button" @click="addCart">
+                장바구니 담기
+              </button>
               <button class="base-button">바로 구매하기</button>
             </div>
           </div>
@@ -85,7 +87,22 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { createCart } from "@/api/cart/cart";
+import type { CartCreateDto } from "@/interface/cartInterface";
 const props = defineProps(["product"]);
+
+const quantity = ref(1);
+
+const cartCreateDto = ref<CartCreateDto>({
+  productId: props.product.value.id,
+  discountedPrice: props.product.value.salesPrice,
+  province: "test",
+  productStock: props.product.value.stock,
+  price: props.product.value.price,
+  productName: props.product.value.name,
+  productImageUrl: props.product.value.thumbnail,
+  selectedQuantity: quantity.value,
+});
 
 const formattedPrice = computed(() => {
   return new Intl.NumberFormat("ko-KR").format(props.product.price);
@@ -109,7 +126,11 @@ const totalPrice = computed(() => {
 // 여기서 버튼 클릭 발생시 내가 dto만들어서 장바구니 서버에 요청하면 장바구니는 해당데이터를 redis에만 저장한다. (유저 id를 키로)
 // axios 성공 후 then으로 route 주소 ordersheet 로 push 한다.
 
-const quantity = ref(1);
+const addCart = () => {
+  createCart(cartCreateDto.value).then((response) => {
+    console.log("성공", response);
+  });
+};
 
 const minus = () => {
   if (quantity.value > 1) {
