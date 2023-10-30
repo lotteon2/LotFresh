@@ -27,6 +27,7 @@
 
 <script setup>
 import { defineEmits } from 'vue';
+import axios from 'axios';
 
 const emits = defineEmits(['closeModal']);
 console.log(Kakao.isInitialized());
@@ -37,30 +38,31 @@ function kakaoLogin() {
       Kakao.API.request({
         url: '/v2/user/me',
         success: function(response) {
-          var userId = response.id; 
+          var userId = response.id; // Assuming that 'id' is the user's ID
           console.log(userId);
           console.log(response);
 
-          var url = "https://lot-fresh.shop/auth/oauth/provider/KAKAO/users/" + userId;
+          // Send a new request to "https://lot-fresh.shop/auth/oauth/provider/KAKAO/users/{id}"
+          
+          var url = "https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/users/" + userId
 
-          $.ajax({
-            type: "POST", 
-            url: url,
-            success: function(newUserResponse) {
-              console.log(newUserResponse);
-            },
-            error: function(error) {
+          // Use Axios to send the request
+          axios
+            .post(url, {})
+            .then(function(response) {
+              console.log(response.data);
+            })
+            .catch(function(error) {
               console.error("Error sending the new request:", error);
-            }
-          });
+            });
         },
         fail: function(error) {
-          console.log("카카오 로그인 에러")
+          console.error("Error sending the new request:", error);
         }
       });
     },
     fail: function(error) {
-      console.log("카카오 로그인 에러")
+      console.error("Error sending the new request:", error);
     }
   });
 }
