@@ -76,7 +76,9 @@
               <button class="cart-button" @click="addCart">
                 장바구니 담기
               </button>
-              <button class="base-button">바로 구매하기</button>
+              <button class="base-button" @click="addOrderSheet">
+                바로 구매하기
+              </button>
             </div>
           </div>
         </div>
@@ -87,16 +89,30 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { createCart } from "@/api/cart/cart";
-import type { CartCreateDto } from "@/interface/cartInterface";
+import { createCart, addOrderheetInfos } from "@/api/cart/cart";
+import type { CartCreateDto, OrderSheetInfo } from "@/interface/cartInterface";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+
+const { province } = storeToRefs(useMemberStore());
+
 const props = defineProps(["product"]);
 
 const quantity = ref(1);
 
+const orderSheetInfo = ref<OrderSheetInfo>({
+  productId: props.product.id,
+  originalPrice: props.product.price,
+  discountedPrice: props.product.salesPrice,
+  productStock: props.product.stock,
+  productName: props.product.name,
+  productThumbnail: props.product.thumbnail,
+});
+
 const cartCreateDto = ref<CartCreateDto>({
   productId: props.product.id,
   discountedPrice: props.product.salesPrice,
-  province: "Seoul",
+  province: province.value,
   productStock: props.product.stock,
   price: props.product.price,
   productName: props.product.name,
@@ -131,6 +147,13 @@ const addCart = () => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+const orderSheetInfos = ref<OrderSheetInfo[]>([]);
+
+const addOrderSheet = () => {
+  orderSheetInfos.value.push(orderSheetInfo.value);
+  addOrderheetInfos(orderSheetInfos.value, province.value, props.product.id);
 };
 
 const minus = () => {

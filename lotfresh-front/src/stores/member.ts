@@ -2,15 +2,15 @@ import { ref, watchEffect } from "vue";
 import { defineStore } from "pinia";
 
 export const useMemberStore = defineStore("member", () => {
-  const privince = ref<string | null | undefined>("Seoul");
+  const province = ref<string | null | undefined>("Seoul");
 
-  if (localStorage.getItem("privince")) {
-    privince.value = JSON.parse(<string>localStorage.getItem("privince"));
+  if (localStorage.getItem("province")) {
+    province.value = JSON.parse(<string>localStorage.getItem("province"));
   }
 
   watchEffect(() => {
-    localStorage.setItem("privince", JSON.stringify(privince.value));
-  }, <any>privince.value);
+    localStorage.setItem("province", JSON.stringify(province.value));
+  }, <any>province.value);
 
-  return { privince };
+  return { province };
 });
