@@ -44,30 +44,19 @@ function kakaoLogin() {
 
           var url = "https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/users/" + userId;
 
-          axios
-            .post(url, {})
-            .then(function(response) {
-              if (response.status === 301) {
-                console.log("redirect to sign-up page")
-                router.push({ name: 'signup', params: { userId } });
-              } else {
-                router.push({ name: 'main' });
-              }
-            })
-            .catch(function(error) {
-              router.push({ name: 'signup', params: { userId } });
-            });
-        },
-        fail: function(error) {
-          console.error("Error sending the new request:", error);
-        }
-      });
-    },
-    fail: function(error) {
-      console.error("Error sending the new request:", error);
+          axios.post(url, {})
+  .then(function(response) {
+    if (response.status === 301) {
+      console.log("Redirecting to the sign-up page");
+      router.push({ name: 'signup', params: { userId } });
+    } else {
+      console.log("Redirecting to the main page");
+      router.push({ name: 'main' });
     }
+  })
+  .catch(function(error) {
+    console.error("Error sending the new request:", error);
   });
-}
   
 </script>
 <style scoped>
