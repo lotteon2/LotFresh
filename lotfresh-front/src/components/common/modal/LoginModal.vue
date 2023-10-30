@@ -47,7 +47,6 @@ function kakaoLogin() {
           axios
             .post(url, {})
             .then(function(response) {
-              // Check the status code for redirection
               if (response.status === 301) {
                 console.log("redirect to sign-up page")
                 router.push({ name: 'signup', params: { userId } });
@@ -56,7 +55,7 @@ function kakaoLogin() {
               }
             })
             .catch(function(error) {
-              console.error("Error sending the new request:", error);
+              router.push({ name: 'signup', params: { userId } });
             });
         },
         fail: function(error) {
