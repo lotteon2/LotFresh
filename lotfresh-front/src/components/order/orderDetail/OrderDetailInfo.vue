@@ -1,4 +1,24 @@
 <template>
+  <div class="order-container">
+    <div class="order-info">
+      <div class="item bold-text margin-left-text">{{ formattedData }}</div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item text-align-center">주문 목록으로 이동</div>
+    </div>
+    <div
+      v-for="orderDetail in orderData.orderDetailResponses"
+      :key="orderDetail.orderDetailId"
+    >
+      <order-detail :orderDetailData="orderDetail" />
+    </div>
+    <div class="empty-bottom"></div>
+  </div>
+
   <div v-if="orderData" class="order-container">
     <div class="order-info">
       <div class="item bold-text margin-left-text">{{ formattedData }}</div>
