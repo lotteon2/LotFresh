@@ -36,9 +36,8 @@ const kakaoLogin = async () => {
 
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('code');
-
   Kakao.Auth.setAccessToken(code);
-
+  console.log(code);
   let data = await window.Kakao.API.request({
     url: '/v2/user/me',
   });
