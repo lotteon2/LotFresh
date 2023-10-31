@@ -18,7 +18,21 @@ export interface OrderSheetItem {
   productThumbnail: string;
 }
 
-export interface OrderSheetInfo {
+export interface OrderSheetList {
   orderSheetItems: OrderSheetItem[];
   isFromCart: boolean;
+}
+
+// export interface OrderSheetInfo {
+//   orderSheetItems: OrderSheetItem[];
+//   isFromCart: boolean;
+// }
+// 아래가 기존.
+export interface OrderSheetInfo {
+  productId: number;
+  originalPrice: number;
+  discountedPrice: number;
+  productStock: number;
+  productName: string;
+  productThumbnail: string;
 }
