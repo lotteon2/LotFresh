@@ -4,6 +4,7 @@ import type { MemberInfo, CreateMemberDto } from "@/interface/memberInterface";
 export const getMemberDetail = async (
   accessToken: string
 ): Promise<MemberInfo> => {
+  console.log("aaa", accessToken);
   const { data } = await memberInstance.get(`/users/me`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
