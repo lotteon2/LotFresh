@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.lotfresh.paymentservice.domain.payment.entity.Payment;
 import shop.lotfresh.paymentservice.domain.payment.repository.PaymentRepository;
 import shop.lotfresh.paymentservice.domain.refund.api.request.RefundCreateRequest;
+import shop.lotfresh.paymentservice.domain.refund.dto.RefundInfoListDTO;
 import shop.lotfresh.paymentservice.domain.refund.dto.RefundInfoResponseDTO;
 import shop.lotfresh.paymentservice.domain.refund.entity.Refund;
 import shop.lotfresh.paymentservice.domain.refund.entity.RefundStatus;
@@ -109,5 +111,26 @@ public class RefundService {
                 .refundMethod(refund.getRefundMethod())
                 .refundedAmount(refund.getAmount())
                 .build();
+    }
+
+    public RefundInfoListDTO getReadyRefunds(Long page, Long size) {
+        Pageable pageable = PageRequest.of(page.intValue(), size.intValue());
+        Page<Refund> refunds = refundRepository.findByStatus(RefundStatus.READY, pageable);
+
+        List<RefundInfoResponseDTO> refundInfoList = refunds.stream()
+                .map(refund -> RefundInfoResponseDTO.builder()
+                        .refundCreatedAt(refund.getCreatedAt())
+                        .refundId(refund.getId())
+                        .refundUpdatedAt(refund.getUpdatedAt())
+                        .stock(refund.getStock())
+                        .productAmount(refund.getAmount())
+                        .refundMethod(refund.getRefundMethod())
+                        .build())
+                .collect(Collectors.toList());
+
+//        return RefundInfoListDTO.builder()
+//                .refundInfoList(refundInfoList)
+//                .build();
+        return RefundInfoListDTO.of(refunds, refundInfoList);
     }
 }

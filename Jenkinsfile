@@ -172,32 +172,6 @@ pipeline {
 					}
         		}
 
-				stage('auth-service build') {
-					when {
-						allOf {
-							expression {
-								currentBuild.result == null || currentBuild.result == 'SUCCESS'
-							}
-							changeset "combined-user-service/auth-service/**"
-						}
-					}
-					steps {
-						dir('combined-user-service/auth-service') {
-							// sh 'chmod +x ./gradlew'
-							// sh './gradlew clean build'
-							sh 'docker build -t ${DOCKER_REGISTRY}:${AUTH_SERVICE_IMAGE_TAG} .'
-							sh 'docker push ${DOCKER_REGISTRY}:${AUTH_SERVICE_IMAGE_TAG}'
-						}
-					}
-					post {
-						success {
-							echo 'auth-service build succeeded'
-						}
-						failure {
-							echo 'auth-service build failed'
-						}
-					}
-				}
 
 				stage('user-service build') {
 					when {
@@ -205,13 +179,13 @@ pipeline {
 							expression {
 								currentBuild.result == null || currentBuild.result == 'SUCCESS'
 							}
-							changeset "combined-user-service/user-service/**"
+							changeset "user-service/**"
 						}
 					}
 					steps {
-						dir('combined-user-service/user-service') {
-							// sh 'chmod +x ./gradlew'
-							// sh './gradlew clean build'
+						dir('user-service') {
+							sh 'chmod +x ./gradlew'
+							sh './gradlew clean assemble'
 							sh 'docker build -t ${DOCKER_REGISTRY}:${USER_SERVICE_IMAGE_TAG} .'
 							sh 'docker push ${DOCKER_REGISTRY}:${USER_SERVICE_IMAGE_TAG}'
 						}
@@ -412,49 +386,26 @@ pipeline {
 		           	}
                 }
 
-
-
-                stage('replace auth-service container') {
-                    when {
-                    	allOf {
-                      		expression {
-                        		currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                      		}
-							changeset "combined-user-service/auth-service/**"
-                    	}
-                  	}
-                    steps {
-						script {
-            				sshagent(credentials: ['ssh']) {
-								sh """
-									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${AUTH_SERVICE_IMAGE_TAG}; then
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${AUTH_SERVICE_IMAGE_TAG}
-									fi
-									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8080:8080 --name ${AUTH_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file /home/ubuntu/env.list ${DOCKER_REGISTRY}:${AUTH_SERVICE_IMAGE_TAG}
-								"""
-            				}
-        				}
-                    }
-                }
-
 				stage('replace user-service container') {
                     when {
                     	allOf {
                       		expression {
                         		currentBuild.result == null || currentBuild.result == 'SUCCESS'
                       		}
-							changeset "combined-user-service/user-service/**"
+							changeset "user-service/**"
                     	}
                   	}
                     steps {
 						script {
             				sshagent(credentials: ['ssh']) {
-								sh """
-									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${USER_SERVICE_IMAGE_TAG}; then
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${USER_SERVICE_IMAGE_TAG}
-									fi
-									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8081:8081 --name ${USER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file /home/ubuntu/env.list ${DOCKER_REGISTRY}:${USER_SERVICE_IMAGE_TAG}
-								"""
+									sh """
+										if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${USER_SERVICE_IMAGE_TAG}; then
+											ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${USER_SERVICE_IMAGE_TAG}
+										fi
+										
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8081:8081 --name ${PRODUCT_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file /home/ubuntu/env.list ${DOCKER_REGISTRY}:${USER_SERVICE_IMAGE_TAG}
+
+									"""
             				}
         				}
                     }
@@ -476,7 +427,7 @@ pipeline {
 									if ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container ls -a | grep -q ${CART_SERVICE_IMAGE_TAG}; then
 										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${CART_SERVICE_IMAGE_TAG}
 									fi
-									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8082:8082 --name ${CART_SERVICE_IMAGE_TAG} --network lot-fresh -d --env-file /home/ubuntu/env.list ${DOCKER_REGISTRY}:${CART_SERVICE_IMAGE_TAG}
+									ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8082:8082 --name ${CART_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file /home/ubuntu/env.list ${DOCKER_REGISTRY}:${CART_SERVICE_IMAGE_TAG}
 								"""
             				}
         				}
