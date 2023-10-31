@@ -11,7 +11,7 @@ pipeline {
         // 변수로 쓸 값 달아두기
         DOCKER_REGISTRY = "eon8718/lot-fresh"
         CLIENT_IMAGE_TAG = "client"
-		ADMIN_CLIENT_IMAGE_TAG = "admin-client"
+		ADMIN_CLIENT_IMAGE_TAG = "admin"
         AUTH_SERVICE_IMAGE_TAG = "auth-service"
         USER_SERVICE_IMAGE_TAG = "user-service"
 		CART_SERVICE_IMAGE_TAG = "cart-service"
