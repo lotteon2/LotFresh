@@ -19,6 +19,7 @@ onBeforeMount(async () => {
   if (accessToken) {
     await memberStore.setAccessToken(accessToken);
     await memberStore.setMemberDetailInfo(accessToken);
+
     if (memberInfo.value?.isActive == true) {
       router.push("/");
     } else {
