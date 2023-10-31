@@ -1,5 +1,8 @@
 package com.lotfresh.userservice.domain.member.service;
 
+import com.lotfresh.userservice.domain.address.entity.Address;
+import com.lotfresh.userservice.domain.address.repository.AddressRepository;
+import com.lotfresh.userservice.domain.member.api.request.MemberCreateRequest;
 import com.lotfresh.userservice.domain.member.entity.Member;
 import com.lotfresh.userservice.domain.member.exception.MemberNotFound;
 import com.lotfresh.userservice.domain.member.repository.MemberRepository;
@@ -13,9 +16,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MemberService {
   private final MemberRepository memberRepository;
-
+  private final AddressRepository addressRepository;
   public MemberResponse getMemberDetail(Long userId) {
     Member member = memberRepository.findById(userId).orElseThrow(MemberNotFound::new);
-    return MemberResponse.from(member);
+    Address address = addressRepository.findDefaultAddressByMemberId(member.getId()).orElse(null);
+    return MemberResponse.of(member, address);
+  }
+
+  @Transactional
+  public String createMember(MemberCreateRequest request, Long userId) {
+    Member member = memberRepository.findById(userId).orElseThrow(MemberNotFound::new);
+    Address address = request.toAddressEntity(member);
+    addressRepository.save(address);
+    address.changeDefaultAddress();
+    member.changeActive();
+    return address.getProvince();
   }
 }
