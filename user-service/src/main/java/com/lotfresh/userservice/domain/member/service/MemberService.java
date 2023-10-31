@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 public class MemberService {
-  private MemberRepository memberRepository;
+  private final MemberRepository memberRepository;
 
   public MemberResponse getMemberDetail(Long userId) {
     Member member = memberRepository.findById(userId).orElseThrow(MemberNotFound::new);

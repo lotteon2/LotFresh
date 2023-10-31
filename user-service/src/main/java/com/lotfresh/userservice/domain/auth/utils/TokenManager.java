@@ -23,8 +23,7 @@ public class TokenManager {
 
     @PostConstruct
     protected void init() {
-        secretKey = Base64.getEncoder()
-                .encodeToString(env.getProperty("jwt.token.secret-key").getBytes());
+        secretKey = env.getProperty("jwt.token.secret-key");
     }
 
 
@@ -33,6 +32,7 @@ public class TokenManager {
                 env.getProperty("jwt.access-token.expire-length")); // 2 시간 설정해놓음
 
         Claims claims = Jwts.claims().setSubject(uid.toString());
+        claims.put("userId", uid.toString());
         claims.put("role", role);
 
         Date now = new Date();
