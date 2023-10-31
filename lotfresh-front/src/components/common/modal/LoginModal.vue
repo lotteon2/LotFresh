@@ -25,41 +25,14 @@
   </div>
 </template>
 
-<script setup>
-import { defineEmits } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router'
+<script setup lang="ts">
+import { defineEmits } from "vue";
+import axios from "axios";
 
-const emits = defineEmits(['closeModal']);
-console.log(Kakao.isInitialized());
-const router = useRouter(); // Get a reference to the router
-
-function kakaoLogin() {
-  Kakao.Auth.login({
-    success: function(auth) {
-      Kakao.API.request({
-        url: '/v2/user/me',
-        success: function(response) {
-          var userId = response.id; // Assuming that 'id' is the user's ID
-          console.log(userId);
-          console.log(response);
-
-          var url = "https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/users/" + userId;
-
-          axios.post(url, {})
-  .then(function(response) {
-    if (response.status === 301) {
-      console.log("Redirecting to the sign-up page");
-      router.push({ name: 'signup', params: { userId } });
-    } else {
-      console.log("Redirecting to the main page");
-      router.push({ name: 'main' });
-    }
-  })
-  .catch(function(error) {
-    console.error("Error sending the new request:", error);
-  });
-  
+const emits = defineEmits(["closeModal"]);
+const kakaoLogin = () => {
+  window.location.replace("http://localhost:8081/oauth2/authorization/kakao");
+};
 </script>
 <style scoped>
 #login-modal {
