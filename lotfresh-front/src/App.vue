@@ -25,7 +25,7 @@ import Header from "./components/common/Header.vue";
 import BannerSlide from "@/components/banner/BannerSlide.vue";
 import Footer from "./components/common/Footer.vue";
 import BannerRight from "./components/banner/BannerRight.vue";
-//
+
 const isOpenModal = ref(false);
 </script>
 
