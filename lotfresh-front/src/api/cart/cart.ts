@@ -14,7 +14,7 @@ export const addOrderheetInfos = async (
   productId: number
 ): Promise<any> => {
   const response = await cartInstance.post(
-    `"/carts/province/${province}/product/${productId}"`,
+    `/carts/province/${province}/product/${productId}`,
     orderSheetInfos
   );
 };
