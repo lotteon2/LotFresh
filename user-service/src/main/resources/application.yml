@@ -5,7 +5,7 @@ spring:
   application:
     name: user-service
   datasource:
-    url: jdbc:mysql://${DB_IP}:${PRODUCT_DB_PORT}/${PRODUCT_DB_SCHEMA}?serverTimeZone=UTC
+    url: jdbc:mysql://${DB_IP}:${USER_DB_PORT}/${USER_DB_SCHEMA}?serverTimeZone=UTC
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver

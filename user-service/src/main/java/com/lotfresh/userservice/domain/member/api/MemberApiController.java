@@ -22,7 +22,6 @@ public class MemberApiController {
 
   @PostMapping("")
   public ResponseEntity<String> createMember(@RequestBody MemberCreateRequest request, @RequestHeader("userId") Long userId) {
-    System.out.println(request);
     return ResponseEntity.ok(memberService.createMember(request, userId));
   }
 }
