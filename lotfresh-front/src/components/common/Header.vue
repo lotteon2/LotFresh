@@ -24,7 +24,10 @@
     <div class="header_login">
       <div class="login_wrap">
         <span class="right">
-          <a class="b" @click="emits('openModal')">로그인</a>
+          <a v-if="!memberInfo?.province" class="b" @click="emits('openModal')"
+            >로그인</a
+          >
+          <a v-else class="b" @click="logout">로그아웃</a>
         </span>
       </div>
     </div>
@@ -35,10 +38,20 @@
 import Menu from "./Menu.vue";
 import { ref } from "vue";
 import router from "@/router";
-
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+const memberStore = useMemberStore();
+const { memberInfo } = storeToRefs(memberStore);
 const emits = defineEmits(["openModal"]);
 
 const keyword = ref();
+
+const logout = () => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("province");
+  sessionStorage.removeItem("memberInfo");
+  window.location.reload();
+};
 
 const next = () => {
   if (!keyword.value) {
