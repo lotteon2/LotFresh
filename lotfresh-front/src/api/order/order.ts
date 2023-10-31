@@ -11,6 +11,7 @@ export interface ProductRequest {
 export interface OrderCreateRequest {
   productRequests: ProductRequest[];
   isFromCart: boolean;
+  province: String;
 }
 
 // interface qrcodeUrl {
@@ -20,10 +21,10 @@ export interface OrderCreateRequest {
 export const startKakaopay = async (
   orderData: OrderCreateRequest
 ): Promise<string> => {
-  const jwtToken = localStorage.getItem("jwt");
+  const accessToken = localStorage.getItem("accessToken");
 
   const { data } = await orderInstance.post(`/order`, orderData, {
-    headers: { Authorization: `Bearer ${jwtToken}` },
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
 
   // const { data } = await defaultInstance.post(
@@ -33,7 +34,7 @@ export const startKakaopay = async (
   //     headers: { Authorization: `Bearer ${jwtToken}` },
   //   }
   // );
-  console.log(jwtToken);
+  console.log(accessToken);
   console.log(data);
   console.log(data.qrcodeUrl);
   return data.qrcodeUrl;

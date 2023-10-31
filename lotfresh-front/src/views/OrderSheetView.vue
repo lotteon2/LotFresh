@@ -92,10 +92,17 @@ export default {
             // 필요한 만큼 추가적인 ProductRequest 객체를 포함시킬 수 있습니다.
           ],
           isFromCart: false, // 장바구니에서 주문하는 경우 true, 그렇지 않으면 false
+          province: "Daejeon",
         };
         const res = await startKakaopay(orderData);
         // res ? (window.location.href = res) : console.log("없거나 실패");
-        res ? window.open(res, "_blank") : console.log("없거나 실패");
+        res
+          ? window.open(
+              res,
+              "Lot-Fresh 카카오페이 QR 결제화면",
+              "top=0, left=0, width=500, height=600, menubar=no, toolbar=no, resizable=no, status=no, scrollbars=no"
+            )
+          : console.log("없거나 실패");
       } catch (error) {
         console.error(error);
         alert("오류가 발생했습니다: " + error);
@@ -110,11 +117,11 @@ export default {
 
     const handleMessage = (event: MessageEvent) => {
       // 팝업 창에서 보낸 메시지를 받아서 라우팅 - 영수증 페이지로
-      // if (
-      //   event.origin !== "https://www.lot-fresh.shop" &&
-      //   event.origin !== "https://lot-fresh.shop"
-      // )
-      //   return;
+      if (
+        event.origin !== "https://www.lot-fresh.shop" &&
+        event.origin !== "https://lot-fresh.shop"
+      )
+        return;
       const { routeName, params } = event.data;
       // window.scrollTo(0, 0);
       console.log("반복적호출이되고있나?" + params);
