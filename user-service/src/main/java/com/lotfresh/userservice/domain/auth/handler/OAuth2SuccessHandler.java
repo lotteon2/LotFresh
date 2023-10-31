@@ -36,7 +36,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
     var attributes = oAuth2User.getAttributes();
-
+    log.info("attributes : {} ", attributes);
     Member member = memberRepository.findByEmail((String) attributes.get("email")).orElse(null);
     if (member == null) {
       member =
