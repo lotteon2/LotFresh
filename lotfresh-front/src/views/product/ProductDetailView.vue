@@ -24,7 +24,8 @@ import type { ProductResponse } from "@/interface/productInterface";
 const route = useRoute();
 const product = ref<ProductResponse>();
 
-const { province } = <any>storeToRefs(useProductStore());
+const { memberInfo } = <any>storeToRefs(useProductStore());
+
 const callApi = (id: any, province: string) => {
   getProductDetail(id, province).then((data) => {
     product.value = data;
@@ -32,7 +33,7 @@ const callApi = (id: any, province: string) => {
 };
 
 watchEffect(() => {
-  callApi(route.params.id, province.value), route.params.id;
+  callApi(route.params.id, memberInfo.province), route.params.id;
 });
 </script>
 
