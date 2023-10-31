@@ -27,8 +27,6 @@
 
 <script setup lang="ts">
 import { defineEmits } from "vue";
-import axios from "axios";
-
 const emits = defineEmits(["closeModal"]);
 const kakaoLogin = () => {
   window.location.replace(
