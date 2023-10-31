@@ -47,7 +47,10 @@ export const getProductsBySearch = async (
   return data;
 };
 
-export const getProductDetail = async (id: any): Promise<ProductResponse> => {
-  const { data } = await productInstance.get(`/products/${id}`);
+export const getProductDetail = async (
+  id: any,
+  province: string
+): Promise<ProductResponse> => {
+  const { data } = await productInstance.get(`/products/${id}/${province}`);
   return data;
 };

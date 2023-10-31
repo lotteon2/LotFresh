@@ -17,18 +17,22 @@ import ProductDetailImage from "@/components/product/item/ProductDetailImage.vue
 import { getProductDetail } from "@/api/product/product";
 import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useProductStore } from "@/stores/product";
 import type { ProductResponse } from "@/interface/productInterface";
+
 const route = useRoute();
 const product = ref<ProductResponse>();
 
-const callApi = (id: any) => {
-  getProductDetail(id).then((data) => {
+const { province } = <any>storeToRefs(useProductStore());
+const callApi = (id: any, province: string) => {
+  getProductDetail(id, province).then((data) => {
     product.value = data;
   });
 };
 
 watchEffect(() => {
-  callApi(route.params.id), route.params.id;
+  callApi(route.params.id, province.value), route.params.id;
 });
 </script>
 
