@@ -63,6 +63,10 @@ pipeline {
 						string(credentialsId: 'JWT_REFRESH_EXPIRE', variable: 'JWT_REFRESH_EXPIRE'),
 
 						string(credentialsId: 'PRODUCT_FEIGN', variable: 'PRODUCT_FEIGN'),
+
+						string(credentialsId: 'CLIENT_ID', variable: 'CLIENT_ID'),
+						string(credentialsId: 'CLIENT_SECRET', variable: 'CLIENT_SECRET'),
+						string(credentialsId: 'LOGIN_SUCCESS_URL', variable: 'LOGIN_SUCCESS_URL'),
 						
 
 					]) {
@@ -97,6 +101,10 @@ pipeline {
 								echo "JWT_REFRESH_EXPIRE=$JWT_REFRESH_EXPIRE" >> env.list
 
 								echo "PRODUCT_FEIGN=$PRODUCT_FEIGN" >> env.list
+
+								echo "CLIENT_ID=$CLIENT_ID" >> env.list
+								echo "CLIENT_SECRET=$CLIENT_SECRET" >> env.list
+								echo "LOGIN_SUCCESS_URL=$LOGIN_SUCCESS_URL" >> env.list
 
 								scp -o StrictHostKeyChecking=no env.list ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com:~/env.list
 							"""
@@ -403,7 +411,7 @@ pipeline {
 											ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker container stop ${USER_SERVICE_IMAGE_TAG}
 										fi
 										
-										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8081:8081 --name ${PRODUCT_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file /home/ubuntu/env.list ${DOCKER_REGISTRY}:${USER_SERVICE_IMAGE_TAG}
+										ssh -o StrictHostKeyChecking=no ubuntu@ec2-52-78-250-117.ap-northeast-2.compute.amazonaws.com docker run -p 8081:8081 --name ${USER_SERVICE_IMAGE_TAG} --network lot-fresh -d --rm --env-file /home/ubuntu/env.list ${DOCKER_REGISTRY}:${USER_SERVICE_IMAGE_TAG}
 
 									"""
             				}
