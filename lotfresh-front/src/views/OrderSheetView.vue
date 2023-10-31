@@ -5,13 +5,13 @@
         <h2>주문서</h2>
       </div>
     </div>
-    <order-product :orderSheetItems="orderSheetInfo?.orderSheetItems" />
-    <orderer-info :orderSheetItems="orderSheetInfo?.orderSheetItems" />
+    <order-product :orderSheetItems="orderSheetList?.orderSheetItems" />
+    <orderer-info :orderSheetItems="orderSheetList?.orderSheetItems" />
     <delivery-info
       @openAddressModal="openAddressModal"
       :addressInfo="addressInfo"
     />
-    <payment-bill :orderSheetItems="orderSheetInfo?.orderSheetItems" />
+    <payment-bill :orderSheetItems="orderSheetList?.orderSheetItems" />
     <div class="pay_button_wrapper">
       <KakaopayButton @kakaopay_button_click="handlePayment"></KakaopayButton>
     </div>
@@ -36,8 +36,9 @@ import type { OrderCreateRequest } from "../api/order/order";
 import type {
   OrderSheetInfo,
   OrderSheetItem,
+  OrderSheetList,
 } from "../interface/cartInterface";
-import { startKakaopay, getOrdersheetInfo } from "../api/order/order";
+import { startKakaopay, getOrdersheetList } from "../api/order/order";
 
 export default {
   components: {
@@ -75,13 +76,13 @@ export default {
   setup() {
     const router = useRouter(); // router 객체 초기화
     // let orderSheetInfo: OrderSheetInfo;
-    let orderSheetInfo = ref<OrderSheetInfo | null>(null);
+    let orderSheetList = ref<OrderSheetList | null>(null);
 
     const handlePayment = async () => {
       try {
         const orderData: OrderCreateRequest = {
-          productRequests: orderSheetInfo.value?.orderSheetItems,
-          isFromCart: orderSheetInfo.value?.isFromCart, // 장바구니에서 주문하는 경우 true, 그렇지 않으면 false
+          productRequests: orderSheetList.value?.orderSheetItems,
+          isFromCart: orderSheetList.value?.isFromCart, // 장바구니에서 주문하는 경우 true, 그렇지 않으면 false
           province: "Daejeon",
         };
         const res = await startKakaopay(orderData);
@@ -123,7 +124,7 @@ export default {
 
     onMounted(async () => {
       try {
-        orderSheetInfo.value = await getOrdersheetInfo();
+        orderSheetList.value = await getOrdersheetList();
       } catch (error) {
         console.error(error);
       }
@@ -135,7 +136,7 @@ export default {
       window.removeEventListener("message", handleMessage);
     });
 
-    return { handlePayment, orderSheetInfo };
+    return { handlePayment, orderSheetList };
   },
 };
 </script>

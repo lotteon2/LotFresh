@@ -2,6 +2,7 @@ import { defaultInstance, orderInstance } from "../utils";
 import type {
   OrderSheetInfo,
   OrderSheetItem,
+  OrderSheetList,
 } from "../../interface/cartInterface";
 
 export interface ProductRequest {
@@ -18,7 +19,7 @@ export interface OrderCreateRequest {
   province: String | undefined;
 }
 
-export const getOrdersheetInfo = async (): Promise<OrderSheetInfo> => {
+export const getOrdersheetList = async (): Promise<OrderSheetList> => {
   const accessToken = localStorage.getItem("accessToken");
   const { data } = await orderInstance.get(`/order/ordersheet`, {
     headers: { Authorization: `Bearer ${accessToken}` },

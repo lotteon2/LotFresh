@@ -101,7 +101,7 @@ import type { OrderSheetItem } from "../../../interface/cartInterface";
 export default defineComponent({
   props: {
     orderSheetItems: {
-      type: Array as () => OrderSheetItem[],
+      type: Array as () => OrderSheetItem[] | undefined,
       required: true,
     },
   },
