@@ -47,7 +47,7 @@ public class OrderController {
         return ResponseEntity.ok().body(orderService.getOrderResponse(orderId));
     }
 
-    @GetMapping("ordersheet/{orderId}/")
+    @GetMapping("/ordersheet")
     public ResponseEntity orderProducts(@RequestHeader(value = "userId" , required = false) Long userId)
             throws JsonProcessingException {
         return ResponseEntity.ok().body(orderService.getOrderSheetResponse(userId));
