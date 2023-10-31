@@ -1,4 +1,8 @@
 import { defaultInstance, orderInstance } from "../utils";
+import type {
+  OrderSheetInfo,
+  OrderSheetItem,
+} from "../../interface/cartInterface";
 
 export interface ProductRequest {
   productId: number;
@@ -9,14 +13,18 @@ export interface ProductRequest {
 }
 
 export interface OrderCreateRequest {
-  productRequests: ProductRequest[];
-  isFromCart: boolean;
-  province: String;
+  productRequests: OrderSheetItem[] | undefined;
+  isFromCart: boolean | undefined;
+  province: String | undefined;
 }
 
-// interface qrcodeUrl {
-//   qrcodeUrl: string;
-// }
+export const getOrdersheetInfo = async (): Promise<OrderSheetInfo> => {
+  const accessToken = localStorage.getItem("accessToken");
+  const { data } = await orderInstance.get(`/order/ordersheet`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  return data;
+};
 
 export const startKakaopay = async (
   orderData: OrderCreateRequest
@@ -26,16 +34,7 @@ export const startKakaopay = async (
   const { data } = await orderInstance.post(`/order`, orderData, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
-
-  // const { data } = await defaultInstance.post(
-  //   `/order-service/order`,
-  //   orderData,
-  //   {
-  //     headers: { Authorization: `Bearer ${jwtToken}` },
-  //   }
-  // );
   console.log(accessToken);
   console.log(data);
-  console.log(data.qrcodeUrl);
-  return data.qrcodeUrl;
+  return data;
 };

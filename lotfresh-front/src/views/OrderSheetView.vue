@@ -5,13 +5,13 @@
         <h2>주문서</h2>
       </div>
     </div>
-    <order-product />
-    <orderer-info />
+    <order-product :orderSheetItems="orderSheetInfo?.orderSheetItems" />
+    <orderer-info :orderSheetItems="orderSheetInfo?.orderSheetItems" />
     <delivery-info
       @openAddressModal="openAddressModal"
       :addressInfo="addressInfo"
     />
-    <payment-bill />
+    <payment-bill :orderSheetItems="orderSheetInfo?.orderSheetItems" />
     <div class="pay_button_wrapper">
       <KakaopayButton @kakaopay_button_click="handlePayment"></KakaopayButton>
     </div>
@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { onBeforeUnmount, onMounted } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import DeliveryInfo from "../components/order/orderSheet/DeliveryInfo.vue";
 import OrdererInfo from "../components/order/orderSheet/OrdererInfo.vue";
@@ -33,7 +33,11 @@ import PaymentBill from "../components/order/orderSheet/PaymentBill.vue";
 import KakaopayButton from "../components/order/orderSheet/KakaopayButton.vue";
 import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddressFinderModal.vue";
 import type { OrderCreateRequest } from "../api/order/order";
-import { startKakaopay } from "../api/order/order";
+import type {
+  OrderSheetInfo,
+  OrderSheetItem,
+} from "../interface/cartInterface";
+import { startKakaopay, getOrdersheetInfo } from "../api/order/order";
 
 export default {
   components: {
@@ -70,28 +74,14 @@ export default {
 
   setup() {
     const router = useRouter(); // router 객체 초기화
+    // let orderSheetInfo: OrderSheetInfo;
+    let orderSheetInfo = ref<OrderSheetInfo | null>(null);
+
     const handlePayment = async () => {
       try {
         const orderData: OrderCreateRequest = {
-          productRequests: [
-            {
-              productId: 1,
-              productPrice: 10000,
-              productStock: 50,
-              productName: "Product Name",
-              productThumbnail: "https://example.com/product-thumbnail.jpg",
-            },
-            {
-              productId: 2,
-              productPrice: 20000,
-              productStock: 30,
-              productName: "Another Product Name",
-              productThumbnail:
-                "https://example.com/another-product-thumbnail.jpg",
-            },
-            // 필요한 만큼 추가적인 ProductRequest 객체를 포함시킬 수 있습니다.
-          ],
-          isFromCart: false, // 장바구니에서 주문하는 경우 true, 그렇지 않으면 false
+          productRequests: orderSheetInfo.value?.orderSheetItems,
+          isFromCart: orderSheetInfo.value?.isFromCart, // 장바구니에서 주문하는 경우 true, 그렇지 않으면 false
           province: "Daejeon",
         };
         const res = await startKakaopay(orderData);
@@ -131,7 +121,13 @@ export default {
       }
     };
 
-    onMounted(() => {
+    onMounted(async () => {
+      try {
+        orderSheetInfo.value = await getOrdersheetInfo();
+      } catch (error) {
+        console.error(error);
+      }
+
       window.addEventListener("message", handleMessage);
     });
 
@@ -139,7 +135,7 @@ export default {
       window.removeEventListener("message", handleMessage);
     });
 
-    return { handlePayment };
+    return { handlePayment, orderSheetInfo };
   },
 };
 </script>
