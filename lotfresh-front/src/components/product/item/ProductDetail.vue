@@ -94,7 +94,7 @@ import type { CartCreateDto, OrderSheetInfo } from "@/interface/cartInterface";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 
-const { province } = storeToRefs(useMemberStore());
+const { memberInfo } = storeToRefs(useMemberStore());
 
 const props = defineProps(["product"]);
 
@@ -112,7 +112,7 @@ const orderSheetInfo = ref<OrderSheetInfo>({
 const cartCreateDto = ref<CartCreateDto>({
   productId: props.product.id,
   discountedPrice: props.product.salesPrice,
-  province: province.value,
+  province: memberInfo.value?.province,
   productStock: props.product.stock,
   price: props.product.price,
   productName: props.product.name,
@@ -153,7 +153,11 @@ const orderSheetInfos = ref<OrderSheetInfo[]>([]);
 
 const addOrderSheet = () => {
   orderSheetInfos.value.push(orderSheetInfo.value);
-  addOrderheetInfos(orderSheetInfos.value, province.value, props.product.id);
+  addOrderheetInfos(
+    orderSheetInfos.value,
+    memberInfo.value?.province,
+    props.product.id
+  );
 };
 
 const minus = () => {
