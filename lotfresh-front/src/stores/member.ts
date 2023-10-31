@@ -5,7 +5,12 @@ import type { CreateMemberDto, MemberInfo } from "@/interface/memberInterface";
 
 export const useMemberStore = defineStore("member", () => {
   const accessToken = ref<string | null>("");
-  const memberInfo = ref<MemberInfo>();
+  const memberInfo = ref<MemberInfo>({
+    email: "",
+    isActive: false,
+    nickname: "",
+    province: "",
+  });
 
   if (localStorage.getItem("accessToken")) {
     accessToken.value = localStorage.getItem("accessToken");
