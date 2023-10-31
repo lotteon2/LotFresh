@@ -34,7 +34,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
-            log.warn("요청은 이렇게 갑니다. 아직 아무처리도 안했어요." + request.toString());
+            log.warn("요청은 이렇게 갑니다. 아직 아무처리도 안했어요." + request.getHeaders().toString());
 
              if(!containsAuthorization(request)) {
                  return onError(response, HttpStatus.UNAUTHORIZED);

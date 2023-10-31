@@ -53,11 +53,14 @@ public class JwtUtil {
 
     public void addJwtPayloadHeadersForProductService(ServerHttpRequest request, Claims claims) {
         String userId = (claims != null) ? getUserId(claims) : null;
-        request.mutate()
+        ServerHttpRequest mutatedRequest = request.mutate()
                 .header("Content-Type", "application/json;charset=UTF-8")
 //                .header("userId", String.valueOf(1L))
                  .header("userId", userId == null ? null: String.valueOf(userId))
                 .build();
-        log.warn("그래서 이렇게 변환되었어요." + request.toString());
+        log.warn("그래서 이렇게 변환되었어요.- 프로덕트용 필터 변환전 헤더정보" + request.getHeaders().toString());
+        log.warn("그래서 이렇게 변환되었어요.- 변환전 바디정보" + request.getBody().toString());
+        log.warn("그래서 이렇게 변환되었어요.- 변환후 헤더정보" + mutatedRequest.getHeaders().toString());
+        log.warn("그래서 이렇게 변환되었어요.- 변환후 바디정보" + mutatedRequest.getBody().toString());
     }
 }

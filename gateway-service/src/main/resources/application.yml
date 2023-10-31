@@ -33,7 +33,7 @@ spring:
             - Path=/user-service/**
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-            # - AuthenticationFilter
+            - AuthenticationFilter
 
         - id: cart-service
           uri: lb://CART-SERVICE
