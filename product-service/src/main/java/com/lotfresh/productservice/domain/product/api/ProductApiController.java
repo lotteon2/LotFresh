@@ -51,7 +51,7 @@ public class ProductApiController {
   @GetMapping("/{productId}/{province}")
   public ResponseEntity<ProductResponse> getProductDetail(
       @RequestHeader(value = "userId", required = false) Long userId,
-      @PathVariable("province") String province,
+      @PathVariable(value = "province", required = false) String province,
       @PathVariable("productId") Long productId) {
     Integer stock = null;
     try {
