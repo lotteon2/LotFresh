@@ -273,7 +273,7 @@ const signup = () => {
 input {
   padding: 10px; /* Increase padding to make the input bigger */
   border-radius: 8px; /* Set border-radius to make it more circular */
-  //width: 80%; /* Optionally, set the width to 80% to provide some space for the error message */
+  width: 80%; /* Optionally, set the width to 80% to provide some space for the error message */
   box-sizing: border-box; /* Include padding and border in the width calculation */
   width: 100%;
 }
