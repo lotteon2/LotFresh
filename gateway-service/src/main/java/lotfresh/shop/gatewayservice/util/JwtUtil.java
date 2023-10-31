@@ -45,6 +45,7 @@ public class JwtUtil {
 //                .header("userId", String.valueOf(1L))
                 .header("userId", getUserId(claims))
                 .build();
+        log.warn("그래서 이렇게 변환되었어요." + request.toString());
     }
 
     public void addJwtPayloadHeadersForProductService(ServerHttpRequest request, Claims claims) {
@@ -54,5 +55,6 @@ public class JwtUtil {
 //                .header("userId", String.valueOf(1L))
                  .header("userId", userId == null ? null: String.valueOf(userId))
                 .build();
+        log.warn("그래서 이렇게 변환되었어요." + request.toString());
     }
 }
