@@ -11,82 +11,21 @@
     </div>
 
     <transition name="slide">
-      <div
-        class="item_info_wrapper"
-        v-for="item in orderSheetItems"
-        :key="item.productId"
-      >
-        <div class="flex_row align_item_center">
-          <img :src="item.productThumbnail" class="item_img" />
-          <div class="content_text">
-            {{ item.productName }}
-          </div>
-        </div>
-        <div class="flex_row">
-          <div class="content_text_light">{{ item.productStock }}개</div>
-          <div class="content_text ml-2vw">{{ item.discountedPrice }}원</div>
-        </div>
-      </div>
-
-      <div v-if="isOrderItemsVisible" key="1">
-        <div class="item_info_wrapper">
+      <div>
+        <div
+          class="item_info_wrapper"
+          v-for="item in orderSheetItems"
+          :key="item.productId"
+        >
           <div class="flex_row align_item_center">
-            <img
-              src="https://product-image.kurly.com/product/image/3df368c8-e124-4d06-a9e9-af4c10d01b53.jpeg"
-              class="item_img"
-            />
+            <img :src="item.productThumbnail" class="item_img" />
             <div class="content_text">
-              [아임닭] 닭가슴살 꾸이칩 시그니쳐 30g
+              {{ item.productName }}
             </div>
           </div>
           <div class="flex_row">
-            <div class="content_text_light">1개</div>
-            <div class="content_text ml-2vw">2400원</div>
-          </div>
-        </div>
-        <div class="item_info_wrapper">
-          <div class="flex_row align_item_center">
-            <img
-              src="https://product-image.kurly.com/product/image/3df368c8-e124-4d06-a9e9-af4c10d01b53.jpeg"
-              class="item_img"
-            />
-            <div class="content_text">
-              [아임닭] 닭가슴살 꾸이칩 시그니쳐 30g
-            </div>
-          </div>
-          <div class="flex_row">
-            <div class="content_text_light">1개</div>
-            <div class="content_text ml-2vw">2400원</div>
-          </div>
-        </div>
-        <div class="item_info_wrapper">
-          <div class="flex_row align_item_center">
-            <img
-              src="https://product-image.kurly.com/product/image/3df368c8-e124-4d06-a9e9-af4c10d01b53.jpeg"
-              class="item_img"
-            />
-            <div class="content_text">
-              [아임닭] 닭가슴살 꾸이칩 시그니쳐 30g
-            </div>
-          </div>
-          <div class="flex_row">
-            <div class="content_text_light">1개</div>
-            <div class="content_text ml-2vw">2400원</div>
-          </div>
-        </div>
-        <div class="item_info_wrapper">
-          <div class="flex_row align_item_center">
-            <img
-              src="https://product-image.kurly.com/product/image/3df368c8-e124-4d06-a9e9-af4c10d01b53.jpeg"
-              class="item_img"
-            />
-            <div class="content_text">
-              [아임닭] 닭가슴살 꾸이칩 시그니쳐 30g
-            </div>
-          </div>
-          <div class="flex_row">
-            <div class="content_text_light">1개</div>
-            <div class="content_text ml-2vw">2400원</div>
+            <div class="content_text_light">{{ item.productStock }}개</div>
+            <div class="content_text ml-2vw">{{ item.discountedPrice }}원</div>
           </div>
         </div>
       </div>
