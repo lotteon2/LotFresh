@@ -26,14 +26,14 @@ const product = ref<ProductResponse>();
 
 const { memberInfo } = <any>storeToRefs(useProductStore());
 
-const callApi = (id: any, province: string) => {
+const callApi = (id: any, province: string | null) => {
   getProductDetail(id, province).then((data) => {
     product.value = data;
   });
 };
 
 watchEffect(() => {
-  callApi(route.params.id, memberInfo.province), route.params.id;
+  callApi(route.params.id, "Seoul"), route.params.id;
 });
 </script>
 
