@@ -15,7 +15,7 @@
           <td>
             <input
               class="zoncode-input"
-              v-model="memberCreateDto.zoncode"
+              v-model="createMemberDto.zoncode"
               placeholder="우편번호"
               readonly
               required
@@ -35,7 +35,7 @@
           </td>
           <td>
             <input
-              v-model="memberCreateDto.province"
+              v-model="createMemberDto.province"
               placeholder="권역"
               readonly
               required
@@ -49,7 +49,7 @@
           </td>
           <td>
             <input
-              v-model="memberCreateDto.roadAddress"
+              v-model="createMemberDto.roadAddress"
               placeholder="도로명 주소"
               readonly
               required
@@ -63,7 +63,7 @@
           </td>
           <td>
             <input
-              v-model="memberCreateDto.addressDetail"
+              v-model="createMemberDto.addressDetail"
               placeholder="상세 주소"
             />
           </td>
@@ -77,9 +77,9 @@
 <script setup lang="ts">
 import { useMemberStore } from "@/stores/member";
 import { ref } from "vue";
-import type { MemberCreateDto } from "@/interface/memberInterface";
+import type { CreateMemberDto } from "@/interface/memberInterface";
 const memberStore = useMemberStore();
-const memberCreateDto = ref<MemberCreateDto>({
+const createMemberDto = ref<CreateMemberDto>({
   roadAddress: "",
   province: "",
   zoncode: "",
@@ -87,17 +87,17 @@ const memberCreateDto = ref<MemberCreateDto>({
 });
 
 const execDaumPostcode = () => {
-  new window.daum.Postcode({
+  new (window as any).daum.Postcode({
     oncomplete: (data: any) => {
-      memberCreateDto.value.province = data.sidoEnglish;
-      memberCreateDto.value.roadAddress = data.roadAddress;
-      memberCreateDto.value.zoncode = data.zonecode;
+      createMemberDto.value.province = data.sidoEnglish;
+      createMemberDto.value.roadAddress = data.roadAddress;
+      createMemberDto.value.zoncode = data.zonecode;
     },
   }).open();
 };
 
 const signup = () => {
-  if (!memberCreateDto.value.province) {
+  if (!createMemberDto.value.province) {
     alert("주소 입력은 필수 사항 입니다.");
     return;
   }
