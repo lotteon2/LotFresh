@@ -7,8 +7,10 @@ import router from "@/router";
 import { onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 const route = useRoute();
 const memberStore = useMemberStore();
+const { memberInfo } = storeToRefs(memberStore);
 onBeforeMount(async () => {
   await router.isReady();
 
@@ -16,9 +18,13 @@ onBeforeMount(async () => {
 
   if (accessToken) {
     await memberStore.setAccessToken(accessToken);
-    console.log("토큰찍어봅니다...", accessToken);
+    await memberStore.setMemberDetailInfo(accessToken);
+    if (memberInfo.value?.isActive) {
+      router.push("/");
+    } else {
+      router.push("/signup");
+    }
   }
-  router.push("/");
 });
 </script>
 
