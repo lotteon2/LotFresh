@@ -4,19 +4,14 @@ import { getMemberDetail, regist } from "@/api/member/member";
 import type { CreateMemberDto, MemberInfo } from "@/interface/memberInterface";
 
 export const useMemberStore = defineStore("member", () => {
-  const province = ref<string | null | undefined>("Seoul");
   const accessToken = ref<string | null>("");
-  const memberInfo = ref<MemberInfo | null | undefined>();
-
-  if (localStorage.getItem("province")) {
-    province.value = JSON.parse(<string>localStorage.getItem("province"));
-  }
+  const memberInfo = ref<MemberInfo>();
 
   if (localStorage.getItem("accessToken")) {
     accessToken.value = localStorage.getItem("accessToken");
   }
 
-  if (sessionStorage.getItem("memberInfo")) {
+  if (sessionStorage.getItem("memberInfo") !== undefined) {
     memberInfo.value = <MemberInfo>(
       JSON.parse(<string>sessionStorage.getItem("memberInfo"))
     );
@@ -32,13 +27,14 @@ export const useMemberStore = defineStore("member", () => {
 
   const registMember = async (
     createMemberDto: CreateMemberDto
-  ): Promise<string> => {
-    return await regist(createMemberDto, accessToken.value);
+  ): Promise<void> => {
+    if (memberInfo.value) {
+      memberInfo.value.province = await regist(
+        createMemberDto,
+        accessToken.value
+      );
+    }
   };
-
-  watchEffect(() => {
-    localStorage.setItem("province", JSON.stringify(province.value));
-  }, <any>province.value);
 
   watchEffect(() => {
     localStorage.setItem("accessToken", <string>accessToken.value);
@@ -49,7 +45,6 @@ export const useMemberStore = defineStore("member", () => {
   }, <any>memberInfo);
 
   return {
-    province,
     memberInfo,
     accessToken,
     setAccessToken,

@@ -15,7 +15,7 @@
           <td>
             <input
               class="zoncode-input"
-              v-model="createMemberDto.zoncode"
+              v-model="createMemberDto.zipCode"
               placeholder="우편번호"
               readonly
               required
@@ -78,11 +78,12 @@
 import { useMemberStore } from "@/stores/member";
 import { ref } from "vue";
 import type { CreateMemberDto } from "@/interface/memberInterface";
+import router from "@/router";
 const memberStore = useMemberStore();
 const createMemberDto = ref<CreateMemberDto>({
   roadAddress: "",
   province: "",
-  zoncode: "",
+  zipCode: "",
   addressDetail: "",
 });
 
@@ -91,7 +92,7 @@ const execDaumPostcode = () => {
     oncomplete: (data: any) => {
       createMemberDto.value.province = data.sidoEnglish;
       createMemberDto.value.roadAddress = data.roadAddress;
-      createMemberDto.value.zoncode = data.zonecode;
+      createMemberDto.value.zipCode = data.zonecode;
     },
   }).open();
 };
@@ -101,6 +102,9 @@ const signup = () => {
     alert("주소 입력은 필수 사항 입니다.");
     return;
   }
+  memberStore.registMember(createMemberDto.value).then(() => {
+    router.push("/");
+  });
 };
 </script>
 
