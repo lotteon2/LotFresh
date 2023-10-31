@@ -11,6 +11,23 @@
     </div>
 
     <transition name="slide">
+      <div
+        class="item_info_wrapper"
+        v-for="item in orderSheetItems"
+        :key="item.productId"
+      >
+        <div class="flex_row align_item_center">
+          <img :src="item.productThumbnail" class="item_img" />
+          <div class="content_text">
+            {{ item.productName }}
+          </div>
+        </div>
+        <div class="flex_row">
+          <div class="content_text_light">{{ item.productStock }}개</div>
+          <div class="content_text ml-2vw">{{ item.discountedPrice }}원</div>
+        </div>
+      </div>
+
       <div v-if="isOrderItemsVisible" key="1">
         <div class="item_info_wrapper">
           <div class="flex_row align_item_center">
@@ -79,8 +96,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import type { OrderSheetItem } from "../../../interface/cartInterface";
 
 export default defineComponent({
+  props: {
+    orderSheetItems: {
+      type: Array as () => OrderSheetItem[],
+      required: true,
+    },
+  },
   data() {
     return {
       isOrderItemsVisible: true,

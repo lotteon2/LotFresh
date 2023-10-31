@@ -9,11 +9,16 @@ export interface CartCreateDto {
   selectedQuantity: number;
 }
 
-export interface OrderSheetInfo {
+export interface OrderSheetItem {
   productId: number;
   originalPrice: number;
   discountedPrice: number;
   productStock: number;
   productName: string;
   productThumbnail: string;
+}
+
+export interface OrderSheetInfo {
+  orderSheetItems: OrderSheetItem[];
+  isFromCart: boolean;
 }
