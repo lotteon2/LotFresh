@@ -139,8 +139,8 @@ const router = createRouter({
     },
 
     {
-      path: "/signup",
-      name: "signup",
+      path:"/signup:id",
+      name:"signup",
       component: SignUpView,
     },
   ],

@@ -101,7 +101,6 @@ const signup = () => {
     alert("주소 입력은 필수 사항 입니다.");
     return;
   }
-};
 </script>
 
 <style scoped>
