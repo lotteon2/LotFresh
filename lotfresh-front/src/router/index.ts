@@ -15,6 +15,7 @@ import ProductDetailView from "@/views/product/ProductDetailView.vue";
 import SearchProductsView from "@/views/product/SarchProductsView.vue";
 import CartView from "../views/CartView.vue";
 import KakaopaySuccessPopUpView from "@/views/payment/KakaopaySuccessPopUpView.vue";
+import LoginSuccess from "@/components/common/LoginSuccess.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,11 @@ const router = createRouter({
       path: "/",
       name: "main",
       component: MainView,
+    },
+    {
+      path: "/login-success",
+      name: "loginSuccess",
+      component: LoginSuccess,
     },
     {
       path: "/mypage",

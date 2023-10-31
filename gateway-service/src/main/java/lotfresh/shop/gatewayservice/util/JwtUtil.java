@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
+@Slf4j
 @Component
 public class JwtUtil {
 
@@ -33,24 +35,24 @@ public class JwtUtil {
         return jwtParser.setSigningKey(key).parseClaimsJws(jwt).getBody();
     }
 
-    private Long getUserId(Claims claims) {
-        return claims.get("userId", Long.class);
+    private String getUserId(Claims claims) {
+        return claims.get("userId", String.class);
     }
 
     public void addJwtPayloadHeaders(ServerHttpRequest request, Claims claims) {
         request.mutate()
                 .header("Content-Type", "application/json;charset=UTF-8")
-                .header("userId", String.valueOf(1L))
-//                .header("userId", String.valueOf(getUserId(claims)))
+//                .header("userId", String.valueOf(1L))
+                .header("userId", getUserId(claims))
                 .build();
     }
 
     public void addJwtPayloadHeadersForProductService(ServerHttpRequest request, Claims claims) {
-        Long userId = (claims != null) ? getUserId(claims) : null;
+        String userId = (claims != null) ? getUserId(claims) : null;
         request.mutate()
                 .header("Content-Type", "application/json;charset=UTF-8")
-                .header("userId", String.valueOf(1L))
-                // .header("userId", userId == null ? null: String.valueOf(userId))
+//                .header("userId", String.valueOf(1L))
+                 .header("userId", userId == null ? null: String.valueOf(userId))
                 .build();
     }
 }

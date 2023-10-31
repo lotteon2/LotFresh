@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -149,13 +150,13 @@ public class OrderService {
                 .build();
     }
 
-    public OrderSheetResponse getOrderSheetResponse(Long userId) throws JsonProcessingException {
-        String result = redisRepository.getValues(makeRedisKey(userId));
-        return objectMapper.readValue(result,OrderSheetResponse.class);
+    public List<OrderSheetResponse> getOrderSheetResponse(Long userId) throws JsonProcessingException {
+        String value = redisRepository.getValues(makeRedisKey(userId));
+        return Arrays.asList(objectMapper.readValue(value, OrderSheetResponse[].class));
     }
 
     private String makeRedisKey(Long userId) {
-        return userId.toString();
+        return "CART-" + userId;
     }
 
 }
