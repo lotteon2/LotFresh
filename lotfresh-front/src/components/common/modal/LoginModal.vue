@@ -31,7 +31,9 @@ import axios from "axios";
 
 const emits = defineEmits(["closeModal"]);
 const kakaoLogin = () => {
-  window.location.replace("http://localhost:8081/oauth2/authorization/kakao");
+  window.location.replace(
+    "https://lot-fresh.shop/user-service/oauth2/authorization/kakao"
+  );
 };
 </script>
 <style scoped>
