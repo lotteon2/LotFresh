@@ -28,9 +28,11 @@
 <script setup>
 import { defineEmits } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router'
 
 const emits = defineEmits(['closeModal']);
 console.log(Kakao.isInitialized());
+const router = useRouter(); // Get a reference to the router
 
 function kakaoLogin() {
   Kakao.Auth.login({
@@ -42,30 +44,21 @@ function kakaoLogin() {
           console.log(userId);
           console.log(response);
 
-          // Send a new request to "https://lot-fresh.shop/auth/oauth/provider/KAKAO/users/{id}"
-          
-          var url = "https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/users/" + userId
+          var url = "https://www.lot-fresh.shop/auth-service/auth/oauth/provider/KAKAO/users/" + userId;
 
-          // Use Axios to send the request
-          axios
-            .post(url, {})
-            .then(function(response) {
-              console.log(response.data);
-            })
-            .catch(function(error) {
-              console.error("Error sending the new request:", error);
-            });
-        },
-        fail: function(error) {
-          console.error("Error sending the new request:", error);
-        }
-      });
-    },
-    fail: function(error) {
-      console.error("Error sending the new request:", error);
+          axios.post(url, {})
+  .then(function(response) {
+    if (response.status === 301) {
+      console.log("Redirecting to the sign-up page");
+      router.push({ name: 'signup', params: { userId } });
+    } else {
+      console.log("Redirecting to the main page");
+      router.push({ name: 'main' });
     }
+  })
+  .catch(function(error) {
+    console.error("Error sending the new request:", error);
   });
-}
   
 </script>
 <style scoped>
