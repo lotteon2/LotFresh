@@ -27,6 +27,13 @@ spring:
               - PATCH
               - OPTIONS
       routes:
+        - id: user-service-oauth
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/oauth2/authorization/kakao, /user-service/login/oauth2/code/kakao
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
