@@ -27,21 +27,13 @@ spring:
               - PATCH
               - OPTIONS
       routes:
-        - id: auth-service
-          uri: lb://AUTH-SERVICE
-          predicates:
-            - Path=/auth-service/**
-          filters:
-            - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
-        #            - AuthenticationFilter
-
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-            - AuthenticationFilter
+            # - AuthenticationFilter
 
         - id: cart-service
           uri: lb://CART-SERVICE
@@ -87,6 +79,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
+#      defaultZone: http://localhost:8761/eureka/
 
 jwt:
   secret: ${JWT_SECRET}
