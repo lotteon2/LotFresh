@@ -52,7 +52,7 @@ public class JwtUtil {
         request.mutate()
                 .header("Content-Type", "application/json;charset=UTF-8")
 //                .header("userId", String.valueOf(1L))
-                 .header("userId", userId == null ? null: String.valueOf(userId))
+                 .header("userId", userId == null ? null: userId)
                 .build();
     }
 }
