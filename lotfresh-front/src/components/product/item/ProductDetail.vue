@@ -163,6 +163,7 @@ const orderSheetList = ref<OrderSheetList>({
 
 const addOrderSheet = () => {
   orderSheetList.value.orderSheetItems = orderSheetItems.value;
+  console.log(orderSheetItems);
   addOrdersheetInfos(orderSheetList.value, accessToken.value)
     .then(() => {
       router.push("/ordersheet");
