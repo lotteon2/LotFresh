@@ -34,6 +34,13 @@ spring:
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
 
+        - id: kakaopay-redirect
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/order/payments/kakaopay/**
+          filters:
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
+
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
