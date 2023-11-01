@@ -19,7 +19,7 @@ import { useMemberStore } from "@/stores/member";
 const { memberInfo } = storeToRefs(useMemberStore());
 const salesProducts = ref<ProductResponse[]>([]);
 
-getSalesProducts(<string>memberInfo.value.province).then((data) => {
+getSalesProducts(memberInfo.value.province).then((data) => {
   salesProducts.value = data;
 });
 
