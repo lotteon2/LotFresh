@@ -56,6 +56,6 @@ jwt:
   token:
     secret-key: ${JWT_SECRET}
   access-token:
-    expire-length: ${JWT_ACCESS_EXPIRE} # 2시간
+    expire-length: ${JWT_ACCESS_EXPIRE} # 24시간
 
 LOGIN_SUCCESS_URL: ${LOGIN_SUCCESS_URL}
