@@ -25,6 +25,8 @@ public class KakaopayReadyRequest {
     @Valid
     private List<OrderDetailVO> orderDetails;
 
+    private String province;
+
     public KakaopayReadyVO toKakaopayReadyVO(Long userId,
                                              String itemName,
                                              Long totalQuantity,

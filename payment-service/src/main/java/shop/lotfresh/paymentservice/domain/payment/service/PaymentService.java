@@ -75,7 +75,10 @@ public class PaymentService {
                                                                     failUrl,
                                                                     cancelUrl);
         // queryParam에 orderId넘겨야 받을때 조립가능
-        KakaopayReadyResponseVO kakaopayReadyResponseVO = kakaopayApiClient.kakaopayReady(orderId, request.getIsFromCart(),kakaopayReadyVO);
+        KakaopayReadyResponseVO kakaopayReadyResponseVO = kakaopayApiClient.kakaopayReady(orderId,
+                request.getIsFromCart(),
+                request.getProvince(),
+                kakaopayReadyVO);
         Payment payment = kakaopayReadyResponseVO.toEntity(userId, orderId, totalOriginalAmount, totalTransactionAmount);
         paymentRepository.save(payment); // TODO: 예외처리할게 있는지?
         //TODO: 큐알코드 화면 url만 넘겨줘도 괜찮을지 고민중.
