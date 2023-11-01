@@ -26,7 +26,7 @@ export interface address {
 export interface OrderCreateRequest {
   productRequests: OrderSheetItem[] | undefined;
   isFromCart: boolean | undefined;
-  province: string | undefined;
+  province: string | undefined | null;
   address: address | undefined;
 }
 

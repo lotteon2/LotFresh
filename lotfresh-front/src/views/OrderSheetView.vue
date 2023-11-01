@@ -103,7 +103,7 @@ export default {
         const orderData: OrderCreateRequest = {
           productRequests: orderSheetList.value?.orderSheetItems,
           isFromCart: orderSheetList.value?.isFromCart, // 장바구니에서 주문하는 경우 true, 그렇지 않으면 false
-          province: "Daejeon",
+          province: memberInfo.value.province,
           address: addressInfo.value,
         };
         const res = await startKakaopay(orderData, accessToken.value);
