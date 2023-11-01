@@ -53,7 +53,6 @@
               </div>
             </div>
             <div class="item_price">
-              {{ cartItemResponse.discountedPrice == 0 }}
               <div v-if="cartItemResponse.discountedPrice == 0">
                 <div>{{ cartItemResponse.originalPrice }}원</div>
               </div>
