@@ -48,7 +48,7 @@ spring:
             - Path=/cart-service/**
           filters:
             - RewritePath=/cart-service/(?<segment>.*), /$\{segment}
-            # - AuthenticationFilter
+            - AuthenticationFilter
 
         - id: product-service
           uri: lb://PRODUCT-SERVICE
