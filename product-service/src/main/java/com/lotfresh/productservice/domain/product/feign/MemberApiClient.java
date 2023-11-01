@@ -5,9 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(
-    value = "user-service",
-    configuration = MemberFeignConfig.class) // 임시 url
+@FeignClient(name = "user-service", configuration = MemberFeignConfig.class) // 임시 url
 public interface MemberApiClient {
 
   @GetMapping("/members/{memberId}/memberAddress")
