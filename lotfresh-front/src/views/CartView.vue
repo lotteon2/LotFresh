@@ -32,9 +32,9 @@
               class="check-box"
             />
             <div>
-              <img :src="cartItemResponse.productImageUrl" class="item_img" />
+              <img :src="cartItemResponse.productThumbnail" class="item_img" />
             </div>
-            <div class="item_name">{{ cartItemResponse.name }}</div>
+            <div class="item_name">{{ cartItemResponse.productName }}</div>
             <div class="item_quantity">
               <div class="option">
                 <button
@@ -43,7 +43,7 @@
                   @click="minus(index)"
                   value="-"
                 ></button>
-                <div id="result">{{ cartItemResponse.selectedQuantity }}</div>
+                <div id="result">{{ cartItemResponse.productStock }}</div>
                 <button
                   type="button"
                   class="btn up on"
@@ -127,12 +127,12 @@ export default defineComponent({
       this.isOrderItemsVisible = !this.isOrderItemsVisible;
     },
     minus(index: number) {
-      if (this.cartItemResponses[index].selectedQuantity > 1) {
-        this.cartItemResponses[index].selectedQuantity--;
+      if (this.cartItemResponses[index].productStock > 1) {
+        this.cartItemResponses[index].productStock--;
       }
     },
     plus(index: number) {
-      this.cartItemResponses[index].selectedQuantity++;
+      this.cartItemResponses[index].productStock++;
     },
     openAddressModal: function (): void {
       this.isAddressModalOpen = true;
@@ -164,7 +164,6 @@ export default defineComponent({
   },
   created() {
     getCarts(this.accessToken).then((data) => {
-      console.log(data);
       this.cartItemResponses = data;
     });
   },
