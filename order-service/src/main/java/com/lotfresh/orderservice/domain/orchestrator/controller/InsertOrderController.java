@@ -25,8 +25,10 @@ public class InsertOrderController {
     private final UserFeignClient userFeignClient;
 
     @PostMapping()
-    public ResponseEntity createOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
-        return ResponseEntity.ok().body(orchestratorService.createOrderAndRequestToPayment(orderCreateRequest));
+    public ResponseEntity createOrder(
+            @RequestHeader(value = "userId", required = false) Long userId,
+            @Valid @RequestBody OrderCreateRequest orderCreateRequest) {
+        return ResponseEntity.ok().body(orchestratorService.createOrderAndRequestToPayment(orderCreateRequest, userId));
     }
 
     @GetMapping("/payments/kakaopay/approve/{orderId}/{isFromCart}/{province}")

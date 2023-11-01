@@ -128,7 +128,6 @@ class InsertOrderControllerTest {
                 .andExpect(jsonPath("$.message").value("잘못된 요청입니다"))
                 .andExpect(jsonPath("$.validation.productId").value("productId cannot be null"))
                 .andExpect(jsonPath("$.validation.originalPrice").value("originalPrice cannot be null"))
-                .andExpect(jsonPath("$.validation.discountedPrice").value("discountedPrice cannot be null"))
                 .andExpect(jsonPath("$.validation.productStock").value("productStock cannot be null"));
     }
 

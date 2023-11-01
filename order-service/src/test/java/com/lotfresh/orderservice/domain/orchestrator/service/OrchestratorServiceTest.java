@@ -64,7 +64,7 @@ class OrchestratorServiceTest {
     @Test
     void createOrderAndReturnQRCode() {
         // given
-        BDDMockito.given(paymentFeignClient.kakaopayReady(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.kakaopayReady(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().body("URL"));
 
         List<ProductRequest> productRequests  = List.of(
@@ -85,8 +85,10 @@ class OrchestratorServiceTest {
                 .address(address)
                 .build();
 
+        Long userId = 1L;
+
         // when
-        String url = orchestratorService.createOrderAndRequestToPayment(orderCreateRequest);
+        String url = orchestratorService.createOrderAndRequestToPayment(orderCreateRequest,userId);
 
         em.flush();
         em.clear();
