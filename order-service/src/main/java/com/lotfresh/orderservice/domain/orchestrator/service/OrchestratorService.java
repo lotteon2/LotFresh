@@ -71,9 +71,13 @@ public class OrchestratorService {
         }
 
         if(isFromCart) {
-            CartRequest cartRequest = makeCartRequest(userId,orderDetails);
-            CartTask cartTask = new CartTask(cartFeignClient,cartRequest);
-            cartTask.work();
+            try{
+                CartRequest cartRequest = makeCartRequest(userId,orderDetails);
+                CartTask cartTask = new CartTask(cartFeignClient,cartRequest);
+                cartTask.work();
+            } catch (Exception e) {
+                log.error("장바구니 상품 삭제 실패");
+            }
         }
 
         return orderOrchestrator;
