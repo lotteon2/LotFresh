@@ -2,9 +2,12 @@ import { defaultInstance, cartInstance } from "../utils";
 import type { CartCreateDto, OrderSheetInfo } from "@/interface/cartInterface";
 
 export const createCart = async (
-  cartCreateDto: CartCreateDto
+  cartCreateDto: CartCreateDto,
+  accessToken: string | null
 ): Promise<any> => {
-  const response = await cartInstance.post("/carts", cartCreateDto);
+  const response = await cartInstance.post("/carts", cartCreateDto, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
   return response;
 };
 
