@@ -28,6 +28,6 @@ export interface OrderSheetItem {
 }
 
 export interface OrderSheetList {
-  orderSheetItems: OrderSheetItem[] | undefined;
+  orderSheetItems: OrderSheetItem[];
   isFromCart: boolean;
 }
