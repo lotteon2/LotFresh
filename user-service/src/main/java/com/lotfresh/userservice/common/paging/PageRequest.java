@@ -1,0 +1,34 @@
+package com.lotfresh.userservice.common.paging;
+
+import lombok.Getter;
+import org.springframework.data.domain.Pageable;
+
+import static org.springframework.data.domain.Sort.Direction;
+
+@Getter
+//@Setter
+//@NoArgsConstructor
+public class PageRequest {
+  private static final int DEFAULT_PAGE = 0;
+  private static final int PAGE_SIZE = 16;
+
+  private String keyword;
+  private Pageable pageable;
+
+  public PageRequest(String order, String keyword, Integer page, Integer size) {
+    this.keyword = keyword;
+    this.pageable = toPageable(page, toOrderCondition(order), size);
+  }
+
+  private OrderCondition toOrderCondition(String order) {
+    return (order == null || order.isBlank())
+        ? OrderCondition.RECENT
+        : OrderCondition.valueOf(order);
+  }
+
+  private Pageable toPageable(Integer pageNum, OrderCondition orderCondition, Integer size) {
+    Integer page = pageNum == null ? DEFAULT_PAGE : pageNum - 1;
+    return org.springframework.data.domain.PageRequest.of(
+        page, size == null ? PAGE_SIZE : size, Direction.DESC, orderCondition.getSort());
+  }
+}
