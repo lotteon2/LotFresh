@@ -8,6 +8,7 @@ const PRODUCT_URL = "https://www.lot-fresh.shop/product-service/";
 const MEMBER_URL = "https://www.lot-fresh.shop/user-service/";
 // const MEMBER_URL = "http://localhost:8090/user-service/";
 const ORDER_URL = "https://www.lot-fresh.shop/order-service/";
+// const ORDER_URL = "http://localhost:8084";
 const CART_URL = "https://www.lot-fresh.shop/cart-service/";
 
 // 기본 API 요청 처리

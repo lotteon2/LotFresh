@@ -26,25 +26,16 @@
 
 <script lang="ts">
 import OrderDetail from "./OrderDetail.vue";
-interface Order {
-  orderId: number;
-  orderCreatedTime: Date;
-  orderDetailResponses: OrderDetail[];
-}
-interface OrderDetail {
-  orderDetailId: number;
-  price: number;
-  stock: number;
-  status: string;
-  productName: string;
-  productThumbnail: string;
-}
+import type {
+  OrderResponse,
+  OrderDetailResponse,
+} from "../../interface/orderInterface";
 
 export default {
   components: { OrderDetail },
   props: {
     orderData: {
-      type: Object as () => Order,
+      type: Object as () => OrderResponse,
       required: true,
     },
   },

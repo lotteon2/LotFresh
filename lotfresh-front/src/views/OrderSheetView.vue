@@ -32,6 +32,9 @@ import OrderProduct from "../components/order/orderSheet/OrderProduct.vue";
 import PaymentBill from "../components/order/orderSheet/PaymentBill.vue";
 import KakaopayButton from "../components/order/orderSheet/KakaopayButton.vue";
 import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddressFinderModal.vue";
+import { getOrders } from "../api/order/order";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 import type { OrderCreateRequest } from "../api/order/order";
 import type {
   OrderSheetInfo,
@@ -77,7 +80,7 @@ export default {
     const router = useRouter(); // router 객체 초기화
     // let orderSheetInfo: OrderSheetInfo;
     let orderSheetList = ref<OrderSheetList | null>(null);
-
+    const { accessToken } = storeToRefs(useMemberStore());
     const handlePayment = async () => {
       try {
         const orderData: OrderCreateRequest = {
@@ -85,7 +88,7 @@ export default {
           isFromCart: orderSheetList.value?.isFromCart, // 장바구니에서 주문하는 경우 true, 그렇지 않으면 false
           province: "Daejeon",
         };
-        const res = await startKakaopay(orderData);
+        const res = await startKakaopay(orderData, accessToken.value);
         // res ? (window.location.href = res) : console.log("없거나 실패");
         res
           ? window.open(
@@ -104,6 +107,9 @@ export default {
           "top=0, left=0, width=500, height=600, menubar=no, toolbar=no, resizable=no, status=no, scrollbars=no"
         );
       }
+      return {
+        accessToken,
+      };
     };
 
     const handleMessage = (event: MessageEvent) => {
@@ -124,7 +130,7 @@ export default {
 
     onMounted(async () => {
       try {
-        orderSheetList.value = await getOrdersheetList();
+        orderSheetList.value = await getOrdersheetList(accessToken.value);
       } catch (error) {
         console.error(error);
       }

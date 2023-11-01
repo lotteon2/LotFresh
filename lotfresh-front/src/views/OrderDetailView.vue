@@ -17,32 +17,40 @@ import { orderInstance } from "@/api/utils";
 import OrderDetailInfo from "../components/order/orderDetail/OrderDetailInfo.vue";
 import Delivery from "../components/order/orderDetail/ProductDeliveryInfo.vue";
 import Payment from "../components/order/orderDetail/PaymentInfo.vue";
+import type { OrderResponse } from "../interface/orderInterface";
+import { getOrderDetail } from "../api/order/order";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 export default {
   components: { OrderDetailInfo, Delivery, Payment },
   data() {
     return {
-      order: Object,
+      order: {} as OrderResponse,
       orderId: 0,
     };
   },
+  setup() {
+    const { accessToken } = storeToRefs(useMemberStore());
+    return {
+      accessToken,
+    };
+  },
   methods: {
-    callAPI() {
-      console.log(this.$route.params);
-      orderInstance
-        .get("/order/" + this.$route.params.orderId)
+    callAPI(accessToken: string | null) {
+      getOrderDetail(this.$route.params.orderId, accessToken)
         .then((res) => {
           console.log("주문상세 가져오기 성공");
-          console.log(res.data);
-          this.order = res.data;
-        })
-        .catch((res) => {
-          console.log("주문상세 가져오기 실패");
           console.log(res);
+          this.order = res;
+        })
+        .catch((err) => {
+          console.log("주문상세 가져오기 실패");
+          console.log(err);
         });
     },
   },
   created() {
-    this.callAPI();
+    this.callAPI(this.accessToken);
   },
 };
 </script>

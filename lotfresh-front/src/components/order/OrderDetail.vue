@@ -66,20 +66,15 @@
 
 <script lang="ts">
 import { ElMessageBox } from "element-plus";
-
-interface OrderDetail {
-  orderDetailId: number;
-  price: number;
-  stock: number;
-  status: string;
-  productName: string;
-  productThumbnail: string;
-}
+import type {
+  OrderResponse,
+  OrderDetailResponse,
+} from "../../interface/orderInterface";
 
 export default {
   props: {
     orderDetailData: {
-      type: Object as () => OrderDetail,
+      type: Object as () => OrderDetailResponse,
       required: true,
     },
   },
