@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lotfresh.productservice.common.paging.PageRequest;
 import com.lotfresh.productservice.domain.product.api.request.ProductCreateRequest;
 import com.lotfresh.productservice.domain.product.api.request.ProductModifyRequest;
-import com.lotfresh.productservice.domain.product.feign.MemberApiClient;
 import com.lotfresh.productservice.domain.product.feign.StorageApiClient;
 import com.lotfresh.productservice.domain.product.service.ProductService;
 import com.lotfresh.productservice.domain.product.service.response.ProductPageResponse;
@@ -17,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -28,7 +26,6 @@ import java.util.List;
 public class ProductApiController {
   private final ProductService productService;
   private final StorageApiClient storageApiClient;
-  private final MemberApiClient memberApiClient;
 
   @PostMapping("")
   public ResponseEntity<Long> createProduct(@Valid @RequestBody ProductCreateRequest request) {
@@ -75,19 +72,11 @@ public class ProductApiController {
 
   @GetMapping("/sales-products/{province}")
   public ResponseEntity<List<ProductResponse>> getSalesProducts(
-      @RequestHeader(value = "userId", required = false) Long userId)
-      throws JsonProcessingException {
-    String memberAddressKey = "";
-    try {
-      memberAddressKey = memberApiClient.getMemberAddress(userId);
-    } catch (FeignException e) {
-      log.error(e.getMessage());
-      return ResponseEntity.ok(Collections.EMPTY_LIST);
-    }
-    return ResponseEntity.ok(productService.getSalesProducts(memberAddressKey));
+      @PathVariable("province") String province) throws JsonProcessingException {
+    return ResponseEntity.ok(productService.getSalesProducts(province));
   }
 
-  @GetMapping("/sales-products/{productId}")
+  @GetMapping("/sales-products/{productId}/detail")
   public ResponseEntity<ProductResponse> getSalesProductDetails(
       @RequestHeader(value = "userId", required = false) Long userId,
       @PathVariable("productId") Long productId) {
@@ -105,7 +94,8 @@ public class ProductApiController {
   }
 
   @GetMapping("")
-  public ResponseEntity<ProductPageResponse> getProductsByKeyword(@ModelAttribute PageRequest pageRequest) {
+  public ResponseEntity<ProductPageResponse> getProductsByKeyword(
+      @ModelAttribute PageRequest pageRequest) {
     return ResponseEntity.ok(productService.getProductsByKeyword(pageRequest));
   }
 }

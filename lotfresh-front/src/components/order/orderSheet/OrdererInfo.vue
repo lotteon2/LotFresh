@@ -8,7 +8,7 @@
     <div class="orderer-info-container">
       <div class="container">
         <div class="item">보내는 분</div>
-        <div class="item">홍길동</div>
+        <div class="item">{{ nickname }}</div>
         <div class="item"></div>
         <div class="item"></div>
         <div class="item"></div>
@@ -24,7 +24,7 @@
       </div> -->
       <div class="container">
         <div class="item">이메일</div>
-        <div class="item">qwerty1434@naver.com</div>
+        <div class="item">{{ email }}</div>
         <div class="item"></div>
         <div class="item"></div>
         <div class="item"></div>
@@ -36,7 +36,18 @@
 
 <script lang="ts">
 import { storeToRefs } from "pinia";
-export default {};
+import { useMemberStore } from "@/stores/member";
+
+export default {
+  setup() {
+    const { memberInfo } = storeToRefs(useMemberStore()); // useMemberStore를 사용해 memberInfo를 가져옴.
+
+    return {
+      nickname: memberInfo.value.nickname, // nickname을 setup의 리턴 객체에 추가.
+      email: memberInfo.value.email, // email을 setup의 리턴 객체에 추가.
+    };
+  },
+};
 </script>
 
 <style scoped>
