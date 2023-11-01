@@ -67,17 +67,17 @@ export default defineComponent({
     let sumOfDiscountedPrice = 0;
 
     this.orderSheetItems.forEach((item: OrderSheetItem) => {
-      sumOfOriginalPrice += item.originalPrice * item.productStock;
+      this.sumOfOriginalPrice += item.originalPrice * item.productStock;
       if (item.discountedPrice !== null) {
-        sumOfDiscountedPrice += item.discountedPrice * item.productStock;
+        this.sumOfDiscountedPrice += item.discountedPrice * item.productStock;
       } else {
-        sumOfDiscountedPrice += item.originalPrice * item.productStock;
+        this.sumOfDiscountedPrice += item.originalPrice * item.productStock;
       }
     });
 
     console.log("금액계산하면 이렇게 된다.");
-    console.log("sumOfOriginalPrice: ", sumOfOriginalPrice);
-    console.log("sumOfDiscountedPrice: ", sumOfDiscountedPrice);
+    console.log("sumOfOriginalPrice: ", this.sumOfOriginalPrice);
+    console.log("sumOfDiscountedPrice: ", this.sumOfDiscountedPrice);
   },
 });
 </script>
