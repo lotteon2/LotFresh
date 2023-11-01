@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class PaymentRequest {
     private Long orderId;
     private String pgToken;
+    private Long userId;
 }

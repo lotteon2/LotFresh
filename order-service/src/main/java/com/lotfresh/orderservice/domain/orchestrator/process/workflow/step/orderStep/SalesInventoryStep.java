@@ -27,7 +27,7 @@ public class SalesInventoryStep implements InventoryStep{
     @Override
     public Object process() {
         try {
-            ResponseEntity result = feignClient.deductSalesStock(inventoryRequest);
+            ResponseEntity result = feignClient.deductSalesStock(inventoryRequest,inventoryRequest.getUserId());
             changeStatus(WorkflowStepStatus.COMPLETE);
             log.info("SalesInventoryStep : 성공");
             return result;
