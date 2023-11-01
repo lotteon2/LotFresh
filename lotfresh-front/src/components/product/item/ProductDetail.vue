@@ -160,11 +160,17 @@ const addCart = () => {
 const orderSheetList = ref<OrderSheetList>();
 
 const addOrderSheet = () => {
+  console.log("!1");
   if (orderSheetList.value) {
+    console.log("22");
     orderSheetList.value.orderSheetItems = orderSheetItems.value;
-    addOrderheetInfos(orderSheetList.value, accessToken.value).then(() => {
-      router.push("/ordersheet");
-    });
+    addOrderheetInfos(orderSheetList.value, accessToken.value)
+      .then(() => {
+        router.push("/ordersheet");
+      })
+      .catch(() => {
+        console.log("##");
+      });
   }
 };
 
