@@ -80,7 +80,7 @@ spring:
             - Path=/storage-service/**
           filters:
             - RewritePath=/storage-service/(?<segment>.*), /$\{segment}
-            - AuthenticationFilter
+            # - AuthenticationFilter
 
 eureka:
   client:
