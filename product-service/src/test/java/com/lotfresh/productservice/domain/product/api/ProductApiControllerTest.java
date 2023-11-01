@@ -378,9 +378,10 @@ class ProductApiControllerTest extends ControllerTestSupport {
     // given
     Long productId = 1L;
     Long userId = 1L;
+    String province = "Seoul";
     // when // then
     mockMvc
-        .perform(get("/products/{productId}", productId).header("userId", userId))
+        .perform(get("/products/{productId}/{province}", productId, province).header("userId", userId))
         .andDo(print())
         .andExpect(status().isOk());
   }
@@ -414,10 +415,10 @@ class ProductApiControllerTest extends ControllerTestSupport {
   @Test
   void getSalesProducts() throws Exception {
     // given
-    Long userId = 1L;
+    String province = "Seoul";
     // when // then
     mockMvc
-        .perform(get("/products/sales-products").header("userId", userId))
+        .perform(get("/products/sales-products/{province}", province))
         .andDo(print())
         .andExpect(status().isOk());
   }
