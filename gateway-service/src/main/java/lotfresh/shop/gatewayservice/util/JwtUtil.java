@@ -46,11 +46,11 @@ public class JwtUtil {
                 .header("userId", getUserId(claims))
                 .build();
 
-        log.warn("그래서 이렇게 변환되었어요.- 변환전 헤더정보" + request.getHeaders().toString());
-        log.warn("그래서 이렇게 변환되었어요.- 변환전 바디정보" + request.getBody().toString());
-        log.warn("그래서 이렇게 변환되었어요.- 변환후 헤더정보" + mutatedRequest.getHeaders().toString());
-        log.warn("그래서 이렇게 변환되었어요.- 변환후 바디정보" + mutatedRequest.getBody().toString());
-        log.warn("그래서 이렇게 변환되었어요.- userId가 찍혔을까" + request.getHeaders().get("userId"));
+        log.warn("일반필터 이렇게 변환되었어요.- 변환전 헤더정보" + request.getHeaders().toString());
+        log.warn("일반필터 이렇게 변환되었어요.- 변환전 바디정보" + request.getBody().toString());
+        log.warn("일반필터 이렇게 변환되었어요.- 변환후 헤더정보" + mutatedRequest.getHeaders().toString());
+        log.warn("일반필터 이렇게 변환되었어요.- 변환후 바디정보" + mutatedRequest.getBody().toString());
+        log.warn("일반필터 이렇게 변환되었어요.- userId가 찍혔을까" + request.getHeaders().get("userId"));
     }
 
     public void addJwtPayloadHeadersForProductService(ServerHttpRequest request, Claims claims) {
