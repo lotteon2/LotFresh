@@ -37,10 +37,9 @@ import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 import type { OrderCreateRequest } from "../api/order/order";
 import type {
-  OrderSheetInfo,
-  OrderSheetItem,
   OrderSheetList,
-} from "../interface/cartInterface";
+  OrderSheetItem,
+} from "@/interface/orderInterface";
 import { startKakaopay, getOrdersheetList } from "../api/order/order";
 
 export default {

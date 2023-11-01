@@ -92,7 +92,7 @@ import { defineComponent } from "vue";
 import DeliverySide from "../components/cart/DeliverySide.vue";
 import PaymentSide from "../components/cart/PaymentSide.vue";
 import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddressFinderModal.vue";
-import type { OrderSheetInfo } from "@/interface/cartInterface";
+import type { OrderSheetItem } from "@/interface/orderInterface";
 import { watch } from "vue";
 
 export default defineComponent({
@@ -130,7 +130,7 @@ export default defineComponent({
           productThumbnail: "thumbnailValue",
         },
       ],
-      selectedCartItems: [] as OrderSheetInfo[],
+      selectedCartItems: [] as OrderSheetItem[],
       isAddressModalOpen: false,
       addressInfo: {
         zipCode: "초기 우편번호",

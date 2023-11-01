@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import type { OrderSheetItem } from "../../../interface/cartInterface";
+import type { OrderSheetItem } from "@/interface/orderInterface";
 
 export default defineComponent({
   props: {

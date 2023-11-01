@@ -89,8 +89,13 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { createCart, addOrderheetInfos } from "@/api/cart/cart";
-import type { CartCreateDto, OrderSheetInfo } from "@/interface/cartInterface";
+import { createCart } from "@/api/cart/cart";
+import { addOrderheetInfos } from "@/api/order/order";
+import type { CartCreateDto } from "@/interface/cartInterface";
+import type {
+  OrderSheetItem,
+  OrderSheetList,
+} from "@/interface/orderInterface";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 
@@ -100,14 +105,16 @@ const props = defineProps(["product"]);
 
 const quantity = ref(1);
 
-const orderSheetInfo = ref<OrderSheetInfo>({
-  productId: props.product.id,
-  originalPrice: props.product.price,
-  discountPrice: props.product.salesPrice,
-  productStock: props.product.stock,
-  productName: props.product.name,
-  productThumbnail: props.product.thumbnail,
-});
+const orderSheetItems = ref<OrderSheetItem[]>([
+  {
+    productId: props.product.id,
+    originalPrice: props.product.price,
+    discountedPrice: props.product.salesPrice,
+    productStock: props.product.stock,
+    productName: props.product.name,
+    productThumbnail: props.product.thumbnail,
+  },
+]);
 
 const cartCreateDto = ref<CartCreateDto>({
   productId: props.product.id,
@@ -149,16 +156,13 @@ const addCart = () => {
     });
 };
 
-const orderSheetInfos = ref<OrderSheetInfo[]>([]);
+const orderSheetList = ref<OrderSheetList>();
 
 const addOrderSheet = () => {
-  orderSheetInfos.value.push(orderSheetInfo.value);
-  addOrderheetInfos(
-    orderSheetInfos.value,
-    memberInfo.value?.province,
-    props.product.id,
-    accessToken.value
-  );
+  if (orderSheetList.value) {
+    orderSheetList.value.orderSheetItems = orderSheetItems.value;
+    addOrderheetInfos(orderSheetList.value, accessToken.value);
+  }
 };
 
 const minus = () => {
