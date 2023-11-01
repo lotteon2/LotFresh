@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.domain.orchestrator.service;
 
+import com.lotfresh.orderservice.domain.orchestrator.controller.request.Address;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.OrderCreateRequest;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
 import com.lotfresh.orderservice.domain.orchestrator.Orchestrator;
@@ -72,9 +73,16 @@ class OrchestratorServiceTest {
                 createProductRequest(3L, 1000L, 3L),
                 createProductRequest(4L, 10000L, 4L)
         );
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailADdress")
+                .build();
+
         OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
                 .productRequests(productRequests)
                 .isFromCart(true)
+                .address(address)
                 .build();
 
         // when
@@ -244,8 +252,15 @@ class OrchestratorServiceTest {
     }
 
     private Order createOrder(Long userId) {
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailAddress")
+                .build();
+
         return Order.builder()
                 .authId(userId)
+                .address(address)
                 .build();
     }
 

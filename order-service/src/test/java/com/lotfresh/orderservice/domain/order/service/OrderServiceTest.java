@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.domain.order.service;
 
+import com.lotfresh.orderservice.domain.orchestrator.controller.request.Address;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
 import com.lotfresh.orderservice.domain.order.entity.status.RefundStatus;
 import com.lotfresh.orderservice.domain.order.service.response.*;
@@ -45,9 +46,14 @@ class OrderServiceTest {
                 createProductRequest(3L, 1000L, 3L),
                 createProductRequest(4L, 10000L, 4L)
         );
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailAddress")
+                .build();
 
         // when
-        orderService.insertOrder(productRequests);
+        orderService.insertOrder(productRequests, address);
 
         // then
         List<Order> orders = orderRepository.findAll();
@@ -62,9 +68,8 @@ class OrderServiceTest {
     @Test
     void changeProductOrderStatus() {
         // given
-        Order order = Order.builder()
-                .authId(1L)
-                .build();
+        Long userId = 1L;
+        Order order = createOrder(userId);
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(order)
                 .productId(1L)
@@ -111,9 +116,8 @@ class OrderServiceTest {
     @Test
     void revertInsertOrder() {
         // given
-        Order order = Order.builder()
-                .authId(1L)
-                .build();
+        Long userId = 1L;
+        Order order = createOrder(userId);
         OrderDetail orderDetail1 = OrderDetail.builder()
                 .order(order)
                 .productId(1L)
@@ -156,9 +160,8 @@ class OrderServiceTest {
     @Test
     void refundOrder() {
         // given
-        Order order = Order.builder()
-                .authId(1L)
-                .build();
+        Long userId = 1L;
+        Order order = createOrder(userId);
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(order)
                 .productId(1L)
@@ -191,10 +194,8 @@ class OrderServiceTest {
     @Test
     void getOrderDetails() {
         // given
-        Order order = Order.builder()
-                .authId(1L)
-                .build();
-
+        Long userId = 1L;
+        Order order = createOrder(userId);
         OrderDetail orderDetail1 = createOrderDetail(order,1L,10L,100L);
         OrderDetail orderDetail2 = createOrderDetail(order,2L,20L,200L);
 
@@ -220,10 +221,8 @@ class OrderServiceTest {
     @Test
     void getMostSoldProducts() {
         // given
-        Order order = Order.builder()
-                .authId(1L)
-                .build();
-
+        Long userId = 1L;
+        Order order = createOrder(userId);
         // 5번 상품 4개, 4번 상품 2개, 3번 상품 2개, 2번 상품 3개, 1번 상품 1개
         OrderDetail orderDetail1 = createOrderDetail(order,5L,1L,1L);
         OrderDetail orderDetail2 = createOrderDetail(order,5L,2L,2L);
@@ -425,8 +424,15 @@ class OrderServiceTest {
 
 
     private Order createOrder(Long userId) {
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailAddress")
+                .build();
+
         return Order.builder()
                 .authId(userId)
+                .address(address)
                 .build();
     }
 
