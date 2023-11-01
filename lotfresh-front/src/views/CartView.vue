@@ -53,10 +53,20 @@
               </div>
             </div>
             <div class="item_price">
-              <div class="original-price">
-                {{ cartItemResponse.originalPrice }}원
+              <div v-if="cartItemResponse.discountedPrice == 0">
+                <div>{{ cartItemResponse.originalPrice }}원</div>
               </div>
-              <div>{{ cartItemResponse.discountedPrice }}원</div>
+              <div v-else>
+                <div class="original-price">
+                  {{ cartItemResponse.originalPrice }}원
+                </div>
+                <div>
+                  {{
+                    cartItemResponse.originalPrice -
+                    cartItemResponse.discountedPrice
+                  }}원
+                </div>
+              </div>
             </div>
           </div>
         </div>
