@@ -112,7 +112,7 @@ public class OrderService {
 
         return OrderResponse.builder()
                 .orderId(order.getId())
-                .orderCreatedTime(order.getCreatedAt())
+                .orderCreatedTime(order.getCreatedAt().toString())
                 .orderDetailResponses(orderDetailResponses)
                 .build();
     }

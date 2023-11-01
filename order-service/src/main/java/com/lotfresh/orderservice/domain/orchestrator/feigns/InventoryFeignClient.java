@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name="Inventory",url="storage-service:8086/storageorderproduct")
+@FeignClient(name="storage-service")
 public interface InventoryFeignClient {
 
-    @PostMapping("/orderproduct")
+    @PostMapping("/storageorderproduct/orderproduct")
     ResponseEntity deductNormalStock(@RequestBody InventoryRequest inventoryRequest);
 
-    @PostMapping("sales/deductQuantity")
+    @PostMapping("/storageorderproduct/sales/deductQuantity")
     ResponseEntity deductSalesStock(@RequestBody InventoryRequest inventoryRequest);
 }
