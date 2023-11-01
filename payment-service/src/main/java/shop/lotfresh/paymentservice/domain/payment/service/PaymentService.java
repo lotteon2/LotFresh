@@ -61,7 +61,9 @@ public class PaymentService {
                 .sum();
 
         Long totalTransactionAmount = orderDetails.stream()
-                .mapToLong(order -> order.getDiscountedPrice() * order.getQuantity())
+                .mapToLong(order -> order.getDiscountedPrice() == null ?
+                        order.getOriginalPrice() * order.getQuantity() :
+                        order.getDiscountedPrice() * order.getQuantity())
                 .sum();
 
         KakaopayReadyVO kakaopayReadyVO = request.toKakaopayReadyVO(userId,
