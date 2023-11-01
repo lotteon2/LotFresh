@@ -132,9 +132,9 @@
 
         <li class="menu4">
           <span class="menu-inner-span">
-            <router-link to="/market-time-sales">
+            <a hef="#" @click="routeToTimeSale">
               <span class="txt">마감 임박</span>
-            </router-link>
+            </a>
           </span>
         </li>
       </ul>
@@ -142,7 +142,26 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRoute } from "vue-router";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+import router from "@/router";
+
+const route = useRoute();
+const memberStore = useMemberStore();
+const { memberInfo } = storeToRefs(memberStore);
+
+const emits = defineEmits(["openModal"]);
+const routeToTimeSale = () => {
+  if (!memberInfo || memberInfo.value === null) {
+    alert("로그인이 필요한 기능입니다.");
+    emits("openModal");
+    return;
+  }
+  router.push("/market-time-sales");
+};
+</script>
 
 <style scoped>
 ul {

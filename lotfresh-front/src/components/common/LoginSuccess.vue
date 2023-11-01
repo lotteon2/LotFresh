@@ -20,6 +20,16 @@ onBeforeMount(async () => {
     await memberStore.setAccessToken(accessToken);
     await memberStore.setMemberDetailInfo(accessToken);
 
+    if (
+      memberInfo.value?.email === "ddd1451@nate.com" ||
+      memberInfo.value.email === "ssjy4974@naver.com"
+    ) {
+      window.location.replace(
+        "https://admin.lot-fresh.shop?accessToken=" + accessToken
+      );
+      return;
+    }
+
     if (memberInfo.value?.isActive == true) {
       router.push("/");
     } else {
