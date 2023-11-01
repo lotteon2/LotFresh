@@ -18,7 +18,7 @@ export const addOrderheetInfos = async (
   accessToken: string | null
 ): Promise<any> => {
   const response = await cartInstance.post(
-    `"/carts/province/${province}/products"`,
+    `/carts/province/${province}/products`,
     orderSheetInfos,
     {
       headers: { Authorization: `Bearer ${accessToken}` },
