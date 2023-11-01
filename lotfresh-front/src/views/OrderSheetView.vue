@@ -5,13 +5,22 @@
         <h2>주문서</h2>
       </div>
     </div>
-    <order-product :orderSheetItems="orderSheetList?.orderSheetItems" />
-    <orderer-info :orderSheetItems="orderSheetList?.orderSheetItems" />
+    <order-product
+      v-if="orderSheetList"
+      :orderSheetItems="orderSheetList?.orderSheetItems"
+    />
+    <orderer-info
+      v-if="orderSheetList"
+      :orderSheetItems="orderSheetList?.orderSheetItems"
+    />
     <delivery-info
       @openAddressModal="openAddressModal"
       :addressInfo="addressInfo"
     />
-    <payment-bill :orderSheetItems="orderSheetList?.orderSheetItems" />
+    <payment-bill
+      v-if="orderSheetList"
+      :orderSheetItems="orderSheetList?.orderSheetItems"
+    />
     <div class="pay_button_wrapper">
       <KakaopayButton @kakaopay_button_click="handlePayment"></KakaopayButton>
     </div>
@@ -56,9 +65,9 @@ export default {
     return {
       isAddressModalOpen: false,
       addressInfo: {
-        zipCode: "초기 우편번호",
-        roadAddress: "초기 도로명 주소",
-        detailAddress: "나는 상세 주소",
+        zipCode: "00000",
+        roadAddress: "주소를 변경해주세요.",
+        detailAddress: "상세주소를 입력해주세요.",
       },
     };
   },
@@ -80,12 +89,20 @@ export default {
     // let orderSheetInfo: OrderSheetInfo;
     let orderSheetList = ref<OrderSheetList | null>(null);
     const { accessToken } = storeToRefs(useMemberStore());
+
+    let addressInfo = ref({
+      zipCode: "00000",
+      roadAddress: "주소를 변경해주세요.",
+      detailAddress: "상세주소를 입력해주세요..",
+    });
+
     const handlePayment = async () => {
       try {
         const orderData: OrderCreateRequest = {
           productRequests: orderSheetList.value?.orderSheetItems,
           isFromCart: orderSheetList.value?.isFromCart, // 장바구니에서 주문하는 경우 true, 그렇지 않으면 false
           province: "Daejeon",
+          address: addressInfo.value,
         };
         const res = await startKakaopay(orderData, accessToken.value);
         // res ? (window.location.href = res) : console.log("없거나 실패");
