@@ -1,6 +1,7 @@
 package com.lotfresh.orderservice.domain.order.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lotfresh.orderservice.domain.order.redis.dto.OrderSheetDto;
 import com.lotfresh.orderservice.domain.order.controller.request.OrderDetailChangeStatusRequest;
 import com.lotfresh.orderservice.domain.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -48,9 +49,17 @@ public class OrderController {
     }
 
     @GetMapping("/ordersheet")
-    public ResponseEntity orderProducts(@RequestHeader(value = "userId" , required = false) Long userId)
+    public ResponseEntity getTempOrderProducts(@RequestHeader(value = "userId" , required = false) Long userId)
             throws JsonProcessingException {
         return ResponseEntity.ok().body(orderService.getOrderSheetResponse(userId));
     }
+
+    @PostMapping("/ordersheet")
+    public ResponseEntity insertTempOrderProducts(@RequestHeader(value = "userId", required = false) Long userId,
+                                                  @RequestBody OrderSheetDto orderSheetDto) throws JsonProcessingException{
+        orderService.insertTempOrderProducts(userId, orderSheetDto);
+        return ResponseEntity.ok().build();
+    }
+
 
 }
