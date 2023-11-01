@@ -10,6 +10,9 @@ export const useMemberStore = defineStore("member", () => {
     isActive: false,
     nickname: "",
     province: "",
+    zipCode: null,
+    roadAddress: null,
+    detailAddress: null,
   });
 
   if (localStorage.getItem("accessToken")) {
