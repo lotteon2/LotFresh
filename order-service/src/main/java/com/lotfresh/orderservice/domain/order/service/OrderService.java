@@ -4,10 +4,10 @@ package com.lotfresh.orderservice.domain.order.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
+import com.lotfresh.orderservice.domain.order.redis.dto.OrderSheetDto;
 import com.lotfresh.orderservice.domain.order.entity.status.DeliveryStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.RefundStatus;
 import com.lotfresh.orderservice.domain.order.redis.RedisRepository;
-import com.lotfresh.orderservice.domain.order.redis.response.OrderSheetResponse;
 import com.lotfresh.orderservice.domain.order.service.response.OrderCreateResponse;
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
@@ -23,7 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -150,9 +150,16 @@ public class OrderService {
                 .build();
     }
 
-    public List<OrderSheetResponse> getOrderSheetResponse(Long userId) throws JsonProcessingException {
+    public void insertTempOrderProducts(Long userId, OrderSheetDto requestData) throws JsonProcessingException{
+        redisRepository.setValues(makeRedisKey(userId),
+                objectMapper.writeValueAsString(requestData),
+                Duration.ofDays(30));
+    }
+
+
+    public OrderSheetDto getOrderSheetResponse(Long userId) throws JsonProcessingException {
         String value = redisRepository.getValues(makeRedisKey(userId));
-        return Arrays.asList(objectMapper.readValue(value, OrderSheetResponse[].class));
+        return objectMapper.readValue(value, OrderSheetDto.class);
     }
 
     private String makeRedisKey(Long userId) {

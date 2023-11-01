@@ -206,7 +206,7 @@ class OrderServiceTest {
         OrderResponse orderResponse = orderService.getOrderResponse(savedOrder.getId());
 
         // then
-        Assertions.assertThat(orderResponse.getOrderCreatedTime()).isEqualTo(savedOrder.getCreatedAt());
+        Assertions.assertThat(orderResponse.getOrderCreatedTime()).isEqualTo(savedOrder.getCreatedAt().toString());
         Assertions.assertThat(orderResponse.getOrderDetailResponses()).hasSize(2)
                 .extracting("price","stock","productName","productThumbnail")
                 .containsExactlyInAnyOrder(

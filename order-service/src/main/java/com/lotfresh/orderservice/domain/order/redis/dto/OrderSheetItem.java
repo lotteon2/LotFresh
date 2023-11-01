@@ -1,11 +1,11 @@
-package com.lotfresh.orderservice.domain.order.redis.response;
+package com.lotfresh.orderservice.domain.order.redis.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class OrderSheetResponse {
+public class OrderSheetItem {
     private Long productId;
     private Long originalPrice;
     private Long discountedPrice;
