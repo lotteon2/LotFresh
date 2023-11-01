@@ -14,14 +14,14 @@
         <div class="item"></div>
         <div class="item"></div>
       </div>
-      <div class="container">
+      <!-- <div class="container">
         <div class="item">휴대폰</div>
         <div class="item">010-1234-5678</div>
         <div class="item"></div>
         <div class="item"></div>
         <div class="item"></div>
         <div class="item"></div>
-      </div>
+      </div> -->
       <div class="container">
         <div class="item">이메일</div>
         <div class="item">qwerty1434@naver.com</div>
@@ -35,6 +35,7 @@
 </template>
 
 <script lang="ts">
+import { storeToRefs } from "pinia";
 export default {};
 </script>
 
