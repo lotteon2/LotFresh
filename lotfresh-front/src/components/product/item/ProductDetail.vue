@@ -91,6 +91,7 @@
 import { computed, ref } from "vue";
 import { createCart } from "@/api/cart/cart";
 import { addOrderheetInfos } from "@/api/order/order";
+import router from "@/router";
 import type { CartCreateDto } from "@/interface/cartInterface";
 import type {
   OrderSheetItem,
@@ -161,7 +162,9 @@ const orderSheetList = ref<OrderSheetList>();
 const addOrderSheet = () => {
   if (orderSheetList.value) {
     orderSheetList.value.orderSheetItems = orderSheetItems.value;
-    addOrderheetInfos(orderSheetList.value, accessToken.value);
+    addOrderheetInfos(orderSheetList.value, accessToken.value).then(() => {
+      router.push("/ordersheet");
+    });
   }
 };
 
