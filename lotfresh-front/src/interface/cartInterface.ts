@@ -31,7 +31,7 @@ export interface OrderSheetList {
 export interface OrderSheetInfo {
   productId: number;
   originalPrice: number;
-  discountedPrice: number;
+  discountPrice: number;
   productStock: number;
   productName: string;
   productThumbnail: string;

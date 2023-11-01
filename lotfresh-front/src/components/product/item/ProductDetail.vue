@@ -156,7 +156,8 @@ const addOrderSheet = () => {
   addOrderheetInfos(
     orderSheetInfos.value,
     memberInfo.value?.province,
-    props.product.id
+    props.product.id,
+    accessToken.value
   );
 };
 

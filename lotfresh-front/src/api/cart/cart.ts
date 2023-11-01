@@ -14,10 +14,14 @@ export const createCart = async (
 export const addOrderheetInfos = async (
   orderSheetInfos: OrderSheetInfo[],
   province: string | null | undefined,
-  productId: number
+  productId: number,
+  accessToken: string | null
 ): Promise<any> => {
   const response = await cartInstance.post(
-    `"/carts/province/${province}/product/${productId}"`,
-    orderSheetInfos
+    `"/carts/province/${province}/products"`,
+    orderSheetInfos,
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
   );
 };
