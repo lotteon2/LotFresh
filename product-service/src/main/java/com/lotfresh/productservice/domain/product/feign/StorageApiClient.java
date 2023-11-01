@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(
-    value = "storage-service",
-    configuration = StorageFeignConfig.class) // 임시 url
+@FeignClient(name = "storage-service", configuration = StorageFeignConfig.class) // 임시 url
 public interface StorageApiClient {
 
   @GetMapping("/storageproduct/stock/{province}/{productId}")
@@ -19,6 +17,6 @@ public interface StorageApiClient {
 
   @GetMapping("/storages/sales-products/{productId}/stock")
   Integer getSalesProductStock(
-          @RequestHeader(value = "userId", required = false) Long userId,
-          @PathVariable("productId") Long productId);
+      @RequestHeader(value = "userId", required = false) Long userId,
+      @PathVariable("productId") Long productId);
 }
