@@ -3,6 +3,7 @@ package shop.lotfresh.storageservice.domain.storageproduct.api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
+import shop.lotfresh.storageservice.domain.storageproduct.repository.StorageProductRepository;
 import shop.lotfresh.storageservice.domain.storageproduct.service.StorageProductService;
 import shop.lotfresh.storageservice.domain.storageproduct.vo.StorageProductOrder;
 
@@ -13,9 +14,11 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class StorageProductApiController {
     private final StorageProductService storageProductService;
+    private final StorageProductRepository storageProductRepository;
 
-    public StorageProductApiController(StorageProductService storageProductService) {
+    public StorageProductApiController(StorageProductService storageProductService, StorageProductRepository stroageProductRepository) {
         this.storageProductService = storageProductService;
+        this.storageProductRepository = stroageProductRepository;
     }
 
     @GetMapping("/search/{province}")
@@ -58,5 +61,10 @@ public class StorageProductApiController {
                 stock));
     }
 
+    @PostMapping("/storageProducts")
+    public ResponseEntity<StorageProduct> createStorageProduct(@RequestBody StorageProduct storageProduct) {
+        StorageProduct savedStorageProduct = storageProductRepository.save(storageProduct);
+        return ResponseEntity.ok(savedStorageProduct);
+    }
 
 }
