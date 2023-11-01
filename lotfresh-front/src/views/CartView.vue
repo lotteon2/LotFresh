@@ -32,10 +32,7 @@
               class="check-box"
             />
             <div>
-              <img
-                src="https://product-image.kurly.com/product/image/3df368c8-e124-4d06-a9e9-af4c10d01b53.jpeg"
-                class="item_img"
-              />
+              <img :src="cartItemResponse.productThumbnail" class="item_img" />
             </div>
             <div class="item_name">{{ cartItemResponse.productName }}</div>
             <div class="item_quantity">
@@ -56,10 +53,20 @@
               </div>
             </div>
             <div class="item_price">
-              <div class="original-price">
-                {{ cartItemResponse.originalPrice }}원
+              <div v-if="cartItemResponse.discountedPrice == 0">
+                <div>{{ cartItemResponse.originalPrice }}원</div>
               </div>
-              <div>{{ cartItemResponse.discountedPrice }}원</div>
+              <div v-else>
+                <div class="original-price">
+                  {{ cartItemResponse.originalPrice }}원
+                </div>
+                <div>
+                  {{
+                    cartItemResponse.originalPrice -
+                    cartItemResponse.discountedPrice
+                  }}원
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -94,6 +101,9 @@ import PaymentSide from "../components/cart/PaymentSide.vue";
 import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddressFinderModal.vue";
 import type { OrderSheetItem } from "@/interface/orderInterface";
 import { watch } from "vue";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+import { getCarts } from "@/api/cart/cart";
 
 export default defineComponent({
   components: {
@@ -101,35 +111,16 @@ export default defineComponent({
     PaymentSide,
     KakaoAddressFinderModal,
   },
+  setup() {
+    const { accessToken } = storeToRefs(useMemberStore());
+    return {
+      accessToken,
+    };
+  },
   data() {
     return {
       isOrderItemsVisible: true,
-      cartItemResponses: [
-        {
-          productId: 1,
-          originalPrice: 1000,
-          discountedPrice: 900,
-          productStock: 1,
-          productName: "productName1",
-          productThumbnail: "thumbnailValue",
-        },
-        {
-          productId: 1,
-          originalPrice: 1000,
-          discountedPrice: 900,
-          productStock: 1,
-          productName: "productName2",
-          productThumbnail: "thumbnailValue",
-        },
-        {
-          productId: 1,
-          originalPrice: 1000,
-          discountedPrice: 900,
-          productStock: 1,
-          productName: "productName3",
-          productThumbnail: "thumbnailValue",
-        },
-      ],
+      cartItemResponses: [] as OrderSheetItem[],
       selectedCartItems: [] as OrderSheetItem[],
       isAddressModalOpen: false,
       addressInfo: {
@@ -180,6 +171,11 @@ export default defineComponent({
       },
       deep: true,
     },
+  },
+  created() {
+    getCarts(this.accessToken).then((data) => {
+      this.cartItemResponses = data;
+    });
   },
 });
 </script>

@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.domain.order.repository;
 
+import com.lotfresh.orderservice.domain.orchestrator.controller.request.Address;
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
@@ -29,9 +30,7 @@ class OrderDetailRepositoryTest {
     @Test
     void findOrderDetailsByOrderId() {
         // given
-        Order order = Order.builder()
-                .authId(1L)
-                .build();
+        Order order = createOrder(1L);
         OrderDetail orderDetail1 = createOrderDetail(order,1L,10L,100L);
 
         OrderDetail orderDetail2 = createOrderDetail(order,2L,20L,200L);
@@ -57,9 +56,7 @@ class OrderDetailRepositoryTest {
     @Test
     void mostSoldProducts() {
         // given
-        Order order = Order.builder()
-                .authId(1L)
-                .build();
+        Order order = createOrder(1L);
 
         // 5번 상품 4개, 4번 상품 2개, 3번 상품 2개, 2번 상품 3개, 1번 상품 1개
         OrderDetail orderDetail1 = createOrderDetail(order,5L,1L,1L);
@@ -168,8 +165,15 @@ class OrderDetailRepositoryTest {
     }
 
     private Order createOrder(Long userId) {
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailAddress")
+                .build();
+
         return Order.builder()
                 .authId(userId)
+                .address(address)
                 .build();
     }
 

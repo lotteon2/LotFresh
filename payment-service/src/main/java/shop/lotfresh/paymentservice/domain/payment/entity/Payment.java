@@ -42,7 +42,7 @@ public class Payment extends BaseTimeEntity {
     private Long orderId;
 
     @Column(nullable = false)
-    private Long oauthId;
+    private Long userId;
 
     public void linkPaymentGateway(String pgToken) {
         this.pgToken= pgToken;

@@ -412,7 +412,7 @@ class ProductServiceTest {
     BestProductVO bestProductVO6 = new BestProductVO(product6.getId(), 50L);
 
     // 상품 순서  -> 바나나, 딸기, 곶감, 블루베리, 충주사과, 단감 순서
-    String stringFormat = LocalDate.now().toString();
+    String stringFormat = LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue();
     String stringList =
         objectMapper.writeValueAsString(
             List.of(
@@ -455,7 +455,7 @@ class ProductServiceTest {
     SalesProductVO salesProductVO5 = new SalesProductVO(product5.getId(), 40);
     SalesProductVO salesProductVO6 = new SalesProductVO(product6.getId(), 50);
 
-    String memberAddressKey = "경기";
+    String memberAddressKey = "Seoul";
     String stringList =
         objectMapper.writeValueAsString(
             List.of(

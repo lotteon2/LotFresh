@@ -30,12 +30,12 @@ public class OrchestratorService {
     private final CartFeignClient cartFeignClient;
     private final PaymentFeignClient paymentFeignClient;
 
-    public String createOrderAndRequestToPayment(OrderCreateRequest orderCreateRequest) {
+    public String createOrderAndRequestToPayment(OrderCreateRequest orderCreateRequest, Long userId) {
         OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest);
         KakaopayReadyRequest kakaopayReadyRequest =
                 makeKakaopayReadyRequest(orderCreateResponse.getOrderId(),orderCreateRequest);
         try{
-            ResponseEntity<String> result = paymentFeignClient.kakaopayReady(kakaopayReadyRequest);
+            ResponseEntity<String> result = paymentFeignClient.kakaopayReady(kakaopayReadyRequest,userId);
             log.info("Payment서버에 QR코드 요청 성공");
             return result.getBody();
         }catch (Exception e) {
@@ -94,7 +94,7 @@ public class OrchestratorService {
     }
 
     private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest) {
-        return orderService.insertOrder(orderCreateRequest.getProductRequests());
+        return orderService.insertOrder(orderCreateRequest.getProductRequests(), orderCreateRequest.getAddress());
     }
 
     private void revertOrder(OrderCreateResponse orderCreateResponse) {

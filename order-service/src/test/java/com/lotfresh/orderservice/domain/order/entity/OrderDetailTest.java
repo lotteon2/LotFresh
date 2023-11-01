@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.domain.order.entity;
 
+import com.lotfresh.orderservice.domain.orchestrator.controller.request.Address;
 import com.lotfresh.orderservice.domain.order.entity.status.DeliveryStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.OrderDetailStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.PaymentStatus;
@@ -68,9 +69,7 @@ class OrderDetailTest {
 
     private OrderDetail createOrderDetail(OrderDetailStatus orderDetailStatus, PaymentStatus paymentStatus,
                                           DeliveryStatus deliveryStatus, RefundStatus refundStatus) {
-        Order order = Order.builder()
-                .authId(1L)
-                .build();
+        Order order = createOrder(1L);
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(order)
                 .productId(1L)
@@ -83,5 +82,16 @@ class OrderDetailTest {
         orderDetail.changeRefundStatus(refundStatus);
         return orderDetail;
     }
+    private Order createOrder(Long userId) {
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailAddress")
+                .build();
 
+        return Order.builder()
+                .authId(userId)
+                .address(address)
+                .build();
+    }
 }

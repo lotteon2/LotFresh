@@ -3,6 +3,7 @@ package com.lotfresh.orderservice.domain.order.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lotfresh.orderservice.domain.orchestrator.controller.request.Address;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
 import com.lotfresh.orderservice.domain.order.redis.dto.OrderSheetDto;
 import com.lotfresh.orderservice.domain.order.entity.status.DeliveryStatus;
@@ -36,11 +37,12 @@ public class OrderService {
     private final RedisRepository redisRepository;
     private final ObjectMapper objectMapper;
     @Transactional
-    public OrderCreateResponse insertOrder(List<ProductRequest> productRequests) {
+    public OrderCreateResponse insertOrder(List<ProductRequest> productRequests, Address address) {
         // TODO : auth-service로부터 header로 userId 받기
         Long userId = 1L;
         Order order = Order.builder()
                 .authId(userId)
+                .address(address)
                 .build();
         Order savedOrder = orderRepository.save(order);
 

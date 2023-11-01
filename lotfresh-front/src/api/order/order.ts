@@ -17,10 +17,17 @@ export interface ProductRequest {
   productThumbnail: string;
 }
 
+export interface address {
+  zipCode: String;
+  roadAddress: String;
+  detailAddress: String | null;
+}
+
 export interface OrderCreateRequest {
   productRequests: OrderSheetItem[] | undefined;
   isFromCart: boolean | undefined;
-  province: string | undefined;
+  province: string | undefined | null;
+  address: address | undefined;
 }
 
 export const getOrdersheetList = async (

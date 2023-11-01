@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.domain.orchestrator.service;
 
+import com.lotfresh.orderservice.domain.orchestrator.controller.request.Address;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.OrderCreateRequest;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
 import com.lotfresh.orderservice.domain.orchestrator.Orchestrator;
@@ -63,7 +64,7 @@ class OrchestratorServiceTest {
     @Test
     void createOrderAndReturnQRCode() {
         // given
-        BDDMockito.given(paymentFeignClient.kakaopayReady(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.kakaopayReady(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().body("URL"));
 
         List<ProductRequest> productRequests  = List.of(
@@ -72,13 +73,22 @@ class OrchestratorServiceTest {
                 createProductRequest(3L, 1000L, 3L),
                 createProductRequest(4L, 10000L, 4L)
         );
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailADdress")
+                .build();
+
         OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
                 .productRequests(productRequests)
                 .isFromCart(true)
+                .address(address)
                 .build();
 
+        Long userId = 1L;
+
         // when
-        String url = orchestratorService.createOrderAndRequestToPayment(orderCreateRequest);
+        String url = orchestratorService.createOrderAndRequestToPayment(orderCreateRequest,userId);
 
         em.flush();
         em.clear();
@@ -244,8 +254,15 @@ class OrchestratorServiceTest {
     }
 
     private Order createOrder(Long userId) {
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailAddress")
+                .build();
+
         return Order.builder()
                 .authId(userId)
+                .address(address)
                 .build();
     }
 

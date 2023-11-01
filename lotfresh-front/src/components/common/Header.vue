@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <Menu />
+    <Menu @openModal="emits('openModal')" />
     <div class="header_login">
       <div class="login_wrap">
         <span class="right">

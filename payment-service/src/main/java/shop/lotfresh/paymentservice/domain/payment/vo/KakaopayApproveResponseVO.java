@@ -13,7 +13,7 @@ public class KakaopayApproveResponseVO {
     @JsonProperty("partner_order_id") // 얘는 다르다.
     private String orderId;
     @JsonProperty("partner_user_id") // 얘는 다르다.
-    private String oauthId;
+    private String userId;
     @JsonProperty("payment_method_type") // 얘는 다르다.
     private String paymentMethod;
     @JsonProperty("item_name")

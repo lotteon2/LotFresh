@@ -19,7 +19,6 @@ public class ProductRequest {
     private Long productId;
     @NotNull(message = "originalPrice cannot be null")
     private Long originalPrice;
-    @NotNull(message = "discountedPrice cannot be null")
     private Long discountedPrice;
     @NotNull(message = "productStock cannot be null")
     private Long productStock;
@@ -32,7 +31,7 @@ public class ProductRequest {
         return OrderDetail.builder()
                 .order(order)
                 .productId(productId)
-                .price(discountedPrice)
+                .price(discountedPrice == null ? originalPrice : discountedPrice)
                 .stock(productStock)
                 .status(OrderDetailStatus.CONFIRMED)
                 .productName(productName)
