@@ -46,6 +46,9 @@ public class PaymentService {
     @Transactional
     public String kakaopayReady(Long userId, KakaopayReadyRequest request) {
         Long orderId = request.getOrderId();
+        log.warn(request.toString());
+        log.warn(request.getOrderDetails().toString());
+
 
         List<OrderDetailVO> orderDetails = request.getOrderDetails();
         String itemName = generateItemName(orderDetails);

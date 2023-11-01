@@ -2,6 +2,7 @@ package shop.lotfresh.paymentservice.domain.payment.api.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayReadyVO;
 import shop.lotfresh.paymentservice.domain.payment.vo.OrderDetailVO;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@ToString
 public class KakaopayReadyRequest {
     @NotNull(message = "orderId cannot be null")
     private Long orderId;
