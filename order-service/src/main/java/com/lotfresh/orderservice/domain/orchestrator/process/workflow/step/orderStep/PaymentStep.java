@@ -1,12 +1,11 @@
 package com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep;
 
+import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentRequest;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStepStatus;
-import com.lotfresh.orderservice.domain.orchestrator.feigns.PaymentFeignClient;
 import com.lotfresh.orderservice.exception.SagaException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,7 @@ public class PaymentStep implements WorkflowStep {
     @Override
     public Object process() {
         try{
-            ResponseEntity result = feignClient.requestPayment(paymentRequest);
+            ResponseEntity result = feignClient.requestPayment(paymentRequest, paymentRequest.getUserId());
             changeStatus(WorkflowStepStatus.COMPLETE);
             log.info("PaymentStep : 성공");
             return result;

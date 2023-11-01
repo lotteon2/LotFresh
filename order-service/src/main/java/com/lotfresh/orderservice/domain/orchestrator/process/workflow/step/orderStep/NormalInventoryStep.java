@@ -27,7 +27,7 @@ public class NormalInventoryStep implements InventoryStep {
     @Override
     public Object process() {
         try {
-            ResponseEntity result = feignClient.deductNormalStock(inventoryRequest);
+            ResponseEntity result = feignClient.deductNormalStock(inventoryRequest, inventoryRequest.getUserId());
             changeStatus(WorkflowStepStatus.COMPLETE);
             log.info("NormalInventoryStep : 성공");
             return result;

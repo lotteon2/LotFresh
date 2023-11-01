@@ -13,6 +13,7 @@ public interface PaymentFeignClient {
     ResponseEntity<String> kakaopayReady(KakaopayReadyRequest kakaopayReadyRequest,
                                          @RequestHeader(value = "userId") Long userId);
     @PostMapping("/payments/kakaopay/approve")
-    ResponseEntity requestPayment(PaymentRequest paymentRequest);
+    ResponseEntity requestPayment(PaymentRequest paymentRequest,
+                                  @RequestHeader(value = "userId") Long userId);
 
 }

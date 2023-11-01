@@ -10,6 +10,6 @@ public class CartTask implements Task{
     private final CartRequest cartRequest;
     @Override
     public void work() {
-        cartFeignClient.removeItems(cartRequest);
+        cartFeignClient.removeItems(cartRequest, cartRequest.getUserId());
     }
 }

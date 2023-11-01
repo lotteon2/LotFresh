@@ -111,11 +111,11 @@ class OrchestratorServiceTest {
     @Test
     void orchestratorProcessSucceed() {
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
 
         Order order = createOrder(1L);
@@ -140,11 +140,11 @@ class OrchestratorServiceTest {
     @Test
     void requestDeleteToCartWhenProcessSucceeded() {
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
 
         Order order = createOrder(1L);
@@ -155,7 +155,7 @@ class OrchestratorServiceTest {
         orchestratorService.orderNormalTransaction(1L,"SEOUL", "pgToken", order.getId(),true);
 
         // then
-        BDDMockito.verify(cartFeignClient).removeItems(BDDMockito.any());
+        BDDMockito.verify(cartFeignClient).removeItems(BDDMockito.any(),BDDMockito.any());
 
     }
 
@@ -163,11 +163,11 @@ class OrchestratorServiceTest {
     @Test
     void orderDeletedWhenDeductQuantityFailed(){
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willThrow(new RuntimeException());
-        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.doNothing().when(kafkaProducer)
                 .send(BDDMockito.any(),BDDMockito.any());
@@ -205,11 +205,11 @@ class OrchestratorServiceTest {
     @Test
     void orderAndInventoryRollbackedWhenPaymentFailed(){
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
                 .willThrow(new RuntimeException());
-        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.doNothing().when(kafkaProducer)
                 .send(BDDMockito.any(),BDDMockito.any());
