@@ -84,7 +84,7 @@ public class ProductService {
 
   public List<ProductResponse> getBestProducts() throws JsonProcessingException {
     List<BestProductVO> bestProductsVO =
-        redisRepository.getBestProductsVO(LocalDate.now().toString());
+        redisRepository.getBestProductsVO(LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue());
 
     if (bestProductsVO.isEmpty()) {
       return Collections.EMPTY_LIST;

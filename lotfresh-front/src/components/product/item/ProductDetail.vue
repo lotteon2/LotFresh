@@ -103,7 +103,7 @@ const quantity = ref(1);
 const orderSheetInfo = ref<OrderSheetInfo>({
   productId: props.product.id,
   originalPrice: props.product.price,
-  discountedPrice: props.product.salesPrice,
+  discountPrice: props.product.salesPrice,
   productStock: props.product.stock,
   productName: props.product.name,
   productThumbnail: props.product.thumbnail,
@@ -156,7 +156,8 @@ const addOrderSheet = () => {
   addOrderheetInfos(
     orderSheetInfos.value,
     memberInfo.value?.province,
-    props.product.id
+    props.product.id,
+    accessToken.value
   );
 };
 
