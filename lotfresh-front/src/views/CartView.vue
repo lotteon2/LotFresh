@@ -94,6 +94,9 @@ import PaymentSide from "../components/cart/PaymentSide.vue";
 import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddressFinderModal.vue";
 import type { OrderSheetItem } from "@/interface/orderInterface";
 import { watch } from "vue";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+import { getCarts } from "@/api/cart/cart";
 
 export default defineComponent({
   components: {
@@ -101,35 +104,16 @@ export default defineComponent({
     PaymentSide,
     KakaoAddressFinderModal,
   },
+  setup() {
+    const { accessToken } = storeToRefs(useMemberStore());
+    return {
+      accessToken,
+    };
+  },
   data() {
     return {
       isOrderItemsVisible: true,
-      cartItemResponses: [
-        {
-          productId: 1,
-          originalPrice: 1000,
-          discountedPrice: 900,
-          productStock: 1,
-          productName: "productName1",
-          productThumbnail: "thumbnailValue",
-        },
-        {
-          productId: 1,
-          originalPrice: 1000,
-          discountedPrice: 900,
-          productStock: 1,
-          productName: "productName2",
-          productThumbnail: "thumbnailValue",
-        },
-        {
-          productId: 1,
-          originalPrice: 1000,
-          discountedPrice: 900,
-          productStock: 1,
-          productName: "productName3",
-          productThumbnail: "thumbnailValue",
-        },
-      ],
+      cartItemResponses: [] as OrderSheetItem[],
       selectedCartItems: [] as OrderSheetItem[],
       isAddressModalOpen: false,
       addressInfo: {
@@ -180,6 +164,12 @@ export default defineComponent({
       },
       deep: true,
     },
+  },
+  created() {
+    getCarts(this.accessToken).then((data) => {
+      console.log(data);
+      this.cartItemResponses = data;
+    });
   },
 });
 </script>
