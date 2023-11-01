@@ -67,7 +67,7 @@ export default {
       addressInfo: {
         zipCode: "00000",
         roadAddress: "주소를 변경해주세요.",
-        detailAddress: "상세주소를 입력해주세요.",
+        detailAddress: "상세주소를 입력해주세요..",
       },
     };
   },
@@ -89,11 +89,13 @@ export default {
     // let orderSheetInfo: OrderSheetInfo;
     let orderSheetList = ref<OrderSheetList | null>(null);
     const { accessToken } = storeToRefs(useMemberStore());
+    const { memberInfo } = storeToRefs(useMemberStore()); // useMemberStore를 사용해 memberInfo를 가져옴.
 
     let addressInfo = ref({
-      zipCode: "00000",
-      roadAddress: "주소를 변경해주세요.",
-      detailAddress: "상세주소를 입력해주세요..",
+      zipCode: memberInfo.value.zipCode || "00000", // memberInfo에 zipCode가 없는 경우 "00000"을 기본값으로 사용합니다.
+      roadAddress: memberInfo.value.roadAddress || "주소를 변경해주세요.",
+      detailAddress:
+        memberInfo.value.detailAddress || "상세주소를 입력해주세요...",
     });
 
     const handlePayment = async () => {
@@ -158,7 +160,7 @@ export default {
       window.removeEventListener("message", handleMessage);
     });
 
-    return { handlePayment, orderSheetList };
+    return { handlePayment, orderSheetList, addressInfo };
   },
 };
 </script>
