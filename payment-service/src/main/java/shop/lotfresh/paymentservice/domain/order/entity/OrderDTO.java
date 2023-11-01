@@ -10,7 +10,7 @@ import shop.lotfresh.paymentservice.common.BaseTimeEntity;
 public class OrderDTO extends BaseTimeEntity {
 
     private Long id;
-    private Long oauthId;
+    private Long userId;
     private Boolean isDeleted;
 
 }
