@@ -22,9 +22,9 @@ export interface OrderSheetItem {
   productId: number;
   originalPrice: number;
   discountedPrice: number;
-  productStock: number;
-  productName: string;
-  productThumbnail: string;
+  selectedQuantity: number;
+  name: string;
+  productImageUrl: string;
 }
 
 export interface OrderSheetList {

@@ -32,12 +32,9 @@
               class="check-box"
             />
             <div>
-              <img
-                src="https://product-image.kurly.com/product/image/3df368c8-e124-4d06-a9e9-af4c10d01b53.jpeg"
-                class="item_img"
-              />
+              <img :src="cartItemResponse.productImageUrl" class="item_img" />
             </div>
-            <div class="item_name">{{ cartItemResponse.productName }}</div>
+            <div class="item_name">{{ cartItemResponse.name }}</div>
             <div class="item_quantity">
               <div class="option">
                 <button
@@ -46,7 +43,7 @@
                   @click="minus(index)"
                   value="-"
                 ></button>
-                <div id="result">{{ cartItemResponse.productStock }}</div>
+                <div id="result">{{ cartItemResponse.selectedQuantity }}</div>
                 <button
                   type="button"
                   class="btn up on"
@@ -130,12 +127,12 @@ export default defineComponent({
       this.isOrderItemsVisible = !this.isOrderItemsVisible;
     },
     minus(index: number) {
-      if (this.cartItemResponses[index].productStock > 1) {
-        this.cartItemResponses[index].productStock--;
+      if (this.cartItemResponses[index].selectedQuantity > 1) {
+        this.cartItemResponses[index].selectedQuantity--;
       }
     },
     plus(index: number) {
-      this.cartItemResponses[index].productStock++;
+      this.cartItemResponses[index].selectedQuantity++;
     },
     openAddressModal: function (): void {
       this.isAddressModalOpen = true;
