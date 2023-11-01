@@ -17,3 +17,17 @@ export interface OrderDetailResponse {
   productName: string;
   productThumbnail: string;
 }
+
+export interface OrderSheetItem {
+  productId: number;
+  originalPrice: number;
+  discountedPrice: number;
+  productStock: number;
+  productName: string;
+  productThumbnail: string;
+}
+
+export interface OrderSheetList {
+  orderSheetItems: OrderSheetItem[] | undefined;
+  isFromCart: boolean;
+}

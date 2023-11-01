@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import type { OrderSheetInfo } from "@/interface/cartInterface";
+import type { OrderSheetItem } from "@/interface/orderInterface";
 
 export default {
   props: {
@@ -36,7 +36,7 @@ export default {
       default: 0,
     },
     items: {
-      type: Array as () => OrderSheetInfo[],
+      type: Array as () => OrderSheetItem[],
       default: () => [],
     },
   },

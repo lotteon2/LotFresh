@@ -1,9 +1,8 @@
 import { defaultInstance, orderInstance } from "../utils";
 import type {
-  OrderSheetInfo,
   OrderSheetItem,
   OrderSheetList,
-} from "../../interface/cartInterface";
+} from "../../interface/orderInterface";
 import type {
   ProductPageResponse,
   OrderResponse,
@@ -66,4 +65,17 @@ export const getOrderDetail = async (
     headers: { Authorization: `Bearer ${accessToken}` },
   });
   return data;
+};
+
+export const addOrderheetInfos = async (
+  orderSheetList: OrderSheetList,
+  accessToken: string | null
+): Promise<any> => {
+  const response = await orderInstance.post(
+    `/orders/ordersheet`,
+    orderSheetList,
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  );
 };

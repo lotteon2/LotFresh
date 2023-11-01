@@ -8,31 +8,3 @@ export interface CartCreateDto {
   productImageUrl: string;
   selectedQuantity: number;
 }
-
-export interface OrderSheetItem {
-  productId: number;
-  originalPrice: number;
-  discountedPrice: number;
-  productStock: number;
-  productName: string;
-  productThumbnail: string;
-}
-
-export interface OrderSheetList {
-  orderSheetItems: OrderSheetItem[];
-  isFromCart: boolean;
-}
-
-// export interface OrderSheetInfo {
-//   orderSheetItems: OrderSheetItem[];
-//   isFromCart: boolean;
-// }
-// 아래가 기존.
-export interface OrderSheetInfo {
-  productId: number;
-  originalPrice: number;
-  discountPrice: number;
-  productStock: number;
-  productName: string;
-  productThumbnail: string;
-}
