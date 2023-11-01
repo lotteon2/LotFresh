@@ -94,7 +94,7 @@ import type { CartCreateDto, OrderSheetInfo } from "@/interface/cartInterface";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 
-const { memberInfo } = storeToRefs(useMemberStore());
+const { memberInfo, accessToken } = storeToRefs(useMemberStore());
 
 const props = defineProps(["product"]);
 
@@ -140,7 +140,7 @@ const totalPrice = computed(() => {
 });
 
 const addCart = () => {
-  createCart(cartCreateDto.value)
+  createCart(cartCreateDto.value, accessToken.value)
     .then((response) => {
       console.log("성공", response);
     })
