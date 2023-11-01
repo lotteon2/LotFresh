@@ -121,7 +121,7 @@ const cartCreateDto = ref<CartCreateDto>({
   productId: props.product.id,
   discountedPrice: props.product.salesPrice,
   province: memberInfo.value?.province,
-  productStock: props.product.productStock,
+  productStock: props.product.stock,
   price: props.product.price,
   productName: props.product.name,
   productImageUrl: props.product.thumbnail,
