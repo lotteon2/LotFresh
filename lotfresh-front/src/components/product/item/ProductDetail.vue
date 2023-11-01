@@ -90,7 +90,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { createCart } from "@/api/cart/cart";
-import { addOrderheetInfos } from "@/api/order/order";
+import { addOrdersheetInfos } from "@/api/order/order";
 import router from "@/router";
 import type { CartCreateDto } from "@/interface/cartInterface";
 import type {
@@ -163,7 +163,7 @@ const orderSheetList = ref<OrderSheetList>({
 
 const addOrderSheet = () => {
   orderSheetList.value.orderSheetItems = orderSheetItems.value;
-  addOrderheetInfos(orderSheetList.value, accessToken.value)
+  addOrdersheetInfos(orderSheetList.value, accessToken.value)
     .then(() => {
       router.push("/ordersheet");
     })

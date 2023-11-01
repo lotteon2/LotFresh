@@ -67,12 +67,12 @@ export const getOrderDetail = async (
   return data;
 };
 
-export const addOrderheetInfos = async (
+export const addOrdersheetInfos = async (
   orderSheetList: OrderSheetList,
   accessToken: string | null
 ): Promise<any> => {
   const response = await orderInstance.post(
-    `/orders/ordersheet`,
+    `/order/ordersheet`,
     orderSheetList,
     {
       headers: { Authorization: `Bearer ${accessToken}` },
