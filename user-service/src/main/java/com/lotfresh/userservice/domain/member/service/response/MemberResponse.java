@@ -43,7 +43,7 @@ public class MemberResponse {
         .province(address != null ? address.getProvince() : null)
         .zipCode(address != null ? address.getZipCode() : null)
         .roadAddress(address != null ? address.getRoadAddress() : null)
-        .detailAddress(address != null ? address.getRoadAddress() : null)
+        .detailAddress(address != null ? address.getDetailAddress() : null)
         .build();
   }
 }
