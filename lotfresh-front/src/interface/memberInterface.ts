@@ -3,6 +3,9 @@ export interface MemberInfo {
   nickname: string;
   isActive: boolean;
   province: string | null | undefined;
+  zipCode: string | null;
+  roadAddress: string | null;
+  detailAddress: string | null;
 }
 
 export interface CreateMemberDto {

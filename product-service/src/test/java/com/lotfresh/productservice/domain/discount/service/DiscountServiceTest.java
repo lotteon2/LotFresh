@@ -137,8 +137,8 @@ class DiscountServiceTest {
         .containsExactlyInAnyOrder(
             discount.getRate(),
             discount.getImgurl(),
-            discount.getStartDate(),
-            discount.getEndDate(),
+            discount.getStartDate().toString(),
+            discount.getEndDate().toString(),
             category.getName());
   }
 
