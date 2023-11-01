@@ -94,7 +94,7 @@ public class OrchestratorService {
     }
 
     private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest) {
-        return orderService.insertOrder(orderCreateRequest.getProductRequests());
+        return orderService.insertOrder(orderCreateRequest.getProductRequests(), orderCreateRequest.getAddress());
     }
 
     private void revertOrder(OrderCreateResponse orderCreateResponse) {
