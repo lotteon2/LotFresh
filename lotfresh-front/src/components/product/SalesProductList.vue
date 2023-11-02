@@ -20,9 +20,11 @@ import { useMemberStore } from "@/stores/member";
 const { memberInfo } = storeToRefs(useMemberStore());
 const salesProducts = ref<ProductResponse[]>([]);
 
-getSalesProducts(memberInfo.value.province).then((data) => {
-  salesProducts.value = data;
-});
+if (memberInfo.value) {
+  getSalesProducts(memberInfo.value.province).then((data) => {
+    salesProducts.value = data;
+  });
+}
 
 const componentHeight = ref("300px");
 </script>

@@ -37,9 +37,7 @@ public class OrderService {
     private final RedisRepository redisRepository;
     private final ObjectMapper objectMapper;
     @Transactional
-    public OrderCreateResponse insertOrder(List<ProductRequest> productRequests, Address address) {
-        // TODO : auth-service로부터 header로 userId 받기
-        Long userId = 1L;
+    public OrderCreateResponse insertOrder(List<ProductRequest> productRequests, Address address, Long userId) {
         Order order = Order.builder()
                 .authId(userId)
                 .address(address)
@@ -120,8 +118,6 @@ public class OrderService {
     }
 
     public ProductPageResponse getOrdersWithPaging(Long userId, Pageable pageable) {
-        // TODO : header에서 userId 받기
-        userId = 1L;
         Page<Order> orderPages = orderRepository.getOrdersWithPaging(userId, pageable);
 
         List<OrderResponse> contents = orderPages.getContent().stream()
@@ -139,8 +135,6 @@ public class OrderService {
     }
 
     public RefundPageResponse getRefundsWithPaging(Long userId, Pageable pageable) {
-        // TODO : header에서 userId 받기
-        userId = 1L;
         Page<OrderDetail> orderDetailPages = orderDetailRepository.getRefundsWithPaging(userId,pageable);
         List<RefundResponse> contents = orderDetailPages.getContent().stream()
                 .map(RefundResponse::from)
