@@ -18,15 +18,15 @@ import { getProductDetail } from "@/api/product/product";
 import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
-import { useProductStore } from "@/stores/product";
 import type { ProductResponse } from "@/interface/productInterface";
+import { useMemberStore } from "@/stores/member";
 
 const route = useRoute();
 const product = ref<ProductResponse>();
 
-const { memberInfo } = <any>storeToRefs(useProductStore());
+const { memberInfo } = storeToRefs(useMemberStore());
 
-const callApi = (id: any, province: string | null) => {
+const callApi = (id: any, province: string | null | undefined) => {
   getProductDetail(id, province).then((data) => {
     product.value = data;
   });
