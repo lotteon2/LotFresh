@@ -44,7 +44,7 @@
 import OrderDetail from "../OrderDetail.vue";
 interface Order {
   orderId: number;
-  orderCreatedTime: Date;
+  orderCreatedTime: string;
   orderDetailResponses: OrderDetail[];
 }
 interface OrderDetail {

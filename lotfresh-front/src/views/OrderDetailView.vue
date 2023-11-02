@@ -4,7 +4,7 @@
       <div class="title">
         <h2>주문 상세정보</h2>
       </div>
-      <!-- <OrderDetailInfo :orderData="order" /> -->
+      <OrderDetailInfo :orderData="order" />
 
       <delivery />
       <payment :paymentData="payment" />
