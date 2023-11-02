@@ -53,7 +53,7 @@ class OrderServiceTest {
                 .build();
 
         // when
-        orderService.insertOrder(productRequests, address);
+        orderService.insertOrder(productRequests, address, 1L);
 
         // then
         List<Order> orders = orderRepository.findAll();

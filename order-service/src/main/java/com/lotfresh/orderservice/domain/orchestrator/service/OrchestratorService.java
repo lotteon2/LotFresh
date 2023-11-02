@@ -31,7 +31,7 @@ public class OrchestratorService {
     private final PaymentFeignClient paymentFeignClient;
 
     public String createOrderAndRequestToPayment(OrderCreateRequest orderCreateRequest, Long userId) {
-        OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest);
+        OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest,userId);
         KakaopayReadyRequest kakaopayReadyRequest =
                 makeKakaopayReadyRequest(orderCreateResponse.getOrderId(),orderCreateRequest);
         try{
@@ -95,8 +95,8 @@ public class OrchestratorService {
         }
     }
 
-    private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest) {
-        return orderService.insertOrder(orderCreateRequest.getProductRequests(), orderCreateRequest.getAddress());
+    private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest, Long userId) {
+        return orderService.insertOrder(orderCreateRequest.getProductRequests(), orderCreateRequest.getAddress(), userId);
     }
 
     private void revertOrder(OrderCreateResponse orderCreateResponse) {
