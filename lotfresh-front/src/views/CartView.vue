@@ -154,9 +154,7 @@ export default defineComponent({
         if (newSelectedCartItems) {
           for (const cartItem of newSelectedCartItems) {
             total += cartItem.originalPrice * cartItem.productStock;
-            discount +=
-              (cartItem.originalPrice - cartItem.discountedPrice) *
-              cartItem.productStock;
+            discount += cartItem.discountedPrice * cartItem.productStock;
           }
           this.totalPrice = total;
           this.discountPrice = discount;
