@@ -58,8 +58,6 @@ export default {
     callAPI(page: number, accessToken: string | null) {
       getOrders(page - 1, accessToken)
         .then((res) => {
-          console.log("전체 주문 가져오기 성공");
-          console.log(res);
           this.orders = res.contents;
         })
         .catch((res) => {
