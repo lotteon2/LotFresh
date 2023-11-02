@@ -49,8 +49,9 @@ const keyword = ref();
 const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("province");
-  sessionStorage.removeItem("memberInfo");
-  window.location.reload();
+  memberStore.deleteMemberInfo().then(() => {
+    router.push("/");
+  });
 };
 
 const next = () => {

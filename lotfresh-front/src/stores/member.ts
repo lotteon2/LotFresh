@@ -5,7 +5,7 @@ import type { CreateMemberDto, MemberInfo } from "@/interface/memberInterface";
 
 export const useMemberStore = defineStore("member", () => {
   const accessToken = ref<string | null>("");
-  const memberInfo = ref<MemberInfo>({
+  const memberInfo = ref<MemberInfo | null>({
     email: "",
     isActive: false,
     nickname: "",
@@ -33,6 +33,10 @@ export const useMemberStore = defineStore("member", () => {
     memberInfo.value = await getMemberDetail(accessToken);
   };
 
+  const deleteMemberInfo = async () => {
+    memberInfo.value = null;
+  };
+
   const registMember = async (
     createMemberDto: CreateMemberDto
   ): Promise<void> => {
@@ -58,5 +62,6 @@ export const useMemberStore = defineStore("member", () => {
     setAccessToken,
     setMemberDetailInfo,
     registMember,
+    deleteMemberInfo,
   };
 });

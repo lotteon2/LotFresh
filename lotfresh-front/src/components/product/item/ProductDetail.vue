@@ -96,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import Swal from "sweetalert2";
 import { computed, onMounted, ref } from "vue";
 import { createCart } from "@/api/cart/cart";
 import { addOrdersheetInfos } from "@/api/order/order";
@@ -116,11 +117,19 @@ const order_button_string = ref("바로 구매하기");
 const disabled = ref(false);
 const background_color = ref("");
 onMounted(() => {
-  if (!props.product.stock) {
+  if (!memberInfo || memberInfo.value == null) {
     disabled.value = true;
     quantity.value = 0;
-    order_button_string.value = "재고가 없습니다.";
+    order_button_string.value = "로그인이 필요합니다";
     background_color.value = "background-color: grey";
+    return;
+  } else {
+    if (!props.product.stock) {
+      disabled.value = true;
+      quantity.value = 0;
+      order_button_string.value = "재고가 없습니다";
+      background_color.value = "background-color: grey";
+    }
   }
 });
 
@@ -172,8 +181,11 @@ const addCart = () => {
     return;
   }
   createCart(cartCreateDto.value, accessToken.value)
-    .then((response) => {
-      console.log("성공", response);
+    .then(() => {
+      Swal.fire({
+        title: "장바구니에 담았습니다!",
+        icon: "success",
+      });
     })
     .catch((err) => {
       console.log(err);

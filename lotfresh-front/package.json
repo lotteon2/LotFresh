@@ -12,12 +12,14 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@types/kakao-js-sdk": "^1.39.3",
+    "@types/sweetalert": "^2.0.4",
     "axios": "^1.6.0",
     "element-plus": "^2.4.1",
     "normalize.css": "^8.0.1",
     "pinia": "^2.1.6",
     "pinia-plugin-persist": "^1.0.0",
     "pinia-plugin-persistedstate": "^3.2.0",
+    "sweetalert2": "^11.6.13",
     "swiper": "^10.3.1",
     "vue": "^3.3.4",
     "vue-daum-postcode": "^1.2.1",
@@ -25,6 +27,7 @@
     "vue-router": "^4.2.4",
     "vue-slick-carousel": "^1.0.6",
     "vue-slick-ts": "^1.1.0",
+    "vue-sweetalert2": "^5.0.5",
     "vue3-carousel": "^0.3.1",
     "vuetify": "^3.3.22"
   },
