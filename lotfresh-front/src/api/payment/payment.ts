@@ -1,6 +1,6 @@
-import { defaultInstance } from "../utils";
+import { defaultInstance, paymentInstance } from "../utils";
 
-interface PaymentInfo {
+export interface PaymentInfo {
   paymentMethod: string;
   originalAmount: number;
   discountedAmount: number;
@@ -8,8 +8,11 @@ interface PaymentInfo {
 }
 
 export const getPaymentDetailInfo = async (
-  orderId: number
+  orderId: string,
+  accessToken: string | null
 ): Promise<PaymentInfo> => {
-  const { data } = await defaultInstance.get(`/orderid/${orderId}`);
+  const { data } = await paymentInstance.get(`/orderid/${orderId}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
   return data;
 };
