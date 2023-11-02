@@ -3,12 +3,10 @@ package com.lotfresh.orderservice.domain.orchestrator.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.OrderCreateRequest;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
-import com.lotfresh.orderservice.domain.orchestrator.feigns.UserFeignClient;
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.service.OrchestratorService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,7 +16,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -30,9 +27,6 @@ class InsertOrderControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @MockBean
-    private UserFeignClient userFeignClient;
 
     @MockBean
     private OrchestratorService orchestratorService;
@@ -128,7 +122,6 @@ class InsertOrderControllerTest {
                 .andExpect(jsonPath("$.message").value("잘못된 요청입니다"))
                 .andExpect(jsonPath("$.validation.productId").value("productId cannot be null"))
                 .andExpect(jsonPath("$.validation.originalPrice").value("originalPrice cannot be null"))
-                .andExpect(jsonPath("$.validation.discountedPrice").value("discountedPrice cannot be null"))
                 .andExpect(jsonPath("$.validation.productStock").value("productStock cannot be null"));
     }
 

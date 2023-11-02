@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
+@Slf4j
 @Component
 public class JwtUtil {
 
@@ -33,24 +35,34 @@ public class JwtUtil {
         return jwtParser.setSigningKey(key).parseClaimsJws(jwt).getBody();
     }
 
-    private Long getUserId(Claims claims) {
-        return claims.get("userId", Long.class);
+    private String getUserId(Claims claims) {
+        return claims.get("userId", String.class);
     }
 
     public void addJwtPayloadHeaders(ServerHttpRequest request, Claims claims) {
-        request.mutate()
+        ServerHttpRequest mutatedRequest = request.mutate()
                 .header("Content-Type", "application/json;charset=UTF-8")
-                .header("userId", String.valueOf(1L))
-//                .header("userId", String.valueOf(getUserId(claims)))
+                //                .header("userId", String.valueOf(1L))
+                .header("userId", getUserId(claims))
                 .build();
+
+        log.warn("일반필터 이렇게 변환되었어요.- 변환전 헤더정보" + request.getHeaders().toString());
+        log.warn("일반필터 이렇게 변환되었어요.- 변환전 바디정보" + request.getBody().toString());
+        log.warn("일반필터 이렇게 변환되었어요.- 변환후 헤더정보" + mutatedRequest.getHeaders().toString());
+        log.warn("일반필터 이렇게 변환되었어요.- 변환후 바디정보" + mutatedRequest.getBody().toString());
+        log.warn("일반필터 이렇게 변환되었어요.- userId가 찍혔을까" + request.getHeaders().get("userId"));
     }
 
     public void addJwtPayloadHeadersForProductService(ServerHttpRequest request, Claims claims) {
-        Long userId = (claims != null) ? getUserId(claims) : null;
-        request.mutate()
+        String userId = (claims != null) ? getUserId(claims) : null;
+        ServerHttpRequest mutatedRequest = request.mutate()
                 .header("Content-Type", "application/json;charset=UTF-8")
-                .header("userId", String.valueOf(1L))
-                // .header("userId", userId == null ? null: String.valueOf(userId))
+//                .header("userId", String.valueOf(1L))
+                 .header("userId", userId == null ? null: userId)
                 .build();
+        log.warn("그래서 이렇게 변환되었어요.- 프로덕트용 필터 변환전 헤더정보" + request.getHeaders().toString());
+        log.warn("그래서 이렇게 변환되었어요.- 변환전 바디정보" + request.getBody().toString());
+        log.warn("그래서 이렇게 변환되었어요.- 변환후 헤더정보" + mutatedRequest.getHeaders().toString());
+        log.warn("그래서 이렇게 변환되었어요.- 변환후 바디정보" + mutatedRequest.getBody().toString());
     }
 }

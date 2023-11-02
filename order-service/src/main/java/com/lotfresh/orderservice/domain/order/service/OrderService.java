@@ -3,11 +3,12 @@ package com.lotfresh.orderservice.domain.order.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lotfresh.orderservice.domain.orchestrator.controller.request.Address;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
+import com.lotfresh.orderservice.domain.order.redis.dto.OrderSheetDto;
 import com.lotfresh.orderservice.domain.order.entity.status.DeliveryStatus;
 import com.lotfresh.orderservice.domain.order.entity.status.RefundStatus;
 import com.lotfresh.orderservice.domain.order.redis.RedisRepository;
-import com.lotfresh.orderservice.domain.order.redis.response.OrderSheetResponse;
 import com.lotfresh.orderservice.domain.order.service.response.OrderCreateResponse;
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,11 +37,10 @@ public class OrderService {
     private final RedisRepository redisRepository;
     private final ObjectMapper objectMapper;
     @Transactional
-    public OrderCreateResponse insertOrder(List<ProductRequest> productRequests) {
-        // TODO : auth-service로부터 header로 userId 받기
-        Long userId = 1L;
+    public OrderCreateResponse insertOrder(List<ProductRequest> productRequests, Address address, Long userId) {
         Order order = Order.builder()
                 .authId(userId)
+                .address(address)
                 .build();
         Order savedOrder = orderRepository.save(order);
 
@@ -111,14 +112,12 @@ public class OrderService {
 
         return OrderResponse.builder()
                 .orderId(order.getId())
-                .orderCreatedTime(order.getCreatedAt())
+                .orderCreatedTime(order.getCreatedAt().toString())
                 .orderDetailResponses(orderDetailResponses)
                 .build();
     }
 
     public ProductPageResponse getOrdersWithPaging(Long userId, Pageable pageable) {
-        // TODO : header에서 userId 받기
-        userId = 1L;
         Page<Order> orderPages = orderRepository.getOrdersWithPaging(userId, pageable);
 
         List<OrderResponse> contents = orderPages.getContent().stream()
@@ -136,8 +135,6 @@ public class OrderService {
     }
 
     public RefundPageResponse getRefundsWithPaging(Long userId, Pageable pageable) {
-        // TODO : header에서 userId 받기
-        userId = 1L;
         Page<OrderDetail> orderDetailPages = orderDetailRepository.getRefundsWithPaging(userId,pageable);
         List<RefundResponse> contents = orderDetailPages.getContent().stream()
                 .map(RefundResponse::from)
@@ -149,13 +146,20 @@ public class OrderService {
                 .build();
     }
 
-    public OrderSheetResponse getOrderSheetResponse(Long userId) throws JsonProcessingException {
-        String result = redisRepository.getValues(makeRedisKey(userId));
-        return objectMapper.readValue(result,OrderSheetResponse.class);
+    public void insertTempOrderProducts(Long userId, OrderSheetDto requestData) throws JsonProcessingException{
+        redisRepository.setValues(makeRedisKey(userId),
+                objectMapper.writeValueAsString(requestData),
+                Duration.ofDays(30));
+    }
+
+
+    public OrderSheetDto getOrderSheetResponse(Long userId) throws JsonProcessingException {
+        String value = redisRepository.getValues(makeRedisKey(userId));
+        return objectMapper.readValue(value, OrderSheetDto.class);
     }
 
     private String makeRedisKey(Long userId) {
-        return userId.toString();
+        return "CART-" + userId;
     }
 
 }

@@ -1,0 +1,61 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://${DB_IP}:${USER_DB_PORT}/${USER_DB_SCHEMA}?serverTimeZone=UTC
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+
+  redis:
+    host: ${DB_IP}
+    port: ${REDIS_PORT}
+    password: ${DB_PASSWORD}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${CLIENT_ID}
+            redirect-uri: https://lot-fresh.shop/user-service/login/oauth2/code/kakao
+            client-authentication-method: POST
+            client-secret: ${CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_nickname
+              - account_email
+            client_name: kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/
+
+logging:
+  level:
+    org.hibernate.SQL: warn
+    org:
+      springframework:
+jwt:
+  token:
+    secret-key: ${JWT_SECRET}
+  access-token:
+    expire-length: ${JWT_ACCESS_EXPIRE} # 24시간
+
+LOGIN_SUCCESS_URL: ${LOGIN_SUCCESS_URL}

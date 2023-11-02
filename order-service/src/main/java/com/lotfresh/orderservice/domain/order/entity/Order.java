@@ -2,6 +2,7 @@ package com.lotfresh.orderservice.domain.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lotfresh.orderservice.common.BaseEntity;
+import com.lotfresh.orderservice.domain.orchestrator.controller.request.Address;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,9 +32,16 @@ public class Order extends BaseEntity {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean isDeleted;
+
+    private String zipcode;
+    private String roadAddress;
+    private String detailAddress;
     @Builder
-    private Order(Long authId) {
+    private Order(Long authId, Address address) {
         this.authId = authId;
+        this.zipcode = address.getZipcode();
+        this.roadAddress = address.getRoadAddress();
+        this.detailAddress = address.getDetailAddress();
     }
 
     public void softDelete() {

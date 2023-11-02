@@ -32,12 +32,9 @@
               class="check-box"
             />
             <div>
-              <img
-                src="https://product-image.kurly.com/product/image/3df368c8-e124-4d06-a9e9-af4c10d01b53.jpeg"
-                class="item_img"
-              />
+              <img :src="cartItemResponse.productThumbnail" class="item_img" />
             </div>
-            <div class="item_name">{{ cartItemResponse.name }}</div>
+            <div class="item_name">{{ cartItemResponse.productName }}</div>
             <div class="item_quantity">
               <div class="option">
                 <button
@@ -46,7 +43,7 @@
                   @click="minus(index)"
                   value="-"
                 ></button>
-                <div id="result">{{ cartItemResponse.quantity }}</div>
+                <div id="result">{{ cartItemResponse.productStock }}</div>
                 <button
                   type="button"
                   class="btn up on"
@@ -56,22 +53,25 @@
               </div>
             </div>
             <div class="item_price">
-              <div class="original-price">
-                {{ cartItemResponse.originalPrice }}원
+              <div v-if="cartItemResponse.discountedPrice == 0">
+                <div>
+                  {{ formattedNumber(cartItemResponse.originalPrice) }}원
+                </div>
               </div>
-              <div>{{ cartItemResponse.discountedPrice }}원</div>
+              <div v-else>
+                <div class="original-price">
+                  {{ formattedNumber(cartItemResponse.originalPrice) }}원
+                </div>
+                <div>
+                  {{ formattedNumber(cartItemResponse.discountedPrice) }}원
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </transition>
     </div>
     <div class="right-section">
-      <div class="delivery">
-        <delivery-side
-          @openAddressModal="openAddressModal"
-          :addressInfo="addressInfo"
-        />
-      </div>
       <div class="payment">
         <payment-side
           :total-price="totalPrice"
@@ -92,15 +92,11 @@ import { defineComponent } from "vue";
 import DeliverySide from "../components/cart/DeliverySide.vue";
 import PaymentSide from "../components/cart/PaymentSide.vue";
 import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddressFinderModal.vue";
+import type { OrderSheetItem } from "@/interface/orderInterface";
 import { watch } from "vue";
-
-interface CartItemResponse {
-  thumbnail: String;
-  name: String;
-  quantity: number;
-  originalPrice: number;
-  discountedPrice: number;
-}
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+import { getCarts } from "@/api/cart/cart";
 
 export default defineComponent({
   components: {
@@ -108,33 +104,17 @@ export default defineComponent({
     PaymentSide,
     KakaoAddressFinderModal,
   },
+  setup() {
+    const { accessToken } = storeToRefs(useMemberStore());
+    return {
+      accessToken,
+    };
+  },
   data() {
     return {
       isOrderItemsVisible: true,
-      cartItemResponses: [
-        {
-          thumb: "aaa",
-          name: "aaa",
-          quantity: 1,
-          originalPrice: 1000,
-          discountedPrice: 900,
-        },
-        {
-          thumb: "aaa",
-          name: "bbb",
-          quantity: 1,
-          originalPrice: 1000,
-          discountedPrice: 900,
-        },
-        {
-          thumb: "aaa",
-          name: "ccc",
-          quantity: 1,
-          originalPrice: 1000,
-          discountedPrice: 900,
-        },
-      ],
-      selectedCartItems: [] as CartItemResponse[],
+      cartItemResponses: [] as OrderSheetItem[],
+      selectedCartItems: [] as OrderSheetItem[],
       isAddressModalOpen: false,
       addressInfo: {
         zipCode: "초기 우편번호",
@@ -150,12 +130,12 @@ export default defineComponent({
       this.isOrderItemsVisible = !this.isOrderItemsVisible;
     },
     minus(index: number) {
-      if (this.cartItemResponses[index].quantity > 1) {
-        this.cartItemResponses[index].quantity--;
+      if (this.cartItemResponses[index].productStock > 1) {
+        this.cartItemResponses[index].productStock--;
       }
     },
     plus(index: number) {
-      this.cartItemResponses[index].quantity++;
+      this.cartItemResponses[index].productStock++;
     },
     openAddressModal: function (): void {
       this.isAddressModalOpen = true;
@@ -173,10 +153,10 @@ export default defineComponent({
         let discount = 0;
         if (newSelectedCartItems) {
           for (const cartItem of newSelectedCartItems) {
-            total += cartItem.originalPrice * cartItem.quantity;
+            total += cartItem.originalPrice * cartItem.productStock;
             discount +=
               (cartItem.originalPrice - cartItem.discountedPrice) *
-              cartItem.quantity;
+              cartItem.productStock;
           }
           this.totalPrice = total;
           this.discountPrice = discount;
@@ -184,6 +164,18 @@ export default defineComponent({
       },
       deep: true,
     },
+  },
+  computed: {
+    formattedNumber() {
+      return (num: number) => {
+        return new Intl.NumberFormat("ko-KR").format(num);
+      };
+    },
+  },
+  created() {
+    getCarts(this.accessToken).then((data) => {
+      this.cartItemResponses = data;
+    });
   },
 });
 </script>

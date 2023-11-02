@@ -16,6 +16,7 @@ spring:
               - "https://lot-fresh.shop"
               - "https://admin.lot-fresh.shop"
               - "http://localhost:5173"
+              - "http://localhost:3000"
             allow-credentials: true
             allowedHeaders: "*"
             allowedMethods:
@@ -26,13 +27,19 @@ spring:
               - PATCH
               - OPTIONS
       routes:
-        - id: auth-service
-          uri: lb://AUTH-SERVICE
+        - id: user-service-oauth
+          uri: lb://USER-SERVICE
           predicates:
-            - Path=/auth-service/**
+            - Path=/user-service/oauth2/authorization/kakao, /user-service/login/oauth2/code/kakao
           filters:
-            - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
-#            - AuthenticationFilter
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+        - id: kakaopay-redirect
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/order/payments/kakaopay/**
+          filters:
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
 
         - id: user-service
           uri: lb://USER-SERVICE
@@ -80,18 +87,18 @@ spring:
             - Path=/storage-service/**
           filters:
             - RewritePath=/storage-service/(?<segment>.*), /$\{segment}
-            - AuthenticationFilter
+            # - AuthenticationFilter
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka-service:8761/eureka/
+      # defaultZone: http://localhost:8761/eureka/
 
 jwt:
   secret: ${JWT_SECRET}
   access-expire: ${JWT_ACCESS_EXPIRE}
   refresh-expire: ${JWT_REFRESH_EXPIRE}
-
 
 logging:
   level:

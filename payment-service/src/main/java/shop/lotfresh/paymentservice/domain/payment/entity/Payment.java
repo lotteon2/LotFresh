@@ -35,6 +35,7 @@ public class Payment extends BaseTimeEntity {
     @Builder.Default
     private PaymentStatus status = PaymentStatus.READY;
 
+    private String province;
 
     // order table을 가지고 있지 않음. JPA의 Relation Mapping을 사용하지 않음.
     @Column(unique = true,
@@ -42,7 +43,7 @@ public class Payment extends BaseTimeEntity {
     private Long orderId;
 
     @Column(nullable = false)
-    private Long oauthId;
+    private Long userId;
 
     public void linkPaymentGateway(String pgToken) {
         this.pgToken= pgToken;

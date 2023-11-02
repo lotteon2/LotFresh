@@ -9,8 +9,12 @@ export const getBestProducts = async (): Promise<ProductResponse[]> => {
   return data;
 };
 
-export const getSalesProducts = async (): Promise<ProductResponse[]> => {
-  const { data } = await productInstance.get("/products/sales-products");
+export const getSalesProducts = async (
+  province: string | null
+): Promise<ProductResponse[]> => {
+  const { data } = await productInstance.get(
+    `/products/sales-products/${province}`
+  );
   return data;
 };
 
@@ -47,7 +51,20 @@ export const getProductsBySearch = async (
   return data;
 };
 
-export const getProductDetail = async (id: any): Promise<ProductResponse> => {
-  const { data } = await productInstance.get(`/products/${id}`);
+export const getProductDetail = async (
+  id: any,
+  province: string | null | undefined
+): Promise<ProductResponse> => {
+  const { data } = await productInstance.get(`/products/${id}/${province}`);
+  return data;
+};
+
+export const getSalesProductDetail = async (
+  id: number,
+  province: string | null | undefined
+): Promise<ProductResponse> => {
+  const { data } = await productInstance.get(
+    `/products/${id}/province/${province}/sales`
+  );
   return data;
 };

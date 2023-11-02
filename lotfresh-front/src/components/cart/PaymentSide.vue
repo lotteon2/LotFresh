@@ -23,13 +23,14 @@
 </template>
 
 <script lang="ts">
-interface CartItemResponse {
-  thumbnail: String;
-  name: String;
-  quantity: number;
-  originalPrice: number;
-  discountedPrice: number;
-}
+import { addOrdersheetInfos } from "@/api/order/order";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+import type {
+  OrderSheetItem,
+  OrderSheetList,
+} from "@/interface/orderInterface";
+import router from "@/router";
 
 export default {
   props: {
@@ -42,9 +43,24 @@ export default {
       default: 0,
     },
     items: {
-      type: Array as () => CartItemResponse[],
+      type: Array as () => OrderSheetItem[],
       default: () => [],
     },
+  },
+  data() {
+    return {
+      orderSheetList: {
+        orderSheetItems: this.items,
+        isFromCart: false,
+        isBargain: false,
+      } as OrderSheetList,
+    };
+  },
+  setup() {
+    const { accessToken } = storeToRefs(useMemberStore());
+    return {
+      accessToken,
+    };
   },
   computed: {
     formattedNumber() {
@@ -55,7 +71,14 @@ export default {
   },
   methods: {
     order() {
-      alert(JSON.stringify(this.items));
+      this.orderSheetList.orderSheetItems = this.items;
+      addOrdersheetInfos(this.orderSheetList, this.accessToken)
+        .then(() => {
+          router.push("/ordersheet");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

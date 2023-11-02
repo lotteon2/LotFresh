@@ -2,6 +2,7 @@ package lotfresh.shop.gatewayservice.filter;
 
 
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import lotfresh.shop.gatewayservice.util.JwtUtil;
 import org.apache.http.HttpHeaders;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -12,6 +13,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
@@ -32,17 +34,20 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
-            // if(!containsAuthorization(request)) {
-            //     return onError(response, HttpStatus.UNAUTHORIZED);
-            // }
+            log.warn("요청은 이렇게 갑니다. 아직 아무처리도 안했어요." + request.getHeaders().toString());
 
-//             Claims claims = jwtUtil.parse(getJwt(request));
-//             if(isExpired(claims)) {
-//                 return onError(response, HttpStatus.UNAUTHORIZED);
-//             }
+             if(!containsAuthorization(request)) {
+                 return onError(response, HttpStatus.UNAUTHORIZED);
+             }
 
-//            jwtUtil.addJwtPayloadHeaders(request, claims);
-            jwtUtil.addJwtPayloadHeaders(request, null);
+             Claims claims = jwtUtil.parse(getJwt(request));
+             if(isExpired(claims)) {
+                 return onError(response, HttpStatus.UNAUTHORIZED);
+             }
+
+            jwtUtil.addJwtPayloadHeaders(request, claims);
+//            jwtUtil.addJwtPayloadHeaders(request, null);
+
 
             return chain.filter(exchange);
         });

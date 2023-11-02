@@ -5,13 +5,16 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name="Inventory",url="storage-service:8086/storageorderproduct")
+@FeignClient(name="storage-service")
 public interface InventoryFeignClient {
 
-    @PostMapping("/orderproduct")
-    ResponseEntity deductNormalStock(@RequestBody InventoryRequest inventoryRequest);
+    @PostMapping("/storageorderproduct/orderproduct")
+    ResponseEntity deductNormalStock(@RequestBody InventoryRequest inventoryRequest,
+                                     @RequestHeader(value = "userId") Long userId);
 
-    @PostMapping("sales/deductQuantity")
-    ResponseEntity deductSalesStock(@RequestBody InventoryRequest inventoryRequest);
+    @PostMapping("/storageorderproduct/ordersalesproduct")
+    ResponseEntity deductSalesStock(@RequestBody InventoryRequest inventoryRequest,
+                                    @RequestHeader(value = "userId") Long userId);
 }

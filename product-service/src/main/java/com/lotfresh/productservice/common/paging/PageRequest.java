@@ -17,9 +17,9 @@ public class PageRequest {
   private String keyword;
   private Pageable pageable;
 
-  public PageRequest(String order, String keyword, Integer page) {
+  public PageRequest(String order, String keyword, Integer page, Integer size) {
     this.keyword = keyword;
-    this.pageable = toPageable(page, toOrderCondition(order));
+    this.pageable = toPageable(page, toOrderCondition(order), size);
   }
 
   private OrderCondition toOrderCondition(String order) {
@@ -28,9 +28,9 @@ public class PageRequest {
         : OrderCondition.valueOf(order);
   }
 
-  private Pageable toPageable(Integer pageNum, OrderCondition orderCondition) {
+  private Pageable toPageable(Integer pageNum, OrderCondition orderCondition, Integer size) {
     Integer page = pageNum == null ? DEFAULT_PAGE : pageNum - 1;
     return org.springframework.data.domain.PageRequest.of(
-        page, PAGE_SIZE, Direction.DESC, orderCondition.getSort());
+        page, size == null ? PAGE_SIZE : size, Direction.DESC, orderCondition.getSort());
   }
 }

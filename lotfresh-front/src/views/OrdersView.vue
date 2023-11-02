@@ -24,45 +24,43 @@
 <script lang="ts">
 import { orderInstance } from "@/api/utils";
 import Order from "../components/order/Order.vue";
-interface Order {
-  orderId: number;
-  orderCreatedTime: Date;
-  orderDetailResponses: OrderDetail[];
-}
-interface OrderDetail {
-  orderDetailId: number;
-  price: number;
-  stock: number;
-  status: string;
-  productName: string;
-  productThumbnail: string;
-}
+import { getOrders } from "../api/order/order";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+import type {
+  OrderResponse,
+  OrderDetailResponse,
+} from "../interface/orderInterface";
 
 export default {
   components: { Order },
   data() {
     return {
-      orders: [] as Order[],
+      orders: [] as OrderResponse[],
       page: 1,
       size: 5,
       totalPage: 0,
     };
   },
+  setup() {
+    const { accessToken } = storeToRefs(useMemberStore());
+    return {
+      accessToken,
+    };
+  },
   watch: {
-    page(newPage) {
-      this.callAPI(this.page);
+    page(newPage, accessToken) {
+      this.callAPI(this.page, accessToken);
       window.scrollTo(0, 0);
     },
   },
   methods: {
-    callAPI(page: number) {
-      orderInstance
-        .get(`/order/myOrders` + "?page=" + (page - 1) + "&size=" + this.size)
+    callAPI(page: number, accessToken: string | null) {
+      getOrders(page - 1, accessToken)
         .then((res) => {
           console.log("전체 주문 가져오기 성공");
-          console.log(res.data);
-          this.orders = res.data.contents;
-          this.totalPage = res.data.totalPage;
+          console.log(res);
+          this.orders = res.contents;
         })
         .catch((res) => {
           console.log("전체 주문 가져오기 실패");
@@ -71,7 +69,7 @@ export default {
     },
   },
   created() {
-    this.callAPI(this.page);
+    this.callAPI(this.page, this.accessToken);
   },
 };
 </script>

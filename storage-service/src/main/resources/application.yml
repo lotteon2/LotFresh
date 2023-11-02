@@ -4,6 +4,13 @@ server:
 spring:
   application:
     name: storage-service
+  datasource:
+    url: jdbc:mysql://${DB_IP}:${STORAGE_DB_PORT}/${STORAGE_DB_SCHEMA}?serverTimeZone=UTC
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
 
   jpa:
     hibernate:
@@ -12,11 +19,30 @@ spring:
       hibernate:
         format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+
+  redis:
+    host: ${DB_IP}
+    port: ${REDIS_PORT}
+    password: ${DB_PASSWORD}
+
+  kafka:
+    producer:
+      bootstrap-servers: 3.38.228.196:9092
+      acks: all
+    consumer:
+      bootstrap-servers: 3.38.228.196:9092
+      group-id: storage-service-group
+    listener:
+      type: SINGLE
+
+
   profiles:
     active:
       - develop
     group:
       develop: "env"
+
+
 
 eureka:
   client:

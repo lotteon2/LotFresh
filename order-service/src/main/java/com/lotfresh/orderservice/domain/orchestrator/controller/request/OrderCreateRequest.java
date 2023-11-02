@@ -22,4 +22,6 @@ public class OrderCreateRequest {
 
     private Boolean isFromCart;
     private String province;
+    private Address address;
+
 }
