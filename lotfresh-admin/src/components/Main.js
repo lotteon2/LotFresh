@@ -10,7 +10,8 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
-
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Storages from './Storages';
 import AppLayout from './AppLayout';
 function Copyright(props) {
@@ -72,10 +73,20 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      localStorage.setItem('token', token);
+    }
+  }, [location]);
+
+  
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -102,7 +113,6 @@ export default function Dashboard() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
               <Grid item xs={12} md={8} lg={9}>
                 <Paper
                   sx={{
@@ -116,22 +126,7 @@ export default function Dashboard() {
                   Lotfresh 관리자 페이지에 오신걸 환영합니다
                 </Typography>
                 </Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                 
-                </Paper>
-                
-              </Grid>
-              
+              </Grid>              
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>

@@ -13,13 +13,13 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import { format } from 'date-fns';
-import {getStorageProduct} from "../api/api"
+import {getStorageProduct} from "../api/product"
 import Button from '@mui/material/Button';
 import PopupContent from './PopupContent';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-
-
+import PopUpStockAdd from './PopUpStockAdd';
+import TablePagination from '@mui/material/TablePagination';
 
 function Copyright(props) {
   return (
@@ -39,15 +39,15 @@ const defaultTheme = createTheme();
 
 const regions = [
   { value: '서울특별시', label: 'Seoul' },
-  { value: '경기도', label: 'Gyeonggi' },
-  { value: '강원도', label: 'Gangwon' },
-  { value: '충청북도', label: 'Chungcheongbuk' },
-  { value: '충청남도', label: 'Chungcheongnam' },
-  { value: '전라북도', label: 'Jeollabuk' },
-  { value: '전라남도', label: 'Jeollanam' },
-  { value: '경상북도', label:'Gyeongsangbuk'},
-  { value:'경상남도',label:'Gyeongsangnam'},
-  {value:'제주도',label:'Jeju'}
+  { value: '경기도', label: 'Gyeonggi-do' },
+  { value: '강원도', label: 'Gangwon-do' },
+  { value: '충청북도', label: 'Chungcheongbuk-do' },
+  { value: '충청남도', label: 'Chungcheongnam-do' },
+  { value: '전라북도', label: 'Jeollabuk-do' },
+  { value: '전라남도', label: 'Jeollanam-do' },
+  { value: '경상북도', label:'Gyeongsangbuk-do'},
+  { value:'경상남도',label:'Gyeongsangnam-do'},
+  {value:'제주도',label:'Jeju-do'}
 ];
 
 
@@ -58,6 +58,16 @@ function Storages() {
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const [isAddPopupOpen, setAddPopupOpen] = useState(false);
+
+  const handleAddClick = () => {
+    setAddPopupOpen(true);
+  };
+
+  const handleAddClose = () => {
+    setAddPopupOpen(false);
+  };
 
   const handleEditClick = (product) => {
     setSelectedProduct(product);
@@ -90,6 +100,18 @@ function Storages() {
 
   const handleChange = (event) => {
      setSelectedRegion(event.target.value);
+  };
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   return (
@@ -145,50 +167,66 @@ function Storages() {
                     <Button 
                       variant="contained" 
                       color="primary"
+                      onClick={handleAddClick} // 버튼 클릭 시 handleAddClick 함수 호출
                       style={{ float: 'right', width: '100px' }}
                     >
                       상품 추가
                     </Button>
-
-
-                     <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>ID</TableCell>
-                          <TableCell>Name</TableCell>
-                          <TableCell>Thumbnail</TableCell>
-                          <TableCell>Stock</TableCell>
-                          <TableCell>Product ID</TableCell>
-                          <TableCell>Expiration Date</TableCell>
-                          <TableCell>Modify</TableCell>
-                          <TableCell> </TableCell>
+                    
+                    {/* Add Dialog */}
+                    <Dialog open={isAddPopupOpen} onClose={handleAddClose}>
+                      <PopUpStockAdd />
+                      <DialogActions>
+                        <Button onClick={handleClose}>Close</Button>
+                      </DialogActions>
+                    </Dialog>
+                      <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Thumbnail</TableCell>
+                        <TableCell>Stock</TableCell>
+                        <TableCell>Product ID</TableCell>
+                        <TableCell>Expiration Date</TableCell>
+                        <TableCell>Modify</TableCell>
+                        <TableCell> </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {storageProducts.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((product) => (
+                        <TableRow key={product.id}>
+                          <TableCell>{product.id}</TableCell>
+                          <TableCell>감자</TableCell>
+                          <TableCell>이미지</TableCell>
+                          <TableCell>{product.stock}</TableCell>
+                          <TableCell>{product.productId}</TableCell>
+                          <TableCell>
+                            {format(new Date(product.expirationDateStart), 'yyyy-MM-dd')} ~ 
+                            {format(new Date(product.expirationDateEnd), 'yyyy-MM-dd')}
+                          </TableCell>
+                          <TableCell> 
+                            <Button onClick={() => handleEditClick(product)} color="error">수정</Button>
+                            <Dialog open={isPopupOpen} onClose={handleClose}>
+                              <PopupContent product={selectedProduct} />
+                              <DialogActions>
+                                <Button onClick={handleClose}>Close</Button>
+                              </DialogActions>
+                            </Dialog>
+                          </TableCell>
                         </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {storageProducts.map((product) => (
-                          <TableRow key={product.id}>
-                            <TableCell>{product.id}</TableCell>
-                            <TableCell>감자</TableCell>
-                            <TableCell>이미지</TableCell>
-                            <TableCell>{product.stock}</TableCell>
-                            <TableCell>{product.productId}</TableCell>
-                            <TableCell>
-                              {format(new Date(product.expirationDateStart), 'yyyy-MM-dd')} ~ 
-                              {format(new Date(product.expirationDateEnd), 'yyyy-MM-dd')}
-                            </TableCell>
-                            <TableCell> 
-                              <Button onClick={() => handleEditClick(product)} color="error">수정</Button>
-                              <Dialog open={isPopupOpen} onClose={handleClose}>
-                                <PopupContent product={selectedProduct} />
-                                <DialogActions>
-                                  <Button onClick={handleClose}>Close</Button>
-                                </DialogActions>
-                              </Dialog>
-                    </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody> 
-                    </Table> 
+                      ))}
+                    </TableBody> 
+                  </Table> 
+
+                  <TablePagination
+                    component="div"
+                    count={storageProducts.length}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
                   </Paper>
                 </Grid>
                </Grid>
