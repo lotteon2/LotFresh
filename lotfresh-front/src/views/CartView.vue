@@ -73,12 +73,6 @@
       </transition>
     </div>
     <div class="right-section">
-      <div class="delivery">
-        <delivery-side
-          @openAddressModal="openAddressModal"
-          :addressInfo="addressInfo"
-        />
-      </div>
       <div class="payment">
         <payment-side
           :total-price="totalPrice"
