@@ -73,14 +73,19 @@
             <div class="functions"></div>
             <div class="button-wrap">
               <button
-                v-if="!props.isBargain"
+                v-if="!props.isBargain && props.product.stock"
                 class="cart-button"
                 @click="addCart"
               >
                 장바구니 담기
               </button>
-              <button class="base-button" @click="addOrderSheet">
-                바로 구매하기
+              <button
+                class="base-button"
+                @click="addOrderSheet"
+                :disabled="disabled"
+                :style="`${background_color}`"
+              >
+                {{ order_button_string }}
               </button>
             </div>
           </div>
@@ -91,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { createCart } from "@/api/cart/cart";
 import { addOrdersheetInfos } from "@/api/order/order";
 import router from "@/router";
@@ -107,6 +112,17 @@ const { memberInfo, accessToken } = storeToRefs(useMemberStore());
 const emits = defineEmits(["openModal"]);
 const props = defineProps(["product", "isBargain"]);
 const quantity = ref(1);
+const order_button_string = ref("바로 구매하기");
+const disabled = ref(false);
+const background_color = ref("");
+onMounted(() => {
+  if (!props.product.stock) {
+    disabled.value = true;
+    quantity.value = 0;
+    order_button_string.value = "재고가 없습니다.";
+    background_color.value = "background-color: grey";
+  }
+});
 
 const orderSheetItems = ref<OrderSheetItem[]>([
   {
@@ -182,12 +198,18 @@ const addOrderSheet = () => {
 };
 
 const minus = () => {
+  if (!props.product.stock) {
+    return;
+  }
   if (quantity.value > 1) {
     quantity.value--;
   }
 };
 
 const plus = () => {
+  if (!props.product.stock) {
+    return;
+  }
   quantity.value++;
 };
 </script>
@@ -486,7 +508,7 @@ const plus = () => {
   line-height: normal;
   color: #fff;
   background-color: #ef2a23;
-  border: 1px solid #ef2a23;
+  /* border: 1px solid #ef2a23; */
   cursor: pointer;
 }
 </style>

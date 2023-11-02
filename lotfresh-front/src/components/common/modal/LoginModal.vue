@@ -30,8 +30,8 @@ import { defineEmits } from "vue";
 const emits = defineEmits(["closeModal"]);
 const kakaoLogin = () => {
   window.location.replace(
-    // "https://lot-fresh.shop/user-service/oauth2/authorization/kakao"
-    "http://localhost:8090/user-service/oauth2/authorization/kakao"
+    "https://lot-fresh.shop/user-service/oauth2/authorization/kakao"
+    // "http://localhost:8090/user-service/oauth2/authorization/kakao"
   );
 };
 </script>
