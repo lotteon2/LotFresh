@@ -34,8 +34,13 @@ public class KakaopayApiClient {
     }
 
     public KakaopayReadyResponseVO kakaopayReady(Long orderId, Boolean isFromCart, String province, Boolean isBargain, KakaopayReadyVO request) {
-        log.warn(orderId.toString());
+
         log.warn(ADMIN_KEY);
+        log.warn("orderId: " + orderId);
+        log.warn("isFromCart: " + isFromCart);
+        log.warn("province: " + province);
+        log.warn("isBargain: " + isBargain);
+        log.warn("request: " + request.toString());
 
         KakaopayReadyResponseVO res = webClient.post()
                 .uri(uriBuilder -> uriBuilder
