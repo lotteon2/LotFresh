@@ -44,7 +44,7 @@ import KakaoAddressFinderModal from "../components/order/orderSheet/KakaoAddress
 import { getOrders } from "../api/order/order";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
-import type { OrderCreateRequest } from "../api/order/order";
+import type { OrderCreateRequest, address } from "../api/order/order";
 import type {
   OrderSheetList,
   OrderSheetItem,
@@ -90,31 +90,31 @@ export default {
     let orderSheetList = ref<OrderSheetList | null>(null);
     const { accessToken } = storeToRefs(useMemberStore());
     const { memberInfo } = storeToRefs(useMemberStore()); // useMemberStore를 사용해 memberInfo를 가져옴.
-
-    let addressInfo = ref({
-      zipCode: memberInfo.value.zipCode || "00000", // memberInfo에 zipCode가 없는 경우 "00000"을 기본값으로 사용합니다.
-      roadAddress: memberInfo.value.roadAddress || "주소를 변경해주세요.",
-      detailAddress:
-        memberInfo.value.detailAddress || "상세주소를 입력해주세요...",
-    });
-
+    const addressInfo = ref<address>();
     const handlePayment = async () => {
       try {
-        const orderData: OrderCreateRequest = {
-          productRequests: orderSheetList.value?.orderSheetItems,
-          isFromCart: orderSheetList.value?.isFromCart, // 장바구니에서 주문하는 경우 true, 그렇지 않으면 false
-          province: memberInfo.value.province,
-          address: addressInfo.value,
-        };
-        const res = await startKakaopay(orderData, accessToken.value);
-        // res ? (window.location.href = res) : console.log("없거나 실패");
-        res
-          ? window.open(
-              res,
-              "Lot-Fresh 카카오페이 QR 결제화면",
-              "top=0, left=0, width=500, height=600, menubar=no, toolbar=no, resizable=no, status=no, scrollbars=no"
-            )
-          : console.log("없거나 실패");
+        if (memberInfo.value && memberInfo) {
+          addressInfo.value = {
+            zipCode: memberInfo.value.zipCode, // memberInfo에 zipCode가 없는 경우 "00000"을 기본값으로 사용합니다.
+            roadAddress: memberInfo.value.roadAddress,
+            detailAddress: memberInfo.value.detailAddress,
+          };
+          const orderData: OrderCreateRequest = {
+            productRequests: orderSheetList.value?.orderSheetItems,
+            isFromCart: orderSheetList.value?.isFromCart, // 장바구니에서 주문하는 경우 true, 그렇지 않으면 false
+            province: memberInfo.value.province,
+            address: addressInfo.value,
+          };
+          const res = await startKakaopay(orderData, accessToken.value);
+          // res ? (window.location.href = res) : console.log("없거나 실패");
+          res
+            ? window.open(
+                res,
+                "Lot-Fresh 카카오페이 QR 결제화면",
+                "top=0, left=0, width=500, height=600, menubar=no, toolbar=no, resizable=no, status=no, scrollbars=no"
+              )
+            : console.log("없거나 실패");
+        }
       } catch (error) {
         console.error(error);
         alert("오류가 발생했습니다: " + error);

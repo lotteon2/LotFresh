@@ -43,8 +43,8 @@ export default {
     const { memberInfo } = storeToRefs(useMemberStore()); // useMemberStore를 사용해 memberInfo를 가져옴.
 
     return {
-      nickname: memberInfo.value.nickname, // nickname을 setup의 리턴 객체에 추가.
-      email: memberInfo.value.email, // email을 setup의 리턴 객체에 추가.
+      nickname: memberInfo.value?.nickname, // nickname을 setup의 리턴 객체에 추가.
+      email: memberInfo.value?.email, // email을 setup의 리턴 객체에 추가.
     };
   },
 };
