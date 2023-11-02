@@ -61,8 +61,6 @@ export default defineComponent({
     };
   },
   mounted() {
-    console.log("PaymentBill로 들어온 prop은 이렇게 생겼다.");
-    console.log(this.orderSheetItems);
     let sumOfOriginalPrice = 0;
     let sumOfDiscountedPrice = 0;
 
@@ -74,10 +72,6 @@ export default defineComponent({
         this.sumOfDiscountedPrice += item.originalPrice * item.productStock;
       }
     });
-
-    console.log("금액계산하면 이렇게 된다.");
-    console.log("sumOfOriginalPrice: ", this.sumOfOriginalPrice);
-    console.log("sumOfDiscountedPrice: ", this.sumOfDiscountedPrice);
   },
 });
 </script>
