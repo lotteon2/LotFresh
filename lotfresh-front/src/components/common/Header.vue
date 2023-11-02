@@ -23,11 +23,12 @@
     <Menu @openModal="emits('openModal')" />
     <div class="header_login">
       <div class="login_wrap">
-        <span class="right">
-          <a v-if="!memberInfo?.province" class="b" @click="emits('openModal')"
-            >로그인</a
-          >
-          <a v-else class="b" @click="logout">로그아웃</a>
+        <span v-if="!memberInfo?.province" class="right">
+          <a class="b" @click="emits('openModal')">로그인</a>
+        </span>
+        <span v-else class="right">
+          <router-link class="b" to="/mypages">주문 조회</router-link>
+          <a class="b" @click="logout">로그아웃</a>
         </span>
       </div>
     </div>
@@ -170,5 +171,10 @@ const next = () => {
 
 .b:hover {
   cursor: pointer;
+}
+
+.b {
+  padding-left: 10px;
+  color: black;
 }
 </style>
