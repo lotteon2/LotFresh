@@ -71,6 +71,7 @@ export default {
   },
   methods: {
     order() {
+      this.orderSheetList.orderSheetItems = this.items;
       addOrdersheetInfos(this.orderSheetList, this.accessToken)
         .then(() => {
           router.push("/ordersheet");
