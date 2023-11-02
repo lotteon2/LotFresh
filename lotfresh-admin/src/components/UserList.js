@@ -32,11 +32,11 @@ function UserTable() {
 
   return (
     
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center'}}>
     <CssBaseline />
     <AppLayout>
     <Toolbar />
-    <Box sx={{ mt: 4 }}>
+    <Box sx={{ mt: 4, width: '80%'  }}>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
