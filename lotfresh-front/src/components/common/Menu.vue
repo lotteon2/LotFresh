@@ -143,6 +143,7 @@
 </template>
 
 <script setup lang="ts">
+import Swal from "sweetalert2";
 import { useRoute } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
@@ -155,8 +156,9 @@ const { memberInfo } = storeToRefs(memberStore);
 const emits = defineEmits(["openModal"]);
 const routeToTimeSale = () => {
   if (!memberInfo || memberInfo.value === null) {
-    alert("로그인이 필요한 기능입니다.");
-    emits("openModal");
+    Swal.fire("로그인이 필요합니다").then(() => {
+      emits("openModal");
+    });
     return;
   }
   router.push("/market-time-sales");
