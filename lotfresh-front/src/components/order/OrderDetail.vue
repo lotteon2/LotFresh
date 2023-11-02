@@ -109,7 +109,7 @@ export default {
       }
     },
     refundModal() {
-      ElMessageBox.alert("환불모달", "Title");
+      ElMessageBox.alert("환불", "환불 상태");
     },
     paymentModal() {
       getPaymentDetailInfo(this.orderId.toString(), this.accessToken).then(
@@ -125,9 +125,12 @@ export default {
               "상품 개수 : " +
               res.transactionAmount +
               "개</br>" +
-              "결제 방법" +
+              "결제 방법 : " +
               res.paymentMethod,
-            "결제 상태"
+            "결제 상태",
+            {
+              dangerouslyUseHTMLString: true,
+            }
           );
         }
       );
@@ -136,7 +139,7 @@ export default {
       ElMessageBox.alert("배송모달", "배송 상태");
     },
     cancelModal() {
-      ElMessageBox.alert("취소모달", "환불 상태");
+      ElMessageBox.alert("취소모달", "주문취소 상태");
     },
   },
   mounted() {
