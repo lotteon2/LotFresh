@@ -97,6 +97,7 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
     public Integer getSalesProductStock(String province, Long productId) {
         LocalDateTime twoDaysBefore = LocalDateTime.now().minusDays(2);
         Date nearExpiry = Timestamp.valueOf(twoDaysBefore);
+
         return queryFactory.select(storageProduct.stock.sum())
                 .from(storageProduct)
                 .join(storage).on(storageProduct.storageId.eq(storage.id))
