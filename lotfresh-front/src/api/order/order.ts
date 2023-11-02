@@ -18,16 +18,16 @@ export interface ProductRequest {
 }
 
 export interface address {
-  zipCode: String;
-  roadAddress: String;
-  detailAddress: String | null;
+  zipCode: string | null;
+  roadAddress: string | null;
+  detailAddress: string | null;
 }
 
 export interface OrderCreateRequest {
   productRequests: OrderSheetItem[] | undefined;
   isFromCart: boolean | undefined;
   province: string | undefined | null;
-  address: address | undefined;
+  address: address | undefined | null;
 }
 
 export const getOrdersheetList = async (
