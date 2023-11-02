@@ -10,7 +10,7 @@ export const getBestProducts = async (): Promise<ProductResponse[]> => {
 };
 
 export const getSalesProducts = async (
-  province: any
+  province: string | null
 ): Promise<ProductResponse[]> => {
   const { data } = await productInstance.get(
     `/products/sales-products/${province}`
@@ -60,10 +60,11 @@ export const getProductDetail = async (
 };
 
 export const getSalesProductDetail = async (
-  id: number
+  id: number,
+  province: string | null | undefined
 ): Promise<ProductResponse> => {
   const { data } = await productInstance.get(
-    `/products/sales-products/${id}/detail`
+    `/products/${id}/province/${province}/sales`
   );
   return data;
 };

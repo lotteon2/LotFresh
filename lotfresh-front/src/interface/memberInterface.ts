@@ -2,7 +2,7 @@ export interface MemberInfo {
   email: string;
   nickname: string;
   isActive: boolean;
-  province: string | null | undefined;
+  province: string | null;
   zipCode: string | null;
   roadAddress: string | null;
   detailAddress: string | null;

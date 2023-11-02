@@ -5,6 +5,7 @@
       :key="index"
       :product="product"
       :componentHeight="componentHeight"
+      :isBargain="true"
     />
   </div>
 </template>

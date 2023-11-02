@@ -76,13 +76,13 @@ public class ProductApiController {
     return ResponseEntity.ok(productService.getSalesProducts(province));
   }
 
-  @GetMapping("/sales-products/{productId}/detail")
+  @GetMapping("/{productId}/province/{province}/sales")
   public ResponseEntity<ProductResponse> getSalesProductDetails(
-      @RequestHeader(value = "userId", required = false) Long userId,
+      @PathVariable(value = "userId", required = false) String province,
       @PathVariable("productId") Long productId) {
     Integer stock = null;
     try {
-      stock = storageApiClient.getSalesProductStock(userId, productId);
+      stock = storageApiClient.getSalesProductStock(province, productId);
     } catch (FeignException e) {
     }
     return ResponseEntity.ok(productService.getSalesProductDetails(productId, stock));
