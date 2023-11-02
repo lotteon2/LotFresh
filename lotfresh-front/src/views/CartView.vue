@@ -60,12 +60,7 @@
                 <div class="original-price">
                   {{ cartItemResponse.originalPrice }}원
                 </div>
-                <div>
-                  {{
-                    cartItemResponse.originalPrice -
-                    cartItemResponse.discountedPrice
-                  }}원
-                </div>
+                <div>{{ cartItemResponse.discountedPrice }}원</div>
               </div>
             </div>
           </div>

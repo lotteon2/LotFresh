@@ -79,7 +79,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      alert(JSON.stringify(this.orderSheetList));
     },
   },
 };
