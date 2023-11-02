@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 export const mainListItems = (
   <React.Fragment>
      <ListSubheader component="div" inset>
-      Account Management
+      User Management
     </ListSubheader>
     <ListItemButton component={Link} to="/Users">
       <ListItemIcon>
@@ -21,11 +21,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Users" />
     </ListItemButton>
-    <ListItemButton component={Link} to="/Admins">
+    <ListItemButton component={Link} to="/refund">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Admins" />
+      <ListItemText primary="Refund" />
     </ListItemButton>
   </React.Fragment>
 );
