@@ -10,18 +10,21 @@
 
 # 기술스택
 - Backend
-	- Java11
+	- Java
 	- SpringBoot
 	- JPA
 	- Spring Data JPA
+	- Spring Security
 	- queryDSL
 	- openFeign
-	- MySQL
-	- Redis
 	- Kafka
+- Database
+ 	- MySQL
+	- Redis
 - Frontend
 	- Vue
 	- Pinia
+	- React	
 	- TypeScript
 - Infra/Server
 	- Docker
@@ -121,7 +124,12 @@ QR코드를 요청하는 작업
 
 # 회고록
 ## 최창효
+MSA아키텍처의 시스템을 설계해볼 수 있어서 좋았습니다. 특히 분산 트랜잭션에 대해 오래 고민하고 직접 설계 및 구현까지 해볼 수 있어서 좋았습니다.
 ## 구지웅
+
 ## 김성중
+프로젝트 막바지에 서버환경에서 테스트를 동시다발적으로 하다보니 병목현상이 일어나 아쉬웠습니다. 다음번에는 로그 찍는 방식을 체계화하는게 좋겠다고 생각했습니다.
 ## 선준용
+다음 부터는 기획을 좀더 꼼꼼하게 해야겠다고 생각했습니다.
 ## 김기환
+프로젝트에서 맡은 파트의 기획을 구체화를 꼼꼼히 하지 않아 프로젝트 도중에 일이 늘어나고 변경되는 부분이 많았습니다. 다음부턴 기획부터 튼튼히 해야겠다고 느꼈습니다.
