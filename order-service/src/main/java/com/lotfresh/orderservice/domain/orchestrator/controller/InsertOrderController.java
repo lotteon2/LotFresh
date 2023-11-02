@@ -29,21 +29,13 @@ public class InsertOrderController {
         return ResponseEntity.ok().body(orchestratorService.createOrderAndRequestToPayment(orderCreateRequest, userId));
     }
 
-    @GetMapping("/payments/kakaopay/approve/{orderId}/{isFromCart}/{province}")
+    @GetMapping("/payments/kakaopay/approve/{orderId}/{isFromCart}/{province}/{isBargain}")
     public ResponseEntity insertNormalOrder(@RequestHeader(value = "userId", required = false) Long userId,
             @PathVariable(name = "orderId") Long orderId, @PathVariable(name="isFromCart") Boolean isFromCart,
-            @PathVariable(name ="province") String province, @RequestParam String pg_token,
-            HttpServletResponse response) throws IOException {
-        orchestratorService.orderNormalTransaction(userId, province, pg_token, orderId, isFromCart);
+            @PathVariable(name ="province") String province, @PathVariable(name="isBargain") Boolean isBargain,
+            @RequestParam String pg_token, HttpServletResponse response) throws IOException {
+        orchestratorService.doTransaction(userId, province, pg_token, orderId, isFromCart ,isBargain);
         response.sendRedirect("https://www.lot-fresh.shop/payment-result/success/"+orderId);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/sales")
-    public ResponseEntity insertSalesOrder(@RequestHeader(value = "userId", required = false) Long userId,
-           @PathVariable(name = "orderId") Long orderId, @PathVariable(name="isFromCart") Boolean isFromCart,
-           @PathVariable(name ="province") String province, @RequestParam String pg_token){
-        orchestratorService.orderSalesTransaction(userId, province, pg_token, orderId, isFromCart);
         return ResponseEntity.ok().build();
     }
 

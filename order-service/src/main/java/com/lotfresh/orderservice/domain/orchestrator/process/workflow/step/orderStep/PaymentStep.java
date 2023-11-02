@@ -5,10 +5,17 @@ import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentReque
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStepStatus;
+import com.lotfresh.orderservice.domain.order.entity.OrderDetail;
+import com.lotfresh.orderservice.domain.order.entity.status.PaymentStatus;
+import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
+import com.lotfresh.orderservice.domain.order.repository.OrderRepository;
 import com.lotfresh.orderservice.exception.SagaException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -16,7 +23,7 @@ public class PaymentStep implements WorkflowStep {
     private final String workflowName;
     private final PaymentFeignClient feignClient;
     private final PaymentRequest paymentRequest;
-    private final KafkaProducer kafkaProducer;
+    private final PaymentStatusChanger paymentStatusChanger;
 
     public WorkflowStepStatus status = WorkflowStepStatus.PENDING;
 
@@ -30,6 +37,7 @@ public class PaymentStep implements WorkflowStep {
         try{
             ResponseEntity result = feignClient.requestPayment(paymentRequest, paymentRequest.getUserId());
             changeStatus(WorkflowStepStatus.COMPLETE);
+            paymentStatusChanger.changeOrderDetailStatus(paymentRequest.getOrderId(),PaymentStatus.SUCCESS);
             log.info("PaymentStep : 성공");
             return result;
         } catch (Exception e) {

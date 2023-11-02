@@ -45,8 +45,8 @@ public class OrchestratorService {
         }
     }
 
-    public Orchestrator orderTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart,
-                                         BiFunction<InventoryRequest,PaymentRequest,Workflow> workflowGenerator) {
+    public Orchestrator processTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart,
+                                           BiFunction<InventoryRequest,PaymentRequest,Workflow> workflowGenerator) {
         List<OrderDetail> orderDetails = orderService.getOrderDetails(orderId);
         List<Long> orderDetailIds = orderDetails.stream()
                 .map(OrderDetail::getId)
@@ -62,7 +62,7 @@ public class OrchestratorService {
                 .build();
         try {
             orderOrchestrator.doTransaction();
-            log.info("orderTranscation 성공");
+            log.info("orderTransaction 성공");
         }catch(Exception e) {
             log.info("orderTransaction 실패");
             orderService.revertInsertOrder(orderId, orderDetailIds);
@@ -83,14 +83,16 @@ public class OrchestratorService {
         return orderOrchestrator;
     }
 
-    public Orchestrator orderNormalTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart) {
-        return orderTransaction(userId, userProvince, pgToken, orderId, isFromCart,
-                orderWorkflowGenerator::generateNormalOrderWorkflow);
-    }
+    public Orchestrator doTransaction(Long userId, String userProvince, String pgToken, Long orderId,
+                                      boolean isFromCart, boolean isBargain) {
+        if(isBargain) {
+            return processTransaction(userId, userProvince, pgToken, orderId, isFromCart,
+                    orderWorkflowGenerator::generateSalesOrderWorkflow);
+        } else {
+            return processTransaction(userId, userProvince, pgToken, orderId, isFromCart,
+                    orderWorkflowGenerator::generateNormalOrderWorkflow);
 
-    public Orchestrator orderSalesTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart) {
-        return orderTransaction(userId, userProvince, pgToken, orderId, isFromCart,
-                orderWorkflowGenerator::generateSalesOrderWorkflow);
+        }
     }
 
     private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest) {

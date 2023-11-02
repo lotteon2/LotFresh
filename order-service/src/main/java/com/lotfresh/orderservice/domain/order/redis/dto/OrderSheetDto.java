@@ -12,4 +12,5 @@ import java.util.List;
 public class OrderSheetDto {
     private List<OrderSheetItem> orderSheetItems;
     private Boolean isFromCart;
+    private Boolean isBargain;
 }
