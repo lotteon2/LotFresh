@@ -36,7 +36,7 @@ public class KakaopayReadyVO {
         map.add("quantity", quantity.toString());
         map.add("total_amount", totalAmount.toString());
         map.add("tax_free_amount", taxFreeAmount.toString());
-        map.add("approval_url", approvalUrl +"/"+orderId+"/"+isFromCart + "/" + province );
+        map.add("approval_url", approvalUrl +"/"+orderId+"/"+isFromCart + "/" + province + "/" + isBargain );
         map.add("cancel_url", cancelUrl);
         map.add("fail_url", failUrl);
 
