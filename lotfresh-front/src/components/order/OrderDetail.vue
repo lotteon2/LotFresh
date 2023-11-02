@@ -47,9 +47,6 @@
       >
         <div class="right-section-buttons">
           <div class="right-inner-button">
-            <button class="red-button" @click="deliveryModal">배송 조회</button>
-          </div>
-          <div class="right-inner-button">
             <button class="white-button" @click="cancelModal">
               주문취소/환불
             </button>
@@ -66,16 +63,25 @@ import type {
   OrderResponse,
   OrderDetailResponse,
 } from "../../interface/orderInterface";
-
+import { getPaymentDetailInfo } from "@/api/payment/payment";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 export default {
   props: {
     orderDetailData: {
       type: Object as () => OrderDetailResponse,
       required: true,
     },
+    orderId: {
+      type: Number,
+      required: true,
+    },
   },
   setup(props) {
-    return {};
+    const { accessToken } = storeToRefs(useMemberStore());
+    return {
+      accessToken,
+    };
   },
   methods: {
     statusClassification(status: string): string {
@@ -103,16 +109,37 @@ export default {
       }
     },
     refundModal() {
-      ElMessageBox.alert("환불모달", "Title");
+      ElMessageBox.alert("환불", "환불 상태");
     },
     paymentModal() {
-      ElMessageBox.alert("결제모달", "Title");
+      getPaymentDetailInfo(this.orderId.toString(), this.accessToken).then(
+        (res) => {
+          console.log(res);
+          ElMessageBox.alert(
+            "상품 가격 : " +
+              res.originalAmount +
+              "원</br>" +
+              "할인 가격 : " +
+              res.discountedAmount +
+              "원</br>" +
+              "상품 개수 : " +
+              res.transactionAmount +
+              "개</br>" +
+              "결제 방법 : " +
+              res.paymentMethod,
+            "결제 상태",
+            {
+              dangerouslyUseHTMLString: true,
+            }
+          );
+        }
+      );
     },
     deliveryModal() {
-      ElMessageBox.alert("배송모달", "Title");
+      ElMessageBox.alert("배송모달", "배송 상태");
     },
     cancelModal() {
-      ElMessageBox.alert("취소모달", "Title");
+      ElMessageBox.alert("취소모달", "주문취소 상태");
     },
   },
   mounted() {

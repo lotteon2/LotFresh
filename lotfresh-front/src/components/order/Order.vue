@@ -18,7 +18,10 @@
       v-for="orderDetail in orderData.orderDetailResponses"
       :key="orderDetail.orderDetailId"
     >
-      <order-detail :orderDetailData="orderDetail" />
+      <order-detail
+        :orderDetailData="orderDetail"
+        :orderId="orderData.orderId"
+      />
     </div>
     <div class="empty-bottom"></div>
   </div>
