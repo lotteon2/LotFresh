@@ -27,7 +27,7 @@ public class KakaopayReadyVO {
     private String cancelUrl;
     private String failUrl;
 
-    public MultiValueMap<String, String> toMultiValueMap(Long orderId, Boolean isFromCart, String province) {
+    public MultiValueMap<String, String> toMultiValueMap(Long orderId, Boolean isFromCart, String province, Boolean isBargain) {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("cid", cid);
         map.add("partner_order_id", partnerOrderId);
@@ -36,7 +36,7 @@ public class KakaopayReadyVO {
         map.add("quantity", quantity.toString());
         map.add("total_amount", totalAmount.toString());
         map.add("tax_free_amount", taxFreeAmount.toString());
-        map.add("approval_url", approvalUrl +"/"+orderId+"/"+isFromCart + "/" + province);
+        map.add("approval_url", approvalUrl +"/"+orderId+"/"+isFromCart + "/" + province );
         map.add("cancel_url", cancelUrl);
         map.add("fail_url", failUrl);
 
