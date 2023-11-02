@@ -33,7 +33,7 @@ const callApi = (id: any, province: string | null) => {
 };
 
 watchEffect(() => {
-  callApi(route.params.id, "Seoul"), route.params.id;
+  callApi(route.params.id, memberInfo.value.province), route.params.id;
 });
 </script>
 
