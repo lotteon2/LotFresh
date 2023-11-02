@@ -84,6 +84,7 @@ export default function Dashboard() {
     if (token) {
       localStorage.setItem('token', token);
     }
+    console.log(token);
   }, [location]);
 
   
