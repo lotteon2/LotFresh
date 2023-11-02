@@ -46,8 +46,6 @@ export const startKakaopay = async (
   const { data } = await orderInstance.post(`/order`, orderData, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
-  console.log(accessToken);
-  console.log(data);
   return data;
 };
 
