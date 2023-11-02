@@ -26,7 +26,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
   @Override
   public Optional<Member> findByEmail(String email) {
-    return Optional.ofNullable(query.selectFrom(member).where(member.email.eq(email)).fetchOne());
+    return Optional.ofNullable(
+        query.selectFrom(member).where(member.email.eq(email)).fetchOne());
   }
 
   @Override
