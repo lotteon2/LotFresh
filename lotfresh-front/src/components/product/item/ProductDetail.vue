@@ -34,7 +34,6 @@
         </router-link>
       </div>
     </div>
-    <!-- 예시 카트 -->
     <div id="cartPut">
       <div class="cart-option cartList cart-type2">
         <div class="inner-option">
@@ -73,10 +72,21 @@
           <div class="cart-footer off">
             <div class="functions"></div>
             <div class="button-wrap">
-              <button class="cart-button" @click="addCart">
+              <button
+                v-if="!props.isBargain && props.product.stock"
+                class="cart-button"
+                @click="addCart"
+              >
                 장바구니 담기
               </button>
-              <button class="base-button">바로 구매하기</button>
+              <button
+                class="base-button"
+                @click="addOrderSheet"
+                :disabled="disabled"
+                :style="`${background_color}`"
+              >
+                {{ order_button_string }}
+              </button>
             </div>
           </div>
         </div>
@@ -86,17 +96,58 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import Swal from "sweetalert2";
+import { computed, onMounted, ref } from "vue";
 import { createCart } from "@/api/cart/cart";
+import { addOrdersheetInfos } from "@/api/order/order";
+import router from "@/router";
 import type { CartCreateDto } from "@/interface/cartInterface";
-const props = defineProps(["product"]);
+import type {
+  OrderSheetItem,
+  OrderSheetList,
+} from "@/interface/orderInterface";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 
+const { memberInfo, accessToken } = storeToRefs(useMemberStore());
+const emits = defineEmits(["openModal"]);
+const props = defineProps(["product", "isBargain"]);
 const quantity = ref(1);
+const order_button_string = ref("바로 구매하기");
+const disabled = ref(false);
+const background_color = ref("");
+onMounted(() => {
+  if (!memberInfo || memberInfo.value == null) {
+    disabled.value = true;
+    quantity.value = 0;
+    order_button_string.value = "로그인이 필요합니다";
+    background_color.value = "background-color: grey";
+    return;
+  } else {
+    if (!props.product.stock) {
+      disabled.value = true;
+      quantity.value = 0;
+      order_button_string.value = "재고가 없습니다";
+      background_color.value = "background-color: grey";
+    }
+  }
+});
+
+const orderSheetItems = ref<OrderSheetItem[]>([
+  {
+    productId: props.product.id,
+    originalPrice: props.product.price,
+    discountedPrice: props.product.salesPrice,
+    productStock: quantity.value,
+    productName: props.product.name,
+    productThumbnail: props.product.thumbnail,
+  },
+]);
 
 const cartCreateDto = ref<CartCreateDto>({
   productId: props.product.id,
   discountedPrice: props.product.salesPrice,
-  province: "test",
+  province: memberInfo ? memberInfo.value?.province : null,
   productStock: props.product.stock,
   price: props.product.price,
   productName: props.product.name,
@@ -124,22 +175,53 @@ const totalPrice = computed(() => {
 });
 
 const addCart = () => {
-  createCart(cartCreateDto.value)
-    .then((response) => {
-      console.log("성공", response);
+  if (memberInfo == null || !memberInfo.value) {
+    alert("로그인이 필요한 기능입니다.");
+    emits("openModal");
+    return;
+  }
+  createCart(cartCreateDto.value, accessToken.value)
+    .then(() => {
+      Swal.fire({
+        title: "장바구니에 담았습니다!",
+        icon: "success",
+      });
     })
     .catch((err) => {
       console.log(err);
     });
 };
+const orderSheetList = ref<OrderSheetList>({
+  orderSheetItems: [],
+  isFromCart: false,
+  isBargain: props.isBargain == true ? true : false,
+});
+
+const addOrderSheet = () => {
+  orderSheetItems.value[0].productStock = quantity.value;
+  orderSheetList.value.orderSheetItems = orderSheetItems.value;
+  addOrdersheetInfos(orderSheetList.value, accessToken.value)
+    .then(() => {
+      router.push("/ordersheet");
+    })
+    .catch(() => {
+      console.log("##");
+    });
+};
 
 const minus = () => {
+  if (!props.product.stock) {
+    return;
+  }
   if (quantity.value > 1) {
     quantity.value--;
   }
 };
 
 const plus = () => {
+  if (!props.product.stock) {
+    return;
+  }
   quantity.value++;
 };
 </script>
@@ -438,7 +520,7 @@ const plus = () => {
   line-height: normal;
   color: #fff;
   background-color: #ef2a23;
-  border: 1px solid #ef2a23;
+  /* border: 1px solid #ef2a23; */
   cursor: pointer;
 }
 </style>

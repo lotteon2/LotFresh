@@ -1,6 +1,7 @@
 package shop.lotfresh.paymentservice.domain.payment.api;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import shop.lotfresh.paymentservice.domain.payment.service.PaymentService;
 import javax.validation.Valid;
 
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/payments")
@@ -22,6 +24,7 @@ public class PaymentApiController {
     @PostMapping("/kakaopay/ready")
     public ResponseEntity<String> kakaopayReady(@RequestHeader Long userId,
                                                 @Valid @RequestBody KakaopayReadyRequest request) {
+        log.warn("헤더에 들어온지 확인해보겠습니다" + userId.toString());
 
         String redirectPcURl = paymentService.kakaopayReady(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(redirectPcURl);

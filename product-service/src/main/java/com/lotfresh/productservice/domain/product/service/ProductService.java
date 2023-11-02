@@ -17,6 +17,7 @@ import com.lotfresh.productservice.domain.product.service.response.ProductRespon
 import com.lotfresh.productservice.domain.product.vo.BestProductVO;
 import com.lotfresh.productservice.domain.product.vo.SalesProductVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,7 +84,8 @@ public class ProductService {
 
   public List<ProductResponse> getBestProducts() throws JsonProcessingException {
     List<BestProductVO> bestProductsVO =
-        redisRepository.getBestProductsVO(LocalDate.now().toString());
+        redisRepository.getBestProductsVO(
+            LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue());
 
     if (bestProductsVO.isEmpty()) {
       return Collections.EMPTY_LIST;
@@ -91,7 +93,7 @@ public class ProductService {
 
     Map<Long, Product> productMap = extractProductMapByBestProductVO(bestProductsVO);
 
-    if(productMap.isEmpty()) {
+    if (productMap.isEmpty()) {
       return Collections.EMPTY_LIST;
     }
     Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
@@ -100,9 +102,8 @@ public class ProductService {
         bestProductsVO, productMap, rateGroupByCategory);
   }
 
-  public List<ProductResponse> getSalesProducts(String memberAddressKey)
-      throws JsonProcessingException {
-    List<SalesProductVO> salesProductsVO = redisRepository.getSalesProductsVO(memberAddressKey);
+  public List<ProductResponse> getSalesProducts(String province) throws JsonProcessingException {
+    List<SalesProductVO> salesProductsVO = redisRepository.getSalesProductsVO(province);
 
     if (salesProductsVO.isEmpty()) {
       return Collections.EMPTY_LIST;
@@ -110,13 +111,14 @@ public class ProductService {
 
     Map<Long, Product> productMap = extractProductMapBySalesProductVO(salesProductsVO);
 
-    if(productMap.isEmpty()) {
+    if (productMap.isEmpty()) {
       return Collections.EMPTY_LIST;
     }
 
     return ProductResponse.createSalesProductResponses(salesProductsVO, productMap);
   }
 
+  @Cacheable(key = "'all'", value = "newProductsCache")
   public List<ProductResponse> getNewProducts() {
     List<Product> newProducts = productRepository.findNewProductsLimit100();
     Map<Long, Double> rateGroupByCategory = discountRepository.findRateGroupByCategory();
@@ -138,7 +140,9 @@ public class ProductService {
     List<Long> bestProductIds =
         bestProductsVO.stream().map(best -> best.getProductId()).collect(Collectors.toList());
 
-    return bestProductIds.isEmpty()? Collections.EMPTY_MAP : extractProductMapByIds(bestProductIds);
+    return bestProductIds.isEmpty()
+        ? Collections.EMPTY_MAP
+        : extractProductMapByIds(bestProductIds);
   }
 
   private Map<Long, Product> extractProductMapBySalesProductVO(

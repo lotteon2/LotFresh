@@ -2,7 +2,7 @@
   <div class="content" v-if="product">
     <div class="wrap">
       <product-thumbnail :product_thumbnail="product.thumbnail" />
-      <product-detail :product="product" />
+      <product-detail @openModal="emits('openModal')" :product="product" />
     </div>
     <div class="detail_image">
       <product-detail-image :product_detail_img="product.detail" />
@@ -17,18 +17,27 @@ import ProductDetailImage from "@/components/product/item/ProductDetailImage.vue
 import { getProductDetail } from "@/api/product/product";
 import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
 import type { ProductResponse } from "@/interface/productInterface";
+import { useMemberStore } from "@/stores/member";
+const emits = defineEmits(["openModal"]);
 const route = useRoute();
 const product = ref<ProductResponse>();
 
-const callApi = (id: any) => {
-  getProductDetail(id).then((data) => {
+const { memberInfo } = storeToRefs(useMemberStore());
+
+const callApi = (id: any, province: string | null | undefined) => {
+  getProductDetail(id, province).then((data) => {
     product.value = data;
   });
 };
 
 watchEffect(() => {
-  callApi(route.params.id), route.params.id;
+  if (memberInfo.value) {
+    callApi(route.params.id, memberInfo.value.province), route.params.id;
+  } else {
+    callApi(route.params.id, null), route.params.id;
+  }
 });
 </script>
 

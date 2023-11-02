@@ -17,12 +17,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class OrderResponse {
     Long orderId;
-    LocalDateTime orderCreatedTime;
+
+    String orderCreatedTime;
     List<OrderDetailResponse> orderDetailResponses;
 
 
     public static OrderResponse from(Order order) {
-        LocalDateTime orderCreatedAt = order.getCreatedAt();
+        String orderCreatedAt = order.getCreatedAt().toString();
         List<OrderDetailResponse> orderDetailResponse = order.getOrderDetails().stream()
                 .map(OrderDetailResponse::from)
                 .collect(Collectors.toList());

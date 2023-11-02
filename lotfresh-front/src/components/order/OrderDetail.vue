@@ -6,11 +6,7 @@
       </div>
       <div class="left-inner-contents">
         <div class="product-thumbnail">
-          <img
-            class="image"
-            src="https://img-cf.kurly.com/cdn-cgi/image/width=360,height=468,fit=crop,quality=85/shop/data/goods/1653037895339l0.jpeg"
-          />
-          {{ orderDetailData.productThumbnail }}
+          <img class="image" :src="orderDetailData.productThumbnail" />
         </div>
         <div class="product-name">{{ orderDetailData.productName }}</div>
         <div class="product-price small-text">
@@ -66,20 +62,15 @@
 
 <script lang="ts">
 import { ElMessageBox } from "element-plus";
-
-interface OrderDetail {
-  orderDetailId: number;
-  price: number;
-  stock: number;
-  status: string;
-  productName: string;
-  productThumbnail: string;
-}
+import type {
+  OrderResponse,
+  OrderDetailResponse,
+} from "../../interface/orderInterface";
 
 export default {
   props: {
     orderDetailData: {
-      type: Object as () => OrderDetail,
+      type: Object as () => OrderDetailResponse,
       required: true,
     },
   },
@@ -175,8 +166,8 @@ export default {
 .product-name {
   position: absolute;
   left: 180px;
-  bottom: 75px;
-  font-size: 45px;
+  bottom: 90px;
+  font-size: 30px;
 }
 .product-price {
   position: absolute;

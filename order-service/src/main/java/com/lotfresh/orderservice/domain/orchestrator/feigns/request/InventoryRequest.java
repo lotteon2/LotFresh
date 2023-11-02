@@ -15,5 +15,6 @@ public class InventoryRequest {
     private String province;
     private Long orderId;
     private List<ProductInfo> productInfos;
+    private Long userId;
 
 }

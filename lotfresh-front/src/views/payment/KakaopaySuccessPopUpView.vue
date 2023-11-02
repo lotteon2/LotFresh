@@ -26,7 +26,7 @@ export default {
               orderId: orderId.value,
             },
           },
-          "http://localhost:5173" // "https://www.lot-fresh.shop"로 수정 필요 😃
+          "https://lot-fresh.shop" // "https://www.lot-fresh.shop"로 수정 필요 😃
         );
         // clearInterval(intervalId);
       }, 3000);

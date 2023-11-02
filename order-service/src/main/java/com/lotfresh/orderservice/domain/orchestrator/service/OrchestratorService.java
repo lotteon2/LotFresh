@@ -30,12 +30,12 @@ public class OrchestratorService {
     private final CartFeignClient cartFeignClient;
     private final PaymentFeignClient paymentFeignClient;
 
-    public String createOrderAndRequestToPayment(OrderCreateRequest orderCreateRequest) {
-        OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest);
+    public String createOrderAndRequestToPayment(OrderCreateRequest orderCreateRequest, Long userId) {
+        OrderCreateResponse orderCreateResponse = createOrder(orderCreateRequest,userId);
         KakaopayReadyRequest kakaopayReadyRequest =
                 makeKakaopayReadyRequest(orderCreateResponse.getOrderId(),orderCreateRequest);
         try{
-            ResponseEntity<String> result = paymentFeignClient.kakaopayReady(kakaopayReadyRequest);
+            ResponseEntity<String> result = paymentFeignClient.kakaopayReady(kakaopayReadyRequest,userId);
             log.info("Payment서버에 QR코드 요청 성공");
             return result.getBody();
         }catch (Exception e) {
@@ -45,15 +45,15 @@ public class OrchestratorService {
         }
     }
 
-    public Orchestrator orderTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart,
-                                         BiFunction<InventoryRequest,PaymentRequest,Workflow> workflowGenerator) {
+    public Orchestrator processTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart,
+                                           BiFunction<InventoryRequest,PaymentRequest,Workflow> workflowGenerator) {
         List<OrderDetail> orderDetails = orderService.getOrderDetails(orderId);
         List<Long> orderDetailIds = orderDetails.stream()
                 .map(OrderDetail::getId)
                 .collect(Collectors.toList());
 
-        InventoryRequest inventoryRequest = makeInventoryRequest(orderDetails,userProvince,orderId);
-        PaymentRequest paymentRequest = makePaymentRequest(orderId,pgToken);
+        InventoryRequest inventoryRequest = makeInventoryRequest(orderDetails,userProvince,orderId,userId);
+        PaymentRequest paymentRequest = makePaymentRequest(orderId,pgToken,userId);
 
         Workflow orderWorkflow = workflowGenerator.apply(inventoryRequest,paymentRequest);
 
@@ -62,7 +62,7 @@ public class OrchestratorService {
                 .build();
         try {
             orderOrchestrator.doTransaction();
-            log.info("orderTranscation 성공");
+            log.info("orderTransaction 성공");
         }catch(Exception e) {
             log.info("orderTransaction 실패");
             orderService.revertInsertOrder(orderId, orderDetailIds);
@@ -71,26 +71,32 @@ public class OrchestratorService {
         }
 
         if(isFromCart) {
-            CartRequest cartRequest = makeCartRequest(userId,orderDetails);
-            CartTask cartTask = new CartTask(cartFeignClient,cartRequest);
-            cartTask.work();
+            try{
+                CartRequest cartRequest = makeCartRequest(userId,orderDetails);
+                CartTask cartTask = new CartTask(cartFeignClient,cartRequest);
+                cartTask.work();
+            } catch (Exception e) {
+                log.error("장바구니 상품 삭제 실패");
+            }
         }
 
         return orderOrchestrator;
     }
 
-    public Orchestrator orderNormalTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart) {
-        return orderTransaction(userId, userProvince, pgToken, orderId, isFromCart,
-                orderWorkflowGenerator::generateNormalOrderWorkflow);
+    public Orchestrator doTransaction(Long userId, String userProvince, String pgToken, Long orderId,
+                                      boolean isFromCart, boolean isBargain) {
+        if(isBargain) {
+            return processTransaction(userId, userProvince, pgToken, orderId, isFromCart,
+                    orderWorkflowGenerator::generateSalesOrderWorkflow);
+        } else {
+            return processTransaction(userId, userProvince, pgToken, orderId, isFromCart,
+                    orderWorkflowGenerator::generateNormalOrderWorkflow);
+
+        }
     }
 
-    public Orchestrator orderSalesTransaction(Long userId, String userProvince, String pgToken, Long orderId, boolean isFromCart) {
-        return orderTransaction(userId, userProvince, pgToken, orderId, isFromCart,
-                orderWorkflowGenerator::generateSalesOrderWorkflow);
-    }
-
-    private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest) {
-        return orderService.insertOrder(orderCreateRequest.getProductRequests());
+    private OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest, Long userId) {
+        return orderService.insertOrder(orderCreateRequest.getProductRequests(), orderCreateRequest.getAddress(), userId);
     }
 
     private void revertOrder(OrderCreateResponse orderCreateResponse) {
@@ -114,7 +120,7 @@ public class OrchestratorService {
 
     }
 
-    private InventoryRequest makeInventoryRequest(List<OrderDetail> orderDetails, String userProvince, Long orderId) {
+    private InventoryRequest makeInventoryRequest(List<OrderDetail> orderDetails, String userProvince, Long orderId, Long userId) {
         List<ProductInfo> productInfos = orderDetails.stream()
                 .map(ProductInfo::from)
                 .collect(Collectors.toList());
@@ -123,12 +129,14 @@ public class OrchestratorService {
                 .productInfos(productInfos)
                 .province(userProvince)
                 .orderId(orderId)
+                .userId(userId)
                 .build();
     }
-    private PaymentRequest makePaymentRequest(Long orderId, String pgToken) {
+    private PaymentRequest makePaymentRequest(Long orderId, String pgToken, Long userId) {
         return PaymentRequest.builder()
                 .orderId(orderId)
                 .pgToken(pgToken)
+                .userId(userId)
                 .build();
     }
 

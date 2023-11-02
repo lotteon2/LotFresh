@@ -19,7 +19,7 @@
     <div class="empty-bottom"></div>
   </div>
 
-  <div v-if="orderData" class="order-container">
+  <!-- <div v-if="orderData" class="order-container">
     <div class="order-info">
       <div class="item bold-text margin-left-text">{{ formattedData }}</div>
       <div class="item"></div>
@@ -37,14 +37,14 @@
       <order-detail :orderDetailData="orderDetail" />
     </div>
     <div class="empty-bottom"></div>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts">
 import OrderDetail from "../OrderDetail.vue";
 interface Order {
   orderId: number;
-  orderCreatedTime: Date;
+  orderCreatedTime: string;
   orderDetailResponses: OrderDetail[];
 }
 interface OrderDetail {

@@ -24,11 +24,13 @@ public class BestSellerScheduler {
     final Duration EXPIRATION_DATE = Duration.ofDays(30);
 
     @Transactional
-    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 0 1 * *", zone = "Asia/Seoul")
     public void saveBestSellerProducts() throws JsonProcessingException {
-        String key = LocalDate.now().toString();
         List<BestProductsResponse> bestSellers = orderService.getMostSoldProducts(BEST_SELLER_CNT);
-        redisRepository.setValues(key,objectMapper.writeValueAsString(bestSellers),EXPIRATION_DATE);
+        redisRepository.setValues(makeKeys(),objectMapper.writeValueAsString(bestSellers),EXPIRATION_DATE);
     }
 
+    private String makeKeys() {
+        return LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue()        ;
+    }
 }

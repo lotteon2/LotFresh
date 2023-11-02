@@ -2,6 +2,7 @@ package shop.lotfresh.paymentservice.domain.payment.api.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import shop.lotfresh.paymentservice.domain.payment.vo.KakaopayReadyVO;
 import shop.lotfresh.paymentservice.domain.payment.vo.OrderDetailVO;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@ToString
 public class KakaopayReadyRequest {
     @NotNull(message = "orderId cannot be null")
     private Long orderId;
@@ -22,6 +24,8 @@ public class KakaopayReadyRequest {
     @NotEmpty(message = "orderDetails cannot be empty")
     @Valid
     private List<OrderDetailVO> orderDetails;
+
+    private String province;
 
     public KakaopayReadyVO toKakaopayReadyVO(Long userId,
                                              String itemName,

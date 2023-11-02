@@ -7,6 +7,7 @@ import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentReque
 import com.lotfresh.orderservice.domain.orchestrator.kafka.KafkaProducer;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.WorkflowStep;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep.NormalInventoryStep;
+import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep.PaymentStatusChanger;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep.PaymentStep;
 import com.lotfresh.orderservice.domain.orchestrator.process.workflow.step.orderStep.SalesInventoryStep;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,12 @@ public class OrderWorkflowGenerator {
     private final InventoryFeignClient inventoryFeignClient;
     private final PaymentFeignClient paymentFeignClient;
     private final KafkaProducer kafkaProducer;
+    private final PaymentStatusChanger paymentStatusChanger;
 
     public OrderWorkflow generateNormalOrderWorkflow(InventoryRequest inventoryRequest, PaymentRequest paymentRequest){
         List<WorkflowStep> workflowSteps = List.of(
                 new NormalInventoryStep("InventoryStep",inventoryFeignClient,inventoryRequest,kafkaProducer),
-                new PaymentStep("PaymentStep",paymentFeignClient,paymentRequest,kafkaProducer));
+                new PaymentStep("PaymentStep",paymentFeignClient,paymentRequest,paymentStatusChanger));
 
         return OrderWorkflow.builder()
                 .workflowSteps(workflowSteps)
@@ -33,7 +35,7 @@ public class OrderWorkflowGenerator {
     public OrderWorkflow generateSalesOrderWorkflow(InventoryRequest inventoryRequest, PaymentRequest paymentRequest){
         List<WorkflowStep> workflowSteps = List.of(
                 new SalesInventoryStep("InventoryStep",inventoryFeignClient,inventoryRequest,kafkaProducer),
-                new PaymentStep("PaymentStep",paymentFeignClient,paymentRequest,kafkaProducer));
+                new PaymentStep("PaymentStep",paymentFeignClient,paymentRequest,paymentStatusChanger));
 
         return OrderWorkflow.builder()
                 .workflowSteps(workflowSteps)

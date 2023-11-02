@@ -5,6 +5,7 @@
       :key="index"
       :product="product"
       :componentHeight="componentHeight"
+      :isBargain="true"
     />
   </div>
 </template>
@@ -14,12 +15,16 @@ import ProductItem from "@/components/product/item/ProductItem.vue";
 import { ref } from "vue";
 import { getSalesProducts } from "@/api/product/product";
 import type { ProductResponse } from "@/interface/productInterface";
-
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+const { memberInfo } = storeToRefs(useMemberStore());
 const salesProducts = ref<ProductResponse[]>([]);
 
-getSalesProducts().then((data) => {
-  salesProducts.value = data;
-});
+if (memberInfo.value) {
+  getSalesProducts(memberInfo.value.province).then((data) => {
+    salesProducts.value = data;
+  });
+}
 
 const componentHeight = ref("300px");
 </script>

@@ -12,9 +12,11 @@ import BestProductsView from "@/views/product/BestProductsView.vue";
 import SalesProductView from "@/views/product/SalesProductsView.vue";
 import CategoryProductsView from "@/views/product/CategoryProductsView.vue";
 import ProductDetailView from "@/views/product/ProductDetailView.vue";
+import SalesProductDetailView from "@/views/product/SalesProductDetailView.vue";
 import SearchProductsView from "@/views/product/SarchProductsView.vue";
 import CartView from "../views/CartView.vue";
 import KakaopaySuccessPopUpView from "@/views/payment/KakaopaySuccessPopUpView.vue";
+import LoginSuccess from "@/components/common/LoginSuccess.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +25,11 @@ const router = createRouter({
       path: "/",
       name: "main",
       component: MainView,
+    },
+    {
+      path: "/login-success",
+      name: "loginSuccess",
+      component: LoginSuccess,
     },
     {
       path: "/mypage",
@@ -35,7 +42,7 @@ const router = createRouter({
             {
               path: "list",
               name: "orderlist", // 프로그래밍방식( router.push("orderlist")할때 쓰는 용도)
-              component: OrderListView,
+              component: OrdersView,
             },
             {
               path: "detail",
@@ -107,7 +114,11 @@ const router = createRouter({
       name: "goods",
       component: ProductDetailView,
     },
-
+    {
+      path: "/sales-goods/:id",
+      name: "sales-goods",
+      component: SalesProductDetailView,
+    },
     {
       path: "/cart",
       name: "cart",
@@ -133,11 +144,11 @@ const router = createRouter({
     },
 
     {
-      path:"/signup",
-      name:"signup",
+      path: "/signup",
+      name: "signup",
       component: SignUpView,
     },
-  ]
+  ],
 });
 
 export default router;

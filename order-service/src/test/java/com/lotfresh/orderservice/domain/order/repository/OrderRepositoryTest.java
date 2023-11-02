@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.domain.order.repository;
 
+import com.lotfresh.orderservice.domain.orchestrator.controller.request.Address;
 import com.lotfresh.orderservice.domain.order.entity.Order;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,8 +29,14 @@ class OrderRepositoryTest {
     void createOrder() {
         // given
         Long authId = 1L;
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailAddress")
+                .build();
         Order order = Order.builder()
                 .authId(authId)
+                .address(address)
                 .build();
 
         // when
@@ -121,8 +128,15 @@ class OrderRepositoryTest {
 
 
     private Order createOrder(Long userId) {
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailAddress")
+                .build();
+
         return Order.builder()
                 .authId(userId)
+                .address(address)
                 .build();
     }
 

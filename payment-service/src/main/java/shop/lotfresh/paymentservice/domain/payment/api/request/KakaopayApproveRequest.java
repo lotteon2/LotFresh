@@ -22,7 +22,7 @@ public class KakaopayApproveRequest {
                 .pgToken(pgToken)
                 .cid(cid)
                 .tid(payment.getTid())
-                .partnerUserId(payment.getOauthId().toString())
+                .partnerUserId(payment.getUserId().toString())
                 .partnerOrderId(payment.getOrderId().toString())
                 .build();
     }

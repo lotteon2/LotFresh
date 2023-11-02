@@ -11,7 +11,7 @@ public class ProductScheduler {
 
   private final CacheManager cacheManager;
 
-  @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+  @Scheduled(cron = "0 0 0 1 * *", zone = "Asia/Seoul")
   public void clearCache() {
     cacheManager.getCache("newProductsCache").clear();
   }

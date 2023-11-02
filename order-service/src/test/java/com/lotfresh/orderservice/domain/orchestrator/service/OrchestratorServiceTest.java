@@ -1,5 +1,6 @@
 package com.lotfresh.orderservice.domain.orchestrator.service;
 
+import com.lotfresh.orderservice.domain.orchestrator.controller.request.Address;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.OrderCreateRequest;
 import com.lotfresh.orderservice.domain.orchestrator.controller.request.ProductRequest;
 import com.lotfresh.orderservice.domain.orchestrator.Orchestrator;
@@ -63,7 +64,7 @@ class OrchestratorServiceTest {
     @Test
     void createOrderAndReturnQRCode() {
         // given
-        BDDMockito.given(paymentFeignClient.kakaopayReady(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.kakaopayReady(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().body("URL"));
 
         List<ProductRequest> productRequests  = List.of(
@@ -72,13 +73,22 @@ class OrchestratorServiceTest {
                 createProductRequest(3L, 1000L, 3L),
                 createProductRequest(4L, 10000L, 4L)
         );
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailADdress")
+                .build();
+
         OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
                 .productRequests(productRequests)
                 .isFromCart(true)
+                .address(address)
                 .build();
 
+        Long userId = 1L;
+
         // when
-        String url = orchestratorService.createOrderAndRequestToPayment(orderCreateRequest);
+        String url = orchestratorService.createOrderAndRequestToPayment(orderCreateRequest,userId);
 
         em.flush();
         em.clear();
@@ -101,11 +111,13 @@ class OrchestratorServiceTest {
     @Test
     void orchestratorProcessSucceed() {
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductSalesStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
+                .willReturn(ResponseEntity.ok().build());
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
 
         Order order = createOrder(1L);
@@ -118,7 +130,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(1L,"SEOUL","pgToken", order.getId(),false);
+        Orchestrator orchestrator = orchestratorService.doTransaction(1L,"SEOUL","pgToken", order.getId(),false,false);
 
         // then
         for (WorkflowStep step : orchestrator.getWorkflow().getSteps()) {
@@ -130,11 +142,13 @@ class OrchestratorServiceTest {
     @Test
     void requestDeleteToCartWhenProcessSucceeded() {
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductSalesStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
+        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
+                .willReturn(ResponseEntity.ok().build());
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
 
         Order order = createOrder(1L);
@@ -142,10 +156,10 @@ class OrchestratorServiceTest {
         orderRepository.save(order);
 
         // when
-        orchestratorService.orderNormalTransaction(1L,"SEOUL", "pgToken", order.getId(),true);
+        orchestratorService.doTransaction(1L,"SEOUL", "pgToken", order.getId(),true,false);
 
         // then
-        BDDMockito.verify(cartFeignClient).removeItems(BDDMockito.any());
+        BDDMockito.verify(cartFeignClient).removeItems(BDDMockito.any(),BDDMockito.any());
 
     }
 
@@ -153,11 +167,13 @@ class OrchestratorServiceTest {
     @Test
     void orderDeletedWhenDeductQuantityFailed(){
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willThrow(new RuntimeException());
-        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductSalesStock(BDDMockito.any(),BDDMockito.any()))
+                .willThrow(new RuntimeException());
+        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.doNothing().when(kafkaProducer)
                 .send(BDDMockito.any(),BDDMockito.any());
@@ -172,7 +188,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,"SEOUL", "pgToken", order.getId(),true))
+        Assertions.assertThatThrownBy(() -> orchestratorService.doTransaction(1L,"SEOUL", "pgToken", order.getId(),true,false))
                 .isInstanceOf(SagaException.class);
 
 
@@ -195,11 +211,13 @@ class OrchestratorServiceTest {
     @Test
     void orderAndInventoryRollbackedWhenPaymentFailed(){
         // given
-        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
-        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any()))
+        BDDMockito.given(inventoryFeignClient.deductSalesStock(BDDMockito.any(),BDDMockito.any()))
+                .willReturn(ResponseEntity.ok().build());
+        BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
                 .willThrow(new RuntimeException());
-        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any()))
+        BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.doNothing().when(kafkaProducer)
                 .send(BDDMockito.any(),BDDMockito.any());
@@ -214,7 +232,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,"SEOUL", "pgToken", order.getId(),true))
+        Assertions.assertThatThrownBy(() -> orchestratorService.doTransaction(1L,"SEOUL", "pgToken", order.getId(),true,false))
                 .isInstanceOf(SagaException.class);
 
         em.flush();
@@ -244,8 +262,15 @@ class OrchestratorServiceTest {
     }
 
     private Order createOrder(Long userId) {
+        Address address = Address.builder()
+                .zipcode("zipcode")
+                .roadAddress("roadAddress")
+                .detailAddress("detailAddress")
+                .build();
+
         return Order.builder()
                 .authId(userId)
+                .address(address)
                 .build();
     }
 

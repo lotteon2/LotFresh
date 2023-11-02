@@ -9,30 +9,23 @@
       <tbody>
         <tr>
           <td>
-            <label for="name" class="large-font-input">이름</label>
+            <label class="large-font-input">우편번호</label>
             <span class="check-span">*</span>
           </td>
           <td>
             <input
-              v-model="name"
-              placeholder="이름"
-              type="text"
-              @input="signUpName"
+              class="zoncode-input"
+              v-model="createMemberDto.zipCode"
+              placeholder="우편번호"
+              readonly
+              required
             />
           </td>
-        </tr>
-        <tr>
+
           <td>
-            <label class="large-font-input">연락처</label>
-            <span class="check-span">*</span>
-          </td>
-          <td>
-            <input
-              v-model="contactNumber"
-              placeholder="연락처"
-              type="tel"
-              @input="signUpContact"
-            />
+            <button class="addAddressButton" @click="execDaumPostcode">
+              주소 추가
+            </button>
           </td>
         </tr>
         <tr>
@@ -41,141 +34,77 @@
             <span class="check-span">*</span>
           </td>
           <td>
-            <input v-model="province" placeholder="권역" readonly />
+            <input
+              v-model="createMemberDto.province"
+              placeholder="권역"
+              readonly
+              required
+            />
           </td>
         </tr>
         <tr>
           <td>
-            <label class="large-font-input">상세주소</label>
+            <label class="large-font-input">도로명 주소</label>
             <span class="check-span">*</span>
           </td>
           <td>
-            <input v-model="localAddress" placeholder="상세주소" readonly />
+            <input
+              v-model="createMemberDto.roadAddress"
+              placeholder="도로명 주소"
+              readonly
+              required
+            />
           </td>
         </tr>
         <tr>
           <td>
-            <label class="large-font-input">우편번호</label>
+            <label class="large-font-input">상세 주소</label>
             <span class="check-span">*</span>
           </td>
           <td>
-            <input class="zoncode-input" v-model="zoncode" placeholder="우편번호" readonly />
-          </td>
-          <td>
-            <button class="addAddressButton" @click="execDaumPostcode">주소 추가</button>
+            <input
+              v-model="createMemberDto.addressDetail"
+              placeholder="상세 주소"
+            />
           </td>
         </tr>
       </tbody>
     </table>
-    <button class="signup-button" @click="SignUp">회원가입</button>
+    <button class="signup-button" @click="signup">회원가입</button>
   </div>
 </template>
 
+<script setup lang="ts">
+import { useMemberStore } from "@/stores/member";
+import { ref } from "vue";
+import type { CreateMemberDto } from "@/interface/memberInterface";
+import router from "@/router";
+const memberStore = useMemberStore();
+const createMemberDto = ref<CreateMemberDto>({
+  roadAddress: "",
+  province: "",
+  zipCode: "",
+  addressDetail: "",
+});
 
-<script>
-
-export default {
-
-  props: {
-    showModal: Boolean,
-    modalMessage: "추가 정보를 입력해야합니다."
-  },
-
-
-  data() {
-    return {
-      id:"",
-      name: "",
-      contactNumber: "",
-      localAddress: "",
-      province: "",
-      zoncode: "",
-      nameValidMessage: "",
-      contactValidMessage: "",
-      addressValidMessage: "",
-    };
-  },
-
-  beforeRouteEnter(to, from, next) {
-    const id = to.params.id; 
-    next((vm) => {
-      vm.id = id;
-    });
-  },
-
-  computed: {
-    address() {
-      return address
+const execDaumPostcode = () => {
+  new (window as any).daum.Postcode({
+    oncomplete: (data: any) => {
+      createMemberDto.value.province = data.sidoEnglish;
+      createMemberDto.value.roadAddress = data.roadAddress;
+      createMemberDto.value.zipCode = data.zonecode;
     },
-    Address() {
-      return Address
-    },
-    nameValidStyle() {
-      return {color: this.nameValidMessage ? "red" : ""};
-    },
-    contactValidStyle() {
-      return {color: this.contactValidMessage ? "red" : ""};
-    },
-    addressValidStyle() {
-      return {color: this.addressValidMessage ? "red" : ""};
-    },
-  },
-  methods: {
-    closeModal() {
-      this.$emit('close-modal');
-    },
+  }).open();
+};
 
-    execDaumPostcode() {
-      const that = this;
-      new window.daum.Postcode({
-        oncomplete: (data) => {
-          that.province = data.sidoEnglish;
-          that.localAddress = data.roadAddressEnglish;
-          that.zoncode = data.zonecode;
-        }
-      }).open()},
-
-    signUpName() {
-      if (this.name.length >= 2 && this.name.length < 5) {
-        this.nameValidMessage = "";
-      } else {
-        this.nameValidMessage = "이름을 2글자 이상 5글자 미만으로 입력하세요.";
-      }
-    },
-    signUpContact() {
-      // Regex pattern for "000-0000-0000" format
-      const pattern = /^\d{3}-\d{4}-\d{4}$/;
-      if (pattern.test(this.contactNumber)) {
-        this.contactValidMessage = "";
-      } else {
-        this.contactValidMessage = "000-0000-0000 형식으로 입력하세요.";
-      }
-    },
-    async signup() {
-      const userData = {
-        id: this.id,
-        name: this.name,
-        contactNumber: this.contactNumber,
-        localAddress: this.localAddress,
-        province: this.province,
-        zoncode: this.zoncode,
-      };
-
-      try {
-        const response = await axios.post('https://lot-fresh.shop/user-service/users', userData);
-
-        if (response.status === 200) {
-          this.$emit('show-modal', '회원가입이 완료되었습니다');
-          router.push({ name: 'main' });
-        } else {
-          
-          this.$emit('show-modal', '회원가입을 실패했습니다');
-        }
-      } catch (error) {
-        this.$emit('show-modal', '회원가입을 실패했습니다');
-      }
-    },
-  },
+const signup = () => {
+  if (!createMemberDto.value.province) {
+    alert("주소 입력은 필수 사항 입니다.");
+    return;
+  }
+  memberStore.registMember(createMemberDto.value).then(() => {
+    router.push("/");
+  });
 };
 </script>
 
@@ -188,7 +117,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   padding: 5px 0px 120px 0px;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .title {
@@ -266,16 +195,16 @@ export default {
   font-size: 16px; /* Adjust the font size as needed */
 }
 
- .user-container {
-   width: 640px;
-   display: flex;
-   align-items: center;
-   margin: 0 auto;
-   justify-content: center;
-   flex-direction: column;
-   padding: 5px 0px 120px 0px;
-   font-family: 'Noto Sans KR', sans-serif;
- }
+.user-container {
+  width: 640px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  justify-content: center;
+  flex-direction: column;
+  padding: 5px 0px 120px 0px;
+  font-family: "Noto Sans KR", sans-serif;
+}
 
 .title {
   font-size: 28px;
@@ -325,8 +254,6 @@ export default {
   vertical-align: top;
 }
 
-
-
 .signup-button {
   width: 240px;
   height: 56px;
@@ -346,14 +273,13 @@ export default {
 input {
   padding: 10px; /* Increase padding to make the input bigger */
   border-radius: 8px; /* Set border-radius to make it more circular */
-  //width: 80%; /* Optionally, set the width to 80% to provide some space for the error message */
+  width: 80%; /* Optionally, set the width to 80% to provide some space for the error message */
   box-sizing: border-box; /* Include padding and border in the width calculation */
   width: 100%;
 }
 
 /* Style the error message */
 .info-ul {
-
   font-size: 12px;
   color: #ff0000; /* Set the color to red for error messages */
   font-weight: 400;

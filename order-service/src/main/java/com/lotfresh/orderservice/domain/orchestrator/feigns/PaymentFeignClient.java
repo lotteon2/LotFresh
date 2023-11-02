@@ -5,12 +5,15 @@ import com.lotfresh.orderservice.domain.orchestrator.feigns.request.PaymentReque
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name="Payment",url="payment-service:8085/payments")
+@FeignClient(name="payment-service")
 public interface PaymentFeignClient {
-    @PostMapping("/kakaopay/ready")
-    ResponseEntity<String> kakaopayReady(KakaopayReadyRequest kakaopayReadyRequest);
-    @PostMapping("/kakaopay/approve")
-    ResponseEntity requestPayment(PaymentRequest paymentRequest);
+    @PostMapping("/payments/kakaopay/ready")
+    ResponseEntity<String> kakaopayReady(KakaopayReadyRequest kakaopayReadyRequest,
+                                         @RequestHeader(value = "userId") Long userId);
+    @PostMapping("/payments/kakaopay/approve")
+    ResponseEntity requestPayment(PaymentRequest paymentRequest,
+                                  @RequestHeader(value = "userId") Long userId);
 
 }

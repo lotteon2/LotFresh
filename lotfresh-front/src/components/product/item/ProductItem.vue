@@ -1,7 +1,15 @@
 <template>
   <div v-if="props.product" class="item">
     <div class="thumb" :style="{ height: componentHeight }">
-      <router-link :to="`/goods/${props.product.id}`">
+      <router-link v-if="!isBargain" :to="`/goods/${props.product.id}`">
+        <img
+          class="product-img"
+          :style="{ height: componentHeight }"
+          :src="product.thumbnail"
+          @click="store"
+        />
+      </router-link>
+      <router-link v-else :to="`/sales-goods/${props.product.id}`">
         <img
           class="product-img"
           :style="{ height: componentHeight }"
@@ -36,7 +44,7 @@ import { computed } from "vue";
 import { useProductStore } from "@/stores/product";
 
 const productStore = useProductStore();
-const props = defineProps(["product", "index", "componentHeight"]);
+const props = defineProps(["product", "index", "componentHeight", "isBargain"]);
 
 const formattedPrice = computed(() => {
   return new Intl.NumberFormat("ko-KR").format(props.product.price);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import shop.lotfresh.paymentservice.domain.payment.dto.PaymentInfoResponseDTO;
 import shop.lotfresh.paymentservice.domain.refund.api.request.RefundCreateRequest;
+import shop.lotfresh.paymentservice.domain.refund.dto.RefundInfoListDTO;
 import shop.lotfresh.paymentservice.domain.refund.dto.RefundInfoResponseDTO;
 import shop.lotfresh.paymentservice.domain.refund.service.RefundService;
 
@@ -58,6 +59,17 @@ public class RefundApiController {
     public ResponseEntity<RefundInfoResponseDTO> getRefundInfoById(@PathVariable Long refundId) {
         try {
             RefundInfoResponseDTO refundInfoResponseDTO = refundService.getRefundDetailByRefundId(refundId);
+            return ResponseEntity.ok(refundInfoResponseDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping()
+    public ResponseEntity<RefundInfoListDTO> getReadyRefunds(@RequestParam(defaultValue = "0") Long page,
+                                                             @RequestParam(defaultValue = "10") Long size) {
+        try {
+            RefundInfoListDTO refundInfoResponseDTO = refundService.getReadyRefunds(page, size);
             return ResponseEntity.ok(refundInfoResponseDTO);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

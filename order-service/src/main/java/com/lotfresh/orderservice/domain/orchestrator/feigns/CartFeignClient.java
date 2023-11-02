@@ -5,10 +5,12 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name="Cart",url="cart-service:8082/cart")
+@FeignClient(name="cart-service")
 public interface CartFeignClient {
-    @PostMapping("/removeItems")
-    ResponseEntity removeItems(@RequestBody CartRequest cartRequest);
+    @PostMapping("/carts/removeItems")
+    ResponseEntity removeItems(@RequestBody CartRequest cartRequest,
+                               @RequestHeader(value = "userId") Long userId);
 
 }
