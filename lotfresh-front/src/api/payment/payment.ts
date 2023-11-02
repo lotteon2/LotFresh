@@ -11,7 +11,7 @@ export const getPaymentDetailInfo = async (
   orderId: string,
   accessToken: string | null
 ): Promise<PaymentInfo> => {
-  const { data } = await paymentInstance.get(`/orderid/${orderId}`, {
+  const { data } = await paymentInstance.get(`/payments/orderid/${orderId}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
   return data;
