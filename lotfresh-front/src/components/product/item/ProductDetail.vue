@@ -219,7 +219,7 @@ const minus = () => {
 };
 
 const plus = () => {
-  if (!props.product.stock) {
+  if (!props.product.stock || props.product.stock <= quantity.value) {
     return;
   }
   quantity.value++;

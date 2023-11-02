@@ -16,7 +16,9 @@
         </div>
         <div class="header_icon_wrap">
           <div class="header_icon_1"></div>
-          <div class="header_icon_2"></div>
+          <router-link to="/cart">
+            <div class="header_icon_2"></div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -27,7 +29,7 @@
           <a class="b" @click="emits('openModal')">로그인</a>
         </span>
         <span v-else class="right">
-          <router-link class="b" to="/mypages">주문 조회</router-link>
+          <router-link class="b" to="/mypage">주문 조회</router-link>
           <a class="b" @click="logout">로그아웃</a>
         </span>
       </div>
@@ -61,6 +63,7 @@ const next = () => {
     return;
   }
   router.push({ path: "/search", query: { keyword: keyword.value } });
+  keyword.value = "";
 };
 </script>
 

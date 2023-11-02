@@ -55,7 +55,9 @@ const formattedDiscountPrice = computed(() => {
 });
 
 const store = () => {
-  productStore.setRecentProducts(props.product.id, props.product.thumbnail);
+  if (!props.isBargain) {
+    productStore.setRecentProducts(props.product.id, props.product.thumbnail);
+  }
 };
 </script>
 
