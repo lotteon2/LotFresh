@@ -80,7 +80,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const token = urlParams.get('token');
+    const token = urlParams.get('accessToken');
     if (token) {
       localStorage.setItem('token', token);
     }
