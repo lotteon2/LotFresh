@@ -5,6 +5,7 @@ import com.lotfresh.orderservice.domain.order.entity.status.PaymentStatus;
 import com.lotfresh.orderservice.domain.order.repository.OrderDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class PaymentStatusChanger {
     private final OrderDetailRepository orderDetailRepository;
 
+    @Transactional
     public void changeOrderDetailStatus(Long orderId, PaymentStatus status) {
         List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderId(orderId);
         orderDetails.forEach(orderdetail -> orderdetail.changePaymentStatus(status));
