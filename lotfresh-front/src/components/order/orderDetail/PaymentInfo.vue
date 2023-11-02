@@ -6,28 +6,56 @@
     <div class="payment-container">
       <div class="item">
         <div class="item-title bold-text">결제 수단</div>
-        <div class="item-content">-</div>
+        <div class="item-content">
+          <div v-if="paymentData.paymentMethod">
+            {{ paymentData.paymentMethod }}
+          </div>
+          <div v-else>-</div>
+        </div>
       </div>
       <div class="item">
         <div class="item-title bold-text">총 상품가격</div>
-        <div class="item-content">-</div>
+        <div class="item-content">
+          <div v-if="paymentData.originalAmount">
+            {{ paymentData.originalAmount }}
+          </div>
+          <div v-else>-</div>
+        </div>
       </div>
       <div class="item"></div>
       <div class="item">
         <div class="item-title bold-text">할인금액</div>
-        <div class="item-content">-</div>
+        <div class="item-content">
+          <div v-if="paymentData.discountedAmount">
+            {{ paymentData.discountedAmount }}
+          </div>
+          <div v-else>-</div>
+        </div>
       </div>
       <div class="item"></div>
       <div class="item">
         <div class="item-title bold-text">총 결제금액</div>
-        <div class="item-content">-</div>
+        <div class="item-content">
+          <div v-if="paymentData.transactionAmount">
+            {{ paymentData.transactionAmount }}
+          </div>
+          <div v-else>-</div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-export default {};
+export default {
+  props: {
+    paymentData: {
+      type: Object,
+      required: true,
+    },
+  },
+  // ...
+};
 </script>
 
 <style scoped>

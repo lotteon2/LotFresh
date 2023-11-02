@@ -7,7 +7,7 @@
       <!-- <OrderDetailInfo :orderData="order" /> -->
 
       <delivery />
-      <payment />
+      <payment :paymentData="payment" />
     </div>
   </div>
 </template>
