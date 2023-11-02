@@ -54,13 +54,17 @@
             </div>
             <div class="item_price">
               <div v-if="cartItemResponse.discountedPrice == 0">
-                <div>{{ cartItemResponse.originalPrice }}원</div>
+                <div>
+                  {{ formattedNumber(cartItemResponse.originalPrice) }}원
+                </div>
               </div>
               <div v-else>
                 <div class="original-price">
-                  {{ cartItemResponse.originalPrice }}원
+                  {{ formattedNumber(cartItemResponse.originalPrice) }}원
                 </div>
-                <div>{{ cartItemResponse.discountedPrice }}원</div>
+                <div>
+                  {{ formattedNumber(cartItemResponse.discountedPrice) }}원
+                </div>
               </div>
             </div>
           </div>
@@ -159,6 +163,13 @@ export default defineComponent({
         }
       },
       deep: true,
+    },
+  },
+  computed: {
+    formattedNumber() {
+      return (num: number) => {
+        return new Intl.NumberFormat("ko-KR").format(num);
+      };
     },
   },
   created() {

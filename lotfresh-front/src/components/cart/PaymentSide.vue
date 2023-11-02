@@ -7,16 +7,16 @@
     </div>
     <div class="section">
       <div class="item">상품할인금액</div>
-      <div class="item text-right">
-        {{ formattedNumber(totalPrice - discountPrice) }}원
-      </div>
+      <div class="item text-right">{{ formattedNumber(discountPrice) }}원</div>
     </div>
   </div>
   <div class="emptySpace"></div>
 
   <div class="section">
     <div class="item grid-col">결제예정금액</div>
-    <div class="item text-right">{{ formattedNumber(discountPrice) }}원</div>
+    <div class="item text-right">
+      {{ formattedNumber(totalPrice - discountPrice) }}원
+    </div>
   </div>
 
   <div class="order_button" @click="order">주문하기</div>
