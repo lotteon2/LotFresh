@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/storageproduct")
-@CrossOrigin(origins = "http://localhost:3000")
 public class StorageProductApiController {
     private final StorageProductService storageProductService;
     private final StorageProductRepository storageProductRepository;
