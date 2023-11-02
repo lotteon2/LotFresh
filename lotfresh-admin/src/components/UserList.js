@@ -31,6 +31,7 @@ function UserTable() {
   };
 
   return (
+    
     <Box sx={{ display: 'flex' }}>
     <CssBaseline />
     <AppLayout>
