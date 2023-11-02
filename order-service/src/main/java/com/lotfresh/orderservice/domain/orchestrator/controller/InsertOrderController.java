@@ -35,7 +35,7 @@ public class InsertOrderController {
             @PathVariable(name ="province") String province, @PathVariable(name="isBargain") Boolean isBargain,
             @RequestParam String pg_token, HttpServletResponse response) throws IOException {
         orchestratorService.doTransaction(userId, province, pg_token, orderId, isFromCart ,isBargain);
-        response.sendRedirect("https://www.lot-fresh.shop/orderdetail/"+orderId);
+        response.sendRedirect("https://www.lot-fresh.shop/payment-result/success/"+orderId);
         return ResponseEntity.ok().build();
     }
 
