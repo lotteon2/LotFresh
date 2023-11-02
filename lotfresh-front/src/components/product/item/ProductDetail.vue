@@ -122,7 +122,7 @@ const orderSheetItems = ref<OrderSheetItem[]>([
 const cartCreateDto = ref<CartCreateDto>({
   productId: props.product.id,
   discountedPrice: props.product.salesPrice,
-  province: memberInfo.value?.province,
+  province: memberInfo ? memberInfo.value?.province : null,
   productStock: props.product.stock,
   price: props.product.price,
   productName: props.product.name,
