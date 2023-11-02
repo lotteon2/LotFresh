@@ -30,4 +30,5 @@ export interface OrderSheetItem {
 export interface OrderSheetList {
   orderSheetItems: OrderSheetItem[];
   isFromCart: boolean;
+  isBargain: boolean;
 }

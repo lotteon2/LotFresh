@@ -12,6 +12,7 @@ import BestProductsView from "@/views/product/BestProductsView.vue";
 import SalesProductView from "@/views/product/SalesProductsView.vue";
 import CategoryProductsView from "@/views/product/CategoryProductsView.vue";
 import ProductDetailView from "@/views/product/ProductDetailView.vue";
+import SalesProductDetailView from "@/views/product/SalesProductDetailView.vue";
 import SearchProductsView from "@/views/product/SarchProductsView.vue";
 import CartView from "../views/CartView.vue";
 import KakaopaySuccessPopUpView from "@/views/payment/KakaopaySuccessPopUpView.vue";
@@ -112,6 +113,11 @@ const router = createRouter({
       path: "/goods/:id",
       name: "goods",
       component: ProductDetailView,
+    },
+    {
+      path: "/sales-goods/:id",
+      name: "sales-goods",
+      component: SalesProductDetailView,
     },
     {
       path: "/cart",

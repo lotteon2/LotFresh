@@ -34,7 +34,6 @@
         </router-link>
       </div>
     </div>
-    <!-- 예시 카트 -->
     <div id="cartPut">
       <div class="cart-option cartList cart-type2">
         <div class="inner-option">
@@ -73,7 +72,11 @@
           <div class="cart-footer off">
             <div class="functions"></div>
             <div class="button-wrap">
-              <button class="cart-button" @click="addCart">
+              <button
+                v-if="!props.isBargain"
+                class="cart-button"
+                @click="addCart"
+              >
                 장바구니 담기
               </button>
               <button class="base-button" @click="addOrderSheet">
@@ -101,9 +104,8 @@ import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 
 const { memberInfo, accessToken } = storeToRefs(useMemberStore());
-
-const props = defineProps(["product"]);
-
+const emits = defineEmits(["openModal"]);
+const props = defineProps(["product", "isBargain"]);
 const quantity = ref(1);
 
 const orderSheetItems = ref<OrderSheetItem[]>([
@@ -148,6 +150,11 @@ const totalPrice = computed(() => {
 });
 
 const addCart = () => {
+  if (memberInfo == null || !memberInfo.value) {
+    alert("로그인이 필요한 기능입니다.");
+    emits("openModal");
+    return;
+  }
   createCart(cartCreateDto.value, accessToken.value)
     .then((response) => {
       console.log("성공", response);
@@ -159,6 +166,7 @@ const addCart = () => {
 const orderSheetList = ref<OrderSheetList>({
   orderSheetItems: [],
   isFromCart: false,
+  isBargain: props.isBargain == true ? true : false,
 });
 
 const addOrderSheet = () => {
