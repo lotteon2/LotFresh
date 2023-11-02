@@ -14,7 +14,7 @@ public interface InventoryFeignClient {
     ResponseEntity deductNormalStock(@RequestBody InventoryRequest inventoryRequest,
                                      @RequestHeader(value = "userId") Long userId);
 
-    @PostMapping("/storageorderproduct/sales/deductQuantity")
+    @PostMapping("/storageorderproduct/ordersalesproduct")
     ResponseEntity deductSalesStock(@RequestBody InventoryRequest inventoryRequest,
                                     @RequestHeader(value = "userId") Long userId);
 }

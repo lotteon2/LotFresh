@@ -113,6 +113,8 @@ class OrchestratorServiceTest {
         // given
         BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
+        BDDMockito.given(inventoryFeignClient.deductSalesStock(BDDMockito.any(),BDDMockito.any()))
+                .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
@@ -128,7 +130,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Orchestrator orchestrator = orchestratorService.orderNormalTransaction(1L,"SEOUL","pgToken", order.getId(),false);
+        Orchestrator orchestrator = orchestratorService.doTransaction(1L,"SEOUL","pgToken", order.getId(),false,false);
 
         // then
         for (WorkflowStep step : orchestrator.getWorkflow().getSteps()) {
@@ -142,6 +144,8 @@ class OrchestratorServiceTest {
         // given
         BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
+        BDDMockito.given(inventoryFeignClient.deductSalesStock(BDDMockito.any(),BDDMockito.any()))
+                .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
@@ -152,7 +156,7 @@ class OrchestratorServiceTest {
         orderRepository.save(order);
 
         // when
-        orchestratorService.orderNormalTransaction(1L,"SEOUL", "pgToken", order.getId(),true);
+        orchestratorService.doTransaction(1L,"SEOUL", "pgToken", order.getId(),true,false);
 
         // then
         BDDMockito.verify(cartFeignClient).removeItems(BDDMockito.any(),BDDMockito.any());
@@ -164,6 +168,8 @@ class OrchestratorServiceTest {
     void orderDeletedWhenDeductQuantityFailed(){
         // given
         BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
+                .willThrow(new RuntimeException());
+        BDDMockito.given(inventoryFeignClient.deductSalesStock(BDDMockito.any(),BDDMockito.any()))
                 .willThrow(new RuntimeException());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
@@ -182,7 +188,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,"SEOUL", "pgToken", order.getId(),true))
+        Assertions.assertThatThrownBy(() -> orchestratorService.doTransaction(1L,"SEOUL", "pgToken", order.getId(),true,false))
                 .isInstanceOf(SagaException.class);
 
 
@@ -207,6 +213,8 @@ class OrchestratorServiceTest {
         // given
         BDDMockito.given(inventoryFeignClient.deductNormalStock(BDDMockito.any(),BDDMockito.any()))
                 .willReturn(ResponseEntity.ok().build());
+        BDDMockito.given(inventoryFeignClient.deductSalesStock(BDDMockito.any(),BDDMockito.any()))
+                .willReturn(ResponseEntity.ok().build());
         BDDMockito.given(paymentFeignClient.requestPayment(BDDMockito.any(),BDDMockito.any()))
                 .willThrow(new RuntimeException());
         BDDMockito.given(cartFeignClient.removeItems(BDDMockito.any(),BDDMockito.any()))
@@ -224,7 +232,7 @@ class OrchestratorServiceTest {
         orderDetailRepository.saveAll(List.of(orderDetail1,orderDetail2,orderDetail3));
 
         // when
-        Assertions.assertThatThrownBy(() -> orchestratorService.orderNormalTransaction(1L,"SEOUL", "pgToken", order.getId(),true))
+        Assertions.assertThatThrownBy(() -> orchestratorService.doTransaction(1L,"SEOUL", "pgToken", order.getId(),true,false))
                 .isInstanceOf(SagaException.class);
 
         em.flush();
