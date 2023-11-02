@@ -13,7 +13,7 @@ export const getMemberDetail = async (
 export const regist = async (
   createMemberDto: CreateMemberDto,
   accessToken: string | null
-): Promise<string | null | undefined> => {
+): Promise<string | null> => {
   const { data } = await memberInstance.post(`/users`, createMemberDto, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
