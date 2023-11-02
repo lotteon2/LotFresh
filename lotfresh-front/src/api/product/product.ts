@@ -53,7 +53,7 @@ export const getProductsBySearch = async (
 
 export const getProductDetail = async (
   id: any,
-  province: string | null
+  province: string | null | undefined
 ): Promise<ProductResponse> => {
   const { data } = await productInstance.get(`/products/${id}/${province}`);
   return data;
