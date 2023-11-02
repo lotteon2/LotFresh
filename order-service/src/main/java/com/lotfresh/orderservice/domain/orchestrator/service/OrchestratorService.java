@@ -114,6 +114,7 @@ public class OrchestratorService {
         return KakaopayReadyRequest.builder()
                 .orderId(orderId)
                 .isFromCart(orderCreateRequest.getIsFromCart())
+                .isBargain(orderCreateRequest.getIsBargain())
                 .province(orderCreateRequest.getProvince())
                 .orderDetails(orderDetails)
                 .build();
