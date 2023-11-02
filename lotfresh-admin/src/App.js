@@ -1,14 +1,14 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import Main from "./components/Main";
-import Storages from './components/Storages';
-import Products from './components/Products';
-import axios from 'axios';
-import { useEffect } from 'react';
-import UserTable from './components/UserList'
+import Storages from "./components/Storages";
+import Products from "./components/Products";
+import axios from "axios";
+import { useEffect } from "react";
+import UserTable from "./components/UserList";
 
 function App() {
-
+  //
   return (
     <Router>
       <Routes>
