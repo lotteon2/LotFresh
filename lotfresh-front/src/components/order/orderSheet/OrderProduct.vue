@@ -44,10 +44,7 @@ export default defineComponent({
       required: true,
     },
   },
-  mounted() {
-    console.log("OrderProduct로 들어온 prop은 이렇게 생겼다.");
-    console.log(this.orderSheetItems);
-  },
+  mounted() {},
   data() {
     return {
       isOrderItemsVisible: true,
