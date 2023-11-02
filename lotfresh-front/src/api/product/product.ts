@@ -60,11 +60,10 @@ export const getProductDetail = async (
 };
 
 export const getSalesProductDetail = async (
-  id: number,
-  province: string | null
-): Promise<ProductResponse[]> => {
+  id: number
+): Promise<ProductResponse> => {
   const { data } = await productInstance.get(
-    `/products/sales-products/${id}/${province}`
+    `/products/sales-products/${id}/detail`
   );
   return data;
 };

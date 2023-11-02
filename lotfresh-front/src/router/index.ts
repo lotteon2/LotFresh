@@ -113,7 +113,6 @@ const router = createRouter({
       name: "goods",
       component: ProductDetailView,
     },
-
     {
       path: "/cart",
       name: "cart",
