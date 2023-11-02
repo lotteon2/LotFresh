@@ -194,7 +194,8 @@ function Storages() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {storageProducts.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((product) => (
+                    {storageProducts.length > 0 ? (
+                      storageProducts.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((product) => (
                         <TableRow key={product.id}>
                           <TableCell>{product.id}</TableCell>
                           <TableCell>감자</TableCell>
@@ -215,7 +216,14 @@ function Storages() {
                             </Dialog>
                           </TableCell>
                         </TableRow>
-                      ))}
+                      ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={8} align="center">
+                            데이터가 없습니다.
+                          </TableCell>
+                        </TableRow>
+                      )}
                     </TableBody> 
                   </Table> 
 
