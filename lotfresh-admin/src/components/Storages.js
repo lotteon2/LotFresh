@@ -144,7 +144,7 @@ function Storages() {
                       height: 100,
                     }}
                   >
-                    <Select onChange={handleChange} value={selectedRegion} displayEmpty>
+                    <Select onChange={handleChange} value={regions[0].label} displayEmpty>
                     <MenuItem disabled value="">창고를 선택하세요.</MenuItem>
                     {
                         regions.map((region) => (
