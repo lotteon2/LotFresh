@@ -25,8 +25,7 @@ function PopupAdd() {
   const handleSaveClick = async () => {
     try {
       const response = await saveProduct(product);
-      calert('성공적으로 추가되었습니다.');
-      handleClose();
+      alert('성공적으로 추가되었습니다.');
     } catch (error) {
       console.log(error.message);
     }
