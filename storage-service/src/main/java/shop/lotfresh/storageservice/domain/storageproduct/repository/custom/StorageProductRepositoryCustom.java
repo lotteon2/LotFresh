@@ -25,4 +25,5 @@ public interface StorageProductRepositoryCustom {
     List<StorageProduct> salesProductOrder(String province, Long productId, Integer stock);
 
 
+    void deleteProduct();
 }

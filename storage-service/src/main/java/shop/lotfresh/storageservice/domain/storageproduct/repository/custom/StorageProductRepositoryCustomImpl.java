@@ -158,5 +158,15 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
         return null;
     }
 
+    @Override
+    public void deleteProduct() {
+        LocalDateTime now = LocalDateTime.now();
+        Date currentDateTime = Timestamp.valueOf(now);
+
+        queryFactory.delete(storageProduct)
+                .where(storageProduct.expirationDateEnd.lt(currentDateTime))
+                .execute();
+    }
+
 
 }

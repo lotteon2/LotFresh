@@ -140,4 +140,9 @@ public class StorageProductService {
         findNearExpiryProductsByStorageId();
         return subtractedProducts;
     }
+
+    @Transactional
+    public void deleteProduct(){
+        storageProductRepository.deleteProduct();
+    }
 }
