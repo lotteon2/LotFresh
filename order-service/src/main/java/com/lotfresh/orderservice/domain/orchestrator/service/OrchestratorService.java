@@ -149,7 +149,7 @@ public class OrchestratorService {
 
         return CartRequest.builder()
                 .province(userProvince)
-                .productIds(productIds)
+                .productIdList(productIds)
                 .build();
     }
 
