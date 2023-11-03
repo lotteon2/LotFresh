@@ -12,6 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartRequest {
-    private Long userId;
     private List<Long> productIds;
+    private String province;
 }

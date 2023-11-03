@@ -8,8 +8,9 @@ import lombok.RequiredArgsConstructor;
 public class CartTask implements Task{
     private final CartFeignClient cartFeignClient;
     private final CartRequest cartRequest;
+    private final Long userId;
     @Override
     public void work() {
-        cartFeignClient.removeItems(cartRequest, cartRequest.getUserId());
+        cartFeignClient.removeItems(cartRequest, userId);
     }
 }
