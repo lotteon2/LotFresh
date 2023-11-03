@@ -21,7 +21,7 @@ export interface OrderDetailResponse {
 export interface OrderSheetItem {
   productId: number;
   originalPrice: number;
-  discountedPrice: number | null;
+  discountedPrice: number;
   productStock: number;
   productName: string;
   productThumbnail: string;
