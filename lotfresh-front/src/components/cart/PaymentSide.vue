@@ -7,7 +7,9 @@
     </div>
     <div class="section">
       <div class="item">상품할인금액</div>
-      <div class="item text-right">{{ formattedNumber(discountPrice) }}원</div>
+      <div class="item text-right">
+        {{ formattedNumber(discountPrice != null ? discountPrice : 0) }}원
+      </div>
     </div>
   </div>
   <div class="emptySpace"></div>
@@ -40,7 +42,7 @@ export default {
     },
     discountPrice: {
       type: Number,
-      default: 0,
+      default: null,
     },
     items: {
       type: Array as () => OrderSheetItem[],
