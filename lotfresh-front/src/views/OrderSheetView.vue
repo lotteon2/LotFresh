@@ -140,7 +140,7 @@ export default {
         return;
       const { routeName, params } = event.data;
       // window.scrollTo(0, 0);
-      console.log("반복적호출이되고있나?" + params);
+      // console.log("반복적호출이되고있나?" + params);
       if (params && params.orderId) {
         window.scrollTo(0, 0);
         router.push({ name: routeName, params: params });
