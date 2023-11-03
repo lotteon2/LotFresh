@@ -70,14 +70,13 @@ public class OrchestratorService {
             throw e;
         }
 
-        log.info("장바구니 여부 {}",isFromCart);
         if(isFromCart) {
             try{
                 CartRequest cartRequest = makeCartRequest(userProvince,orderDetails);
                 CartTask cartTask = new CartTask(cartFeignClient,cartRequest,userId);
                 cartTask.work();
             } catch (Exception e) {
-                log.error("장바구니 상품 삭제 실패");
+                log.error("장바구니 상품 삭제 실패 {}",e);
             }
         }
 
