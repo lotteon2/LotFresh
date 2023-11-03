@@ -66,7 +66,7 @@ export default defineComponent({
 
     this.orderSheetItems.forEach((item: OrderSheetItem) => {
       this.sumOfOriginalPrice += item.originalPrice * item.productStock;
-      if (item.discountedPrice !== null) {
+      if (item.discountedPrice !== null && item.discountedPrice !== 0) {
         this.sumOfDiscountedPrice += item.discountedPrice * item.productStock;
       } else {
         this.sumOfDiscountedPrice += item.originalPrice * item.productStock;
