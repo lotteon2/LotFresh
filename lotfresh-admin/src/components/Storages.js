@@ -184,8 +184,6 @@ function Storages() {
                     <TableHead>
                       <TableRow>
                         <TableCell>ID</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Thumbnail</TableCell>
                         <TableCell>Stock</TableCell>
                         <TableCell>Product ID</TableCell>
                         <TableCell>Expiration Date</TableCell>
@@ -198,8 +196,6 @@ function Storages() {
                       storageProducts.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((product) => (
                         <TableRow key={product.id}>
                           <TableCell>{product.id}</TableCell>
-                          <TableCell>감자</TableCell>
-                          <TableCell>이미지</TableCell>
                           <TableCell>{product.stock}</TableCell>
                           <TableCell>{product.productId}</TableCell>
                           <TableCell>

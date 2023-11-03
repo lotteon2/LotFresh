@@ -6,7 +6,7 @@ import AppLayout from './AppLayout';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
-
+import {createTheme, ThemeProvider } from '@mui/material/styles';
 
 function UserTable() {
   const [data, setData] = useState({ totalPages: 1, memberDetailResponses: [] });
@@ -30,17 +30,35 @@ function UserTable() {
     setPage(value);
   };
 
+
+  const defaultTheme = createTheme();
+
   return (
-    
-    <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center'}}>
+    <ThemeProvider theme={defaultTheme}>
+    <Box sx={{ display: 'flex'}}>
     <CssBaseline />
     <AppLayout>
-    <Toolbar />
-    <Box sx={{ mt: 4, width: '80%'  }}>
+    
+    <Box  component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'light'
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          flexGrow: 1,
+          height: '100vh',
+          overflow: 'auto',
+          padding: 16,
+        }}>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+            <Paper sx={{
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
+                    }}>
               <TableContainer component={Paper}>
                 <Table>
                   <TableHead>
@@ -69,6 +87,7 @@ function UserTable() {
       </Box>
     </AppLayout>
     </Box>
+    </ThemeProvider>
   );
 }
 
