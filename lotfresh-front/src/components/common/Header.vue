@@ -16,9 +16,9 @@
         </div>
         <div class="header_icon_wrap">
           <div class="header_icon_1"></div>
-          <router-link to="/cart">
+          <a @click="cart">
             <div class="header_icon_2"></div>
-          </router-link>
+          </a>
         </div>
       </div>
     </div>
@@ -38,6 +38,7 @@
 </template>
 
 <script setup lang="ts">
+import Swal from "sweetalert2";
 import Menu from "./Menu.vue";
 import { ref } from "vue";
 import router from "@/router";
@@ -64,6 +65,16 @@ const next = () => {
   }
   router.push({ path: "/search", query: { keyword: keyword.value } });
   keyword.value = "";
+};
+
+const cart = () => {
+  if (!memberInfo || memberInfo.value === null) {
+    Swal.fire("로그인이 필요합니다").then(() => {
+      emits("openModal");
+    });
+    return;
+  }
+  router.push("/cart");
 };
 </script>
 
