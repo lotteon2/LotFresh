@@ -53,7 +53,7 @@ export default {
     return {
       orderSheetList: {
         orderSheetItems: this.items,
-        isFromCart: false,
+        isFromCart: true,
         isBargain: false,
       } as OrderSheetList,
     };
