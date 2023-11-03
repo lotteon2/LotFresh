@@ -50,7 +50,6 @@ export default {
         this.address = result.roadAddress;
       } else {
         // 지번 주소 선택
-        console.log("여기확인", result);
         this.address = result.jibunAddress;
       }
       this.closeModal(result);
