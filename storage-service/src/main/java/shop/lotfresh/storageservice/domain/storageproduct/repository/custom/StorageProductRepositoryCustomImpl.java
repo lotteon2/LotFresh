@@ -5,11 +5,14 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import shop.lotfresh.storageservice.domain.storageproduct.api.request.StorageProductSearchRequest;
 import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
+import shop.lotfresh.storageservice.domain.storageproduct.vo.StorageStockVo;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static shop.lotfresh.storageservice.domain.storage.entity.QStorage.storage;
 import static shop.lotfresh.storageservice.domain.storageproduct.entity.QStorageProduct.storageProduct;
@@ -77,26 +80,57 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
     /////////////////////////////마감 임박 상품
 
     @Override
-    public List<StorageProductSearchRequest> findSalesProductsByStorageId(Long storageId) {
+    public List<StorageStockVo> findSalesProductsByStorageId(Long storageId) {
         LocalDateTime twoDaysBefore = LocalDateTime.now().minusDays(2);
         Date nearExpiry = Timestamp.valueOf(twoDaysBefore);
 
         return queryFactory
-                .select(Projections.constructor(
-                        StorageProductSearchRequest.class,
-                        storageProduct,
-                        storage.province))
+                .select((Projections.constructor(
+                        StorageStockVo.class,
+                        storageProduct.productId,
+                                storage.province,
+                        storageProduct.stock.sum()
+                )))
                 .from(storageProduct)
                 .join(storage).on(storage.id.eq(storageProduct.storageId))
                 .where(storage.id.eq(storageId)
                         .and(storageProduct.expirationDateEnd.lt(nearExpiry)))
+                .groupBy(storageProduct.productId)
                 .fetch();
+
+        /*return queryFactory
+                .select(Projections.constructor(
+                        StorageProductSearchRequest.class,
+                        storageProduct,
+                        storage.province,
+                        storageProduct.stock.sum()))
+                .from(storageProduct)
+                .join(storage).on(storage.id.eq(storageProduct.storageId))
+                .where(storage.id.eq(storageId)
+                        .and(storageProduct.expirationDateEnd.lt(nearExpiry)))
+                .groupBy(storageProduct.productId)
+                .fetch();*/
     }
+
+/*    @Override
+    public Integer getSalesProductStock(String province, Long productId) {
+        LocalDateTime twoDaysBefore = LocalDateTime.now().minusDays(2);
+        Date nearExpiry = Timestamp.valueOf(twoDaysBefore);
+
+        return queryFactory.select(storageProduct.stock.sum())
+                .from(storageProduct)
+                .join(storage).on(storageProduct.storageId.eq(storage.id))
+                .where(storage.province.eq(province)
+                        .and(storageProduct.productId.eq(productId))
+                        .and(storageProduct.expirationDateEnd.lt(nearExpiry)))
+                .fetchOne();
+    }*/
 
     @Override
     public Integer getSalesProductStock(String province, Long productId) {
         LocalDateTime twoDaysBefore = LocalDateTime.now().minusDays(2);
         Date nearExpiry = Timestamp.valueOf(twoDaysBefore);
+
         return queryFactory.select(storageProduct.stock.sum())
                 .from(storageProduct)
                 .join(storage).on(storageProduct.storageId.eq(storage.id))
@@ -105,6 +139,7 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
                         .and(storageProduct.expirationDateEnd.lt(nearExpiry)))
                 .fetchOne();
     }
+
 
     @Override
     public List<StorageProduct> getSalesProductOrderList(String province, Long productId) {
@@ -121,6 +156,16 @@ public class StorageProductRepositoryCustomImpl implements StorageProductReposit
     @Override
     public List<StorageProduct> salesProductOrder(String province, Long productId, Integer stock) {
         return null;
+    }
+
+    @Override
+    public void deleteProduct() {
+        LocalDateTime now = LocalDateTime.now();
+        Date currentDateTime = Timestamp.valueOf(now);
+
+        queryFactory.delete(storageProduct)
+                .where(storageProduct.expirationDateEnd.lt(currentDateTime))
+                .execute();
     }
 
 

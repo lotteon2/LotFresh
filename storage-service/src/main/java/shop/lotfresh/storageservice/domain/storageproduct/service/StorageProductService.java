@@ -9,6 +9,7 @@ import shop.lotfresh.storageservice.domain.storageproduct.api.request.StoragePro
 import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
 import shop.lotfresh.storageservice.domain.storageproduct.repository.StorageProductRepository;
 import shop.lotfresh.storageservice.domain.storageproduct.vo.StorageProductOrder;
+import shop.lotfresh.storageservice.domain.storageproduct.vo.StorageStockVo;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
@@ -27,6 +28,7 @@ public class StorageProductService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + storageProductId));
 
         product.setStock(product.getStock() + quantityToAdd);
+        findNearExpiryProductsByStorageId();
     }
 
 
@@ -47,14 +49,14 @@ public class StorageProductService {
 
    @Transactional
    public void findNearExpiryProductsByStorageId() {
-       for (long i = 1; i <= 14; i++) {
+       for (long i = 1; i <= 10; i++) {
            try {
-               List<StorageProductSearchRequest> storageProducts = storageProductRepository.findSalesProductsByStorageId(i);
+               List<StorageStockVo> storageProducts = storageProductRepository.findSalesProductsByStorageId(i);
 
                List<SalesStorageProductRedis> redisDataList = new ArrayList<>();
-               for (StorageProductSearchRequest storageProduct : storageProducts) {
-                   Long productId = storageProduct.getStorageProduct().getProductId();
-                   int stock = storageProduct.getStorageProduct().getStock();
+               for (StorageStockVo storageProduct : storageProducts) {
+                   Long productId = storageProduct.getProductId();
+                   int stock = storageProduct.getStock();
 
                    SalesStorageProductRedis redisData = new SalesStorageProductRedis();
                    redisData.setProductId(productId);
@@ -108,10 +110,11 @@ public class StorageProductService {
                 product.setStock(0);
             }
         }
-
+        findNearExpiryProductsByStorageId();
         return subtractedProducts;
     }
 
+    @Transactional
     public List<StorageProductOrder> productsalesOrder(String province, Long productId, Integer stock) {
         List<StorageProduct> products = storageProductRepository.getSalesProductOrderList(province, productId);
 
@@ -134,7 +137,12 @@ public class StorageProductService {
                 product.setStock(0);
             }
         }
-
+        findNearExpiryProductsByStorageId();
         return subtractedProducts;
+    }
+
+    @Transactional
+    public void deleteProduct(){
+        storageProductRepository.deleteProduct();
     }
 }

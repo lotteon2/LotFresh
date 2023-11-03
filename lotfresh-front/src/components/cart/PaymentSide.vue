@@ -7,7 +7,9 @@
     </div>
     <div class="section">
       <div class="item">상품할인금액</div>
-      <div class="item text-right">{{ formattedNumber(discountPrice) }}원</div>
+      <div class="item text-right">
+        {{ formattedNumber(discountPrice != null ? discountPrice : 0) }}원
+      </div>
     </div>
   </div>
   <div class="emptySpace"></div>
@@ -23,6 +25,7 @@
 </template>
 
 <script lang="ts">
+import Swal from "sweetalert2";
 import { addOrdersheetInfos } from "@/api/order/order";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
@@ -40,7 +43,7 @@ export default {
     },
     discountPrice: {
       type: Number,
-      default: 0,
+      default: null,
     },
     items: {
       type: Array as () => OrderSheetItem[],
@@ -51,7 +54,7 @@ export default {
     return {
       orderSheetList: {
         orderSheetItems: this.items,
-        isFromCart: false,
+        isFromCart: true,
         isBargain: false,
       } as OrderSheetList,
     };
@@ -71,6 +74,14 @@ export default {
   },
   methods: {
     order() {
+      if (this.totalPrice === 0) {
+        Swal.fire({
+          icon: "error",
+          title: "실패",
+          text: "하나 이상의 상품을 선택 해주세요.",
+        });
+        return;
+      }
       this.orderSheetList.orderSheetItems = this.items;
       addOrdersheetInfos(this.orderSheetList, this.accessToken)
         .then(() => {

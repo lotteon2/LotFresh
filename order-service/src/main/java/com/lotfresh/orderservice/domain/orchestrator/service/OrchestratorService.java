@@ -72,11 +72,11 @@ public class OrchestratorService {
 
         if(isFromCart) {
             try{
-                CartRequest cartRequest = makeCartRequest(userId,orderDetails);
-                CartTask cartTask = new CartTask(cartFeignClient,cartRequest);
+                BuyProductEmptyCommand buyProductEmptyCommand = makeCartRequest(userProvince,orderDetails);
+                CartTask cartTask = new CartTask(cartFeignClient, buyProductEmptyCommand,userId);
                 cartTask.work();
             } catch (Exception e) {
-                log.error("장바구니 상품 삭제 실패");
+                log.error("장바구니 상품 삭제 실패 {}",e);
             }
         }
 
@@ -141,14 +141,14 @@ public class OrchestratorService {
                 .build();
     }
 
-    private CartRequest makeCartRequest(Long userId, List<OrderDetail> orderDetails) {
+    private BuyProductEmptyCommand makeCartRequest(String userProvince, List<OrderDetail> orderDetails) {
         List<Long> productIds = orderDetails.stream()
                 .map(OrderDetail::getProductId)
                 .collect(Collectors.toList());
 
-        return CartRequest.builder()
-                .userId(userId)
-                .productIds(productIds)
+        return BuyProductEmptyCommand.builder()
+                .province(userProvince)
+                .productIdList(productIds)
                 .build();
     }
 

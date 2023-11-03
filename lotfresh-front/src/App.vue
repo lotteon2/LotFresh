@@ -5,7 +5,7 @@
       <banner-slide />
     </div>
     <div class="outter_flex_box">
-      <div class="left_side">나는 왼쪽 광고야</div>
+      <div class="left_side"></div>
       <RouterView
         @openModal="() => (isOpenModal = true)"
         class="body_content"

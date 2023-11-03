@@ -61,7 +61,7 @@ public class PaymentService {
                 .sum();
 
         Long totalTransactionAmount = orderDetails.stream()
-                .mapToLong(order -> order.getDiscountedPrice() == null ?
+                .mapToLong(order -> (order.getDiscountedPrice() == null || order.getDiscountedPrice() == 0) ?
                         order.getOriginalPrice() * order.getQuantity() :
                         order.getDiscountedPrice() * order.getQuantity())
                 .sum();

@@ -17,6 +17,7 @@ import SearchProductsView from "@/views/product/SarchProductsView.vue";
 import CartView from "../views/CartView.vue";
 import KakaopaySuccessPopUpView from "@/views/payment/KakaopaySuccessPopUpView.vue";
 import LoginSuccess from "@/components/common/LoginSuccess.vue";
+import KakaopayFailPopUpViewVue from "@/views/payment/KakaopayFailPopUpView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -139,6 +140,11 @@ const router = createRouter({
               component: KakaopaySuccessPopUpView,
             },
           ],
+        },
+        {
+          path: "fail",
+          name: "paymentFail",
+          component: KakaopayFailPopUpViewVue,
         },
       ],
     },
