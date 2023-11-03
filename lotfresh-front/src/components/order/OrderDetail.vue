@@ -101,12 +101,13 @@ export default {
         "배송 중",
         "배송 완료",
       }
-      if (Object.values(RefundStatus).includes(status)) return "RefundStatus";
-      else if (Object.values(PaymentStatus).includes(status))
-        return "PaymentStatus";
-      else {
-        return "DeliveryStatus";
-      }
+      // if (Object.values(RefundStatus).includes(status)) return "RefundStatus";
+      // else if (Object.values(PaymentStatus).includes(status))
+      //   return "PaymentStatus";
+      // else {
+      //   return "DeliveryStatus";
+      // }
+      return "PaymentStatus";
     },
     refundModal() {
       ElMessageBox.alert("환불", "환불 상태");
