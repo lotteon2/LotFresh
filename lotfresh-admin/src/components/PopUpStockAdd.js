@@ -55,7 +55,6 @@ function PopUpStockAdd() {
         expirationDateEnd
       };
       await saveStorageProduct(storageProduct);
-      handleClose();
       alert('성공적으로 추가되었습니다.');
     } catch (error) {
       console.log(error.message);
@@ -81,6 +80,7 @@ function PopUpStockAdd() {
           Search
         </Button>
         
+        {/* Display Product Info */}
         {productInfo && (
           <>
             <div>ID: {productInfo.id}</div>
@@ -89,6 +89,7 @@ function PopUpStockAdd() {
             <div>Price: {productInfo.price}</div>
             <img src={productInfo.thumbnail} alt="Thumbnail" style={{maxWidth: '300px'}}/>
             
+            {/* Storage Product Info */}
             <TextField
               label="Storage ID"
               type="text"
