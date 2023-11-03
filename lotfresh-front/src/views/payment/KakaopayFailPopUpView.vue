@@ -1,0 +1,60 @@
+<template>
+  <div class="fullscreen">
+    <div>결제 실패하였습니다.</div>
+    <div>다시 요청해주세요.</div>
+    <div>본 팝업은 {{ countdown }}초 뒤 닫힙니다.</div>
+  </div>
+</template>
+
+<script>
+import { onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+export default {
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const orderId = ref(route.params.orderId);
+    const countdown = ref(3);
+
+    onMounted(() => {
+      // 1초마다 카운트다운
+      const intervalId = setInterval(() => {
+        countdown.value--;
+        if (countdown.value === 0) {
+          clearInterval(intervalId);
+          window.close();
+        }
+      }, 1000);
+    });
+
+    return {
+      countdown,
+    };
+  },
+};
+</script>
+
+<style scoped>
+.fullscreen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  width: 500px;
+  height: 600px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  gap: 25px;
+  font-size: 1.5rem;
+}
+
+.text_center {
+}
+</style>

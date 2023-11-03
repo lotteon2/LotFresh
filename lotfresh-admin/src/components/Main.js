@@ -84,7 +84,6 @@ export default function Dashboard() {
     if (token) {
       localStorage.setItem('token', token);
     }
-    console.log(token);
   }, [location]);
 
   
@@ -124,7 +123,7 @@ export default function Dashboard() {
                   }}
                 >
                  <Typography variant="h4" align="center">
-                  Lotfresh 관리자 페이지에 오신걸 환영합니다V2
+                  Lotfresh 관리자 페이지에 오신걸 환영합니다V3
                 </Typography>
                 </Paper>
               </Grid>              

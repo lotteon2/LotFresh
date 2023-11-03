@@ -53,7 +53,12 @@
               </div>
             </div>
             <div class="item_price">
-              <div v-if="cartItemResponse.discountedPrice == 0">
+              <div
+                v-if="
+                  cartItemResponse.discountedPrice == 0 ||
+                  cartItemResponse.discountedPrice == null
+                "
+              >
                 <div>
                   {{ formattedNumber(cartItemResponse.originalPrice) }}원
                 </div>
@@ -155,8 +160,10 @@ export default defineComponent({
           for (const cartItem of newSelectedCartItems) {
             total += cartItem.originalPrice * cartItem.productStock;
             discount +=
-              (cartItem.originalPrice - cartItem.discountedPrice) *
-              cartItem.productStock;
+              cartItem.discountedPrice == 0
+                ? 0
+                : (cartItem.originalPrice - cartItem.discountedPrice) *
+                  cartItem.productStock;
           }
           this.totalPrice = total;
           this.discountPrice = discount;

@@ -61,23 +61,17 @@ export default defineComponent({
     };
   },
   mounted() {
-    console.log("PaymentBill로 들어온 prop은 이렇게 생겼다.");
-    console.log(this.orderSheetItems);
     let sumOfOriginalPrice = 0;
     let sumOfDiscountedPrice = 0;
 
     this.orderSheetItems.forEach((item: OrderSheetItem) => {
       this.sumOfOriginalPrice += item.originalPrice * item.productStock;
-      if (item.discountedPrice !== null) {
+      if (item.discountedPrice !== null && item.discountedPrice !== 0) {
         this.sumOfDiscountedPrice += item.discountedPrice * item.productStock;
       } else {
         this.sumOfDiscountedPrice += item.originalPrice * item.productStock;
       }
     });
-
-    console.log("금액계산하면 이렇게 된다.");
-    console.log("sumOfOriginalPrice: ", this.sumOfOriginalPrice);
-    console.log("sumOfDiscountedPrice: ", this.sumOfDiscountedPrice);
   },
 });
 </script>

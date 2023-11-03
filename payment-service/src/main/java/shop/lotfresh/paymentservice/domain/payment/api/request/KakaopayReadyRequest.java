@@ -21,6 +21,8 @@ public class KakaopayReadyRequest {
     @NotNull(message = "isFromCart cannot be null")
     private Boolean isFromCart;
 
+    private Boolean isBargain;
+
     @NotEmpty(message = "orderDetails cannot be empty")
     @Valid
     private List<OrderDetailVO> orderDetails;

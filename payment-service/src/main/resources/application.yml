@@ -59,7 +59,7 @@ logging:
 kakaopay:
   cid: "TC0ONETIME"
   approval_url: "https://www.lot-fresh.shop/order-service/order/payments/kakaopay/approve"
-  fail_url: "https://www.lot-fresh.shop/order/payments/kakaopay/fail"
-  cancel_url: "https://www.lot-fresh.shop/order/payments/kakaopay/cancel"
+  fail_url: "https://www.lot-fresh.shop/payment-result/fail"
+  cancel_url: "https://www.lot-fresh.shop/payment-result/fail"
   admin_key: "8f2de5fceef170ccd187a4e94c813657"
 

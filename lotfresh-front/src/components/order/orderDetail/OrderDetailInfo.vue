@@ -8,7 +8,9 @@
       <div class="item"></div>
       <div class="item"></div>
       <div class="item"></div>
-      <div class="item text-align-center">주문 목록으로 이동</div>
+      <div class="item text-align-center" @click="goToOrderList">
+        주문 목록으로 이동
+      </div>
     </div>
     <div
       v-for="orderDetail in orderData.orderDetailResponses"
@@ -65,6 +67,11 @@ export default {
     orderData: {
       type: Object as () => Order,
       required: true,
+    },
+  },
+  methods: {
+    goToOrderList() {
+      this.$router.push("/mypage/order/list");
     },
   },
   setup(props) {

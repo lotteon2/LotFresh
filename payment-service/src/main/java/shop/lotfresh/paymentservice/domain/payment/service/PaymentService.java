@@ -61,7 +61,7 @@ public class PaymentService {
                 .sum();
 
         Long totalTransactionAmount = orderDetails.stream()
-                .mapToLong(order -> order.getDiscountedPrice() == null ?
+                .mapToLong(order -> (order.getDiscountedPrice() == null || order.getDiscountedPrice() == 0) ?
                         order.getOriginalPrice() * order.getQuantity() :
                         order.getDiscountedPrice() * order.getQuantity())
                 .sum();
@@ -78,6 +78,7 @@ public class PaymentService {
         KakaopayReadyResponseVO kakaopayReadyResponseVO = kakaopayApiClient.kakaopayReady(orderId,
                 request.getIsFromCart(),
                 request.getProvince(),
+                request.getIsBargain(),
                 kakaopayReadyVO);
         Payment payment = kakaopayReadyResponseVO.toEntity(userId, orderId, totalOriginalAmount, totalTransactionAmount);
         paymentRepository.save(payment); // TODO: 예외처리할게 있는지?

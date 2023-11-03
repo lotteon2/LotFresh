@@ -46,8 +46,6 @@ export default {
         : this.$route.params.orderId;
       getOrderDetail(orderId, accessToken)
         .then((res) => {
-          console.log("주문상세 가져오기 성공");
-          console.log(res);
           this.order = res;
         })
         .catch((err) => {
