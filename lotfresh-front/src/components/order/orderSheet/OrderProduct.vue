@@ -25,7 +25,16 @@
           </div>
           <div class="flex_row">
             <div class="content_text_light">{{ item.productStock }}개</div>
-            <div class="content_text ml-2vw">{{ item.discountedPrice }}원</div>
+            <div class="content_text ml-2vw">
+              <span
+                v-if="
+                  item.discountedPrice === null || item.discountedPrice === 0
+                "
+              >
+                {{ item.originalPrice }}원
+              </span>
+              <span v-else> {{ item.discountedPrice }}원 </span>
+            </div>
           </div>
         </div>
       </div>
