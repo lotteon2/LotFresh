@@ -80,6 +80,7 @@ export default {
           title: "실패",
           text: "하나 이상의 상품을 선택 해주세요.",
         });
+        return;
       }
       this.orderSheetList.orderSheetItems = this.items;
       addOrdersheetInfos(this.orderSheetList, this.accessToken)

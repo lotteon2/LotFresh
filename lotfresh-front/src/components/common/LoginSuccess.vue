@@ -22,7 +22,7 @@ onBeforeMount(async () => {
 
     if (
       memberInfo.value?.email === "ddd1451@nate.com" ||
-      memberInfo.value?.email === "ssjy4974@naver.com"
+      memberInfo.value?.email === "gujiung@gmail.com"
     ) {
       window.location.replace(
         "https://admin.lot-fresh.shop?accessToken=" + accessToken
