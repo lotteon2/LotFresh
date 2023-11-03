@@ -129,7 +129,7 @@ function Products() {
                       height: 100,
                     }}
                   >
-                    <Select onChange={handleChange} value={selectedOption} displayEmpty>
+                    <Select onChange={handleChange} value={categorys[0].value} displayEmpty>
                       <MenuItem disabled value="">카테고리를 선택하세요.</MenuItem>
                       {
                         categorys.map((category) => (
