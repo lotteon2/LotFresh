@@ -70,6 +70,7 @@ public class OrchestratorService {
             throw e;
         }
 
+        log.info("장바구니 여부 {}",isFromCart);
         if(isFromCart) {
             try{
                 CartRequest cartRequest = makeCartRequest(userProvince,orderDetails);
