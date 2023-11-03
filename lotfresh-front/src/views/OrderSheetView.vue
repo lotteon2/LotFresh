@@ -121,7 +121,7 @@ export default {
         alert("오류가 발생했습니다: " + error);
         window.open(
           // "https://engineerinsight.tistory.com/73",
-          "http://localhost:5173/payment-result/success/" + 3, // "qr url"로 수정 필요 😃
+          "https://lot-fresh.shop/payment-result/fail/", // "qr url"로 수정 필요 😃
           "Lot-Fresh 카카오페이 QR 결제화면",
           "top=0, left=0, width=500, height=600, menubar=no, toolbar=no, resizable=no, status=no, scrollbars=no"
         );
