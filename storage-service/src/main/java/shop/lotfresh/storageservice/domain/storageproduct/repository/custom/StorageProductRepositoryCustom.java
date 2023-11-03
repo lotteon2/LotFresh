@@ -2,6 +2,8 @@ package shop.lotfresh.storageservice.domain.storageproduct.repository.custom;
 
 import shop.lotfresh.storageservice.domain.storageproduct.api.request.StorageProductSearchRequest;
 import shop.lotfresh.storageservice.domain.storageproduct.entity.StorageProduct;
+import shop.lotfresh.storageservice.domain.storageproduct.vo.StorageStockVo;
+
 import java.util.List;
 
 public interface StorageProductRepositoryCustom {
@@ -14,7 +16,7 @@ public interface StorageProductRepositoryCustom {
 
     List<StorageProduct> getProductOrderList(String province, Long productId);
 
-    List<StorageProductSearchRequest> findSalesProductsByStorageId(Long storageId);
+    List<StorageStockVo> findSalesProductsByStorageId(Long storageId);
 
     Integer getSalesProductStock(String province, Long productId);
 
