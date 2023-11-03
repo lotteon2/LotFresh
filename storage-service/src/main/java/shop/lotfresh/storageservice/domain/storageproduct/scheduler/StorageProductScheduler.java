@@ -1,6 +1,7 @@
 package shop.lotfresh.storageservice.domain.storageproduct.scheduler;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import shop.lotfresh.storageservice.domain.storageproduct.service.StorageProductService;
@@ -11,7 +12,7 @@ import java.util.logging.Logger;
 @RequiredArgsConstructor
 public class StorageProductScheduler {
 
-    private static final Logger log = Logger.getLogger(MyClass.class.getName());
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(StorageProductService.class);
     private final StorageProductService storageProductService;
 
     @Scheduled(cron = "0 0 0 1 * *", zone = "Asia/Seoul")
