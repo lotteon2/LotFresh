@@ -120,12 +120,12 @@ export default {
             "상품 가격 : " +
               res.originalAmount +
               "원</br>" +
-              "할인 가격 : " +
+              "할인 금액 : " +
               res.discountedAmount +
               "원</br>" +
-              "상품 개수 : " +
+              "결제 금액 : " +
               res.transactionAmount +
-              "개</br>" +
+              "원</br>" +
               "결제 방법 : " +
               res.paymentMethod,
             "결제 상태",
