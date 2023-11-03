@@ -180,6 +180,7 @@ const addCart = () => {
     emits("openModal");
     return;
   }
+  cartCreateDto.value.selectedQuantity = quantity.value;
   createCart(cartCreateDto.value, accessToken.value)
     .then(() => {
       Swal.fire({
