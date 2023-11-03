@@ -25,8 +25,8 @@ function PopupAdd() {
   const handleSaveClick = async () => {
     try {
       const response = await saveProduct(product);
-      console.log('Storage Product saved successfully!', response);
-      // 저장 후 필요한 동작 수행
+      calert('성공적으로 추가되었습니다.');
+      handleClose();
     } catch (error) {
       console.log(error.message);
     }
@@ -36,7 +36,6 @@ function PopupAdd() {
     <>
       <DialogTitle>{"Product Save"}</DialogTitle>
       <DialogContent>
-        {/* Product Info Fields */}
         <TextField
           name="categoryId"
           label="Category ID"

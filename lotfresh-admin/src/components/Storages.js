@@ -167,7 +167,7 @@ function Storages() {
                     <Button 
                       variant="contained" 
                       color="primary"
-                      onClick={handleAddClick} // 버튼 클릭 시 handleAddClick 함수 호출
+                      onClick={handleAddClick} 
                       style={{ float: 'right', width: '100px' }}
                     >
                       상품 추가

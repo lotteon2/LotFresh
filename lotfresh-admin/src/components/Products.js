@@ -82,7 +82,7 @@ function Products() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getCategoryProduct(selectedOption, page); // 페이지 값을 API 호출에 전달합니다.
+        const response = await getCategoryProduct(selectedOption, page);
         setProducts(response.products);
       } catch (error) {
         console.error(error);
