@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan("com.bit.lotte.fresh.cart.message")
 @SpringBootApplication(scanBasePackages = "com.bit.lotte.fresh.cart.app")
 public class CartApplication {
-// 
+
   public static void main(String[] args) {
     SpringApplication.run(CartApplication.class, args);
 
