@@ -10,7 +10,6 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -34,14 +33,11 @@ spring:
     listener:
       type: SINGLE
 
-
   profiles:
     active:
       - develop
     group:
       develop: "env"
-
-
 
 eureka:
   client:
@@ -55,11 +51,10 @@ logging:
     org:
       springframework: INFO
 
-
 kakaopay:
   cid: "TC0ONETIME"
   approval_url: "https://www.lot-fresh.shop/order-service/order/payments/kakaopay/approve"
   fail_url: "https://www.lot-fresh.shop/payment-result/fail"
   cancel_url: "https://www.lot-fresh.shop/payment-result/fail"
   admin_key: "8f2de5fceef170ccd187a4e94c813657"
-
+#

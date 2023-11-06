@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//
 const BASE_URL = "https://www.lot-fresh.shop";
 
 const axiosApi = (baseURL) => {
@@ -7,7 +8,7 @@ const axiosApi = (baseURL) => {
     baseURL,
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
-      "Accept": "application/json",
+      Accept: "application/json",
     },
   });
 
